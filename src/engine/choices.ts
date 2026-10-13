@@ -1,0 +1,52 @@
+import { items, moves } from '../data';
+import { passiveEffects } from './calculations';
+import type { Combatant, Move } from './types';
+
+/** Only an active held Choice item's effect restricts the remembered move. */
+export function lockedMove(pokemon: Combatant): string | undefined {
+  if(pokemon.transformation?.kind==='dynamax') return undefined;
+  const heldEffects = items[pokemon.set.itemId]?.effects ?? [];
+  const hasChoiceEffect = passiveEffects(pokemon).some(effect =>
+    heldEffects.includes(effect) && effect.trigger === 'onChoice' && effect.kind === 'choiceLock');
+  return hasChoiceEffect ? pokemon.choiceLock : undefined;
+}
+
+export function usableMoves(pokemon: Combatant,zMove=false): Move[] {
+  if (pokemon.fainted) return [];
+  const forced=pokemon.charging?.moveId??pokemon.rampage?.moveId;
+  if(forced)return moves[forced]?[moves[forced]]:[];
+  const lock = lockedMove(pokemon);
+  return pokemon.set.moves.flatMap(id => {
+    const move = moves[id];
+    const maxed=pokemon.transformation?.kind==='dynamax';
+    return move && id !== 'struggle' && (pokemon.pp[id] ?? 0) > 0 && (!lock || lock === id)
+      && (maxed || zMove || id !== 'gigatonhammer' || pokemon.lastMove !== id)
+      && (maxed || zMove || move.category !== 'status' || !passiveEffects(pokemon).some(effect=>effect.trigger==='onMoveChoice'&&effect.kind==='blockStatus'))
+      && (maxed||zMove||!pokemon.tauntTurns||move.category!=='status') && (maxed||zMove||!pokemon.encore||pokemon.encore.moveId===id) ? [move] : [];
+  });
+}
+
+export function isMoveUsable(pokemon: Combatant, moveId: string,zMove=false): boolean {
+  if (pokemon.fainted) return false;
+  const available = usableMoves(pokemon,zMove);
+  return moveId === 'struggle' ? available.length === 0 : available.some(move => move.id === moveId);
+}
+
+/** Shared explanation for disabled UI actions; the engine uses the same rules. */
+export function moveUnavailableReason(pokemon: Combatant, moveId: string,zMove=false): string | undefined {
+  if (pokemon.fainted) return '기절한 포켓몬은 행동할 수 없습니다.';
+  if (moveId === 'struggle') return usableMoves(pokemon).length ? '사용 가능한 기술이 남아 있습니다.' : undefined;
+  if (!pokemon.set.moves.includes(moveId) || !moves[moveId]) return '배우지 않은 기술입니다.';
+  const forced=pokemon.charging?.moveId??pokemon.rampage?.moveId;
+  if(forced&&forced!==moveId)return `${moves[forced]?.name??forced}을(를) 계속 사용해야 합니다.`;
+  if (!forced&&(pokemon.pp[moveId] ?? 0) <= 0) return 'PP가 부족합니다.';
+  if(moveId==='gigatonhammer'&&pokemon.lastMove===moveId&&pokemon.transformation?.kind!=='dynamax'&&!zMove)return '거대해머는 연속으로 사용할 수 없습니다.';
+  if(moves[moveId].category==='status'&&pokemon.transformation?.kind!=='dynamax'&&!zMove&&passiveEffects(pokemon).some(effect=>effect.trigger==='onMoveChoice'&&effect.kind==='blockStatus'))return '돌격조끼를 지닌 포켓몬은 변화 기술을 사용할 수 없습니다.';
+  if(pokemon.transformation?.kind!=='dynamax'&&!zMove) {
+    if(pokemon.tauntTurns&&moves[moveId].category==='status')return `도발 · ${pokemon.tauntTurns}턴: 변화 기술을 사용할 수 없습니다.`;
+    if(pokemon.encore&&pokemon.encore.moveId!==moveId)return `앵콜 · ${pokemon.encore.turns}턴: ${moves[pokemon.encore.moveId]?.name}만 사용할 수 있습니다.`;
+  }
+  const lock = lockedMove(pokemon);
+  if (lock && lock !== moveId) return `${items[pokemon.set.itemId].name}: 교체 전까지 ${moves[lock]?.name ?? lock}만 사용할 수 있습니다.`;
+  return undefined;
+}

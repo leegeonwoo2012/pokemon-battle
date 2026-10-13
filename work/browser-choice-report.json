@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "seed": 123456789,
+  "browserErrors": [],
+  "checks": {
+    "editedAndSavedChoiceScarfThroughUi": true,
+    "choiceLockAppliedAfterRealProtectTurn": true,
+    "otherMovesDisabledWithReason": true,
+    "switchedToBlastoise": true,
+    "switchedBackToLivingRaichu": true,
+    "allFourMovesAvailableAfterSwitchReset": true
+  },
+  "browser": {
+    "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "version": "154.0.8037.59"
+  },
+  "playerConfiguration": {
+    "speciesId": "raichu",
+    "moves": [
+      "thunderbolt",
+      "quickattack",
+      "thunderwave",
+      "protect"
+    ],
+    "abilityId": "static",
+    "itemId": "choiceScarf",
+    "natureId": "bold",
+    "evs": {
+      "spa": 0,
+      "spe": 0,
+      "hp": 252,
+      "def": 252,
+      "spd": 4
+    }
+  },
+  "lockReason": "구애스카프: 교체 전까지 방어만 사용할 수 있습니다.",
+  "hpAfterProtect": "HP\n119\n/ 167",
+  "hpAfterReturn": "HP\n109\n/ 167",
+  "battleLog": "01\n싱글 배틀 시작!\n\n01\n플레이어: 라이츄 출전!\n\n01\nCPU: 마기라스 출전!\n\n01\n마기라스의 모래날림 발동!\n\n01\n마기라스의 모래날림: 모래바람 시작!\n\n01\n마기라스의 다이맥스 발동 준비!\n\n01\n마기라스: 다이맥스 발동!\n\n01\n라이츄의 구애스카프 발동!\n\n01\n라이츄: 방어 사용!\n\n01\n라이츄 방어 성공!\n\n01\n마기라스: Max Quake 사용!\n\n01\n라이츄: 38 HP 피해 (Max Quake)\n\n01\n효과가 굉장했다!\n\n01\n마기라스: 특수방어 1단계 상승!\n\n01\n라이츄: 10 HP 피해 (모래바람)\n\n02\n1턴 종료. 다음 행동을 선택하세요.\n\n02\n라이츄 교체!\n\n02\n플레이어: 거북왕 출전!\n\n02\n마기라스: Max Quake 사용!\n\n02\n거북왕: 72 HP 피해 (Max Quake)\n\n02\n마기라스: 특수방어 1단계 상승!\n\n02\n거북왕: 11 HP 피해 (모래바람)\n\n03\n2턴 종료. 다음 행동을 선택하세요.\n\n03\n거북왕 교체!\n\n03\n플레이어: 라이츄 출전!\n\n03\n마기라스의 다이맥스가 풀렸다!\n\n03\n마기라스 교체!\n\n03\nCPU: 루카리오 출전!\n\n03\n라이츄: 10 HP 피해 (모래바람)\n\n04\n3턴 종료. 다음 행동을 선택하세요."
+}

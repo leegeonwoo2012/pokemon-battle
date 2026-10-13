@@ -1,0 +1,27 @@
+{
+  "generated": "2026-10-12T23:14:15.396Z",
+  "rules": "Pokémon Showdown Champions Regulation M-C team-selectable roster. Simulator mechanics remain custom and are not equivalent to Champions.",
+  "showdownCommit": "942cda71d14bf0618bd57991708a2e2734b6daba",
+  "sources": [
+    {
+      "file": "abilities.ts",
+      "sha256": "5c10f24808e26605d2a104139cd25ae76cb9ba12c3cd5331e29cb70659b37bb0"
+    },
+    {
+      "file": "formats-data.ts",
+      "sha256": "f326459a5f777acd7a4dea16921191b76ac04f61223f72d3425a37fb735af3c2"
+    },
+    {
+      "file": "items.ts",
+      "sha256": "b39dafa66d136ebb1a8576367ced2c9f4519aa1c17d5d65c59b368ac15d7de77"
+    },
+    {
+      "file": "learnsets.ts",
+      "sha256": "826d302703358260a1c4967e2bf8edd15f1fe7e0f664c8ab14aff734906cc9d0"
+    },
+    {
+      "file": "moves.ts",
+      "sha256": "4471bcc8eb98f4697d040953008330d7951d0bcc70688f3c85e77099b28ea228"
+    }
+  ]
+}

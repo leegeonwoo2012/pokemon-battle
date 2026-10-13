@@ -1,0 +1,21 @@
+/** Final-stage battle roster: 15 unique species per representative type. */
+export const rosterSelection = {
+  normal: ['snorlax', 'blissey', 'ursaluna', 'tauros', 'kangaskhan', 'farigiraf', 'arceus', 'porygonz', 'slaking', 'miltank', 'indeedee', 'maushold', 'meloetta', 'cyclizar', 'oranguru'],
+  fire: ['charizard', 'arcanine', 'ninetales', 'typhlosion', 'blaziken', 'infernape', 'emboar', 'darmanitan', 'chandelure', 'magmortar', 'incineroar', 'cinderace', 'chiyu', 'torkoal', 'flareon'],
+  water: ['blastoise', 'gyarados', 'milotic', 'vaporeon', 'feraligatr', 'swampert', 'empoleon', 'samurott', 'suicune', 'starmie', 'alomomola', 'pelipper', 'dondozo', 'toxapex', 'greninja'],
+  electric: ['zeraora', 'raichu', 'jolteon', 'ampharos', 'luxray', 'electivire', 'zebstrika', 'galvantula', 'eelektross', 'raikou', 'ragingbolt', 'ironhands', 'zapdos', 'regieleki', 'toxtricity'],
+  grass: ['venusaur', 'meganium', 'sceptile', 'torterra', 'serperior', 'tangrowth', 'leafeon', 'roserade', 'ludicolo', 'ferrothorn', 'rillaboom', 'sinistcha', 'amoonguss', 'whimsicott', 'meowscarada'],
+  ice: ['lapras', 'dewgong', 'cloyster', 'jynx', 'articuno', 'glalie', 'walrein', 'mamoswine', 'glaceon', 'froslass', 'kyurem', 'chienpao', 'ironbundle', 'baxcalibur', 'glastrier'],
+  fighting: ['lucario', 'machamp', 'annihilape', 'hitmonlee', 'hitmonchan', 'hitmontop', 'hariyama', 'medicham', 'conkeldurr', 'mienshao', 'greattusk', 'zamazenta', 'ironvaliant', 'sneasler', 'okidogi'],
+  poison: ['nidoking', 'nidoqueen', 'crobat', 'muk', 'weezing', 'tentacruel', 'toxicroak', 'drapion', 'scolipede', 'garbodor', 'glimmora', 'ironmoth', 'pecharunt', 'clodsire', 'overqwil'],
+  ground: ['excadrill', 'sandslash', 'dugtrio', 'marowak', 'donphan', 'flygon', 'hippowdon', 'quagsire', 'gliscor', 'golurk', 'landorus', 'tinglu', 'irontreads', 'gastrodon', 'sandyshocks'],
+  flying: ['pidgeot', 'fearow', 'dodrio', 'noctowl', 'xatu', 'honchkrow', 'staraptor', 'braviary', 'mandibuzz', 'archeops', 'tornadus', 'corviknight', 'moltres', 'enamorus', 'talonflame'],
+  psychic: ['alakazam', 'espeon', 'slowbro', 'slowking', 'hypno', 'mew', 'reuniclus', 'gothitelle', 'musharna', 'metagross', 'hatterene', 'cresselia', 'ironcrown', 'armarouge', 'gallade'],
+  bug: ['scizor', 'butterfree', 'beedrill', 'pinsir', 'heracross', 'forretress', 'shuckle', 'yanmega', 'leavanny', 'volcarona', 'araquanid', 'lokix', 'ribombee', 'slitherwing', 'frosmoth'],
+  rock: ['tyranitar', 'golem', 'diancie', 'rhyperior', 'omastar', 'kabutops', 'aerodactyl', 'aggron', 'gigalith', 'crustle', 'garganacl', 'terrakion', 'ironboulder', 'lycanroc', 'carbink'],
+  ghost: ['gengar', 'giratina', 'mismagius', 'banette', 'lunala', 'dusknoir', 'cofagrigus', 'drifblim', 'spiritomb', 'sableye', 'gholdengo', 'dragapult', 'ceruledge', 'polteageist', 'spectrier'],
+  dragon: ['dragonite', 'garchomp', 'salamence', 'haxorus', 'hydreigon', 'kingdra', 'druddigon', 'altaria', 'latias', 'latios', 'walkingwake', 'gougingfire', 'regidrago', 'hydrapple', 'kommoo'],
+  dark: ['umbreon', 'houndoom', 'absol', 'weavile', 'kingambit', 'krookodile', 'scrafty', 'zoroark', 'sharpedo', 'mightyena', 'darkrai', 'roaringmoon', 'zarude', 'wochien', 'malamar'],
+  steel: ['steelix', 'magnezone', 'skarmory', 'mawile', 'bronzong', 'registeel', 'klinklang', 'escavalier', 'durant', 'bastiodon', 'heatran', 'tinkaton', 'klefki', 'jirachi', 'orthworm'],
+  fairy: ['gardevoir', 'togekiss', 'clefable', 'magearna', 'wigglytuff', 'granbull', 'azumarill', 'sylveon', 'florges', 'aromatisse', 'grimmsnarl', 'primarina', 'comfey', 'screamtail', 'mimikyu'],
+};

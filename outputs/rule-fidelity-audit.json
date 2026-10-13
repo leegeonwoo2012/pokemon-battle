@@ -1,0 +1,12 @@
+{
+  "source": "Pinned Showdown M-C-derived move metadata, commit 942cda71",
+  "comparedMoves": 510,
+  "coreFieldDifferences": [],
+  "explicitCustomRules": [
+    "Life Orb costs 1/8 maximum HP",
+    "Rampage lasts 2–5 turns",
+    "Make It Rain lowers Special Attack by 2 stages",
+    "Mixed Mega/Tera/Z/Dynamax rules"
+  ],
+  "limitations": "This audit does not validate arbitrary move callbacks, every ability interaction, or official Champions equivalence."
+}

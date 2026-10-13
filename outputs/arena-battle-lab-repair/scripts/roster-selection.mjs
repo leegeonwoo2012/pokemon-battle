@@ -1,0 +1,21 @@
+/** Curated, distinct National Pokédex species. Category is presentation only. */
+export const rosterSelection = {
+  normal: ['snorlax', 'blissey', 'tauros', 'kangaskhan', 'porygonz', 'ursaring', 'slaking', 'lopunny', 'cinccino', 'zangoose'],
+  fire: ['charizard', 'arcanine', 'ninetales', 'typhlosion', 'blaziken', 'infernape', 'emboar', 'darmanitan', 'chandelure', 'volcarona'],
+  water: ['blastoise', 'gyarados', 'milotic', 'vaporeon', 'feraligatr', 'swampert', 'empoleon', 'samurott', 'tentacruel', 'kingler'],
+  electric: ['pikachu', 'jolteon', 'raichu', 'electivire', 'ampharos', 'luxray', 'manectric', 'zebstrika', 'galvantula', 'eelektross'],
+  grass: ['venusaur', 'sceptile', 'meganium', 'torterra', 'serperior', 'leafeon', 'breloom', 'roserade', 'lilligant', 'tangrowth'],
+  ice: ['lapras', 'articuno', 'cloyster', 'jynx', 'dewgong', 'mamoswine', 'weavile', 'glaceon', 'froslass', 'cryogonal'],
+  fighting: ['lucario', 'machamp', 'primeape', 'hitmonlee', 'hitmonchan', 'hitmontop', 'hariyama', 'medicham', 'conkeldurr', 'mienshao'],
+  poison: ['nidoking', 'nidoqueen', 'crobat', 'muk', 'weezing', 'venomoth', 'toxicroak', 'drapion', 'scolipede', 'garbodor'],
+  ground: ['garchomp', 'excadrill', 'sandslash', 'dugtrio', 'marowak', 'donphan', 'flygon', 'hippowdon', 'krookodile', 'golurk'],
+  flying: ['dragonite', 'pidgeot', 'fearow', 'dodrio', 'aerodactyl', 'noctowl', 'xatu', 'skarmory', 'altaria', 'braviary'],
+  psychic: ['gardevoir', 'alakazam', 'slowbro', 'starmie', 'espeon', 'metagross', 'gallade', 'reuniclus', 'gothitelle', 'musharna'],
+  bug: ['scizor', 'butterfree', 'beedrill', 'pinsir', 'heracross', 'shuckle', 'ninjask', 'armaldo', 'vespiquen', 'yanmega'],
+  rock: ['tyranitar', 'golem', 'rhydon', 'omastar', 'kabutops', 'sudowoodo', 'aggron', 'cradily', 'rampardos', 'gigalith'],
+  ghost: ['gengar', 'misdreavus', 'mismagius', 'banette', 'dusclops', 'dusknoir', 'spiritomb', 'sableye', 'cofagrigus', 'jellicent'],
+  dragon: ['kingdra', 'salamence', 'haxorus', 'hydreigon', 'druddigon', 'goodra', 'noivern', 'dragapult', 'drampa', 'turtonator'],
+  dark: ['umbreon', 'murkrow', 'honchkrow', 'houndoom', 'absol', 'sharpedo', 'cacturne', 'bisharp', 'zoroark', 'mandibuzz'],
+  steel: ['magneton', 'magnezone', 'steelix', 'forretress', 'mawile', 'bronzong', 'durant', 'klinklang', 'ferrothorn', 'escavalier'],
+  fairy: ['clefable', 'wigglytuff', 'azumarill', 'togekiss', 'sylveon', 'granbull', 'florges', 'aromatisse', 'slurpuff', 'primarina'],
+};

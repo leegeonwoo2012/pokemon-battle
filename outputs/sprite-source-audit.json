@@ -1,0 +1,1907 @@
+{
+  "stage": "all180",
+  "commit": "47e5b9920bc5b2b491c53b18076300dc6813f103",
+  "expectedSpecies": 180,
+  "importedSpecies": 52,
+  "front": 52,
+  "back": 52,
+  "excluded": [
+    {
+      "speciesId": "snorlax",
+      "nationalDex": 143,
+      "name": "잠만보",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "blissey",
+      "nationalDex": 242,
+      "name": "해피너스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "chansey",
+      "nationalDex": 113,
+      "name": "럭키",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "tauros",
+      "nationalDex": 128,
+      "name": "켄타로스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "kangaskhan",
+      "nationalDex": 115,
+      "name": "캥카",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "porygon2",
+      "nationalDex": 233,
+      "name": "폴리곤2",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "porygonz",
+      "nationalDex": 474,
+      "name": "폴리곤Z",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "slaking",
+      "nationalDex": 289,
+      "name": "게을킹",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "miltank",
+      "nationalDex": 241,
+      "name": "밀탱크",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "arcanine",
+      "nationalDex": 59,
+      "name": "윈디",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "typhlosion",
+      "nationalDex": 157,
+      "name": "블레이범",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "infernape",
+      "nationalDex": 392,
+      "name": "초염몽",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "magmortar",
+      "nationalDex": 467,
+      "name": "마그마번",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "blastoise",
+      "nationalDex": 9,
+      "name": "거북왕",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "gyarados",
+      "nationalDex": 130,
+      "name": "갸라도스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "vaporeon",
+      "nationalDex": 134,
+      "name": "샤미드",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "feraligatr",
+      "nationalDex": 160,
+      "name": "장크로다일",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "swampert",
+      "nationalDex": 260,
+      "name": "대짱이",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "empoleon",
+      "nationalDex": 395,
+      "name": "엠페르트",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "suicune",
+      "nationalDex": 245,
+      "name": "스이쿤",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "starmie",
+      "nationalDex": 121,
+      "name": "아쿠스타",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "pikachu",
+      "nationalDex": 25,
+      "name": "피카츄",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "raichu",
+      "nationalDex": 26,
+      "name": "라이츄",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "jolteon",
+      "nationalDex": 135,
+      "name": "쥬피썬더",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "ampharos",
+      "nationalDex": 181,
+      "name": "전룡",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "luxray",
+      "nationalDex": 405,
+      "name": "렌트라",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "electivire",
+      "nationalDex": 466,
+      "name": "에레키블",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "zebstrika",
+      "nationalDex": 523,
+      "name": "제브라이카",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "raikou",
+      "nationalDex": 243,
+      "name": "라이코",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "meganium",
+      "nationalDex": 154,
+      "name": "메가니움",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "sceptile",
+      "nationalDex": 254,
+      "name": "나무킹",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "torterra",
+      "nationalDex": 389,
+      "name": "토대부기",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "tangrowth",
+      "nationalDex": 465,
+      "name": "덩쿠림보",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "leafeon",
+      "nationalDex": 470,
+      "name": "리피아",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "roserade",
+      "nationalDex": 407,
+      "name": "로즈레이드",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "ludicolo",
+      "nationalDex": 272,
+      "name": "로파파",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "dewgong",
+      "nationalDex": 87,
+      "name": "쥬레곤",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "cloyster",
+      "nationalDex": 91,
+      "name": "파르셀",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "glalie",
+      "nationalDex": 362,
+      "name": "얼음귀신",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "mamoswine",
+      "nationalDex": 473,
+      "name": "맘모꾸리",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "glaceon",
+      "nationalDex": 471,
+      "name": "글레이시아",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "froslass",
+      "nationalDex": 478,
+      "name": "눈여아",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "machamp",
+      "nationalDex": 68,
+      "name": "괴력몬",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "primeape",
+      "nationalDex": 57,
+      "name": "성원숭",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "hitmonlee",
+      "nationalDex": 106,
+      "name": "시라소몬",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "hitmonchan",
+      "nationalDex": 107,
+      "name": "홍수몬",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "hitmontop",
+      "nationalDex": 237,
+      "name": "카포에라",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "hariyama",
+      "nationalDex": 297,
+      "name": "하리뭉",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "medicham",
+      "nationalDex": 308,
+      "name": "요가램",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "nidoking",
+      "nationalDex": 34,
+      "name": "니드킹",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "crobat",
+      "nationalDex": 169,
+      "name": "크로뱃",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "muk",
+      "nationalDex": 89,
+      "name": "질뻐기",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "weezing",
+      "nationalDex": 110,
+      "name": "또도가스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "tentacruel",
+      "nationalDex": 73,
+      "name": "독파리",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "toxicroak",
+      "nationalDex": 454,
+      "name": "독개굴",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "drapion",
+      "nationalDex": 452,
+      "name": "드래피온",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "sandslash",
+      "nationalDex": 28,
+      "name": "고지",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "dugtrio",
+      "nationalDex": 51,
+      "name": "닥트리오",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "marowak",
+      "nationalDex": 105,
+      "name": "텅구리",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "donphan",
+      "nationalDex": 232,
+      "name": "코리갑",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "flygon",
+      "nationalDex": 330,
+      "name": "플라이곤",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "hippowdon",
+      "nationalDex": 450,
+      "name": "하마돈",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "quagsire",
+      "nationalDex": 195,
+      "name": "누오",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "gliscor",
+      "nationalDex": 472,
+      "name": "글라이온",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "pidgeot",
+      "nationalDex": 18,
+      "name": "피죤투",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "fearow",
+      "nationalDex": 22,
+      "name": "깨비드릴조",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "dodrio",
+      "nationalDex": 85,
+      "name": "두트리오",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "noctowl",
+      "nationalDex": 164,
+      "name": "야부엉",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "xatu",
+      "nationalDex": 178,
+      "name": "네이티오",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "honchkrow",
+      "nationalDex": 430,
+      "name": "돈크로우",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "staraptor",
+      "nationalDex": 398,
+      "name": "찌르호크",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "alakazam",
+      "nationalDex": 65,
+      "name": "후딘",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "espeon",
+      "nationalDex": 196,
+      "name": "에브이",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "slowking",
+      "nationalDex": 199,
+      "name": "야도킹",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "hypno",
+      "nationalDex": 97,
+      "name": "슬리퍼",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "metagross",
+      "nationalDex": 376,
+      "name": "메타그로스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "scizor",
+      "nationalDex": 212,
+      "name": "핫삼",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "butterfree",
+      "nationalDex": 12,
+      "name": "버터플",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "beedrill",
+      "nationalDex": 15,
+      "name": "독침붕",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "pinsir",
+      "nationalDex": 127,
+      "name": "쁘사이저",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "heracross",
+      "nationalDex": 214,
+      "name": "헤라크로스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "forretress",
+      "nationalDex": 205,
+      "name": "쏘콘",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "shuckle",
+      "nationalDex": 213,
+      "name": "단단지",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "yanmega",
+      "nationalDex": 469,
+      "name": "메가자리",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "golem",
+      "nationalDex": 76,
+      "name": "딱구리",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "rhydon",
+      "nationalDex": 112,
+      "name": "코뿌리",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "rhyperior",
+      "nationalDex": 464,
+      "name": "거대코뿌리",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "omastar",
+      "nationalDex": 139,
+      "name": "암스타",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "kabutops",
+      "nationalDex": 141,
+      "name": "투구푸스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "aerodactyl",
+      "nationalDex": 142,
+      "name": "프테라",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "aggron",
+      "nationalDex": 306,
+      "name": "보스로라",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "crustle",
+      "nationalDex": 558,
+      "name": "암팰리스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "gengar",
+      "nationalDex": 94,
+      "name": "팬텀",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "misdreavus",
+      "nationalDex": 200,
+      "name": "무우마",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "mismagius",
+      "nationalDex": 429,
+      "name": "무우마직",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "banette",
+      "nationalDex": 354,
+      "name": "다크펫",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "dusclops",
+      "nationalDex": 356,
+      "name": "미라몽",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "dusknoir",
+      "nationalDex": 477,
+      "name": "야느와르몽",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "drifblim",
+      "nationalDex": 426,
+      "name": "둥실라이드",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "spiritomb",
+      "nationalDex": 442,
+      "name": "화강돌",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "sableye",
+      "nationalDex": 302,
+      "name": "깜까미",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "dragonite",
+      "nationalDex": 149,
+      "name": "망나뇽",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "garchomp",
+      "nationalDex": 445,
+      "name": "한카리아스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "salamence",
+      "nationalDex": 373,
+      "name": "보만다",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "kingdra",
+      "nationalDex": 230,
+      "name": "킹드라",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "altaria",
+      "nationalDex": 334,
+      "name": "파비코리",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "latias",
+      "nationalDex": 380,
+      "name": "라티아스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "latios",
+      "nationalDex": 381,
+      "name": "라티오스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "umbreon",
+      "nationalDex": 197,
+      "name": "블래키",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "houndoom",
+      "nationalDex": 229,
+      "name": "헬가",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "weavile",
+      "nationalDex": 461,
+      "name": "포푸니라",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "sharpedo",
+      "nationalDex": 319,
+      "name": "샤크니아",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "mightyena",
+      "nationalDex": 262,
+      "name": "그라에나",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "steelix",
+      "nationalDex": 208,
+      "name": "강철톤",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "magnezone",
+      "nationalDex": 462,
+      "name": "자포코일",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "skarmory",
+      "nationalDex": 227,
+      "name": "무장조",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "mawile",
+      "nationalDex": 303,
+      "name": "입치트",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "bronzong",
+      "nationalDex": 437,
+      "name": "동탁군",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "registeel",
+      "nationalDex": 379,
+      "name": "레지스틸",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "bastiodon",
+      "nationalDex": 411,
+      "name": "바리톱스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "gardevoir",
+      "nationalDex": 282,
+      "name": "가디안",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "togekiss",
+      "nationalDex": 468,
+      "name": "토게키스",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "clefable",
+      "nationalDex": 36,
+      "name": "픽시",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "clefairy",
+      "nationalDex": 35,
+      "name": "삐삐",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "wigglytuff",
+      "nationalDex": 40,
+      "name": "푸크린",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "granbull",
+      "nationalDex": 210,
+      "name": "그랑블루",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "azumarill",
+      "nationalDex": 184,
+      "name": "마릴리",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    },
+    {
+      "speciesId": "aromatisse",
+      "nationalDex": 683,
+      "name": "프레프티르",
+      "reason": "No credited community base/Alternate sprite; official or different-form material excluded"
+    }
+  ],
+  "requests": [
+    {
+      "url": "https://api.github.com/repos/PMDCollab/SpriteCollab/commits/master",
+      "kind": "metadata",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 2772
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/tracker.json",
+      "kind": "metadata",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 10526342
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/credit_names.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 15555
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/LICENSE.md",
+      "kind": "license",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 17607
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/README.md",
+      "kind": "policy",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5789
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0133/0002/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 306
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0133/0002/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 11767
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0133/0002/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 4063
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0006/0005/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 280
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0006/0005/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 7403
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0006/0005/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 20382
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0038/0004/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 170
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0038/0004/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6687
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0038/0004/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 11915
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0257/0002/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 147
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0257/0002/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5701
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0257/0002/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 7482
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0500/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 204
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0500/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5527
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0500/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 21132
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0555/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 384
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0555/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6845
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0555/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 15414
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0609/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 152
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0609/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6858
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0609/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 14675
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0350/0001/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 144
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0350/0001/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5104
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0350/0001/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 22266
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0503/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 138
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0503/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6028
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0503/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 11489
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0596/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 144
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0596/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5792
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0596/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 11943
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0604/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 520
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0604/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 7268
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0604/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 16630
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0003/0003/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 150
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0003/0003/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 4873
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0003/0003/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 12319
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0497/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 144
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0497/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6035
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0497/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 6273
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0598/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 140
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0598/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6096
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0598/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 7254
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0131/0002/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 151
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0131/0002/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5233
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0131/0002/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 13394
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0124/0001/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 142
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0124/0001/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5241
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0124/0001/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 9812
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0144/0003/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 154
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0144/0003/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5479
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0144/0003/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 23401
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0365/0002/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 161
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0365/0002/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5346
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0365/0002/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 15204
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0448/0003/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 312
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0448/0003/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 14714
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0448/0003/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 15747
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0534/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 214
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0534/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6922
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0534/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 21937
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0620/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 144
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0620/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6032
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0620/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 8257
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0031/0001/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 150
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0031/0001/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5220
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0031/0001/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 8708
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0545/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 138
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0545/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5936
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0545/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 18875
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0569/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 143
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0569/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5810
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0569/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 11278
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0530/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 384
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0530/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6446
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0530/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 8899
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0623/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 373
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0623/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6078
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0623/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 20335
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0628/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 220
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0628/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6735
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0628/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 6192
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0630/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 137
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0630/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6388
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0630/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 25095
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0567/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 144
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0567/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6879
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0567/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 19150
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0080/0003/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 151
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0080/0003/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5305
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0080/0003/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 7224
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0151/0001/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 498
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0151/0001/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 14026
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0151/0001/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 4698
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0579/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 149
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0579/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 7188
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0579/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 26687
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0576/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 154
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0576/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5430
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0576/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 7484
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0518/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 138
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0518/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6012
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0518/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 12730
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0542/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 271
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0542/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5497
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0542/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 13245
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0637/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 536
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0637/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6529
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0637/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 22179
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0248/0003/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 239
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0248/0003/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6263
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0248/0003/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 12028
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0526/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 153
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0526/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6539
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0526/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 12837
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0563/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 273
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0563/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5542
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0563/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 9871
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0612/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 431
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0612/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6310
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0612/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 12418
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0635/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 131
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0635/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5548
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0635/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 21514
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0621/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 239
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0621/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6301
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0621/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 20824
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0359/0004/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 514
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0359/0004/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 14407
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0359/0004/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 6930
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0625/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 297
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0625/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 14661
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0625/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 11432
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0553/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 232
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0553/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6136
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0553/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 12077
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0560/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 285
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0560/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6325
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0560/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 12814
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0571/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 268
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0571/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5433
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0571/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 13419
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0601/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 144
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0601/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6307
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0601/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 30288
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0589/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 141
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0589/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6613
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0589/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 8243
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0632/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 213
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0632/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6197
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0632/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 6726
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0700/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 151
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0700/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6398
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0700/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 12596
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0671/credits.txt",
+      "kind": "credits",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 154
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0671/AnimData.xml",
+      "kind": "animation",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 5459
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0671/Idle-Anim.png",
+      "kind": "image",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 11232
+    }
+  ]
+}

@@ -1,0 +1,995 @@
+
+> arena-champions@0.1.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v5.0.3 C:/Users/user/Documents/Codex/2026-10-09/pok-mon-champions-1-pok-mon
+
+·········x···x···xx··x······xx·····xx··xxx······x·····x····x·x·x···xx·x·······x··········xx·x···x······xxxx···············x··x·x··x····xxx·····x···xxxx··x········x········x···················x··x······x············x···x···xxx·····x····x·x······x·························································································································
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 56 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/choices-ui.test.tsx > shows the engine Choice lock after a real turn and prevents selecting other moves
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/choices-ui.test.tsx:21:1
+     19| afterEach(() => { cleanup(); vi.restoreAllMocks(); });
+     20|
+     21| it('shows the engine Choice lock after a real turn and prevents select…
+       | ^
+     22|   const team = createDefaultTeam();
+     23|   team[0].itemId = 'choiceScarf';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/56]⎯
+
+ FAIL  src/engine/ability-expansion.test.ts > expanded ability hooks > Rock Head avoids move recoil while Struggle still costs HP
+AssertionError: expected 71 to be 153 // Object.is equality
+
+- Expected
++ Received
+
+- 153
++ 71
+
+ ❯ src/engine/ability-expansion.test.ts:95:42
+     93|     state.sides.player.team[0].set.abilityId='rockhead';
+     94|     const next=runTurn(state,action('flareblitz'),action('recover'));
+     95|     expect(next.sides.player.team[0].hp).toBe(state.sides.player.team[…
+       |                                          ^
+     96|   });
+     97| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/56]⎯
+
+ FAIL  src/engine/advanced-rules.test.ts > advanced battle rules > raises eligible low-power Tera moves to 60 and spends Stellar boosts once per type
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/advanced-rules.test.ts:78:79
+     76|     const state=createBattle({format:'singles',playerTeam:[set('chariz…
+     77|     expect(previewMove(state.sides.player.team[0],moves.terablast,'ter…
+     78|     expect(activateGimmick(state,'player',0,'tera','flamethrower','ste…
+       |                                                                               ^
+     79|     const mon=state.sides.player.team[0];
+     80|     expect(mon.types).toEqual(['fire','flying']);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/56]⎯
+
+ FAIL  src/engine/battle.test.ts > battle engine > applies status and residual damage
+AssertionError: expected null to be 'burn' // Object.is equality
+
+- Expected:
+"burn"
+
++ Received:
+null
+
+ ❯ src/engine/battle.test.ts:53:43
+     51|     const state = createBattle({ format: 'singles', playerTeam: [arcan…
+     52|     const next = runTurn(state, [{ kind: 'move', slot: 0, moveId: 'wil…
+     53|     expect(next.sides.cpu.team[0].status).toBe('burn');
+       |                                           ^
+     54|     expect(next.log.some(entry => entry.text.includes('(화상)'))).toBe(t…
+     55|     expect(next.sides.cpu.team[0].hp).toBeLessThan(next.sides.cpu.team…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/56]⎯
+
+ FAIL  src/engine/expanded-content.test.ts > expanded roster effects > protects with Purifying Salt and consumes Lum Berry after status
+AssertionError: expected undefined to be true // Object.is equality
+
+- Expected:
+true
+
++ Received:
+undefined
+
+ ❯ src/engine/expanded-content.test.ts:55:53
+     53|     const cured=runTurn(createBattle({format:'singles',playerTeam:[set…
+     54|     expect(cured.sides.player.team[0].status).toBeNull();
+     55|     expect(cured.sides.player.team[0].itemConsumed).toBe(true);
+       |                                                     ^
+     56|   });
+     57|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/56]⎯
+
+ FAIL  src/engine/expansion.test.ts > expanded roster battle mechanics > Make It Rain hits both opponents but lowers its user Special Attack only once
+AssertionError: expected -2 to be -1 // Object.is equality
+
+- Expected
++ Received
+
+- -1
++ -2
+
+ ❯ src/engine/expansion.test.ts:36:58
+     34|       [{ kind: 'move', slot: 0, moveId: 'makeitrain' }, { kind: 'move'…
+     35|       [{ kind: 'move', slot: 0, moveId: 'waterpulse' }, { kind: 'move'…
+     36|     expect(result.state.sides.player.team[0].stages.spa).toBe(-1);
+       |                                                          ^
+     37|     expect(result.state.sides.cpu.team[0].hp).toBeLessThan(state.sides…
+     38|     expect(result.state.sides.cpu.team[1].hp).toBeLessThan(state.sides…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > shared gimmick resource and ordered transformation events > singles: tera uses one trainer resource and executes real damage
+ FAIL  src/engine/gimmicks.test.ts > shared gimmick resource and ordered transformation events > doubles: tera uses one trainer resource and executes real damage
+AssertionError: expected { used: false } to match object { used: true, kind: 'tera' }
+
+- Expected
++ Received
+
+  {
+-   "kind": "tera",
+-   "used": true,
++   "used": false,
+  }
+
+ ❯ src/engine/gimmicks.test.ts:45:47
+     43|     const initial=battle([p,set('raichu')],format);
+     44|     const result=runTurnWithEvents(initial,[attack('flamethrower',kind…
+     45|     expect(result.state.sides.player.gimmick).toMatchObject({used:true…
+       |                                               ^
+     46|     expect(result.events.filter(e=>e.kind==='gimmick-start')).toHaveLe…
+     47|     const start=result.events.find(e=>e.kind==='gimmick-start')!,trans…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > shared gimmick resource and ordered transformation events > CPU and player spend independent resources and a fresh battle resets them
+AssertionError: expected undefined to be 'tera' // Object.is equality
+
+- Expected:
+"tera"
+
++ Received:
+undefined
+
+ ❯ src/engine/gimmicks.test.ts:69:45
+     67|     const initial=battle([set('raichu')]);
+     68|     const next=runTurn(initial,[attack('protect','tera')],[attack('pro…
+     69|     expect(next.sides.player.gimmick?.kind).toBe('tera');expect(next.s…
+       |                                             ^
+     70|     expect(battle([set('raichu')]).sides.player.gimmick).toEqual({used…
+     71|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > shared gimmick resource and ordered transformation events > waits for each transformation animation before presenting the changed snapshot
+AssertionError: expected [ 'blocked' ] to deeply equal [ 'gimmick-start' ]
+
+- Expected
++ Received
+
+  [
+-   "gimmick-start",
++   "blocked",
++   "move",
++   "protect",
++   "move",
++   "protect",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:76:23
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form charizardmegax applies stats, type and ability
+AssertionError: expected [ 'fire', 'flying' ] to deeply equal [ 'fire', 'dragon' ]
+
+- Expected
++ Received
+
+  [
+    "fire",
+-   "dragon",
++   "flying",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form clefablemega applies stats, type and ability
+AssertionError: expected [ 'fairy' ] to deeply equal [ 'fairy', 'flying' ]
+
+- Expected
++ Received
+
+  [
+    "fairy",
+-   "flying",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form alakazammega applies stats, type and ability
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form meowsticmmega applies stats, type and ability
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form meowsticfmega applies stats, type and ability
+AssertionError: expected 'naturalcure' to be 'trace' // Object.is equality
+
+Expected: "trace"
+Received: "naturalcure"
+
+ ❯ src/engine/gimmicks.test.ts:88:87
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                                                                       ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form pinsirmega applies stats, type and ability
+AssertionError: expected [ 'bug' ] to deeply equal [ 'bug', 'flying' ]
+
+- Expected
++ Received
+
+  [
+    "bug",
+-   "flying",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form gyaradosmega applies stats, type and ability
+AssertionError: expected [ 'water', 'flying' ] to deeply equal [ 'water', 'dark' ]
+
+- Expected
++ Received
+
+  [
+    "water",
+-   "dark",
++   "flying",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form meganiummega applies stats, type and ability
+AssertionError: expected [ 'grass' ] to deeply equal [ 'grass', 'fairy' ]
+
+- Expected
++ Received
+
+  [
+    "grass",
+-   "fairy",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form feraligatrmega applies stats, type and ability
+AssertionError: expected [ 'water' ] to deeply equal [ 'water', 'dragon' ]
+
+- Expected
++ Received
+
+  [
+    "water",
+-   "dragon",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form ampharosmega applies stats, type and ability
+AssertionError: expected [ 'electric' ] to deeply equal [ 'electric', 'dragon' ]
+
+- Expected
++ Received
+
+  [
+    "electric",
+-   "dragon",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form sceptilemega applies stats, type and ability
+AssertionError: expected [ 'grass' ] to deeply equal [ 'grass', 'dragon' ]
+
+- Expected
++ Received
+
+  [
+    "grass",
+-   "dragon",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form aggronmega applies stats, type and ability
+AssertionError: expected [ 'steel', 'rock' ] to deeply equal [ 'steel' ]
+
+- Expected
++ Received
+
+  [
+    "steel",
++   "rock",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form altariamega applies stats, type and ability
+AssertionError: expected [ 'dragon', 'flying' ] to deeply equal [ 'dragon', 'fairy' ]
+
+- Expected
++ Received
+
+  [
+    "dragon",
+-   "fairy",
++   "flying",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form chimechomega applies stats, type and ability
+AssertionError: expected [ 'psychic' ] to deeply equal [ 'psychic', 'steel' ]
+
+- Expected
++ Received
+
+  [
+    "psychic",
+-   "steel",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form absolmegaz applies stats, type and ability
+AssertionError: expected [ 'dark' ] to deeply equal [ 'dark', 'ghost' ]
+
+- Expected
++ Received
+
+  [
+    "dark",
+-   "ghost",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form staraptormega applies stats, type and ability
+AssertionError: expected [ 'normal', 'flying' ] to deeply equal [ 'fighting', 'flying' ]
+
+- Expected
++ Received
+
+  [
+-   "fighting",
++   "normal",
+    "flying",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form lopunnymega applies stats, type and ability
+AssertionError: expected [ 'normal' ] to deeply equal [ 'normal', 'fighting' ]
+
+- Expected
++ Received
+
+  [
+    "normal",
+-   "fighting",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form garchompmegaz applies stats, type and ability
+AssertionError: expected [ 'dragon', 'ground' ] to deeply equal [ 'dragon' ]
+
+- Expected
++ Received
+
+  [
+    "dragon",
++   "ground",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form audinomega applies stats, type and ability
+AssertionError: expected [ 'normal' ] to deeply equal [ 'normal', 'fairy' ]
+
+- Expected
++ Received
+
+  [
+    "normal",
+-   "fairy",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form barbaraclemega applies stats, type and ability
+AssertionError: expected [ 'rock', 'water' ] to deeply equal [ 'rock', 'fighting' ]
+
+- Expected
++ Received
+
+  [
+    "rock",
+-   "fighting",
++   "water",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form golisopodmega applies stats, type and ability
+AssertionError: expected [ 'bug', 'water' ] to deeply equal [ 'bug', 'steel' ]
+
+- Expected
++ Received
+
+  [
+    "bug",
+-   "steel",
++   "water",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:88:43
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                           ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > tera persists on switching and restores when battle ends
+AssertionError: expected undefined to be 'tera' // Object.is equality
+
+- Expected:
+"tera"
+
++ Received:
+undefined
+
+ ❯ src/engine/gimmicks.test.ts:94:124
+     92|     let state=battle([set('charizard',{itemId:'charizarditey',teraType…
+     93|     activateGimmick(state,'player',0,kind,'protect');
+     94|     state=runTurn(state,[{kind:'switch',slot:0,to:1}],[protect()]);exp…
+       |                                                                                                                            ^
+     95|     state.sides.cpu.team.forEach(p=>{p.fainted=true;p.hp=0;});
+     96|     state=runTurn(state,[protect()],[protect()]);expect(state.winner).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > keeps original offensive STAB and switches defensive matchups; matching STAB is 2x
+AssertionError: expected [ 'fire', 'flying' ] to deeply equal [ 'water' ]
+
+- Expected
++ Received
+
+  [
+-   "water",
++   "fire",
++   "flying",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:102:21
+    100|     const state=battle([set('charizard',{teraType:'water'})]);const p=…
+    101|     activateGimmick(state,'player',0,'tera','protect');
+    102|     expect(p.types).toEqual(['water']);expect(getTypeMultiplier('elect…
+       |                     ^
+    103|     expect(stabMultiplier(p,moves.flamethrower)).toBe(1.5);expect(stab…
+    104|     const matching=battle([set('charizard',{teraType:'fire'})]);const …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > lets Raichu choose any of the 18 defensive Tera types for this battle without rewriting its saved type
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/gimmicks.test.ts:111:75
+    109|     for(const teraType of available) {
+    110|       const state=battle([set('raichu',{teraType:'electric'})]);const …
+    111|       expect(activateGimmick(state,'player',0,'tera','protect',teraTyp…
+       |                                                                           ^
+    112|       expect(p.types).toEqual([teraType]);expect(p.transformation?.ter…
+    113|       expect(stabMultiplier(p,moves.thunderbolt)).toBe(teraType==='ele…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > handles Adaptability with matching and different Tera types
+AssertionError: expected 2 to be 2.25 // Object.is equality
+
+- Expected
++ Received
+
+- 2.25
++ 2
+
+ ❯ src/engine/gimmicks.test.ts:120:49
+    118|   it('handles Adaptability with matching and different Tera types',()=…
+    119|     const state=battle([set('lucario',{teraType:'fighting'})]);const p…
+    120|     expect(stabMultiplier(p,moves.closecombat)).toBe(2.25);expect(stab…
+       |                                                 ^
+    121|   });
+    122| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax meowth exposes only the correct signature
+Error: 알 수 없는 포켓몬: meowth
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax kingler exposes only the correct signature
+Error: 알 수 없는 포켓몬: kingler
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax eevee exposes only the correct signature
+Error: 알 수 없는 포켓몬: eevee
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax melmetal exposes only the correct signature
+Error: 알 수 없는 포켓몬: melmetal
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax orbeetle exposes only the correct signature
+Error: 알 수 없는 포켓몬: orbeetle
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax drednaw exposes only the correct signature
+Error: 알 수 없는 포켓몬: drednaw
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax coalossal exposes only the correct signature
+Error: 알 수 없는 포켓몬: coalossal
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax centiskorch exposes only the correct signature
+Error: 알 수 없는 포켓몬: centiskorch
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax copperajah exposes only the correct signature
+Error: 알 수 없는 포켓몬: copperajah
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax duraludon exposes only the correct signature
+Error: 알 수 없는 포켓몬: duraludon
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax urshifu exposes only the correct signature
+Error: 알 수 없는 포켓몬: urshifu
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax urshifurapidstrike exposes only the correct signature
+Error: 알 수 없는 포켓몬: urshifurapidstrike
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/56]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax residual damages eligible enemies for four end turns and keeps the final-form signature set supported
+AssertionError: expected [ 'alcremie', 'appletun', …(32) ] to deeply equal [ 'blastoise', 'butterfree', …(13) ]
+
+- Expected
++ Received
+
+  [
++   "alcremie",
++   "appletun",
+    "blastoise",
+    "butterfree",
++   "centiskorch",
+    "charizard",
+    "cinderace",
++   "coalossal",
++   "copperajah",
+    "corviknight",
++   "drednaw",
++   "duraludon",
++   "eevee",
++   "flapple",
+    "garbodor",
+    "gengar",
+    "grimmsnarl",
+    "hatterene",
++   "inteleon",
++   "kingler",
+    "lapras",
+    "machamp",
++   "melmetal",
++   "meowth",
++   "orbeetle",
++   "pikachu",
+    "rillaboom",
++   "sandaconda",
+    "snorlax",
+    "toxtricity",
++   "toxtricitylowkey",
++   "urshifu",
++   "urshifurapidstrike",
+    "venusaur",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:212:43
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[45/56]⎯
+
+ FAIL  src/engine/gmax-expansion.test.ts > expanded G-Max effects > Garbodor poisons, Hatterene confuses, and Corviknight removes both sides hazards and screens
+AssertionError: expected 1 to be undefined
+
+- Expected:
+undefined
+
++ Received:
+1
+
+ ❯ src/engine/gmax-expansion.test.ts:52:55
+     50|     cleared.sides.player.hazards={stealthrock:1};cleared.sides.cpu.haz…
+     51|     use(cleared,'gmaxwindrage');
+     52|     expect(cleared.sides.player.hazards?.stealthrock).toBeUndefined();
+       |                                                       ^
+     53|     expect(cleared.sides.cpu.hazards?.spikes).toBeUndefined();
+     54|     expect(cleared.sides.cpu.screens?.reflect).toBeUndefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[46/56]⎯
+
+ FAIL  src/engine/passives.test.ts > modular abilities and held items > uses Serene Grace in a real secondary-effect roll rather than only in descriptions
+AssertionError: expected +0 to be -1 // Object.is equality
+
+- Expected
++ Received
+
+- -1
++ 0
+
+ ❯ src/engine/passives.test.ts:156:93
+    154|     expect(secondaryChance(enhanced.sides.player.team[0], 20)).toBe(40…
+    155|     expect(secondaryChance(enhanced.sides.player.team[0], 80)).toBe(10…
+    156|     expect(runTurnWithEvents(enhanced, attack, weather).state.sides.cp…
+       |                                                                                             ^
+    157|     expect(runTurnWithEvents(plain, attack, weather).state.sides.cpu.t…
+    158|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[47/56]⎯
+
+ FAIL  src/engine/passives.test.ts > modular abilities and held items > takes Life Orb recoil once after a spread move has damaged both foes
+AssertionError: expected 135 to be 139 // Object.is equality
+
+- Expected
++ Received
+
+- 139
++ 135
+
+ ❯ src/engine/passives.test.ts:215:50
+    213|     expect(recoil).toHaveLength(1);
+    214|     expect(recoil[0].moveId).toBeUndefined();
+    215|     expect(result.state.sides.player.team[0].hp).toBe(holder.maxHp - M…
+       |                                                  ^
+    216|     expect(result.events.indexOf(recoil[0])).toBeGreaterThan(result.ev…
+    217|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[48/56]⎯
+
+ FAIL  src/engine/regmc-content.test.ts > Regulation M-C additions in the playable engine > Ditto transforms, copies combat traits and restores itself on switching
+AssertionError: expected [ 'normal' ] to deeply equal [ 'fire', 'flying' ]
+
+- Expected
++ Received
+
+  [
+-   "fire",
+-   "flying",
++   "normal",
+  ]
+
+ ❯ src/engine/regmc-content.test.ts:34:24
+     32|     const copy=transformed.sides.player.team[0];
+     33|     expect(copy.appearanceSpeciesId).toBe('charizard');
+     34|     expect(copy.types).toEqual(species.charizard.types);
+       |                        ^
+     35|     expect(copy.set.abilityId).toBe('blaze');
+     36|     expect(copy.set.moves).toEqual(transformed.sides.cpu.team[0].set.m…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[49/56]⎯
+
+ FAIL  src/engine/regmc-content.test.ts > Regulation M-C additions in the playable engine > Imposter transforms at entry and female Meowstic reaches its own Mega form
+AssertionError: expected undefined to be 'meowsticfmega' // Object.is equality
+
+- Expected:
+"meowsticfmega"
+
++ Received:
+undefined
+
+ ❯ src/engine/regmc-content.test.ts:49:64
+     47|     const battle=createBattle({format:'singles',playerTeam:[female],cp…
+     48|     const result=runTurn(battle,[{kind:'move',slot:0,moveId:female.mov…
+     49|     expect(result.sides.player.team[0].transformation?.formId).toBe('m…
+       |                                                                ^
+     50|   });
+     51| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[50/56]⎯
+
+ FAIL  src/engine/rules-regression.test.ts > one remaining sleep turn prevents an action without consuming PP, then wakes
+AssertionError: expected 14 to be 15 // Object.is equality
+
+- Expected
++ Received
+
+- 15
++ 14
+
+ ❯ src/engine/rules-regression.test.ts:12:51
+     10|   const id = user.set.moves[0];
+     11|   const first = runTurnWithEvents(state, action(id), action('protect')…
+     12|   expect(first.state.sides.player.team[0].pp[id]).toBe(user.pp[id]);
+       |                                                   ^
+     13|   expect(first.events.some(event => event.kind === 'blocked' && event.…
+     14|   const second = runTurnWithEvents(first.state, action(id), action('pr…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[51/56]⎯
+
+ FAIL  src/presentation/move-motions.test.ts > per-move battle choreography > provides a named motion and Korean action cue for every shipped move
+AssertionError: acidspray: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/presentation/move-motions.test.ts:8:56
+      6|   it('provides a named motion and Korean action cue for every shipped …
+      7|     for (const move of Object.values(moves)) {
+      8|       expect(hasDedicatedMoveMotion(move.id), move.id).toBe(true);
+       |                                                        ^
+      9|       expect(moveMotion(move).cue.length, move.id).toBeGreaterThan(3);
+     10|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[52/56]⎯
+
+ FAIL  src/presentation/sprite-geometry.test.ts > verified sprite geometry > has real dimensions and measured alpha bounds for all M-C front/back pairs and forms
+AssertionError: expected undefined to be defined
+ ❯ src/presentation/sprite-geometry.test.ts:11:138
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[53/56]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯⎯ Unhandled Error ⎯⎯⎯⎯⎯⎯⎯
+Error: [vitest-pool]: Failed to start threads worker for test files C:/Users/user/Documents/Codex/2026-10-09/pok-mon-champions-1-pok-mon/src/components/BattleVisuals.test.tsx.
+ ❯ node_modules/vitest/dist/chunks/index.DpLw24bj.js:11538:94
+ ❯ runNextTicks node:internal/process/task_queues:65:5
+ ❯ process.processTimers node:internal/timers:615:9
+ ❯ Pool.schedule node_modules/vitest/dist/chunks/index.DpLw24bj.js:11538:5
+
+Caused by: Error: [vitest-pool-runner]: Timeout waiting for worker to respond
+ ❯ Timeout.<anonymous> node_modules/vitest/dist/chunks/index.DpLw24bj.js:11035:58
+ ❯ listOnTimeout node:internal/timers:685:17
+ ❯ process.processTimers node:internal/timers:618:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  13 failed | 17 passed (30)
+      Tests  56 failed | 310 passed (366)
+     Errors  1 error
+   Start at  08:30:06
+   Duration  2444.76s (tests 99%)
+
+    Isolate  30 workers spawned · ~612ms startup each (spawn + environment, per file)
+             at least ~17.75s faster with isolate: false — reuses workers across files instead of one per file
+
+npm notice
+npm notice New major version of npm available! 11.19.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

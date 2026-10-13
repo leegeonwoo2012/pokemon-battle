@@ -1,0 +1,618 @@
+{
+  "passed": true,
+  "errors": [],
+  "imageErrors": [],
+  "layouts": [
+    {
+      "id": "ribombee",
+      "format": "singles",
+      "width": 1440,
+      "height": 900,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 170.828125,
+          "bodyHeight": 204.984375,
+          "groundGap": 1.3046875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "ribombee",
+          "physicalHeight": 0.2,
+          "scale": 0.436515832240166,
+          "bodyWidth": 94.359375,
+          "bodyHeight": 106.9375,
+          "groundGap": 1.6640625,
+          "source": "/sprites/back/743.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "raichu",
+      "format": "singles",
+      "width": 1440,
+      "height": 900,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 170.828125,
+          "bodyHeight": 204.984375,
+          "groundGap": 1.3046875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "raichu",
+          "physicalHeight": 0.8,
+          "scale": 0.7190210366561592,
+          "bodyWidth": 170.734375,
+          "bodyHeight": 176.140625,
+          "groundGap": 1.6640625,
+          "source": "/sprites/back/26.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "charizard",
+      "format": "singles",
+      "width": 1440,
+      "height": 900,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 170.828125,
+          "bodyHeight": 204.984375,
+          "groundGap": 1.3046875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "charizard",
+          "physicalHeight": 1.7,
+          "scale": 0.9431718130210216,
+          "bodyWidth": 265.046875,
+          "bodyHeight": 231.0625,
+          "groundGap": 1.6640625,
+          "source": "/sprites/back/6.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "venusaur",
+      "format": "singles",
+      "width": 1440,
+      "height": 900,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 170.828125,
+          "bodyHeight": 204.984375,
+          "groundGap": 1.3046875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "venusaur",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 278.40625,
+          "bodyHeight": 244.984375,
+          "groundGap": 1.6640625,
+          "source": "/sprites/back/3.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "dondozo",
+      "format": "singles",
+      "width": 1440,
+      "height": 900,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 170.828125,
+          "bodyHeight": 204.984375,
+          "groundGap": 1.3046875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "dondozo",
+          "physicalHeight": 12,
+          "scale": 1.12,
+          "bodyWidth": 433.140625,
+          "bodyHeight": 248.140625,
+          "groundGap": 1.6640625,
+          "source": "/sprites/back/977.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "ribombee",
+      "format": "singles",
+      "width": 1024,
+      "height": 768,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 167.03125,
+          "bodyHeight": 200.4375,
+          "groundGap": 1.1171875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "ribombee",
+          "physicalHeight": 0.2,
+          "scale": 0.436515832240166,
+          "bodyWidth": 94.359375,
+          "bodyHeight": 106.9375,
+          "groundGap": 1.4140625,
+          "source": "/sprites/back/743.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "raichu",
+      "format": "singles",
+      "width": 1024,
+      "height": 768,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 167.03125,
+          "bodyHeight": 200.4375,
+          "groundGap": 1.1171875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "raichu",
+          "physicalHeight": 0.8,
+          "scale": 0.7190210366561592,
+          "bodyWidth": 170.734375,
+          "bodyHeight": 176.140625,
+          "groundGap": 1.4140625,
+          "source": "/sprites/back/26.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "charizard",
+      "format": "singles",
+      "width": 1024,
+      "height": 768,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 167.03125,
+          "bodyHeight": 200.4375,
+          "groundGap": 1.1171875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "charizard",
+          "physicalHeight": 1.7,
+          "scale": 0.9431718130210216,
+          "bodyWidth": 265.046875,
+          "bodyHeight": 231.0625,
+          "groundGap": 1.4140625,
+          "source": "/sprites/back/6.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "venusaur",
+      "format": "singles",
+      "width": 1024,
+      "height": 768,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 167.03125,
+          "bodyHeight": 200.4375,
+          "groundGap": 1.1171875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "venusaur",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 278.40625,
+          "bodyHeight": 244.984375,
+          "groundGap": 1.4140625,
+          "source": "/sprites/back/3.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "dondozo",
+      "format": "singles",
+      "width": 1024,
+      "height": 768,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 167.03125,
+          "bodyHeight": 200.4375,
+          "groundGap": 1.1171875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "dondozo",
+          "physicalHeight": 12,
+          "scale": 1.12,
+          "bodyWidth": 327.265625,
+          "bodyHeight": 187.484375,
+          "groundGap": 1.4140625,
+          "source": "/sprites/back/977.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "ribombee",
+      "format": "singles",
+      "width": 390,
+      "height": 844,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 116.65625,
+          "bodyHeight": 139.984375,
+          "groundGap": 0.875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "ribombee",
+          "physicalHeight": 0.2,
+          "scale": 0.436515832240166,
+          "bodyWidth": 61.625,
+          "bodyHeight": 69.828125,
+          "groundGap": 0.9609375,
+          "source": "/sprites/back/743.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "raichu",
+      "format": "singles",
+      "width": 390,
+      "height": 844,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 116.65625,
+          "bodyHeight": 139.984375,
+          "groundGap": 0.875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "raichu",
+          "physicalHeight": 0.8,
+          "scale": 0.7190210366561592,
+          "bodyWidth": 111.5,
+          "bodyHeight": 115.03125,
+          "groundGap": 0.9609375,
+          "source": "/sprites/back/26.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "charizard",
+      "format": "singles",
+      "width": 390,
+      "height": 844,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 116.65625,
+          "bodyHeight": 139.984375,
+          "groundGap": 0.875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "charizard",
+          "physicalHeight": 1.7,
+          "scale": 0.9431718130210216,
+          "bodyWidth": 173.09375,
+          "bodyHeight": 150.890625,
+          "groundGap": 0.9609375,
+          "source": "/sprites/back/6.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "venusaur",
+      "format": "singles",
+      "width": 390,
+      "height": 844,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 116.65625,
+          "bodyHeight": 139.984375,
+          "groundGap": 0.875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "venusaur",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 175.953125,
+          "bodyHeight": 154.828125,
+          "groundGap": 0.9609375,
+          "source": "/sprites/back/3.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "dondozo",
+      "format": "singles",
+      "width": 390,
+      "height": 844,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 116.65625,
+          "bodyHeight": 139.984375,
+          "groundGap": 0.875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "dondozo",
+          "physicalHeight": 12,
+          "scale": 1.12,
+          "bodyWidth": 175.953125,
+          "bodyHeight": 100.796875,
+          "groundGap": 0.9609375,
+          "source": "/sprites/back/977.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "dondozo",
+      "format": "doubles",
+      "width": 1440,
+      "height": 900,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 137.5,
+          "bodyHeight": 165,
+          "groundGap": 1.171875,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "gyarados",
+          "physicalHeight": 6.5,
+          "scale": 1.12,
+          "bodyWidth": 176.8955078125,
+          "bodyHeight": 168.15093994140625,
+          "groundGap": 1.06640625,
+          "source": "/sprites/front/130.png"
+        },
+        {
+          "species": "dondozo",
+          "physicalHeight": 12,
+          "scale": 1.12,
+          "bodyWidth": 245.890625,
+          "bodyHeight": 140.859375,
+          "groundGap": 1.3515625,
+          "source": "/sprites/back/977.png"
+        },
+        {
+          "species": "raichu",
+          "physicalHeight": 0.8,
+          "scale": 0.7190210366561592,
+          "bodyWidth": 117.31890869140625,
+          "bodyHeight": 121.02996826171875,
+          "groundGap": 1.229949951171875,
+          "source": "/sprites/back/26.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "dondozo",
+      "format": "doubles",
+      "width": 1024,
+      "height": 768,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 137.5,
+          "bodyHeight": 165,
+          "groundGap": 1,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "gyarados",
+          "physicalHeight": 6.5,
+          "scale": 1.12,
+          "bodyWidth": 172.0184326171875,
+          "bodyHeight": 163.51560974121094,
+          "groundGap": 0.9100341796875,
+          "source": "/sprites/front/130.png"
+        },
+        {
+          "species": "dondozo",
+          "physicalHeight": 12,
+          "scale": 1.12,
+          "bodyWidth": 142.703125,
+          "bodyHeight": 81.75,
+          "groundGap": 1.140625,
+          "source": "/sprites/back/977.png"
+        },
+        {
+          "species": "raichu",
+          "physicalHeight": 0.8,
+          "scale": 0.7190210366561592,
+          "bodyWidth": 117.31884765625,
+          "bodyHeight": 121.02999877929688,
+          "groundGap": 1.0379638671875,
+          "source": "/sprites/back/26.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "dondozo",
+      "format": "doubles",
+      "width": 390,
+      "height": 844,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 76.65625,
+          "bodyHeight": 91.984375,
+          "groundGap": 0.6328125,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "gyarados",
+          "physicalHeight": 6.5,
+          "scale": 1.12,
+          "bodyWidth": 84.13595581054688,
+          "bodyHeight": 79.97344970703125,
+          "groundGap": 0.56951904296875,
+          "source": "/sprites/front/130.png"
+        },
+        {
+          "species": "dondozo",
+          "physicalHeight": 12,
+          "scale": 1.12,
+          "bodyWidth": 87.96875,
+          "bodyHeight": 50.390625,
+          "groundGap": 0.75,
+          "source": "/sprites/back/977.png"
+        },
+        {
+          "species": "raichu",
+          "physicalHeight": 0.8,
+          "scale": 0.7190210366561592,
+          "bodyWidth": 62.71875,
+          "bodyHeight": 64.70156860351562,
+          "groundGap": 0.67498779296875,
+          "source": "/sprites/back/26.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    },
+    {
+      "id": "dondozo",
+      "format": "doubles",
+      "width": 390,
+      "height": 667,
+      "actors": [
+        {
+          "species": "tyranitar",
+          "physicalHeight": 2,
+          "scale": 1,
+          "bodyWidth": 45.828125,
+          "bodyHeight": 54.984375,
+          "groundGap": 0.5,
+          "source": "/sprites/front/248.png"
+        },
+        {
+          "species": "gyarados",
+          "physicalHeight": 6.5,
+          "scale": 1.12,
+          "bodyWidth": 58.317169189453125,
+          "bodyHeight": 55.434356689453125,
+          "groundGap": 0.45001220703125,
+          "source": "/sprites/front/130.png"
+        },
+        {
+          "species": "dondozo",
+          "physicalHeight": 12,
+          "scale": 1.12,
+          "bodyWidth": 87.96875,
+          "bodyHeight": 50.390625,
+          "groundGap": 0.390625,
+          "source": "/sprites/back/977.png"
+        },
+        {
+          "species": "raichu",
+          "physicalHeight": 0.8,
+          "scale": 0.7190210366561592,
+          "bodyWidth": 40.767181396484375,
+          "bodyHeight": 42.060943603515625,
+          "groundGap": 0.3515625,
+          "source": "/sprites/back/26.png"
+        }
+      ],
+      "overlaps": [],
+      "overflow": 0
+    }
+  ],
+  "controls": {
+    "keyboard": true,
+    "musicAndHelp": true,
+    "prepareThenCast": true,
+    "emulatedGamepad": true,
+    "rematchClearsFaintPose": true
+  }
+}

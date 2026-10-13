@@ -1,0 +1,41 @@
+import { createServer } from 'vite';
+import { chromium } from 'playwright-core';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import assert from 'node:assert/strict';
+const executablePath=process.env.CHROME_PATH||['C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','/usr/bin/chromium','/usr/bin/google-chrome'].find(existsSync);
+const server=await createServer({base:'/arena/',server:{host:'127.0.0.1',port:5184,strictPort:true},logLevel:'error'});let browser;
+const png=readFileSync('public/sprites/front/6.png');
+const manifest={version:1,images:{'front/6':'/sprites/front/6.png','back/6':'/sprites/back/6.png','front/25':'/sprites/front/6.png','front/9':'/sprites/front/9.png','front/3':'/sprites/front/3.png'}};
+try{
+ await server.listen();browser=await chromium.launch({executablePath,headless:true,args:['--no-sandbox']});
+ const page=await browser.newPage({viewport:{width:1100,height:850}}),errors=[],requests=[];let repaired=false;
+ page.on('pageerror',error=>errors.push(error.message));page.on('request',request=>{if(request.url().includes('/sprites/'))requests.push({path:new URL(request.url()).pathname,type:request.resourceType()});});
+ await page.route('**/sprites/manifest.json',route=>route.fulfill({contentType:'application/json',body:JSON.stringify(manifest)}));
+ await page.route('**/sprites/back/6.png',route=>route.fulfill(repaired?{contentType:'image/png',body:readFileSync('public/sprites/back/6.png')}:{contentType:'text/html',body:'<!DOCTYPE html><title>SPA fallback for missing file</title>'}));
+ await page.route('**/sprites/front/9.png',route=>route.fulfill({status:404,contentType:'text/plain',body:'Local file missing'}));
+ await page.route('**/sprites/front/3.png',route=>route.fulfill({contentType:'image/png',body:png.subarray(0,24)}));
+ await page.goto('http://127.0.0.1:5184/arena/',{waitUntil:'networkidle'});
+ const diagnostic=()=>page.evaluate(async()=>{const sprites=await import('/arena/src/presentation/sprites.ts');await sprites.initializeSprites();return sprites.spriteDiagnosticReport();});
+ const first=await diagnostic();assert.equal(first.success,1);assert(first.issues.some(issue=>issue.httpStatus===404));
+ assert(first.issues.some(issue=>issue.httpStatus===200&&issue.contentType==='text/html'));
+ assert(first.issues.some(issue=>issue.key==='front/3'&&issue.reason.includes('디코딩')));
+ assert(first.issues.some(issue=>issue.reason.includes('일치')));
+ assert.equal(requests.filter(request=>request.path.endsWith('/front/6.png')&&request.type==='fetch').length,1,'Wrong Dex mapping must not issue a second validation request');
+ assert(requests.every(request=>request.path.startsWith('/arena/sprites/')));
+ await page.getByRole('button',{name:'더블 배틀',exact:true}).first().click();
+ const charizard=page.locator('.formation-player .scene-actor[data-species="charizard"] .sprite-art');
+ await charizard.waitFor();assert.equal(await charizard.getAttribute('data-sprite-facing'),'front');
+ await charizard.locator('.pokemon-sprite').dispatchEvent('error',{bubbles:false});await charizard.locator('.sprite-fallback').waitFor();
+ await page.evaluate(async()=>{const sprites=await import('/arena/src/presentation/sprites.ts');await sprites.initializeSprites(true);});
+ await charizard.locator('.pokemon-sprite').waitFor();assert.equal(await charizard.getAttribute('data-sprite-facing'),'front','A repaired identical URL must not retain a failed cursor');
+ assert.equal(await page.locator('.formation-player .scene-actor[data-species="raichu"] .sprite-fallback').count(),1);
+ await page.getByRole('button',{name:'나가기',exact:true}).click();await page.getByRole('button',{name:'설정',exact:true}).click();
+ repaired=true;await page.getByRole('button',{name:'이미지 다시 검사',exact:true}).click();
+ await page.getByText('검사 완료: 성공 2, 누락·실패 538 (540개 기준)',{exact:true}).waitFor();
+ // A bad cached blob must be validated on reload rather than marked ready by its key.
+ await page.evaluate(async()=>{await new Promise((resolve,reject)=>{const open=indexedDB.open('arena-user-sprites',1);open.onerror=()=>reject(open.error);open.onsuccess=()=>{const db=open.result,tx=db.transaction('images','readwrite');tx.objectStore('images').put(new Blob(['corrupt cached PNG']), 'back/26');tx.oncomplete=()=>{db.close();resolve();};tx.onerror=()=>reject(tx.error);};});});
+ await page.reload({waitUntil:'networkidle'});const restored=await diagnostic();assert.equal(restored.success,2);assert(restored.issues.some(issue=>issue.path==='IndexedDB'&&issue.key==='back/26'));
+ assert.deepEqual(errors,[]);mkdirSync('outputs',{recursive:true});
+ writeFileSync('outputs/sprite-error-tests.json',JSON.stringify({passed:true,subdirectory:'/arena/',cases:['404','200 HTML','truncated PNG actual decode','wrong Dex','back-to-front labeled fallback','explicit SVG fallback','same URL recovery after render error','retry after repaired image','corrupt IndexedDB reload'],browserErrors:errors,first,restored},null,2));
+ console.log('SPRITE_ERROR_TESTS_OK: 9 browser cases including same URL recovery, deployed subpath and corrupt cache.');
+}finally{await browser?.close();await server.close();}

@@ -1,0 +1,58 @@
+{
+  "generated": "2026-10-09T05:22:21.119Z",
+  "rules": "National Dex cross-generation union of supported moves; not official Champions legality",
+  "sources": [
+    {
+      "file": "abilities.csv",
+      "sha256": "74c3588ad48e08e54ff01f432899a4028c3e91508bbd53201df85e1f6b9e9ef3"
+    },
+    {
+      "file": "abilities.ts",
+      "sha256": "53d8558979e337c675907b76b5375185b28a0877f770d7456025b94535e1064d"
+    },
+    {
+      "file": "ability_names.csv",
+      "sha256": "8acb80c42210f86ae747dc3347b060d69cd2574a9dbfaf74774ae632ca6348da"
+    },
+    {
+      "file": "learnsets.ts",
+      "sha256": "26969c5e9ca7310b701612da8c9cea217b7d43efb8cd22a7e46783a6ca9b386e"
+    },
+    {
+      "file": "pokeapi-LICENSE",
+      "sha256": "1c04595dc662981c20956ae4251dfa7b62b475c345eddf98bc9b904cb2373f2c"
+    },
+    {
+      "file": "pokedex.ts",
+      "sha256": "73048386b864be5aff093e9393acf32e8016299e9d7b76078bf5120b769e2fe0"
+    },
+    {
+      "file": "pokemon_species_names.csv",
+      "sha256": "820cde17074cdb1c2b0595c997fb8f998e773bd5da3bb525dec85703c86c5fd9"
+    },
+    {
+      "file": "showdown-LICENSE",
+      "sha256": "b2002a9fd52ba8db3783a05fbdebfb09c34fd09513b90f6b390a2c0dfbc93ed0"
+    }
+  ],
+  "groups": {
+    "normal": "snorlax blissey chansey tauros kangaskhan eevee porygon2 porygonz slaking miltank",
+    "fire": "charizard arcanine ninetales typhlosion blaziken infernape emboar darmanitan chandelure magmortar",
+    "water": "blastoise gyarados milotic vaporeon feraligatr swampert empoleon samurott suicune starmie",
+    "electric": "pikachu raichu jolteon ampharos luxray electivire zebstrika galvantula eelektross raikou",
+    "grass": "venusaur meganium sceptile torterra serperior tangrowth leafeon roserade ludicolo ferrothorn",
+    "ice": "lapras dewgong cloyster jynx articuno glalie walrein mamoswine glaceon froslass",
+    "fighting": "lucario machamp primeape hitmonlee hitmonchan hitmontop hariyama medicham conkeldurr mienshao",
+    "poison": "nidoking nidoqueen crobat muk weezing tentacruel toxicroak drapion scolipede garbodor",
+    "ground": "excadrill sandslash dugtrio marowak donphan flygon hippowdon quagsire gliscor golurk",
+    "flying": "pidgeot fearow dodrio noctowl xatu honchkrow staraptor braviary mandibuzz archeops",
+    "psychic": "alakazam espeon slowbro slowking hypno mew reuniclus gothitelle musharna metagross",
+    "bug": "scizor butterfree beedrill pinsir heracross forretress shuckle yanmega leavanny volcarona",
+    "rock": "tyranitar golem rhydon rhyperior omastar kabutops aerodactyl aggron gigalith crustle",
+    "ghost": "gengar misdreavus mismagius banette dusclops dusknoir cofagrigus drifblim spiritomb sableye",
+    "dragon": "dragonite garchomp salamence haxorus hydreigon kingdra druddigon altaria latias latios",
+    "dark": "umbreon houndoom absol weavile bisharp krookodile scrafty zoroark sharpedo mightyena",
+    "steel": "steelix magnezone skarmory mawile bronzong registeel klinklang escavalier durant bastiodon",
+    "fairy": "gardevoir togekiss clefable clefairy wigglytuff granbull azumarill sylveon florges aromatisse"
+  }
+}

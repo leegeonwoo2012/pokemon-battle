@@ -1,0 +1,73 @@
+{
+  "flows": [
+    {
+      "kind": "mega",
+      "format": "singles",
+      "inputLock": true,
+      "spriteLoaded": true
+    },
+    {
+      "kind": "tera",
+      "format": "singles",
+      "inputLock": true,
+      "spriteLoaded": true,
+      "selectedType": "psychic",
+      "availableTypes": 19
+    },
+    {
+      "kind": "z",
+      "format": "singles",
+      "inputLock": true,
+      "spriteLoaded": true
+    },
+    {
+      "kind": "dynamax",
+      "format": "singles",
+      "inputLock": true,
+      "spriteLoaded": true
+    },
+    {
+      "kind": "mega",
+      "format": "doubles",
+      "sharedResource": true
+    },
+    {
+      "kind": "z",
+      "format": "doubles",
+      "sharedResource": true
+    },
+    {
+      "kind": "dynamax",
+      "format": "doubles",
+      "sharedResource": true
+    },
+    {
+      "kind": "tera",
+      "format": "doubles",
+      "sharedResource": true,
+      "mobile": true
+    },
+    {
+      "kind": "mega",
+      "form": "raichumegax",
+      "frontAndBackDecoded": true,
+      "battleBackLoaded": true
+    },
+    {
+      "kind": "mega",
+      "form": "raichumegay",
+      "frontAndBackDecoded": true,
+      "battleBackLoaded": true
+    }
+  ],
+  "errors": [],
+  "imageErrors": [],
+  "formImagesDecoded": 194,
+  "teraSelectionBeforeTurn": {
+    "button": "true",
+    "type": "psychic",
+    "pending": "리자몽: 화염방사 → 마기라스\n행동 취소\n행동 결정"
+  },
+  "maxThreeTurns": true,
+  "teamSaved": true
+}

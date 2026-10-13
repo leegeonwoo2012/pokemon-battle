@@ -1,0 +1,1 @@
+const fs=require('node:fs');const p='src/App.tsx';let s=fs.readFileSync(p,'utf8');s=s.replace("  const prompt = state.winner ? latestLog :", "  const prompt = animating && playbackEvent ? playbackEvent.text : state.winner ? latestLog :");fs.writeFileSync(p,s);

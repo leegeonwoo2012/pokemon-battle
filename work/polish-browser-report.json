@@ -1,0 +1,188 @@
+{
+  "passed": true,
+  "errors": [],
+  "imageErrors": [],
+  "layouts": [
+    {
+      "format": "singles",
+      "width": 1440,
+      "height": 900,
+      "overflow": 0,
+      "deck": {
+        "left": 1022,
+        "right": 1412,
+        "top": 401,
+        "bottom": 876
+      },
+      "message": {
+        "left": 32,
+        "right": 997,
+        "top": 780,
+        "bottom": 876
+      },
+      "moveCount": 4,
+      "spriteCount": 2,
+      "occlusions": []
+    },
+    {
+      "format": "singles",
+      "width": 1024,
+      "height": 768,
+      "overflow": 0,
+      "deck": {
+        "left": 674,
+        "right": 1004,
+        "top": 397,
+        "bottom": 744
+      },
+      "message": {
+        "left": 20,
+        "right": 646,
+        "top": 648,
+        "bottom": 744
+      },
+      "moveCount": 4,
+      "spriteCount": 2,
+      "occlusions": []
+    },
+    {
+      "format": "singles",
+      "width": 390,
+      "height": 844,
+      "overflow": 0,
+      "deck": {
+        "left": 8,
+        "right": 382,
+        "top": 591,
+        "bottom": 836
+      },
+      "message": {
+        "left": 8,
+        "right": 382,
+        "top": 503,
+        "bottom": 583
+      },
+      "moveCount": 4,
+      "spriteCount": 2,
+      "occlusions": []
+    },
+    {
+      "format": "singles",
+      "width": 360,
+      "height": 640,
+      "overflow": 0,
+      "deck": {
+        "left": 8,
+        "right": 352,
+        "top": 422,
+        "bottom": 632
+      },
+      "message": {
+        "left": 8,
+        "right": 352,
+        "top": 349,
+        "bottom": 414
+      },
+      "moveCount": 4,
+      "spriteCount": 2,
+      "occlusions": []
+    },
+    {
+      "format": "doubles",
+      "width": 1440,
+      "height": 900,
+      "overflow": 0,
+      "deck": {
+        "left": 1022,
+        "right": 1412,
+        "top": 394,
+        "bottom": 876
+      },
+      "message": {
+        "left": 32,
+        "right": 997,
+        "top": 780,
+        "bottom": 876
+      },
+      "moveCount": 4,
+      "spriteCount": 4,
+      "occlusions": []
+    },
+    {
+      "format": "doubles",
+      "width": 1024,
+      "height": 768,
+      "overflow": 0,
+      "deck": {
+        "left": 674,
+        "right": 1004,
+        "top": 390,
+        "bottom": 744
+      },
+      "message": {
+        "left": 32,
+        "right": 641,
+        "top": 648,
+        "bottom": 744
+      },
+      "moveCount": 4,
+      "spriteCount": 4,
+      "occlusions": []
+    },
+    {
+      "format": "doubles",
+      "width": 390,
+      "height": 844,
+      "overflow": 0,
+      "deck": {
+        "left": 8,
+        "right": 382,
+        "top": 591,
+        "bottom": 836
+      },
+      "message": {
+        "left": 8,
+        "right": 382,
+        "top": 503,
+        "bottom": 583
+      },
+      "moveCount": 4,
+      "spriteCount": 4,
+      "occlusions": []
+    },
+    {
+      "format": "doubles",
+      "width": 360,
+      "height": 640,
+      "overflow": 0,
+      "deck": {
+        "left": 8,
+        "right": 352,
+        "top": 422,
+        "bottom": 632
+      },
+      "message": {
+        "left": 8,
+        "right": 352,
+        "top": 349,
+        "bottom": 414
+      },
+      "moveCount": 4,
+      "spriteCount": 4,
+      "occlusions": []
+    }
+  ],
+  "checks": [
+    {
+      "hpFrame": {
+        "actual": 0,
+        "shown": 135,
+        "number": 135
+      },
+      "namedMovePersistsThroughDamage": true
+    },
+    "Knockout → chosen replacement; no attack or turn consumed",
+    "Skip commits the calculated result and removes temporary effects",
+    "Both doubles actions and direct sprite target selection"
+  ]
+}

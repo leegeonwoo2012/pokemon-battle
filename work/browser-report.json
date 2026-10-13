@@ -1,0 +1,20 @@
+{
+  "roster": 264,
+  "representativeTypes": 18,
+  "fireRepresentatives": 21,
+  "teamSize": 6,
+  "turnQueue": true,
+  "inputLock": true,
+  "physical": true,
+  "special": true,
+  "rankUp": true,
+  "protect": true,
+  "switchOutBeforeIn": true,
+  "doubles": true,
+  "mobile": true,
+  "browserErrors": [],
+  "missingSpriteRequests": [],
+  "actualBundledPokemonSprites": 528,
+  "missingPokemonSprites": 0,
+  "artworkStatus": "COMPLETE"
+}

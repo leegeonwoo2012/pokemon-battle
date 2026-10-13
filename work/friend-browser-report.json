@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "browserErrors": [],
+  "friendFrames": [
+    "false"
+  ],
+  "mobileFriendlyLobby": true,
+  "mobileFriendlyBattle": true,
+  "connectedWithPerspectiveNames": true,
+  "hostAndGuestShareTheSameResolvedTurn": true,
+  "hostTurn": " 호스트 VS 친구 · 친선전 · TURN 02",
+  "guestTurn": " 친구 VS 호스트 · 친선전 · TURN 02",
+  "browserReloadRestoresRoomAndPendingOpponentChoice": true,
+  "serverSkipSynchronizesBothPlayers": true,
+  "friendlyManualReplacementSyncedWithoutConsumingTurn": true
+}

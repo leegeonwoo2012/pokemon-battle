@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "productionBuild": true,
+  "verifiedFront": 270,
+  "verifiedBack": 270,
+  "singleRealSprites": 2,
+  "doubleRealSprites": 4,
+  "doubleExplicitFallback": 0,
+  "switchUpdatesBackSprite": true,
+  "statusPlateOverlap": false,
+  "mobile": true,
+  "browserErrors": []
+}

@@ -1,0 +1,87 @@
+import type { Move } from '../engine/types';
+import { typeNames } from '../data';
+
+export type MoveMotionFamily = 'strike' | 'charge' | 'flame' | 'water' | 'lightning' | 'leaf' | 'ice' | 'aura' | 'beam' | 'slash' | 'earth' | 'wind' | 'psychic' | 'shadow' | 'dragon' | 'sound' | 'poison' | 'fairy' | 'heal' | 'dance' | 'barrier' | 'powder';
+export interface MoveMotion { family: MoveMotionFamily; cue: string }
+
+const exact: Record<string, MoveMotion> = {
+  stealthrock:{family:'earth',cue:'상대 진영에 떠다니는 암석을 설치'},spikes:{family:'earth',cue:'상대 바닥에 날카로운 압정을 흩뿌림'},toxicspikes:{family:'poison',cue:'독성 압정을 상대 바닥에 설치'},stickyweb:{family:'leaf',cue:'끈적한 그물로 상대 진영을 덮음'},
+  reflect:{family:'barrier',cue:'물리 공격을 줄이는 장막 전개'},lightscreen:{family:'barrier',cue:'특수 공격을 줄이는 빛의 장막'},auroraveil:{family:'barrier',cue:'눈 속에 오로라 장막 전개'},trickroom:{family:'psychic',cue:'공간을 뒤틀어 행동 순서 역전'},tailwind:{family:'wind',cue:'아군을 감싸는 순풍을 일으킴'},
+  taunt:{family:'shadow',cue:'상대를 도발해 변화 기술 봉쇄'},encore:{family:'sound',cue:'박수로 마지막 기술의 반복 유도'},rapidspin:{family:'strike',cue:'빠르게 회전하며 설치물을 제거'},defog:{family:'wind',cue:'거센 바람으로 설치물과 장막 제거'},bulletseed:{family:'leaf',cue:'씨앗을 연속으로 발사'},iciclespear:{family:'ice',cue:'날카로운 고드름을 연속 발사'},
+  tackle: { family: 'strike', cue: '몸을 낮춰 돌진' }, quickattack: { family: 'charge', cue: '빛을 두르고 고속 돌진' }, return: { family: 'aura', cue: '신뢰의 빛을 폭발시킴' },
+  transform:{family:'aura',cue:'상대의 모습과 능력을 빛 속에서 복제'},
+  hypervoice: { family: 'sound', cue: '충격파를 연속 발사' }, flamethrower: { family: 'flame', cue: '불꽃을 길게 뿜어냄' }, fireblast: { family: 'flame', cue: '불꽃 문양을 폭발시킴' }, flareblitz: { family: 'charge', cue: '불꽃을 두르고 맹렬히 돌진' }, heatwave: { family: 'flame', cue: '뜨거운 바람을 넓게 방출' },
+  waterpulse: { family: 'water', cue: '물의 고리를 날림' }, surf: { family: 'water', cue: '큰 파도를 일으킴' }, hydropump: { family: 'water', cue: '물대포를 직선으로 발사' }, waterfall: { family: 'water', cue: '물살을 타고 돌진' },
+  thunderbolt: { family: 'lightning', cue: '전류를 모아 낙뢰를 꽂음' }, thunder: { family: 'lightning', cue: '하늘에서 번개를 내리침' }, spark: { family: 'lightning', cue: '전기를 두르고 몸통박치기' }, thunderwave: { family: 'lightning', cue: '전기 파동을 퍼뜨림' },
+  energyball: { family: 'leaf', cue: '생명의 에너지 구슬을 발사' }, leafstorm: { family: 'leaf', cue: '잎사귀 폭풍을 휘감음' }, gigadrain: { family: 'leaf', cue: '생명 에너지를 빨아들임' }, razorleaf: { family: 'leaf', cue: '날카로운 잎을 연속으로 날림' },
+  icebeam: { family: 'ice', cue: '얼음 광선을 발사' }, icywind: { family: 'ice', cue: '눈보라를 휘감아 보냄' },
+  closecombat: { family: 'strike', cue: '연속 격투 공격' }, aurasphere: { family: 'aura', cue: '파동의 구체를 발사' }, drainpunch: { family: 'strike', cue: '기운을 흡수하는 주먹 공격' },
+  sludgebomb: { family: 'poison', cue: '독성 폭탄을 던짐' }, earthquake: { family: 'earth', cue: '전장을 흔들어 지면을 갈라놓음' }, earthpower: { family: 'earth', cue: '지면에서 에너지를 솟구치게 함' },
+  airslash: { family: 'wind', cue: '공기를 날카롭게 베어냄' }, hurricane: { family: 'wind', cue: '거대한 회오리를 일으킴' }, psychic: { family: 'psychic', cue: '정신 에너지를 집중해 방출' },
+  xscissor: { family: 'slash', cue: '교차하는 두 번의 베기' }, bugbuzz: { family: 'sound', cue: '날개 진동의 충격파' }, rockslide: { family: 'earth', cue: '바위를 떨어뜨려 범위 공격' }, stoneedge: { family: 'earth', cue: '땅에서 바위 칼날을 솟게 함' },
+  shadowball: { family: 'shadow', cue: '어둠의 구체를 발사' }, shadowclaw: { family: 'slash', cue: '그림자 발톱으로 베어냄' }, dragonclaw: { family: 'slash', cue: '용의 발톱으로 크게 할퀴기' }, dragonpulse: { family: 'dragon', cue: '용의 파동을 직선 발사' },
+  darkpulse: { family: 'shadow', cue: '어둠의 파동을 퍼뜨림' }, crunch: { family: 'strike', cue: '강한 이빨로 물어뜯음' }, ironhead: { family: 'charge', cue: '강철 머리로 돌진' }, flashcannon: { family: 'beam', cue: '강철 빛의 광선을 발사' },
+  dazzlinggleam: { family: 'fairy', cue: '눈부신 빛을 넓게 폭발' }, moonblast: { family: 'fairy', cue: '달빛을 모아 폭발시킴' }, sleeppowder: { family: 'powder', cue: '잠들게 하는 가루를 흩뿌림' }, willowisp: { family: 'flame', cue: '푸른 도깨비불을 날림' },
+  swordsdance: { family: 'dance', cue: '칼춤으로 공격을 끌어올림' }, irondefense: { family: 'barrier', cue: '강철 방어막을 전개' }, calmmind: { family: 'psychic', cue: '마음을 가라앉혀 집중' }, dragondance: { family: 'dragon', cue: '용의 기운을 두르고 춤춤' }, recover: { family: 'heal', cue: '빛을 모아 HP를 회복' }, roost: { family: 'heal', cue: '날개를 접고 HP를 회복' }, protect: { family: 'barrier', cue: '보호막을 펼침' },
+  raindance: { family: 'water', cue: '비구름을 불러냄' }, sunnyday: { family: 'flame', cue: '햇살을 강하게 끌어올림' }, electricterrain: { family: 'lightning', cue: '전기 필드를 전개' }, grassyterrain: { family: 'leaf', cue: '풀밭 필드를 전개' }, mistyterrain: { family: 'fairy', cue: '안개 필드를 전개' }, psychicterrain: { family: 'psychic', cue: '사이코 필드를 전개' }, sandstorm: { family: 'earth', cue: '모래 폭풍을 일으킴' }, snowscape: { family: 'ice', cue: '눈을 내리게 함' }, confuseray: { family: 'shadow', cue: '어지러운 빛을 비춤' },
+  pyroball: { family:'flame', cue:'불타는 공을 차올려 폭발' }, overdrive: { family:'sound', cue:'전기 음파를 전장에 확산' }, drumbeating: { family:'leaf', cue:'북소리와 함께 뿌리를 날림' },
+  matchagotcha: { family:'leaf', cue:'회전하는 찻물을 퍼뜨림' }, flowertrick: { family:'fairy', cue:'꽃다발이 터지며 급소를 노림' }, glaciate: { family:'ice', cue:'냉기를 넓게 펼쳐 얼림' },
+  sandsearstorm: { family:'earth', cue:'뜨거운 모래 회오리를 소환' }, bleakwindstorm: { family:'wind', cue:'차가운 폭풍을 몰아침' }, springtidestorm: { family:'fairy', cue:'봄바람의 빛을 전장에 방출' },
+  armorcannon: { family:'beam', cue:'갑옷을 포신처럼 열어 화염 발사' }, accelerock: { family:'charge', cue:'암석처럼 빠르게 선제 돌진' }, makeitrain: { family:'beam', cue:'황금 동전을 전장에 비처럼 쏟음' },
+  bitterblade: { family:'slash', cue:'원념의 불꽃 칼날로 베기' }, clangingscales: { family:'sound', cue:'비늘을 울려 용의 충격파 발사' }, darkvoid: { family:'shadow', cue:'깊은 어둠의 구체를 전장에 펼침' },
+  populationbomb: { family:'strike', cue:'작은 포켓몬 무리가 차례로 달려들어 연속 공격' }, gigatonhammer: { family:'strike', cue:'거대한 강철 망치를 내려찍어 충격파 발생' }, saltcure: { family:'earth', cue:'날카로운 소금 결정이 상대를 감싸며 지속 피해' },
+  dragondarts: { family:'dragon', cue:'두 개의 용 화살을 날려 상대들을 차례로 공격' },
+  gravity:{family:'psychic',cue:'전장에 중력의 파동을 퍼뜨려 공중의 상대를 끌어내림'},
+  substitute:{family:'barrier',cue:'자신의 체력을 나누어 대신 공격받을 분신을 만듦'},
+  roar:{family:'sound',cue:'큰 울음소리로 상대를 밀어내 교체시킴'},
+  whirlwind:{family:'wind',cue:'강한 회오리바람으로 상대를 휩쓸어 교체시킴'},
+  fissure:{family:'earth',cue:'상대 발밑의 지면을 크게 갈라놓음'},
+  horndrill:{family:'charge',cue:'뿔을 회전시키며 상대에게 돌진'},
+  guillotine:{family:'slash',cue:'큰 집게를 모아 단번에 내려침'},
+  sheercold:{family:'ice',cue:'전장을 절대영도의 냉기로 뒤덮음'},
+  futuresight:{family:'psychic',cue:'미래에 닥칠 정신 에너지를 상대 위치에 예약'},
+  doomdesire:{family:'beam',cue:'미래에 떨어질 강철빛 광채를 하늘에 모음'},
+  terablast:{family:'beam',cue:'테라의 빛을 모아 거대한 광선을 발사'},
+  playrough:{family:'fairy',cue:'장난치듯 상대에게 달려들어 연속 공격'},
+  darkestlariat:{family:'shadow',cue:'몸을 회전시키며 어둠의 힘으로 돌진'},
+  moongeistbeam:{family:'shadow',cue:'달빛을 그림자 광선으로 압축해 발사'},
+  sparklingaria:{family:'water',cue:'노랫소리에 실린 물거품을 전장에 퍼뜨림'},
+  gigaimpact:{family:'charge',cue:'온몸의 힘을 모아 상대에게 거세게 충돌'},
+  torchsong:{family:'sound',cue:'불꽃의 노래를 울려 자신의 특수공격을 강화'},aquastep:{family:'water',cue:'물살을 밟고 돌진하며 속도를 끌어올림'},
+  kowtowcleave:{family:'slash',cue:'고개를 숙인 뒤 어둠의 칼날로 필중 베기'},headlongrush:{family:'earth',cue:'땅을 울리며 돌진하고 방어 태세를 무너뜨림'},
+  wavecrash:{family:'water',cue:'거대한 물결을 두르고 돌격'},woodhammer:{family:'leaf',cue:'무거운 나무 망치로 내려침'},bravebird:{family:'charge',cue:'푸른 기운을 두르고 하늘에서 급강하'},
+  dracometeor:{family:'dragon',cue:'하늘에서 용의 운석을 떨어뜨림'},overheat:{family:'flame',cue:'모든 열기를 방출하는 폭염'},superpower:{family:'strike',cue:'괴력을 실은 일격 뒤 힘이 빠짐'},
+  leafblade:{family:'slash',cue:'잎사귀 칼날로 상대를 날카롭게 벰'},powerwhip:{family:'leaf',cue:'굵은 덩굴채찍을 휘둘러 내리침'},megahorn:{family:'charge',cue:'큰 뿔을 앞세워 거세게 돌진'},
+  liquidation:{family:'water',cue:'압축한 물의 힘으로 상대를 강타'},boomburst:{family:'sound',cue:'전장 전체에 폭발적인 음파를 퍼뜨림'},
+  stoneaxe:{family:'earth',cue:'암석 도끼로 베고 상대 진영에 날카로운 돌 설치'},ceaselessedge:{family:'slash',cue:'검은 칼날로 베고 상대 진영에 압정 설치'},
+  triplearrows:{family:'wind',cue:'세 화살을 연속으로 날려 상대를 흔듦'},blizzard:{family:'ice',cue:'전장을 뒤덮는 눈보라를 소환'},focusblast:{family:'aura',cue:'격투 에너지를 구체로 압축해 발사'},
+  gunkshot:{family:'poison',cue:'진한 독성 덩어리를 던져 폭발'},poisonjab:{family:'poison',cue:'독을 머금은 날카로운 찌르기'},psychocut:{family:'slash',cue:'정신 에너지로 만든 칼날을 발사'},
+  nightslash:{family:'slash',cue:'어둠의 틈에서 급소를 노려 베기'},aerialace:{family:'wind',cue:'날개를 펼쳐 피할 수 없는 고속 베기'},
+  hyperbeam:{family:'beam',cue:'축적한 에너지를 거대한 광선으로 발사'},frenzyplant:{family:'leaf',cue:'굵은 뿌리들이 지면을 뚫고 솟구침'},blastburn:{family:'flame',cue:'전장 중심에서 거대한 불꽃을 폭발'},hydrocannon:{family:'water',cue:'초고압 물대포를 직선 발사'},
+  irontail:{family:'slash',cue:'강철로 단단해진 꼬리를 휘두름'},headsmash:{family:'charge',cue:'바위를 깨부수는 머리 돌진'},volttackle:{family:'lightning',cue:'전기를 두르고 상대를 향해 돌진'},
+  doubleedge:{family:'charge',cue:'반동을 감수하고 온몸으로 충돌'},crabhammer:{family:'strike',cue:'집게를 높이 들어 급소를 향해 내려침'},crosschop:{family:'strike',cue:'두 팔을 교차해 급소를 노리는 격투'},
+  sludgewave:{family:'poison',cue:'전장에 독성 파도를 퍼뜨림'},scald:{family:'water',cue:'뜨거운 물을 뿜어 화상을 노림'},highhorsepower:{family:'earth',cue:'발굽으로 땅을 박차며 강하게 돌진'},seedbomb:{family:'leaf',cue:'단단한 씨앗 폭탄을 날려 터뜨림'},
+  meteorassault:{family:'charge',cue:'창처럼 몸을 날려 충돌한 뒤 숨을 고름'},rockwrecker:{family:'earth',cue:'거대한 암석포를 쏘아 올린 뒤 숨을 고름'},twinbeam:{family:'psychic',cue:'두 갈래 초능력 광선이 연속 적중'},
+  psyshieldbash:{family:'psychic',cue:'사이코 방패를 두르고 돌진하며 방어 강화'},bonerush:{family:'earth',cue:'뼈를 빠르게 여러 차례 휘둘러 공격'},nightdaze:{family:'shadow',cue:'어둠의 파동이 시야를 가리며 폭발'},
+  bittermalice:{family:'shadow',cue:'원념의 냉기를 던져 공격력을 낮춤'},fierydance:{family:'dance',cue:'불꽃 춤을 추며 특수공격 상승을 노림'},watershuriken:{family:'water',cue:'물로 만든 수리검을 연속 발사'},
+  lightofruin:{family:'fairy',cue:'강렬한 빛을 폭발시키고 반동을 받음'},mountaingale:{family:'ice',cue:'산을 휩쓰는 냉풍으로 상대를 흔듦'},firelash:{family:'flame',cue:'불꽃 채찍으로 베어 방어를 낮춤'},
+  tropkick:{family:'leaf',cue:'풀의 기운을 실은 발차기로 공격을 낮춤'},snipeshot:{family:'water',cue:'한 점을 노린 고압 물줄기 발사'},gravapple:{family:'leaf',cue:'사과의 중력으로 상대 방어를 무너뜨림'},
+  appleacid:{family:'leaf',cue:'신 사과액을 뿌려 특수방어를 낮춤'},shiftgear:{family:'dance',cue:'기어를 고속 회전시켜 힘과 속도를 강화'},spiritbreak:{family:'fairy',cue:'요정의 힘으로 정신력을 꺾는 일격'},
+  luminacrash:{family:'psychic',cue:'눈부신 정신 에너지로 특수방어를 크게 낮춤'},jetpunch:{family:'water',cue:'물을 두른 주먹으로 선제 공격'},mortalspin:{family:'poison',cue:'독의 소용돌이로 공격하며 바닥의 설치물을 치움'},
+  counter:{family:'strike',cue:'받은 물리 공격의 힘을 되돌려줌'},mirrorcoat:{family:'psychic',cue:'받은 특수 공격을 빛의 장막으로 반사'},endeavor:{family:'strike',cue:'끝까지 버티며 상대의 체력을 자신과 맞춤'},
+  electroshot:{family:'lightning',cue:'전기를 모아 강한 광선을 발사'},voltswitch:{family:'lightning',cue:'전격을 날리고 아군과 교체'},lastrespects:{family:'shadow',cue:'쓰러진 동료들의 힘을 모아 공격'},
+  rest:{family:'heal',cue:'깊이 잠들어 체력을 모두 회복'},yawn:{family:'aura',cue:'큰 하품으로 상대를 졸리게 함'},aquaring:{family:'water',cue:'회복하는 물의 고리를 몸에 두름'},
+  attract:{family:'fairy',cue:'상대의 마음을 흔들어 헤롱헤롱하게 함'},entrainment:{family:'dance',cue:'리듬을 맞춰 상대의 특성을 바꿈'},steelbeam:{family:'beam',cue:'체력을 깎아 강력한 강철 광선을 발사'},
+  waterspout:{family:'water',cue:'남은 체력을 실어 거대한 물기둥을 솟구침'},eruption:{family:'flame',cue:'남은 체력을 실어 화산처럼 분출'},outrage:{family:'dragon',cue:'분노의 용 기운으로 연속 난동'},scaleshot:{family:'dragon',cue:'날카로운 비늘을 여러 차례 발사'},
+};
+
+const typeFallback: Record<string, MoveMotionFamily> = { fire: 'flame', water: 'water', electric: 'lightning', grass: 'leaf', ice: 'ice', fighting: 'strike', poison: 'poison', ground: 'earth', flying: 'wind', psychic: 'psychic', bug: 'leaf', rock: 'earth', ghost: 'shadow', dragon: 'dragon', dark: 'shadow', steel: 'beam', fairy: 'fairy', normal: 'aura' };
+
+export function moveMotion(move: Pick<Move, 'id' | 'type' | 'category'>): MoveMotion {
+  return exact[move.id] ?? {
+    family: move.category === 'status' ? 'aura' : typeFallback[move.type] ?? 'aura',
+    cue: move.category === 'status' ? `${typeNames[move.type]??'특수'} 기운을 모아 효과를 펼침` : `${typeNames[move.type]??'특수'} 에너지를 실어 공격`,
+  };
+}
+
+export function hasDedicatedMoveMotion(moveId: string): boolean { return moveId in exact; }

@@ -1,0 +1,1 @@
+const fs=require('node:fs');const file='scripts/browser-assets.mjs';let s=fs.readFileSync(file,'utf8').replaceAll("dispatchEvent('error')","dispatchEvent('error',{bubbles:false})");fs.writeFileSync(file,s);let p=JSON.parse(fs.readFileSync('package.json'));p.scripts['test:assets']='node scripts/browser-assets.mjs';fs.writeFileSync('package.json',JSON.stringify(p,null,2)+'\n');

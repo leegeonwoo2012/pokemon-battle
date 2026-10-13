@@ -1,0 +1,196 @@
+
+> arena-champions@0.1.0 test
+> vitest run --run src/engine/gimmicks.test.ts src/engine/advanced-rules.test.ts src/engine/expansion.test.ts --reporter=dot --isolate=false
+
+
+ RUN  v5.0.3 C:/Users/user/Documents/Codex/2026-10-09/pok-mon-champions-1-pok-mon
+
+··········································x···························································xx·······························x··x·x··x····xxx·····x···xxxx··x······
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 16 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form alakazammega applies stats, type and ability
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form meowsticmmega applies stats, type and ability
+ FAIL  src/engine/gimmicks.test.ts > Mega and Tera rules > verified Mega form meowsticfmega applies stats, type and ability
+AssertionError: expected 'naturalcure' to be 'trace' // Object.is equality
+
+Expected: "trace"
+Received: "naturalcure"
+
+ ❯ src/engine/gimmicks.test.ts:88:87
+     86|     const state=battle([set(form.speciesId,{itemId:form.stoneId})]);co…
+     87|     expect(activateGimmick(state,'player',0,'mega',p.set.moves[0])).to…
+     88|     expect(p.hp).toBe(hp);expect(p.types).toEqual(form.types);expect(p…
+       |                                                                                       ^
+     89|     expect(p.speciesName).toBe(form.name);expect(p.stats.hp).toBe(p.ma…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax meowth exposes only the correct signature
+Error: 알 수 없는 포켓몬: meowth
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax kingler exposes only the correct signature
+Error: 알 수 없는 포켓몬: kingler
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax eevee exposes only the correct signature
+Error: 알 수 없는 포켓몬: eevee
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax melmetal exposes only the correct signature
+Error: 알 수 없는 포켓몬: melmetal
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax orbeetle exposes only the correct signature
+Error: 알 수 없는 포켓몬: orbeetle
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax drednaw exposes only the correct signature
+Error: 알 수 없는 포켓몬: drednaw
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax coalossal exposes only the correct signature
+Error: 알 수 없는 포켓몬: coalossal
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax centiskorch exposes only the correct signature
+Error: 알 수 없는 포켓몬: centiskorch
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax copperajah exposes only the correct signature
+Error: 알 수 없는 포켓몬: copperajah
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax duraludon exposes only the correct signature
+Error: 알 수 없는 포켓몬: duraludon
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax urshifu exposes only the correct signature
+Error: 알 수 없는 포켓몬: urshifu
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax urshifurapidstrike exposes only the correct signature
+Error: 알 수 없는 포켓몬: urshifurapidstrike
+ ❯ createSet src/team/index.ts:23:21
+
+ ❯ set src/engine/gimmicks.test.ts:14:63
+ ❯ src/engine/gimmicks.test.ts:186:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/16]⎯
+
+ FAIL  src/engine/gimmicks.test.ts > Z and Max moves > Gmax residual damages eligible enemies for four end turns and keeps the final-form signature set supported
+AssertionError: expected [ 'alcremie', 'appletun', …(32) ] to deeply equal [ 'blastoise', 'butterfree', …(13) ]
+
+- Expected
++ Received
+
+  [
++   "alcremie",
++   "appletun",
+    "blastoise",
+    "butterfree",
++   "centiskorch",
+    "charizard",
+    "cinderace",
++   "coalossal",
++   "copperajah",
+    "corviknight",
++   "drednaw",
++   "duraludon",
++   "eevee",
++   "flapple",
+    "garbodor",
+    "gengar",
+    "grimmsnarl",
+    "hatterene",
++   "inteleon",
++   "kingler",
+    "lapras",
+    "machamp",
++   "melmetal",
++   "meowth",
++   "orbeetle",
++   "pikachu",
+    "rillaboom",
++   "sandaconda",
+    "snorlax",
+    "toxtricity",
++   "toxtricitylowkey",
++   "urshifu",
++   "urshifurapidstrike",
+    "venusaur",
+  ]
+
+ ❯ src/engine/gimmicks.test.ts:212:43
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/16]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  16 failed | 157 passed (173)
+   Start at  12:29:44
+   Duration  3.90s (transform 66%, tests 21%, import 11%, worker 1%)
+
+npm notice
+npm notice New major version of npm available! 11.19.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -1,0 +1,47 @@
+import { preview } from 'vite';
+import { chromium } from 'playwright-core';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import assert from 'node:assert/strict';
+const executablePath=process.env.CHROME_PATH||['C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','/usr/bin/chromium','/usr/bin/google-chrome'].find(existsSync);
+const server=await preview({preview:{host:'127.0.0.1',port:5185,strictPort:true},logLevel:'error'});let browser;
+try{
+ browser=await chromium.launch({executablePath,headless:true,args:['--no-sandbox']});
+ const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
+ page.on('pageerror',error=>errors.push(error.message));
+ await page.addInitScript(()=>localStorage.setItem('arena-reduced-motion','true'));
+ await page.goto('http://127.0.0.1:5185/',{waitUntil:'networkidle'});
+ await page.getByRole('button',{name:'설정',exact:true}).click();
+ await page.getByText('디코딩 확인: 정면 270/270종 · 후면 270/270종',{exact:true}).waitFor();
+ // Use the real team editor and engine. Both player slots have actual local back sprites.
+ await page.getByRole('button',{name:'팀 편성',exact:true}).click();
+ await page.locator('.team-slot').first().click();await page.getByTitle('팀에서 제외').click();
+ await page.locator('.team-slot').nth(1).click();await page.getByTitle('팀에서 제외').click();
+ await page.getByRole('button',{name:'팀 저장',exact:true}).click();
+ await page.getByRole('button',{name:'싱글 출전',exact:true}).click();
+ const charizard=page.locator('.formation-player .scene-actor[data-species="charizard"] .pokemon-sprite');
+ await charizard.waitFor();assert.equal(await charizard.getAttribute('src'),'/sprites/back/6.png');
+ await page.waitForFunction(()=>[...document.querySelectorAll('.scene-actor .pokemon-sprite')].every(image=>image.complete&&image.naturalWidth>0));
+ assert.equal(await page.locator('.scene-actor .pokemon-sprite').count(),2);
+ mkdirSync('outputs',{recursive:true});await page.screenshot({path:'outputs/sprite-battle-single.png',fullPage:true});
+ await page.getByRole('button',{name:'포켓몬',exact:true}).click();await page.locator('.party-actions').getByRole('button',{name:/이상해꽃/}).click();
+ await page.getByRole('button',{name:'행동 결정',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('.battle-scene')?.getAttribute('aria-busy')==='false'&&document.querySelector('.scene-mode')?.textContent?.includes('TURN 02'));
+ const switchedSpecies=await page.locator('.formation-player .scene-actor').getAttribute('data-species');
+ assert.equal(switchedSpecies,'venusaur',`Actual switched Pokémon: ${switchedSpecies}`);
+ assert.equal(await page.locator('.formation-player .pokemon-sprite').getAttribute('src'),'/sprites/back/3.png');
+ await page.getByRole('button',{name:'나가기',exact:true}).click();await page.getByRole('button',{name:'더블 배틀',exact:true}).first().click();
+ await page.waitForFunction(()=>[...document.querySelectorAll('.scene-actor img')].every(image=>image.complete&&image.naturalWidth>0));
+ assert.equal(await page.locator('.formation-player .pokemon-sprite').count(),2);
+ assert.equal(await page.locator('.formation-player .scene-actor[data-species="charizard"] .sprite-art').getAttribute('data-sprite-facing'),'back');
+ assert.equal(await page.locator('.formation-player .scene-actor[data-species="venusaur"] .sprite-art').getAttribute('data-sprite-facing'),'back');
+ const overlap=await page.evaluate(()=>{const pictures=[...document.querySelectorAll('.formation-player .sprite-art')].map(node=>node.getBoundingClientRect());const plates=[...document.querySelectorAll('.status-stack-foe .battle-status-plate')].map(node=>node.getBoundingClientRect());return pictures.some(a=>plates.some(b=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top));});
+ assert.equal(overlap,false,'Player back sprites must clear the opposing status plates');
+ assert.equal(await page.locator('.scene-actor .pokemon-sprite').count(),4);
+ assert.equal(await page.locator('.scene-actor .sprite-fallback').count(),0);
+ await page.screenshot({path:'outputs/sprite-battle-double.png',fullPage:true});
+ await page.setViewportSize({width:390,height:844});assert((await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth))<=1);
+ await page.screenshot({path:'outputs/sprite-battle-mobile.png',fullPage:true});
+ assert.deepEqual(errors,[]);
+ writeFileSync('outputs/sprite-scene-tests.json',JSON.stringify({passed:true,productionBuild:true,verifiedFront:270,verifiedBack:270,singleRealSprites:2,doubleRealSprites:4,doubleExplicitFallback:0,switchUpdatesBackSprite:true,statusPlateOverlap:false,mobile:true,browserErrors:errors},null,2));
+ console.log('SPRITE_SCENES_OK: production assets, actual front/back battle display, switching, doubles and mobile.');
+}finally{await browser?.close();await new Promise(resolve=>server.httpServer.close(resolve));}

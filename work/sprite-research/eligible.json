@@ -1,0 +1,652 @@
+[
+  {
+    "id": "eevee",
+    "dex": 133,
+    "name": "이브이",
+    "path": "0133/0002",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!356635814668664832>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "charizard",
+    "dex": 6,
+    "name": "리자몽",
+    "path": "0006/0005",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!653416391201783856>",
+      "secondary": [
+        "<@!544245909639397378>"
+      ],
+      "total": 2
+    }
+  },
+  {
+    "id": "ninetales",
+    "dex": 38,
+    "name": "나인테일",
+    "path": "0038/0004",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "blaziken",
+    "dex": 257,
+    "name": "번치코",
+    "path": "0257/0002",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!157796074457661440>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "emboar",
+    "dex": 500,
+    "name": "염무왕",
+    "path": "0500",
+    "sourceName": "Emboar",
+    "credit": {
+      "primary": "<@!319945906600411179>",
+      "secondary": [
+        "<@!237286997645983744>"
+      ],
+      "total": 2
+    }
+  },
+  {
+    "id": "darmanitan",
+    "dex": 555,
+    "name": "불비달마",
+    "path": "0555",
+    "sourceName": "Darmanitan",
+    "credit": {
+      "primary": "<@!229131140903075840>",
+      "secondary": [
+        "<@!653416391201783856>"
+      ],
+      "total": 2
+    }
+  },
+  {
+    "id": "chandelure",
+    "dex": 609,
+    "name": "샹델라",
+    "path": "0609",
+    "sourceName": "Chandelure",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "milotic",
+    "dex": 350,
+    "name": "밀로틱",
+    "path": "0350/0001",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!356635814668664832>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "samurott",
+    "dex": 503,
+    "name": "대검귀",
+    "path": "0503",
+    "sourceName": "Samurott",
+    "credit": {
+      "primary": "<@!276369635304275968>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "galvantula",
+    "dex": 596,
+    "name": "전툴라",
+    "path": "0596",
+    "sourceName": "Galvantula",
+    "credit": {
+      "primary": "<@!702275233125630042>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "eelektross",
+    "dex": 604,
+    "name": "저리더프",
+    "path": "0604",
+    "sourceName": "Eelektross",
+    "credit": {
+      "primary": "<@!229131140903075840>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "venusaur",
+    "dex": 3,
+    "name": "이상해꽃",
+    "path": "0003/0003",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!861005464682889266>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "serperior",
+    "dex": 497,
+    "name": "샤로다",
+    "path": "0497",
+    "sourceName": "Serperior",
+    "credit": {
+      "primary": "<@!319945906600411179>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "ferrothorn",
+    "dex": 598,
+    "name": "너트령",
+    "path": "0598",
+    "sourceName": "Ferrothorn",
+    "credit": {
+      "primary": "<@!276369635304275968>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "lapras",
+    "dex": 131,
+    "name": "라프라스",
+    "path": "0131/0002",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!1038631037284126741>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "jynx",
+    "dex": 124,
+    "name": "루주라",
+    "path": "0124/0001",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!861005464682889266>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "articuno",
+    "dex": 144,
+    "name": "프리져",
+    "path": "0144/0003",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!1038631037284126741>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "walrein",
+    "dex": 365,
+    "name": "씨카이저",
+    "path": "0365/0002",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!356635814668664832>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "lucario",
+    "dex": 448,
+    "name": "루카리오",
+    "path": "0448/0003",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!356635814668664832>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "conkeldurr",
+    "dex": 534,
+    "name": "노보청",
+    "path": "0534",
+    "sourceName": "Conkeldurr",
+    "credit": {
+      "primary": "<@!656696412087648257>",
+      "secondary": [
+        "<@!229131140903075840>"
+      ],
+      "total": 2
+    }
+  },
+  {
+    "id": "mienshao",
+    "dex": 620,
+    "name": "비조도",
+    "path": "0620",
+    "sourceName": "Mienshao",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "nidoqueen",
+    "dex": 31,
+    "name": "니드퀸",
+    "path": "0031/0001",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!356635814668664832>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "scolipede",
+    "dex": 545,
+    "name": "펜드라",
+    "path": "0545",
+    "sourceName": "Scolipede",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "garbodor",
+    "dex": 569,
+    "name": "더스트나",
+    "path": "0569",
+    "sourceName": "Garbodor",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "excadrill",
+    "dex": 530,
+    "name": "몰드류",
+    "path": "0530",
+    "sourceName": "Excadrill",
+    "credit": {
+      "primary": "<@!229131140903075840>",
+      "secondary": [
+        "<@!546904324098490368>"
+      ],
+      "total": 2
+    }
+  },
+  {
+    "id": "golurk",
+    "dex": 623,
+    "name": "골루그",
+    "path": "0623",
+    "sourceName": "Golurk",
+    "credit": {
+      "primary": "<@!229131140903075840>",
+      "secondary": [
+        "<@!544245909639397378>"
+      ],
+      "total": 2
+    }
+  },
+  {
+    "id": "braviary",
+    "dex": 628,
+    "name": "워글",
+    "path": "0628",
+    "sourceName": "Braviary",
+    "credit": {
+      "primary": "<@!330751862590406656>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "mandibuzz",
+    "dex": 630,
+    "name": "버랜지나",
+    "path": "0630",
+    "sourceName": "Mandibuzz",
+    "credit": {
+      "primary": "POWERCRISTAL",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "archeops",
+    "dex": 567,
+    "name": "아케오스",
+    "path": "0567",
+    "sourceName": "Archeops",
+    "credit": {
+      "primary": "<@!276369635304275968>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "slowbro",
+    "dex": 80,
+    "name": "야도란",
+    "path": "0080/0003",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!356635814668664832>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "mew",
+    "dex": 151,
+    "name": "뮤",
+    "path": "0151/0001",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!861005464682889266>",
+      "secondary": [
+        "<@!1519393734008115314>"
+      ],
+      "total": 2
+    }
+  },
+  {
+    "id": "reuniclus",
+    "dex": 579,
+    "name": "란쿨루스",
+    "path": "0579",
+    "sourceName": "Reuniclus",
+    "credit": {
+      "primary": "<@!356635814668664832>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "gothitelle",
+    "dex": 576,
+    "name": "고디모아젤",
+    "path": "0576",
+    "sourceName": "Gothitelle",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "musharna",
+    "dex": 518,
+    "name": "몽얌나",
+    "path": "0518",
+    "sourceName": "Musharna",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "leavanny",
+    "dex": 542,
+    "name": "모아머",
+    "path": "0542",
+    "sourceName": "Leavanny",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [
+        "<@!350050109741858829>"
+      ],
+      "total": 2
+    }
+  },
+  {
+    "id": "volcarona",
+    "dex": 637,
+    "name": "불카모스",
+    "path": "0637",
+    "sourceName": "Volcarona",
+    "credit": {
+      "primary": "<@!608107243329814529>",
+      "secondary": [
+        "POWERCRISTAL",
+        "<@!229131140903075840>"
+      ],
+      "total": 3
+    }
+  },
+  {
+    "id": "tyranitar",
+    "dex": 248,
+    "name": "마기라스",
+    "path": "0248/0003",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!229131140903075840>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "gigalith",
+    "dex": 526,
+    "name": "기가이어스",
+    "path": "0526",
+    "sourceName": "Gigalith",
+    "credit": {
+      "primary": "<@!229131140903075840>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "cofagrigus",
+    "dex": 563,
+    "name": "데스니칸",
+    "path": "0563",
+    "sourceName": "Cofagrigus",
+    "credit": {
+      "primary": "<@!872983950732165181>",
+      "secondary": [
+        "<@!544245909639397378>"
+      ],
+      "total": 2
+    }
+  },
+  {
+    "id": "haxorus",
+    "dex": 612,
+    "name": "액스라이즈",
+    "path": "0612",
+    "sourceName": "Haxorus",
+    "credit": {
+      "primary": "<@!872983950732165181>",
+      "secondary": [
+        "<@!544245909639397378>",
+        "<@!157796074457661440>"
+      ],
+      "total": 3
+    }
+  },
+  {
+    "id": "hydreigon",
+    "dex": 635,
+    "name": "삼삼드래",
+    "path": "0635",
+    "sourceName": "Hydreigon",
+    "credit": {
+      "primary": "<@!276369635304275968>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "druddigon",
+    "dex": 621,
+    "name": "크리만",
+    "path": "0621",
+    "sourceName": "Druddigon",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "absol",
+    "dex": 359,
+    "name": "앱솔",
+    "path": "0359/0004",
+    "sourceName": "Alternate",
+    "credit": {
+      "primary": "<@!157796074457661440>",
+      "secondary": [
+        "<@!276369635304275968>"
+      ],
+      "total": 2
+    }
+  },
+  {
+    "id": "bisharp",
+    "dex": 625,
+    "name": "절각참",
+    "path": "0625",
+    "sourceName": "Bisharp",
+    "credit": {
+      "primary": "<@!356635814668664832>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "krookodile",
+    "dex": 553,
+    "name": "악비아르",
+    "path": "0553",
+    "sourceName": "Krookodile",
+    "credit": {
+      "primary": "<@!229131140903075840>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "scrafty",
+    "dex": 560,
+    "name": "곤율거니",
+    "path": "0560",
+    "sourceName": "Scrafty",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "zoroark",
+    "dex": 571,
+    "name": "조로아크",
+    "path": "0571",
+    "sourceName": "Zoroark",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "klinklang",
+    "dex": 601,
+    "name": "기기기어르",
+    "path": "0601",
+    "sourceName": "Klinklang",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "escavalier",
+    "dex": 589,
+    "name": "슈바르고",
+    "path": "0589",
+    "sourceName": "Escavalier",
+    "credit": {
+      "primary": "<@!702275233125630042>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "durant",
+    "dex": 632,
+    "name": "아이앤트",
+    "path": "0632",
+    "sourceName": "Durant",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "sylveon",
+    "dex": 700,
+    "name": "님피아",
+    "path": "0700",
+    "sourceName": "Sylveon",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  },
+  {
+    "id": "florges",
+    "dex": 671,
+    "name": "플라제스",
+    "path": "0671",
+    "sourceName": "Florges",
+    "credit": {
+      "primary": "<@!544245909639397378>",
+      "secondary": [],
+      "total": 1
+    }
+  }
+]

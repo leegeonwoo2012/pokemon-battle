@@ -1,0 +1,333 @@
+{
+  "checkedAt": "2026-10-09T06:32:42.239Z",
+  "phase": "supplementPilot5",
+  "uniqueIds": 180,
+  "uniqueNationalDex": 180,
+  "expected": 10,
+  "success": 10,
+  "failed": 0,
+  "frontSuccess": 5,
+  "backSuccess": 5,
+  "remoteSuccess": 0,
+  "remoteFailed": 0,
+  "browserErrors": [],
+  "runtimeSummary": {
+    "success": 114,
+    "failed": 246,
+    "issues": []
+  },
+  "checks": [
+    {
+      "speciesId": "blastoise",
+      "name": "거북왕",
+      "nationalDex": 9,
+      "facing": "back",
+      "path": "public/sprites/back/9.png",
+      "fileExists": true,
+      "http": {
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 952,
+        "magic": [
+          137,
+          80,
+          78,
+          71,
+          13,
+          10,
+          26,
+          10
+        ],
+        "decoded": true,
+        "width": 96,
+        "height": 96,
+        "sha256": "65d7dbb10e578745000e1dcb57a5fec097a28318b3e6417eb669c0c9bf507aa5"
+      },
+      "identityVerified": true,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/9.png",
+      "success": true,
+      "failure": null
+    },
+    {
+      "speciesId": "blastoise",
+      "name": "거북왕",
+      "nationalDex": 9,
+      "facing": "front",
+      "path": "public/sprites/front/9.png",
+      "fileExists": true,
+      "http": {
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 1170,
+        "magic": [
+          137,
+          80,
+          78,
+          71,
+          13,
+          10,
+          26,
+          10
+        ],
+        "decoded": true,
+        "width": 96,
+        "height": 96,
+        "sha256": "440579ff6026385631d7fe17377e5e58da3f0088531afffb527fbb8c3936dc34"
+      },
+      "identityVerified": true,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/9.png",
+      "success": true,
+      "failure": null
+    },
+    {
+      "speciesId": "pikachu",
+      "name": "피카츄",
+      "nationalDex": 25,
+      "facing": "back",
+      "path": "public/sprites/back/25.png",
+      "fileExists": true,
+      "http": {
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 522,
+        "magic": [
+          137,
+          80,
+          78,
+          71,
+          13,
+          10,
+          26,
+          10
+        ],
+        "decoded": true,
+        "width": 96,
+        "height": 96,
+        "sha256": "a3a1bfcbdbcbf7a37619be62dd369f88785f9b601fa92816325cda036fc1d958"
+      },
+      "identityVerified": true,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/25.png",
+      "success": true,
+      "failure": null
+    },
+    {
+      "speciesId": "pikachu",
+      "name": "피카츄",
+      "nationalDex": 25,
+      "facing": "front",
+      "path": "public/sprites/front/25.png",
+      "fileExists": true,
+      "http": {
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 597,
+        "magic": [
+          137,
+          80,
+          78,
+          71,
+          13,
+          10,
+          26,
+          10
+        ],
+        "decoded": true,
+        "width": 96,
+        "height": 96,
+        "sha256": "80d30eb1b9f2a05eb4a216d53034e2a0bb16f2619ec43d281f36d601e5819c2c"
+      },
+      "identityVerified": true,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/25.png",
+      "success": true,
+      "failure": null
+    },
+    {
+      "speciesId": "gengar",
+      "name": "팬텀",
+      "nationalDex": 94,
+      "facing": "back",
+      "path": "public/sprites/back/94.png",
+      "fileExists": true,
+      "http": {
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 619,
+        "magic": [
+          137,
+          80,
+          78,
+          71,
+          13,
+          10,
+          26,
+          10
+        ],
+        "decoded": true,
+        "width": 96,
+        "height": 96,
+        "sha256": "2dd8674ca48628221a7c6da8c674a7fef2ebf3afa0ce690b53fc5876ac350ef2"
+      },
+      "identityVerified": true,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/94.png",
+      "success": true,
+      "failure": null
+    },
+    {
+      "speciesId": "gengar",
+      "name": "팬텀",
+      "nationalDex": 94,
+      "facing": "front",
+      "path": "public/sprites/front/94.png",
+      "fileExists": true,
+      "http": {
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 802,
+        "magic": [
+          137,
+          80,
+          78,
+          71,
+          13,
+          10,
+          26,
+          10
+        ],
+        "decoded": true,
+        "width": 96,
+        "height": 96,
+        "sha256": "00ad4a589f9fc1a88f77dcd512477e2e124ec4030b01d8e786700fad14d38ead"
+      },
+      "identityVerified": true,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/94.png",
+      "success": true,
+      "failure": null
+    },
+    {
+      "speciesId": "garchomp",
+      "name": "한카리아스",
+      "nationalDex": 445,
+      "facing": "back",
+      "path": "public/sprites/back/445.png",
+      "fileExists": true,
+      "http": {
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 1002,
+        "magic": [
+          137,
+          80,
+          78,
+          71,
+          13,
+          10,
+          26,
+          10
+        ],
+        "decoded": true,
+        "width": 96,
+        "height": 96,
+        "sha256": "7f11260aca963d80858ea820d9aedae74e313bb0b645b9a36e62dc4efc135a74"
+      },
+      "identityVerified": true,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/445.png",
+      "success": true,
+      "failure": null
+    },
+    {
+      "speciesId": "garchomp",
+      "name": "한카리아스",
+      "nationalDex": 445,
+      "facing": "front",
+      "path": "public/sprites/front/445.png",
+      "fileExists": true,
+      "http": {
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 1261,
+        "magic": [
+          137,
+          80,
+          78,
+          71,
+          13,
+          10,
+          26,
+          10
+        ],
+        "decoded": true,
+        "width": 96,
+        "height": 96,
+        "sha256": "9d27f8854985481789606da367120fd62949f6637ee283e1d5c7d1e52213c476"
+      },
+      "identityVerified": true,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/445.png",
+      "success": true,
+      "failure": null
+    },
+    {
+      "speciesId": "aromatisse",
+      "name": "프레프티르",
+      "nationalDex": 683,
+      "facing": "back",
+      "path": "public/sprites/back/683.png",
+      "fileExists": true,
+      "http": {
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 640,
+        "magic": [
+          137,
+          80,
+          78,
+          71,
+          13,
+          10,
+          26,
+          10
+        ],
+        "decoded": true,
+        "width": 96,
+        "height": 96,
+        "sha256": "0f7b1ebc2b0211ca2c6fd5101cb1a0ac60b4d9dcd29f64a4bd191f5d6c3ddc49"
+      },
+      "identityVerified": true,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/683.png",
+      "success": true,
+      "failure": null
+    },
+    {
+      "speciesId": "aromatisse",
+      "name": "프레프티르",
+      "nationalDex": 683,
+      "facing": "front",
+      "path": "public/sprites/front/683.png",
+      "fileExists": true,
+      "http": {
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 834,
+        "magic": [
+          137,
+          80,
+          78,
+          71,
+          13,
+          10,
+          26,
+          10
+        ],
+        "decoded": true,
+        "width": 96,
+        "height": 96,
+        "sha256": "d5559798ad174421029e4452f2e2ec5e03b74675c6aee5925eed3afddd22ca83"
+      },
+      "identityVerified": true,
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/683.png",
+      "success": true,
+      "failure": null
+    }
+  ],
+  "remote": [],
+  "contactSheet": "outputs/sprites-supplement-pilot.png"
+}

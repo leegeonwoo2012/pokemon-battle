@@ -1,0 +1,143 @@
+{
+  "passed": true,
+  "errors": [],
+  "imageErrors": [],
+  "moves": [
+    {
+      "id": "surf",
+      "phases": [
+        "announce",
+        "prepare",
+        "cast",
+        "result"
+      ],
+      "signatureRendered": true,
+      "hpDelayed": true,
+      "audioStarted": true
+    },
+    {
+      "id": "earthquake",
+      "phases": [
+        "announce",
+        "prepare",
+        "cast",
+        "result"
+      ],
+      "signatureRendered": true,
+      "hpDelayed": true,
+      "audioStarted": true
+    },
+    {
+      "id": "outrage",
+      "phases": [
+        "announce",
+        "prepare",
+        "cast",
+        "result"
+      ],
+      "signatureRendered": true,
+      "hpDelayed": true,
+      "audioStarted": true
+    },
+    {
+      "id": "steelbeam",
+      "phases": [
+        "announce",
+        "prepare",
+        "cast",
+        "result"
+      ],
+      "signatureRendered": true,
+      "hpDelayed": true,
+      "audioStarted": true
+    }
+  ],
+  "layouts": [
+    {
+      "format": "singles",
+      "width": 1440,
+      "height": 900,
+      "overflow": 0,
+      "occlusions": [],
+      "moveFont": 10
+    },
+    {
+      "format": "singles",
+      "width": 1024,
+      "height": 768,
+      "overflow": 0,
+      "occlusions": [],
+      "moveFont": 10
+    },
+    {
+      "format": "singles",
+      "width": 390,
+      "height": 844,
+      "overflow": 0,
+      "occlusions": [],
+      "moveFont": 10
+    },
+    {
+      "format": "singles",
+      "width": 360,
+      "height": 640,
+      "overflow": 0,
+      "occlusions": [],
+      "moveFont": 10
+    },
+    {
+      "format": "doubles",
+      "width": 1440,
+      "height": 900,
+      "overflow": 0,
+      "occlusions": [],
+      "moveFont": 10
+    },
+    {
+      "format": "doubles",
+      "width": 1024,
+      "height": 768,
+      "overflow": 0,
+      "occlusions": [],
+      "moveFont": 10
+    },
+    {
+      "format": "doubles",
+      "width": 390,
+      "height": 844,
+      "overflow": 0,
+      "occlusions": [],
+      "moveFont": 10
+    },
+    {
+      "format": "doubles",
+      "width": 360,
+      "height": 640,
+      "overflow": 0,
+      "occlusions": [],
+      "moveFont": 10
+    }
+  ],
+  "gimmicks": [
+    {
+      "kind": "mega",
+      "formRendered": true,
+      "distinctReveal": true
+    },
+    {
+      "kind": "tera",
+      "formRendered": true,
+      "distinctReveal": true
+    },
+    {
+      "kind": "dynamax",
+      "formRendered": true,
+      "distinctReveal": true
+    }
+  ],
+  "checks": [
+    "Recall beam → ball throw → release → landing",
+    "Double spread includes ally; single target selection commits real actions",
+    "Real WAV decode → file playback priority → IndexedDB reload → restore synthesis"
+  ]
+}

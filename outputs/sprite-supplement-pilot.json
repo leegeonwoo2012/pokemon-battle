@@ -1,0 +1,420 @@
+{
+  "checkedAt": "2026-10-09T08:44:52.499Z",
+  "phase": "supplementPilot",
+  "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+  "catalogCommit": "2fe95532d27a9bf340575253aff50868319d8182",
+  "expectedSpecies": 5,
+  "importedSpecies": 5,
+  "frontSuccess": 5,
+  "backSuccess": 5,
+  "failures": [],
+  "requests": [
+    {
+      "url": "https://api.github.com/repos/PokeAPI/sprites/commits/master",
+      "kind": "metadata",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 5711
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/LICENCE.txt",
+      "kind": "license",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 6655
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/README.md",
+      "kind": "usage",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 20890
+    },
+    {
+      "url": "https://api.github.com/repos/PokeAPI/pokeapi/commits/master",
+      "kind": "identity",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 14876
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/2fe95532d27a9bf340575253aff50868319d8182/data/v2/csv/pokemon_species.csv",
+      "kind": "identity",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 56884
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/136.png",
+      "kind": "image",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 783
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1000.png",
+      "kind": "image",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 3132
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/812.png",
+      "kind": "image",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1434
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/727.png",
+      "kind": "image",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1294
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/646.png",
+      "kind": "image",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1384
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/136.png",
+      "kind": "image",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 696
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/812.png",
+      "kind": "image",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1179
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1000.png",
+      "kind": "image",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 2095
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/727.png",
+      "kind": "image",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1057
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/646.png",
+      "kind": "image",
+      "attempt": 1,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1186
+    }
+  ],
+  "imported": [
+    {
+      "speciesId": "flareon",
+      "nationalDex": 136,
+      "name": "부스터",
+      "englishName": "Flareon",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "flareon",
+        "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/2fe95532d27a9bf340575253aff50868319d8182/data/v2/csv/pokemon_species.csv",
+        "sha256": "e66e2eeb25fd3836b0ebab6bf87bbf01960aa3c0555e2bac495fa8393c5e0c45"
+      },
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/136.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/136.png",
+          "sha256": "80d64fb2e7ad492e68d4a7a3e48ef430275246c6e48da4b3678eebfd903b8c44",
+          "sourceSha256": "80d64fb2e7ad492e68d4a7a3e48ef430275246c6e48da4b3678eebfd903b8c44",
+          "width": 96,
+          "height": 96,
+          "opaque": 1672,
+          "http": {
+            "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/136.png",
+            "kind": "image",
+            "attempt": 1,
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 783
+          }
+        },
+        "back": {
+          "path": "back/136.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/136.png",
+          "sha256": "36168e89e9f9162ff0bc552ce706562f46a47712b96742f4a76453e41298fe9d",
+          "sourceSha256": "36168e89e9f9162ff0bc552ce706562f46a47712b96742f4a76453e41298fe9d",
+          "width": 96,
+          "height": 96,
+          "opaque": 1726,
+          "http": {
+            "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/136.png",
+            "kind": "image",
+            "attempt": 1,
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 696
+          }
+        }
+      }
+    },
+    {
+      "speciesId": "rillaboom",
+      "nationalDex": 812,
+      "name": "고릴타",
+      "englishName": "Rillaboom",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "rillaboom",
+        "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/2fe95532d27a9bf340575253aff50868319d8182/data/v2/csv/pokemon_species.csv",
+        "sha256": "e66e2eeb25fd3836b0ebab6bf87bbf01960aa3c0555e2bac495fa8393c5e0c45"
+      },
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/812.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/812.png",
+          "sha256": "9bdb80bf91149961dcdef5fa8bcd2d8f4b8b1d043e1ce29ca166d66e5b5e83ac",
+          "sourceSha256": "9bdb80bf91149961dcdef5fa8bcd2d8f4b8b1d043e1ce29ca166d66e5b5e83ac",
+          "width": 96,
+          "height": 96,
+          "opaque": 4036,
+          "http": {
+            "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/812.png",
+            "kind": "image",
+            "attempt": 1,
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 1434
+          }
+        },
+        "back": {
+          "path": "back/812.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/812.png",
+          "sha256": "ecc419a4d29e4d1e811d1c753db793ad8e87efb203c996a24cc14037b650d5d4",
+          "sourceSha256": "ecc419a4d29e4d1e811d1c753db793ad8e87efb203c996a24cc14037b650d5d4",
+          "width": 96,
+          "height": 96,
+          "opaque": 4023,
+          "http": {
+            "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/812.png",
+            "kind": "image",
+            "attempt": 1,
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 1179
+          }
+        }
+      }
+    },
+    {
+      "speciesId": "gholdengo",
+      "nationalDex": 1000,
+      "name": "타부자고",
+      "englishName": "Gholdengo",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "gholdengo",
+        "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/2fe95532d27a9bf340575253aff50868319d8182/data/v2/csv/pokemon_species.csv",
+        "sha256": "e66e2eeb25fd3836b0ebab6bf87bbf01960aa3c0555e2bac495fa8393c5e0c45"
+      },
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/1000.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1000.png",
+          "sha256": "eaabdf23d158dafc55b3ffd29e5c98c46e4623a03525175dd3df6fb56fcd1cf9",
+          "sourceSha256": "eaabdf23d158dafc55b3ffd29e5c98c46e4623a03525175dd3df6fb56fcd1cf9",
+          "width": 96,
+          "height": 96,
+          "opaque": 2236,
+          "http": {
+            "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1000.png",
+            "kind": "image",
+            "attempt": 1,
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 3132
+          }
+        },
+        "back": {
+          "path": "back/1000.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1000.png",
+          "sha256": "54f72e4d4b2b71f6745deb67f510419302bc6c64bdeee44feb7369acbaa27822",
+          "sourceSha256": "54f72e4d4b2b71f6745deb67f510419302bc6c64bdeee44feb7369acbaa27822",
+          "width": 96,
+          "height": 96,
+          "opaque": 1578,
+          "http": {
+            "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1000.png",
+            "kind": "image",
+            "attempt": 1,
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 2095
+          }
+        }
+      }
+    },
+    {
+      "speciesId": "incineroar",
+      "nationalDex": 727,
+      "name": "어흥염",
+      "englishName": "Incineroar",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "incineroar",
+        "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/2fe95532d27a9bf340575253aff50868319d8182/data/v2/csv/pokemon_species.csv",
+        "sha256": "e66e2eeb25fd3836b0ebab6bf87bbf01960aa3c0555e2bac495fa8393c5e0c45"
+      },
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/727.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/727.png",
+          "sha256": "b266476a6c711d6edcdcd31766e3bf146c9703b635b08bf1628da47ae4b5c945",
+          "sourceSha256": "b266476a6c711d6edcdcd31766e3bf146c9703b635b08bf1628da47ae4b5c945",
+          "width": 96,
+          "height": 96,
+          "opaque": 3144,
+          "http": {
+            "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/727.png",
+            "kind": "image",
+            "attempt": 1,
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 1294
+          }
+        },
+        "back": {
+          "path": "back/727.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/727.png",
+          "sha256": "a7cbf1f2986476c821cd3d0e2e8688fe585159837cf65cb7c724cc37e658b9fc",
+          "sourceSha256": "a7cbf1f2986476c821cd3d0e2e8688fe585159837cf65cb7c724cc37e658b9fc",
+          "width": 96,
+          "height": 96,
+          "opaque": 3051,
+          "http": {
+            "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/727.png",
+            "kind": "image",
+            "attempt": 1,
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 1057
+          }
+        }
+      }
+    },
+    {
+      "speciesId": "kyurem",
+      "nationalDex": 646,
+      "name": "큐레무",
+      "englishName": "Kyurem",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "kyurem",
+        "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/2fe95532d27a9bf340575253aff50868319d8182/data/v2/csv/pokemon_species.csv",
+        "sha256": "e66e2eeb25fd3836b0ebab6bf87bbf01960aa3c0555e2bac495fa8393c5e0c45"
+      },
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/646.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/646.png",
+          "sha256": "16b05a5420407f3d5aed368b1c9e69d5bc1b164bd820bab7e647c645cbe36647",
+          "sourceSha256": "16b05a5420407f3d5aed368b1c9e69d5bc1b164bd820bab7e647c645cbe36647",
+          "width": 96,
+          "height": 96,
+          "opaque": 2807,
+          "http": {
+            "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/646.png",
+            "kind": "image",
+            "attempt": 1,
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 1384
+          }
+        },
+        "back": {
+          "path": "back/646.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/646.png",
+          "sha256": "c747311ad060587ed25da9b15eaf501a97721f1ca198e9e5348f01b1650d0774",
+          "sourceSha256": "c747311ad060587ed25da9b15eaf501a97721f1ca198e9e5348f01b1650d0774",
+          "width": 96,
+          "height": 96,
+          "opaque": 2579,
+          "http": {
+            "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/646.png",
+            "kind": "image",
+            "attempt": 1,
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 1186
+          }
+        }
+      }
+    }
+  ]
+}

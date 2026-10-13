@@ -1,0 +1,9 @@
+{
+  "expected": 528,
+  "valid": 528,
+  "front": 264,
+  "back": 264,
+  "missing": [],
+  "invalid": [],
+  "status": "DECODED_FILES_NEED_IDENTITY_AND_RIGHTS_AUDIT"
+}
