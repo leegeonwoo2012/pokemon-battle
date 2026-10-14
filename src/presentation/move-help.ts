@@ -22,6 +22,10 @@ export function moveHelp(move:Move):string {
       case 'encore':return '마지막 사용 기술로 제한 · 3턴';
       case 'clearHazards':return effect.bothSides?'양쪽 설치물·상대 장막·필드 제거':'아군 설치물 제거';
       case 'heal':return `HP ${Math.round(effect.fraction*100)}% 회복`;
+      case 'helpingHand':return '이번 턴 아군 기술 위력 1.5배';
+      case 'dragonCheer':return '아군 급소 확률 상승 · 교체까지 유지';
+      case 'acupressure':return '자신 또는 아군의 무작위 능력치 +2';
+      case 'teamCure':return '아군 전원의 상태 이상 회복';
       case 'protect':return '공격 방어 · 연속 사용 시 성공률 감소';
       case 'drain':return `피해의 ${Math.round(effect.fraction*100)}% 회복`;
       case 'recoil':return '사용 후 반동 피해';
@@ -39,7 +43,8 @@ export function moveHelp(move:Move):string {
   });
   return [`${typeNames[move.type]} · ${move.category==='physical'?'물리':move.category==='special'?'특수':'변화'}`,
     move.delayedTurns?`${move.delayedTurns}턴 뒤 대상 위치 공격`:'',move.charge?`${move.charge==='sun'?'햇빛':move.charge==='rain'?'비':'파워풀허브'}가 없으면 1턴 충전`:'',
-    move.fixedDamage?'조건에 따른 고정 피해':'',move.dynamicPower==='remainingHp'?'남은 HP가 높을수록 위력 증가':move.dynamicPower==='faintedAllies'?'쓰러진 아군마다 위력 +50':'',
+    move.fixedDamage?'조건에 따른 고정 피해':'',move.dynamicPower==='remainingHp'?'남은 HP가 높을수록 위력 증가':move.dynamicPower==='faintedAllies'?'쓰러진 아군마다 위력 +50':move.dynamicPower==='positiveBoosts'?'자신의 능력 상승 1단계마다 위력 +20':'',
+    move.id==='weatherball'?'날씨에 따라 타입이 바뀌고 위력이 2배':'',
     move.pivot?'명중 후 교체':'',move.selfCostFraction?'사용 후 HP 절반 소모':'',move.selfDestruct?'사용 후 기절':'',move.rampage?'2~5턴 연속 사용 후 혼란':'',
     move.ohko?'명중하면 일격에 기절':'',move.multihit?'2~5회 연속 공격':'',...effects].filter(Boolean).join(' / ');
 }

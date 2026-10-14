@@ -35,12 +35,13 @@ export interface Nature {
   down?: Exclude<Stat, 'hp'>;
 }
 
-export type MoveTarget = 'enemy' | 'any' | 'ally' | 'self' | 'allEnemies' | 'allOthers';
+export type MoveTarget = 'enemy' | 'any' | 'ally' | 'allyOrSelf' | 'self' | 'allAllies' | 'allEnemies' | 'allOthers';
 export type MoveEffect =
-  | { kind: 'status'; status: Status; chance?: number; target?: 'target' | 'self' }
+  | { kind: 'status'; status: Status; chance?: number; target?: 'target' | 'self'; badlyPoisoned?: boolean }
   | { kind: 'volatile'; condition: VolatileCondition; chance?: number }
   | { kind: 'stat'; stat: BoostStat; stages: number; chance?: number; target?: 'target' | 'self' }
-  | { kind: 'heal'; fraction: number; target?: 'target' | 'self'; weatherAdjusted?: 'sun' | 'sand' }
+  | { kind: 'heal'; fraction: number; target?: 'target' | 'self'; weatherAdjusted?: 'sun' | 'sand'; pulseBoost?: boolean }
+  | { kind: 'helpingHand' | 'dragonCheer' | 'acupressure' | 'teamCure' }
   | { kind: 'weather'; weather: Weather; turns?: number }
   | { kind: 'field'; field: Field; turns?: number }
   | { kind: 'drain'; fraction: number }
@@ -108,7 +109,7 @@ export interface Move {
   charge?: 'always' | 'sun' | 'rain';
   semiInvulnerable?: 'underground' | 'underwater' | 'airborne' | 'vanished';
   fixedDamage?: 'counter' | 'mirrorcoat' | 'endeavor';
-  dynamicPower?: 'remainingHp' | 'faintedAllies';
+  dynamicPower?: 'remainingHp' | 'faintedAllies' | 'positiveBoosts';
   pivot?: boolean;
   selfCostFraction?: number;
   selfDestruct?: boolean;
@@ -253,6 +254,8 @@ export interface Combatant {
   substituteHp?: number;
   stellarBoostedTypes?: string[];
   gmaxCritStages?: number;
+  helpingHandTurn?: number;
+  dragonCheerCritStages?: number;
   trapped?: boolean;
   trappedBy?:string;
   yawnTurns?: number;

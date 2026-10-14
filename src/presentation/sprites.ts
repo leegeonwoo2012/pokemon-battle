@@ -14,6 +14,16 @@ export function useSpriteLibrary(){return useSyncExternalStore(subscribe,()=>lib
 export function useSpriteDiagnostics(){return useSyncExternalStore(subscribe,()=>diagnostic);}
 const base=import.meta.env.BASE_URL;
 export const spriteFallbackUrl=assetUrl('/sprites/unavailable.svg',base);
+const SPRITE_REQUEST_TIMEOUT_MS=8_000;
+async function fetchSprite(url:string, init:RequestInit={}):Promise<Response>{
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),SPRITE_REQUEST_TIMEOUT_MS);
+  try{return await fetch(url,{...init,signal:controller.signal});}
+  catch(error){
+    if((error as Error)?.name==='AbortError') throw Error(`이미지 요청 시간 초과 (${SPRITE_REQUEST_TIMEOUT_MS/1000}초)`);
+    throw error;
+  } finally{clearTimeout(timer);}
+}
 
 async function database():Promise<IDBDatabase>{
   return new Promise((resolve,reject)=>{
@@ -40,7 +50,7 @@ export function initializeSprites(force=false):Promise<void>{
     const result:SpriteLibrary={},issues:SpriteIssue[]=[];
     let manifestStatus:number|undefined;
     try{
-      const path=assetUrl('/sprites/manifest.json',base),response=await fetch(path,{cache:'no-store'});
+      const path=assetUrl('/sprites/manifest.json',base),response=await fetchSprite(path,{cache:'no-store'});
       manifestStatus=response.status;
       if(!response.ok)throw Error(`manifest HTTP ${response.status}`);
       const contentType=response.headers.get('content-type')??'';
@@ -51,7 +61,7 @@ export function initializeSprites(force=false):Promise<void>{
         while(queue.length){
           const [key,relative]=queue.shift()!,url=assetUrl(relative,base);let response:Response|undefined;
           try{
-            response=await fetch(url,{cache:'no-store'});
+            response=await fetchSprite(url,{cache:'no-store'});
             if(!response.ok)throw Error(`로컬 파일 요청 실패: HTTP ${response.status}`);
             const type=response.headers.get('content-type')??'';
             if(!type.startsWith('image/png'))throw Error(`PNG 대신 ${type||'알 수 없는 형식'} 응답. 파일 누락 시 HTML 응답일 수 있습니다.`);

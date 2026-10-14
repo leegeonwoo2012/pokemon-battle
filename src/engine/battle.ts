@@ -7,6 +7,7 @@ import {
   partnerAbilityMultiplier, genderAbilityMultiplier,
   effectiveWeather, weightBasedPower,
   dynamicMovePower,
+  weatherBallMove,
 } from './calculations';
 import {
   activePokemon, addLog, applyDamage, applyEntryEffects, applyHeal, applyStatus,
@@ -140,6 +141,11 @@ function resolveTargets(state: BattleState, side: Side, slot: number, move: Move
     return pokemon && !pokemon.fainted ? [{ side: targetSide, slot: targetSlot }] : [];
   });
   if (move.target === 'self') return [{ side, slot }];
+  if (move.target === 'allAllies') return activeRefs(side);
+  if (move.target === 'allyOrSelf') {
+    const allies=activeRefs(side);
+    return requested&&allies.some(ref=>ref.slot===requested.slot&&ref.side===requested.side)?[requested]:[{side,slot}];
+  }
   if (move.target === 'allEnemies') return activeRefs(foe);
   if (move.target === 'allOthers') return [...activeRefs(side).filter(ref => ref.slot !== slot), ...activeRefs(foe)];
   if (move.target === 'ally') {
@@ -172,7 +178,8 @@ function accuracyHits(state: BattleState, user: Combatant, target: Combatant, mo
   return chance(state, moveAccuracy(state, user, target, move));
 }
 
-function moveDamage(state: BattleState, attacker: Combatant, defender: Combatant, move: Move, spread: boolean): { damage: number; critical: boolean; effectiveness: number } {
+function moveDamage(state: BattleState, attacker: Combatant, defender: Combatant, move: Move, spread: boolean, hitSubstitute=false): { damage: number; critical: boolean; effectiveness: number } {
+  move=weatherBallMove(state,attacker,move);
   const effectiveness = move.id === 'struggle' ? 1 : battleTypeMultiplier(state,move,defender,attacker);
   if (effectiveness === 0 || move.id !== 'struggle' && isTypeImmune(defender, move,state)) return { damage: 0, critical: false, effectiveness: 0 };
   const critical = chance(state, criticalChance(attacker, defender, move));
@@ -183,12 +190,12 @@ function moveDamage(state: BattleState, attacker: Combatant, defender: Combatant
   const attack = getModifiedStat(attacker, attackStat, defenderUnaware ? 'all' : critical ? 'negative' : null)
     * (attacker.set.abilityId==='solarpower'&&move.category==='special'&&effectiveWeather(state,attacker)==='sun'?1.5:1);
   const defense = defensiveStat(state, defender, defenseStat, attackerUnaware||move.ignoreDefenderStages ? 'all' : critical ? 'positive' : null);
-  const powerMove={...move,power:dynamicMovePower(state,attacker,weightBasedPower(attacker,defender,move),move)};
+  const basePower=dynamicMovePower(state,attacker,weightBasedPower(attacker,defender,move),move);
+  const powerMove={...move,power:attacker.helpingHandTurn===state.turn?Math.floor(basePower*1.5):basePower};
   const base = Math.floor(Math.floor(((2 * LEVEL / 5 + 2) * effectiveMovePower(attacker,powerMove) * attack) / defense) / 50) + 2;
   const stab = stabMultiplier(attacker,move);
   let modifier = stab * effectiveness * weatherMultiplier(state, move,attacker) * fieldMultiplier(state, attacker, move, defender);
   modifier *= damagePassiveMultiplier(attacker, move, 'onAttack') * damagePassiveMultiplier(defender, move, 'onDamage')*genderAbilityMultiplier(attacker,defender)*partnerAbilityMultiplier(state,attacker,move);
-  if(move.id==='knockoff'&&defender.set.itemId!=='none'&&!defender.itemConsumed)modifier*=1.5;
   if(move.id==='knockoff'&&defender.set.itemId!=='none'&&!defender.itemConsumed)modifier*=1.5;
   if(attacker.set.abilityId==='analytic'&&defender.actedTurn===state.turn)modifier*=1.3;
   if(move.type==='electric'&&attacker.electromorphosisCharged)modifier*=2;
@@ -198,7 +205,7 @@ function moveDamage(state: BattleState, attacker: Combatant, defender: Combatant
   const attackerSide:Side=state.sides.player.team.includes(attacker)?'player':'cpu';
   if(attackerSide!==defenderSide)modifier*=.75**activePokemon(state,defenderSide).filter(mon=>mon!==defender&&mon.set.abilityId==='friendguard').length;
   if(attacker.set.abilityId==='stakeout'&&defender.enteredTurn===state.turn)modifier*=2;
-  modifier *= resistBerryMultiplier(state,defender,move,effectiveness);
+  if(!hitSubstitute)modifier *= resistBerryMultiplier(state,defender,move,effectiveness);
   modifier *= screenMultiplier(state,defender,move,critical,attacker);
   if (critical) modifier *= attacker.set.abilityId==='sniper'?2.25:1.5;
   if (spread) modifier *= 0.75;
@@ -229,7 +236,13 @@ function canRemoveHeldItem(pokemon:Combatant):boolean {
 function applyMoveEffect(state: BattleState, effect: MoveEffect, user: Combatant, target: Combatant, damageDealt: number, moveName: string): void {
   if ('chance' in effect && effect.chance !== undefined && !chance(state, secondaryChance(user, effect.chance))) return;
   if(applyTacticalEffect(state,effect,user,target))return;
-  if (effect.kind === 'status') applyStatus(state, effect.target === 'self' ? user : target, effect.status, displayName(user), user);
+  if (effect.kind === 'status') {
+    const recipient=effect.target==='self'?user:target;
+    if(applyStatus(state,recipient,effect.status,displayName(user),user)&&effect.badlyPoisoned&&recipient.status==='poison'){
+      recipient.toxicCounter=1;
+      addLog(state,`${displayName(recipient)}이(가) 맹독에 걸렸다!`,'status',{targetUid:recipient.uid});
+    }
+  }
   else if (effect.kind === 'volatile') applyVolatile(state, target, effect.condition);
   else if (effect.kind === 'stat') {
     const recipient = effect.target === 'self' ? user : target;
@@ -238,7 +251,23 @@ function applyMoveEffect(state: BattleState, effect: MoveEffect, user: Combatant
     const weather=effectiveWeather(state,user);
     const fraction=effect.weatherAdjusted==='sun'?(weather==='sun'?2/3:weather?1/4:effect.fraction)
       :effect.weatherAdjusted==='sand'&&weather==='sand'?2/3:effect.fraction;
-    applyHeal(state, effect.target === 'target' ? target : user, fraction, displayName(user));
+    applyHeal(state, effect.target === 'target' ? target : user, effect.pulseBoost&&user.set.abilityId==='megalauncher'?3/4:fraction, displayName(user));
+  } else if(effect.kind==='helpingHand') {
+    if(target===user||target.actedTurn===state.turn){addLog(state,'도우미를 받을 아군이 행동을 마쳤다!','status',{kind:'blocked',targetUid:target.uid});return;}
+    target.helpingHandTurn=state.turn;
+    addLog(state,`${displayName(user)}의 도우미로 ${displayName(target)}의 기술이 강해졌다!`,'status',{targetUid:target.uid});
+  } else if(effect.kind==='dragonCheer') {
+    if(target.dragonCheerCritStages){addLog(state,`${displayName(target)}은(는) 이미 응원을 받았다!`,'status',{kind:'blocked',targetUid:target.uid});return;}
+    target.dragonCheerCritStages=target.types.includes('dragon')?2:1;
+    addLog(state,`${displayName(target)}의 급소 확률이 올랐다!`,'status',{targetUid:target.uid});
+  } else if(effect.kind==='acupressure') {
+    const stats=BOOST_KEYS.filter(stat=>target.stages[stat]<6);
+    if(!stats.length){addLog(state,`${displayName(target)}의 능력치를 더 높일 수 없다!`,'status',{kind:'blocked',targetUid:target.uid});return;}
+    applyStatChange(state,target,stats[randomInt(state,0,stats.length-1)],2,user);
+  } else if(effect.kind==='teamCure') {
+    const side:Side=state.sides.player.team.includes(user)?'player':'cpu';
+    for(const ally of state.sides[side].team)if(ally.status){ally.status=null;ally.sleepTurns=0;ally.toxicCounter=undefined;
+      addLog(state,`${displayName(ally)}의 상태 이상이 나았다!`,'status',{targetUid:ally.uid,status:null});}
   }
   else if (effect.kind === 'weather') {
     state.weather = { id: effect.weather, turns: effect.turns ?? 5 };
@@ -355,7 +384,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
   const continuingRampage=user.rampage?.moveId===baseMove.id;
   const stopRampage=()=>{if(continuingRampage&&!user.fainted){user.rampage=undefined;addLog(state,`${displayName(user)}의 ${baseMove.name} 연속 사용이 끊겼다!`,'status',{kind:'message',targetUid:user.uid});}};
   if(continuingCharge)user.charging=undefined;
-  const move = {...previewMove(user,baseMove,action.gimmick==='z'?'z':undefined)};
+  const move = {...weatherBallMove(state,user,previewMove(user,baseMove,action.gimmick==='z'?'z':undefined))};
   if(user.set.abilityId==='longreach')move.contact=false;
   if(move.id==='aurawheel'&&user.set.speciesId==='morpeko'&&user.morpekoHangry)move.type='dark';
   if(user.disabledMove?.turns&&user.disabledMove.moveId===move.id){addLog(state,`${displayName(user)}은(는) ${move.name}을(를) 봉인당해 사용할 수 없다!`,'status',{kind:'blocked',targetUid:user.uid});stopRampage();return;}
@@ -412,7 +441,8 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
     const slot=state.sides[foe].active.findIndex(index=>state.sides[foe].team[index]?.uid===source);
     if(slot>=0)refs=[{side:foe,slot}];
   }
-  if(move.category==='status'){
+  // Support moves without a reflectable flag must not bounce off an ally.
+  if(move.category==='status' && !['lifedew','howl','helpinghand','dragoncheer','acupressure','coaching','aromaticmist','decorate','healpulse'].includes(move.id)){
     refs=refs.map(ref=>{
       const target=getPokemonAt(state,ref);
       const reflection=target&&target!==user?passiveEffects(target).find(effect=>effect.trigger==='onTargetStatusMove'&&effect.kind==='reflectStatusMove'):undefined;
@@ -456,7 +486,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
       addLog(state,`${move.name}이(가) 실패했다!`,'move',{kind:'blocked',actorUid:user.uid,targetUid:target?.uid});return;
     }
   }
-  const effectful=move.category==='status'||refs.some(ref=>{const target=getPokemonAt(state,ref);return target&&target!==user&&battleTypeMultiplier(state,move,target,user)>0&&!isTypeImmune(target,move,state);});
+  const effectful=move.category==='status'||move.id==='pollenpuff'&&refs.some(ref=>ref.side===side)||refs.some(ref=>{const target=getPokemonAt(state,ref);return target&&target!==user&&battleTypeMultiplier(state,move,target,user)>0&&!isTypeImmune(target,move,state);});
   addLog(state, `${displayName(user)}: ${move.name} 사용!`, 'move', { kind:effectful?'move':'message',moveId:move.id,category:move.category,type:move.type,targetUid: targetUids[0], targetUids });
   if(move.id==='followme'||move.id==='ragepowder'){
     user.redirectTurn=state.turn;user.redirectPowder=move.id==='ragepowder';
@@ -494,7 +524,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
       if(target!==user&&ref.side!==side&&effectivePriority(state,user,move)>0&&activePokemon(state,ref.side).some(mon=>mon.set.abilityId==='armortail'||mon.set.abilityId==='queenlymajesty')){
         addLog(state,`${displayName(target)}의 특성이 선제 기술을 막았다!`,'move',{kind:'blocked',targetUid:target.uid});return;
       }
-      if (target.protected && target !== user && !move.bypassProtect && (!move.powered||move.category==='status'||target.maxGuard)) { addLog(state, `${displayName(target)}이 공격을 방어했다!`, 'move', { kind: 'blocked' }); return; }
+      if (target.protected && target !== user && move.target!=='allAllies' && !move.bypassProtect && (!move.powered||move.category==='status'||target.maxGuard)) { addLog(state, `${displayName(target)}이 공격을 방어했다!`, 'move', { kind: 'blocked' }); return; }
       if(move.bullet&&target!==user&&target.set.abilityId==='bulletproof'&&!move.ignoreAbility){
         addLog(state,`${displayName(target)}의 방탄이 ${move.name}을 막았다!`,'move',{kind:'blocked',targetUid:target.uid,sourceId:'bulletproof',sourceKind:'ability'});return;
       }
@@ -527,6 +557,10 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
       if(target!==user&&target.substituteHp&&!bypassSub&&move.category==='status'){
         addLog(state,`${displayName(target)}의 대타출동이 ${move.name}을 막았다!`,'move',{kind:'blocked',targetUid:target.uid});return;
       }
+      if(move.id==='pollenpuff'&&ref.side===side){
+        applyHeal(state,target,1/2,move.name);
+        return;
+      }
       let dealt = 0;
       let hitSubstitute=false;
       let hitBody=false;
@@ -550,7 +584,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
            ?{damage:move.fixedDamage==='endeavor'?Math.max(0,target.hp-user.hp):Math.max(0,(user.lastReceivedHit?.damage??0)*2),critical:false,effectiveness:battleTypeMultiplier(state,move,target,user)}
            :move.ohko
           ?{damage:target.hp,critical:false,effectiveness:isTypeImmune(target,move,state)?0:battleTypeMultiplier(state,move,target,user)}
-          :moveDamage(state, user, target, move, spread);
+          :moveDamage(state, user, target, move, spread,target!==user&&!!target.substituteHp&&!bypassSub);
         if (result.effectiveness === 0) {
           const immunity = passiveEffects(target).find(effect => effect.trigger === 'onDamage' && effect.kind === 'typeImmunity' && effect.type === move.type);
           if (immunity) announcePassive(state, target, immunity);
@@ -749,6 +783,7 @@ function executeSwitch(state: BattleState, side: Side, action: Extract<BattleAct
   oldPokemon.tauntTurns=0;oldPokemon.encore=undefined;oldPokemon.tormentedMove=undefined;oldPokemon.lastMove=undefined;oldPokemon.saltCured=false;
   oldPokemon.disabledMove=undefined;
   oldPokemon.substituteHp=undefined;oldPokemon.gmaxCritStages=0;oldPokemon.trapped=false;oldPokemon.trappedBy=undefined;oldPokemon.yawnTurns=0;
+  oldPokemon.helpingHandTurn=undefined;oldPokemon.dragonCheerCritStages=undefined;
   oldPokemon.rechargeTurns=0;
   oldPokemon.charging=undefined;oldPokemon.rampage=undefined;oldPokemon.aquaRing=false;oldPokemon.lastReceivedHit=undefined;
   if(oldPokemon.abilityBeforeChange){oldPokemon.set.abilityId=oldPokemon.abilityBeforeChange;oldPokemon.abilityBeforeChange=undefined;}
@@ -885,7 +920,7 @@ function advanceTurn(state: BattleState, playerActions: BattleAction[], cpuActio
     actor.actedTurn = state.turn;
     if (queued.action.kind === 'switch') executeSwitch(state, queued.side, queued.action);
     else {
-      const move = previewMove(actor,moves[queued.action.moveId] ?? STRUGGLE,queued.action.gimmick);
+      const move = weatherBallMove(state,actor,previewMove(actor,moves[queued.action.moveId] ?? STRUGGLE,queued.action.gimmick));
       withEventContext(state, { actorUid: actor.uid, moveId: move.id, category: move.category, powered:move.powered, type: move.type, side: queued.side, slot: queued.action.slot },
         () => executeMove(state, queued.side, queued.action as Extract<BattleAction, { kind: 'move' }>));
     }

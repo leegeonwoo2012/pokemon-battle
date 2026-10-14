@@ -223,6 +223,23 @@ export const moves: Record<string, Move> = Object.fromEntries(([
   {...move('dragondarts','드래곤애로','dragon','physical',50,100,10),multihit:2},
 ] as Move[]).map(entry => [entry.id, entry]));
 for(const [id,entry] of Object.entries(championMoves))if(!moves[id])moves[id]=entry;
+// These source moves use callbacks or targeting rules the generated data cannot infer.
+moves.storedpower.dynamicPower='positiveBoosts';
+moves.toxic.effects=[{kind:'status',status:'poison',badlyPoisoned:true}];
+moves.entrainment.target='any';
+moves.lifedew.target='allAllies';
+moves.lifedew.effects=[{kind:'heal',fraction:1/4,target:'target'}];
+moves.howl.target='allAllies';moves.howl.effects=[{kind:'stat',stat:'atk',stages:1,target:'target'}];moves.howl.sound=true;
+moves.helpinghand.effects=[{kind:'helpingHand'}];moves.helpinghand.bypassProtect=true;
+moves.dragoncheer.effects=[{kind:'dragonCheer'}];moves.dragoncheer.bypassProtect=true;
+moves.acupressure.target='allyOrSelf';moves.acupressure.effects=[{kind:'acupressure'}];moves.acupressure.bypassProtect=true;
+moves.healpulse.effects=[{kind:'heal',fraction:1/2,target:'target',pulseBoost:true}];
+moves.milkdrink.target='self';
+moves.coaching.bypassProtect=true;
+moves.aromaticmist.bypassProtect=true;
+moves.decorate.target='any';moves.decorate.bypassProtect=true;
+moves.pollenpuff.target='any';
+moves.healbell.effects=[{kind:'teamCure'}];
 for (const id of ['stoneedge','shadowclaw','razorleaf']) moves[id].critStage = 1;
 for (const id of ['leafblade','triplearrows','psychocut','nightslash','crabhammer','crosschop'])moves[id].critStage=1;
 for (const id of ['thunder','hurricane']) moves[id].weatherAccuracy = {rain:null, sun:50};
@@ -462,7 +479,33 @@ Object.assign(items,{
   shucaberry:item('shucaberry','슈캐열매','효과가 굉장한 땅 기술의 피해를 한 번 절반으로 줄입니다.',[{trigger:'onSuperEffectiveDamage',kind:'resistType',type:'ground',multiplier:0.5,consume:true}]),
   assaultvest:item('assaultvest','돌격조끼','특수방어가 1.5배가 되며 변화 기술을 사용할 수 없습니다.',[{trigger:'onStat',kind:'statMultiplier',stat:'spd',multiplier:1.5},{trigger:'onMoveChoice',kind:'blockStatus'}]),
   weaknesspolicy:item('weaknesspolicy','약점보험','효과가 굉장한 기술로 피해를 받으면 공격과 특수공격이 2단계씩 오르고 소모됩니다.',[{trigger:'onSuperEffectiveHit',kind:'stat',stat:'atk',stages:2,consume:true},{trigger:'onSuperEffectiveHit',kind:'stat',stat:'spa',stages:2,consume:true}]),
+  scopelens:item('scopelens','초점렌즈','공격 기술의 급소 확률을 한 단계 높입니다.',[{trigger:'onCritical',kind:'criticalBoost',stages:1}]),
+  widelens:item('widelens','광각렌즈','기술의 명중률을 1.1배로 높입니다.',[{trigger:'onAccuracy',kind:'accuracyMultiplier',target:'self',multiplier:1.1}]),
+  brightpowder:item('brightpowder','반짝가루','상대 기술의 명중률을 0.9배로 낮춥니다.',[{trigger:'onAccuracy',kind:'accuracyMultiplier',target:'attacker',multiplier:0.9}]),
+  safetygoggles:item('safetygoggles','방진고글','가루 기술과 모래바람 피해를 막습니다.',[{trigger:'onPowder',kind:'immunity'},{trigger:'onWeatherDamage',kind:'immunity',weather:'sand'}]),
+  covertcloak:item('covertcloak','은밀망토','공격 기술의 추가 효과를 막습니다.',[]),
 });
+// One-time type-resistance berries. Chilan is the Normal-type exception: it works without a weakness.
+const resistanceBerries:Record<string,[string,string]>= {
+  rindoberry:['린드열매','grass'],chopleberry:['로플열매','fighting'],kebiaberry:['으름열매','poison'],
+  cobaberry:['바코열매','flying'],payapaberry:['야파열매','psychic'],tangaberry:['리체열매','bug'],
+  chartiberry:['루미열매','rock'],kasibberry:['수불열매','ghost'],habanberry:['하반열매','dragon'],
+  colburberry:['마코열매','dark'],babiriberry:['바리비열매','steel'],roseliberry:['로셀열매','fairy'],
+  chilanberry:['카리열매','normal'],
+};
+for(const [id,[name,type]] of Object.entries(resistanceBerries))
+  items[id]=item(id,name,`${typeNames[type]} 타입 공격의 피해를 한 번 절반으로 줄입니다${type==='normal'?'.':' (약점 공격일 때).'}`,
+    [{trigger:'onSuperEffectiveDamage',kind:'resistType',type,multiplier:.5,consume:true}]);
+const typeBoosters:Record<string,[string,string]>={
+  silkscarf:['실크스카프','normal'],nevermeltice:['녹지않는얼음','ice'],blackbelt:['검은띠','fighting'],
+  poisonbarb:['독바늘','poison'],softsand:['부드러운모래','ground'],sharpbeak:['예리한부리','flying'],
+  twistedspoon:['휘어진스푼','psychic'],silverpowder:['은빛가루','bug'],hardstone:['딱딱한돌','rock'],
+  dragonfang:['용의이빨','dragon'],blackglasses:['검은안경','dark'],metalcoat:['금속코트','steel'],
+  fairyfeather:['요정의깃털','fairy'],
+};
+for(const [id,[name,type]] of Object.entries(typeBoosters))
+  items[id]=item(id,name,`${typeNames[type]} 타입 공격 기술의 위력을 1.2배로 높입니다.`,
+    [{trigger:'onAttack',kind:'damageMultiplier',type,multiplier:1.2}]);
 for(const [id,signature] of Object.entries({maushold:'populationbomb',tinkaton:'gigatonhammer',garganacl:'saltcure',dragapult:'dragondarts'})) {
   if(species[id]&&!species[id].learnset.includes(signature))species[id].learnset.push(signature);
 }

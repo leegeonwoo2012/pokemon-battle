@@ -104,7 +104,7 @@ export function startFriendServer(port = PORT, host = '0.0.0.0', { previewMs = T
           const base=choices.usableMoves(max,action.gimmick==='z').find(move=>move.id===action.moveId);
           const move=base?gimmicks.previewMove(max,base,action.gimmick):{target:'enemy'};
           const ally=action.target.side===side,self=ally&&action.target.slot===action.slot;
-          if(move.target==='enemy'&&ally||move.target==='ally'&&(!ally||self)||move.target==='any'&&self||move.target==='self'&&!self)return '이 기술로 선택할 수 없는 대상입니다.';
+          if(move.target==='enemy'&&ally||move.target==='ally'&&(!ally||self)||move.target==='allyOrSelf'&&!ally||move.target==='any'&&self||move.target==='self'&&!self||move.target==='allAllies'&&!ally)return '이 기술로 선택할 수 없는 대상입니다.';
         }
       }else return '잘못된 턴 행동입니다.';
     }

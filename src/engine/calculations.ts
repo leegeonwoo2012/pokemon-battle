@@ -9,6 +9,14 @@ export function effectiveWeather(state:BattleState,source?:Combatant):Weather|un
   return source?.set.abilityId==='megasol'?'sun':state.weather?.id??undefined;
 }
 
+/** Weather Ball resolves its type and doubled base power at use time. */
+export function weatherBallMove(state:BattleState,attacker:Combatant,move:Move):Move {
+  if(move.id!=='weatherball'||move.powered)return move;
+  const weather=effectiveWeather(state,attacker);
+  const type=weather==='sun'?'fire':weather==='rain'?'water':weather==='sand'?'rock':weather==='snow'?'ice':undefined;
+  return type?{...move,type,power:100}:{...move,type:'normal',power:50};
+}
+
 export function calculateStats(species: Species, set: TeamSet): Stats {
   const nature = natures[set.natureId];
   const result = {} as Stats;
@@ -183,7 +191,7 @@ export function criticalChance(attacker: Combatant, defender: Combatant, move: M
   if (passiveEffects(defender).some(effect => effect.trigger === 'onCritical' && effect.kind === 'criticalImmunity')) return 0;
   if(attacker.set.abilityId==='merciless'&&defender.status==='poison')return 100;
   const stage = passiveEffects(attacker).reduce((value, effect) =>
-    effect.trigger === 'onCritical' && effect.kind === 'criticalBoost' && (!effect.speciesIds||effect.speciesIds.includes(attacker.set.speciesId)) ? value + effect.stages : value, (move.critStage ?? 0)+(attacker.gmaxCritStages??0));
+    effect.trigger === 'onCritical' && effect.kind === 'criticalBoost' && (!effect.speciesIds||effect.speciesIds.includes(attacker.set.speciesId)) ? value + effect.stages : value, (move.critStage ?? 0)+(attacker.gmaxCritStages??0)+(attacker.dragonCheerCritStages??0));
   return [100 / 24, 12.5, 50, 100][Math.min(3, Math.max(0, stage))];
 }
 
@@ -210,6 +218,7 @@ export function fieldMultiplier(state: BattleState, attacker: Combatant, move: M
 }
 
 export function estimateDamage(state: BattleState, attacker: Combatant, defender: Combatant, move: Move, spread = false): number {
+  move=weatherBallMove(state,attacker,move);
   if(move.fixedDamage){
     const hit=attacker.lastReceivedHit;
     if(move.fixedDamage==='endeavor')return Math.max(0,defender.hp-attacker.hp);
@@ -237,13 +246,15 @@ export function estimateDamage(state: BattleState, attacker: Combatant, defender
   if (spread) multiplier *= 0.75;
   multiplier *= burnMultiplier(attacker, move);
   if(move.multihit)multiplier*=typeof move.multihit==='number'?move.multihit:passiveEffects(attacker).some(effect=>effect.trigger==='onMultiHit')?move.multihit[1]:3;
-  const powerMove={...move,power:dynamicMovePower(state,attacker,weightBasedPower(attacker,defender,move),move)};
+  const basePower=dynamicMovePower(state,attacker,weightBasedPower(attacker,defender,move),move);
+  const powerMove={...move,power:attacker.helpingHandTurn===state.turn?Math.floor(basePower*1.5):basePower};
   const base = Math.floor(Math.floor(((2 * LEVEL / 5 + 2) * effectiveMovePower(attacker,powerMove) * offense) / defense) / 50) + 2;
   return Math.max(1, Math.floor(base * multiplier * 0.925));
 }
 
 /** Resolve power at the moment the move hits, after speed-ordered prior damage. */
 export function dynamicMovePower(state:BattleState,attacker:Combatant,base:number,move:Move):number {
+  if(move.dynamicPower==='positiveBoosts')return base+20*Object.values(attacker.stages).reduce((total,stage)=>total+Math.max(0,stage),0);
   if(move.dynamicPower==='remainingHp')return Math.max(1,Math.floor(base*attacker.hp/attacker.maxHp));
   if(move.dynamicPower==='faintedAllies'){
     const side=state.sides.player.team.includes(attacker)?'player':'cpu';

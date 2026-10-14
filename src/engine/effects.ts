@@ -364,10 +364,10 @@ export function triggerSuperEffectiveHit(state:BattleState,pokemon:Combatant,sou
 }
 
 export function resistBerryMultiplier(state:BattleState,pokemon:Combatant,move:Move,effectiveness:number):number {
-  if(effectiveness<=1)return 1;
   let multiplier=1;
   for(const effect of passiveEffects(pokemon)){
     if(effect.trigger!=='onSuperEffectiveDamage'||effect.kind==='resistType'&&effect.type!==move.type)continue;
+    if(effect.kind==='resistType'&&effectiveness<=1&&effect.type!=='normal'||effect.kind==='damageMultiplier'&&effectiveness<=1)continue;
     if(move.ignoreAbility&&abilities[pokemon.set.abilityId]?.effects.includes(effect))continue;
     if(items[pokemon.set.itemId]?.effects.includes(effect)&&isBerryItem(pokemon)&&berrySuppressed(state,pokemon))continue;
     announcePassive(state,pokemon,effect);

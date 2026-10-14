@@ -1,5 +1,5 @@
 import { moves } from '../data';
-import { estimateDamage, moveAccuracy } from './calculations';
+import { estimateDamage, moveAccuracy, weatherBallMove } from './calculations';
 import { getPokemonAt } from './effects';
 import { usableMoves } from './choices';
 import { activateGimmick, gimmickReason, previewMove } from './gimmicks';
@@ -7,18 +7,29 @@ import type { Gimmick } from './types';
 import type { BattleAction, BattleState, Combatant, Move, Side, TargetRef } from './types';
 
 function targetScore(state: BattleState, user: Combatant, target: Combatant, move: Move): number {
+  const ally=state.sides.cpu.team.includes(target);
+  if(move.id==='pollenpuff'&&ally)return target.hp<target.maxHp?Math.min(target.maxHp-target.hp,Math.floor(target.maxHp/2))+12:-30;
   if (move.category !== 'status') {
     const damage = estimateDamage(state, user, target, move, move.target === 'allEnemies');
+    if(ally)return -damage*2;
     const accuracy = moveAccuracy(state, user, target, move) / 100;
     const knockout = damage >= target.hp ? 18 : 0;
     return damage * accuracy + knockout;
   }
   let score = 3;
   for (const effect of move.effects ?? []) {
-    if (effect.kind === 'status') score += !target.status ? 18 * ((effect.chance ?? 100) / 100) : 0;
+    if (effect.kind === 'status') score += !target.status ? (ally?-30:18) * ((effect.chance ?? 100) / 100) : 0;
     if (effect.kind === 'volatile' && effect.condition === 'confusion') score += (target.confusionTurns ?? 0) <= 0 ? 16 : 0;
-    if (effect.kind === 'stat') score += effect.stages * (effect.target === 'self' ? 8 : -7);
-    if (effect.kind === 'heal') score += user.maxHp - user.hp > user.maxHp / 3 ? 25 : 0;
+    if (effect.kind === 'stat') score += effect.stages * (effect.target === 'self'||ally ? 8 : -7);
+    if (effect.kind === 'heal') {
+      const recipient=effect.target==='target'?target:user;
+      score += (recipient===user||ally)&&recipient.maxHp-recipient.hp>recipient.maxHp/3?25:0;
+    }
+    if(effect.kind==='helpingHand')score+=ally&&target.actedTurn!==state.turn&&target.set.moves.some(id=>moves[id]?.category!=='status')?30:-30;
+    if(effect.kind==='dragonCheer')score+=ally&&!target.dragonCheerCritStages?24:-30;
+    if(effect.kind==='acupressure')score+=ally&&Object.values(target.stages).some(stage=>stage<6)?20:-30;
+    if(effect.kind==='teamCure')score+=state.sides.cpu.team.filter(mon=>mon.status).length*18;
+    if(effect.kind==='entrainment')score+=ally&&target.set.abilityId!==user.set.abilityId?8:-12;
     if (effect.kind === 'weather' && state.weather?.id !== effect.weather) score += 10;
     if (effect.kind === 'field' && state.field?.id !== effect.field) score += 10;
     if (effect.kind === 'protect' && user.hp < user.maxHp / 3) score += 12;
@@ -85,15 +96,20 @@ export function chooseCpuActions(state: BattleState): BattleAction[] {
         return [{ kind: 'switch' as const, slot, to: switchTo }];
       }
     }
-    const candidates = usableMoves(user).map(move=>previewMove(user,move));
+    const candidates = usableMoves(user).map(move=>weatherBallMove(state,user,previewMove(user,move)));
     if (!candidates.length) return [{ kind: 'move' as const, slot, moveId: 'struggle' }];
     let best: { move: Move; target?: TargetRef; score: number } | null = null;
     for (const move of candidates) {
-      const targets = move.target === 'self' ? [{ side, slot }] : move.target === 'ally'
-        ? state.sides.cpu.active.flatMap((_, allySlot) => allySlot === slot ? [] : [{ side, slot: allySlot }])
-        : foeRefs;
+      const friendlyRefs=state.sides.cpu.active.flatMap((_, allySlot) => {
+        const ally=getPokemonAt(state,{side,slot:allySlot});
+        return ally&&!ally.fainted?[{side,slot:allySlot}]:[];
+      });
+      const targets = move.target === 'allAllies' ? friendlyRefs : move.target === 'self' ? [{ side, slot }]
+        : move.target === 'ally' ? friendlyRefs.filter(ref=>ref.slot!==slot)
+        : move.target === 'allyOrSelf' ? friendlyRefs
+        : move.target === 'any' ? [...foeRefs,...friendlyRefs.filter(ref=>ref.slot!==slot)] : foeRefs;
       if (!targets.length) continue;
-      if (move.target === 'allEnemies' || move.target === 'allOthers') {
+      if (move.target === 'allEnemies' || move.target === 'allOthers' || move.target === 'allAllies') {
         let score = targets.reduce((sum, ref) => {
           const target = getPokemonAt(state, ref);
           return sum + (target ? targetScore(state, user, target, move) : 0);
