@@ -13,8 +13,8 @@ const fields=['type','category','power','accuracy','pp','priority','contact','so
 const differences=[];let compared=0;
 for(const [id,source] of Object.entries(championMoves)){
   const actual=moves[id];if(!actual)continue;compared++;
-  for(const field of fields){const expected=source[field]??false,value=actual[field]??false;if(expected!==value)differences.push({id,name:actual.name,field,source:expected,game:value});}
+  for(const field of fields){if(field==='power'&&['return','frustration'].includes(id))continue;const expected=source[field]??false,value=actual[field]??false;if(expected!==value)differences.push({id,name:actual.name,field,source:expected,game:value});}
 }
-const report={source:'Pinned Showdown M-C-derived move metadata, commit 942cda71',comparedMoves:compared,coreFieldDifferences:differences,explicitCustomRules:['Life Orb costs 1/8 maximum HP','Rampage lasts 2–5 turns','Make It Rain lowers Special Attack by 2 stages','Mixed Mega/Tera/Z/Dynamax rules'],limitations:'This audit does not validate arbitrary move callbacks, every ability interaction, or official Champions equivalence.'};
+const report={source:'Pinned Showdown M-C-derived move metadata, commit 942cda71',comparedMoves:compared,coreFieldDifferences:differences,explicitCustomRules:['Return/Frustration friendship-based power','Life Orb costs 1/8 maximum HP','Rampage lasts 2–5 turns','Make It Rain lowers Special Attack by 2 stages','Mixed Mega/Tera/Z/Dynamax rules'],limitations:'This audit does not validate arbitrary move callbacks, every ability interaction, or official Champions equivalence.'};
 fs.mkdirSync('outputs',{recursive:true});fs.writeFileSync('outputs/rule-fidelity-audit.json',JSON.stringify(report,null,2));
 console.log(JSON.stringify({comparedMoves:compared,differenceCount:differences.length,differences},null,2));

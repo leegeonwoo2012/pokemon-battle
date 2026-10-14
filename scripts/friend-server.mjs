@@ -26,7 +26,9 @@ function write(client, message) {
 }
 
 export function startFriendServer(port = PORT, host = '0.0.0.0', { previewMs = TEAM_PREVIEW_MS } = {}) {
-  const engine=runtime.loadEngine(),choices=runtime.loadChoices(),gimmicks=runtime.loadGimmicks(),species=runtime.loadData().species;
+  const engine=runtime.loadEngine(),choices=runtime.loadChoices(),gimmicks=runtime.loadGimmicks(),data=runtime.loadData(),species=data.species;
+  const restrictedNumbers=new Set(data.restrictedDexNumbers);
+  function restrictedIssue(team,allowRestricted){const count=team.filter(set=>restrictedNumbers.has(species[set.speciesId]?.nationalDex)).length;return count>1?'초전설은 팀에 최대 1마리만 넣을 수 있습니다.':count&&!allowRestricted?'이 배틀은 초전설을 허용하지 않습니다.':null;}
   const rooms = new Map();
   const clients = new Set();
   const rate = new Map();
@@ -50,7 +52,7 @@ export function startFriendServer(port = PORT, host = '0.0.0.0', { previewMs = T
   function publicProfile(profile){return profile&&{name:profile.name,team:publicEntry(profile.team,species)};}
   function previewFor(room,role){
     const own=room[role]?.profile,peer=room[role==='host'?'guest':'host']?.profile;
-    return {type:'team-preview-started',format:room.format,endsAt:room.preview.endsAt,durationMs:previewMs,
+    return {type:'team-preview-started',format:room.format,allowRestricted:room.allowRestricted,endsAt:room.preview.endsAt,durationMs:previewMs,
       own:publicEntry(own.team,species),opponent:publicEntry(peer.team,species),
       submitted:!!room.preview.selections[role],opponentSubmitted:!!room.preview.selections[role==='host'?'guest':'host']};
   }
@@ -123,7 +125,7 @@ export function startFriendServer(port = PORT, host = '0.0.0.0', { previewMs = T
       do { code = String(Math.floor(100000 + Math.random() * 900000)); } while (rooms.has(code));
       client.code = code; client.role = 'host';
       client.token=randomBytes(24).toString('base64url');
-      rooms.set(code, { host: client, guest: null,format:'singles',revision:0,state:null,phase:'LOBBY',preview:null,pending:{},acks:{},busy:false });
+      rooms.set(code, { host: client, guest: null,format:'singles',allowRestricted:false,revision:0,state:null,phase:'LOBBY',preview:null,pending:{},acks:{},busy:false });
       write(client, { type: 'room-created', code, role: 'host',token:client.token });
       return;
     }
@@ -136,7 +138,7 @@ export function startFriendServer(port = PORT, host = '0.0.0.0', { previewMs = T
       client.code=message.code;client.role=role;client.token=previous.token;client.profile=previous.profile;room[role]=client;
       if(room.busy)room.acks[role]=true;
       const peer=room[role==='host'?'guest':'host'];
-      write(client,{type:'room-resumed',code:client.code,role,token:client.token,profile:client.profile,peer:publicProfile(peer?.profile),state:room.state,format:room.format,revision:room.revision,waiting:room.busy||!!room.pending[role],peerConnected:!!peer&&!peer.disconnectedAt,preview:room.preview?previewFor(room,role):null});
+      write(client,{type:'room-resumed',code:client.code,role,token:client.token,profile:client.profile,peer:publicProfile(peer?.profile),state:room.state,format:room.format,allowRestricted:room.allowRestricted,revision:room.revision,waiting:room.busy||!!room.pending[role],peerConnected:!!peer&&!peer.disconnectedAt,preview:room.preview?previewFor(room,role):null});
       if(peer)write(peer,{type:'peer-reconnected'});
       readyForNext(room);return;
     }
@@ -166,20 +168,22 @@ export function startFriendServer(port = PORT, host = '0.0.0.0', { previewMs = T
       if (peer?.profile) {
         write(client, { type: 'peer-ready', peer: publicProfile(peer.profile) });
         write(peer, { type: 'peer-ready', peer: publicProfile(client.profile) });
-        write(client,{type:'format-selected',format:room.format??'singles'});write(peer,{type:'format-selected',format:room.format??'singles'});
+        broadcast(room,{type:'format-selected',format:room.format??'singles',allowRestricted:room.allowRestricted});
       }
       return;
     }
     if(message.type==='leave-room'){if(room.preview?.timer)clearTimeout(room.preview.timer);broadcast(room,{type:'room-left'});rooms.delete(client.code);client.code=undefined;client.role=undefined;return;}
-    if(message.type==='select-format'&&client.role==='host'&&room.phase==='LOBBY'&&(message.format==='singles'||message.format==='doubles')){room.format=message.format;broadcast(room,{type:'format-selected',format:room.format});return;}
+    if(message.type==='select-format'&&client.role==='host'&&room.phase==='LOBBY'&&(message.format==='singles'||message.format==='doubles')){room.format=message.format;room.allowRestricted=message.allowRestricted===true;broadcast(room,{type:'format-selected',format:room.format,allowRestricted:room.allowRestricted});return;}
     if (!peer) return fail(client, '상대와 연결이 끊겼습니다.');
     if ((message.type === 'start_team_preview'||message.type==='start-battle') && client.role === 'host') {
       if(room.phase!=='LOBBY')return fail(client,'이미 시작된 배틀입니다.');
       if(!room.host.profile||!room.guest?.profile)return fail(client,'양쪽 팀을 먼저 준비하세요.');
       const format=message.format==='doubles'?'doubles':message.format==='singles'||message.format===undefined?'singles':null;
       if(!format)return fail(client,'싱글 또는 더블 배틀을 선택해 주세요.');
-      for(const profile of [room.host.profile,room.guest.profile]){const issues=engine.validateTeam(profile.team,format);if(issues.length)return fail(client,issues[0]);}
+      const allowRestricted=message.allowRestricted===true;
+      for(const profile of [room.host.profile,room.guest.profile]){const issues=engine.validateTeam(profile.team,format);if(issues.length)return fail(client,issues[0]);const restricted=restrictedIssue(profile.team,allowRestricted);if(restricted)return fail(client,restricted);}
       if([room.host.profile,room.guest.profile].some(profile=>profile.team.length<6))return fail(client,'팀 프리뷰에는 각자 포켓몬 6마리가 필요합니다.');
+      room.allowRestricted=allowRestricted;
       startPreview(room,format);
       return;
     }

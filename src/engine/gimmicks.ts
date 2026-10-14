@@ -1,7 +1,7 @@
 import { species, moves, typeNames, items } from '../data';
-import { exclusiveZMoves, gmaxForms, gimmickNames, maxEffects, maxMoves, maxPower, megaForms, powerMetadata, zMoves, zPower } from '../data/gimmicks';
+import { exclusiveZMoves, gmaxForms, gimmickNames, maxEffects, maxMoves, maxPower, megaForms, powerMetadata, ultraNecrozmaForm, zMoves, zPower } from '../data/gimmicks';
 import { calculateStats, passiveEffects } from './calculations';
-import { activePokemon, addLog, applyDamage, applyEntryEffects, applyHeal, applyStatChange, applyStatus, getPokemonAt, refreshAbilityTypes } from './effects';
+import { activePokemon, addLog, applyDamage, applyEntryEffects, applyHeal, applyStatChange, applyStatus, changeAbilityBattleForm, getPokemonAt, refreshAbilityTypes, restoreAbilityBattleForm, setBattleWeather } from './effects';
 import { isMoveUsable } from './choices';
 import { chance } from './rng';
 import { randomInt } from './rng';
@@ -15,12 +15,13 @@ export function gimmickSetErrors(set:TeamSet):string[] {
   if(set.gigantamax && !gmaxForms[set.speciesId]) errors.push('이 종의 거다이맥스 데이터는 지원하지 않습니다.');
   return errors;
 }
-export const megaFormFor = (pokemon:Combatant) => megaForms.find(f=>f.speciesId===pokemon.set.speciesId&&f.stoneId===pokemon.set.itemId);
+export const megaFormFor = (pokemon:Combatant) => megaForms.find(f=>f.speciesId===pokemon.set.speciesId&&(f.stoneId===pokemon.set.itemId||f.id==='rayquazamega'&&pokemon.set.moves.includes('dragonascent')));
 export const teraTypeFromItem = (itemId:string):string|undefined => {
   const type=itemId.startsWith('tera-')?itemId.slice(5):undefined;
   return type&&typeNames[type]?type:undefined;
 };
-export const exclusiveZFor=(set:TeamSet)=>exclusiveZMoves.find(z=>z.speciesId===set.speciesId&&set.moves.includes(z.baseMove))?.crystal;
+export const exclusiveZForAll=(set:TeamSet)=>[...new Set(exclusiveZMoves.filter(z=>z.speciesId===set.speciesId&&set.moves.includes(z.baseMove)).map(z=>z.crystal))];
+export const exclusiveZFor=(set:TeamSet)=>exclusiveZForAll(set)[0];
 function zStatusSupported(id:string):boolean {
   const z=powerMetadata[id]?.z;
   return !!z&&(!!z.boost||['heal','clearnegativeboost'].includes(z.effect??''));
@@ -43,6 +44,7 @@ export function gimmickReason(state:BattleState,side:Side,pokemon:Combatant,kind
     const equipped=teraTypeFromItem(pokemon.set.itemId);
     if(!equipped||pokemon.itemConsumed)return '팀 편성에서 원하는 타입의 테라크리스탈을 지니게 하세요.';
     if(teraType&&teraType!==equipped)return '지닌 테라크리스탈과 다른 타입은 사용할 수 없습니다.';
+    if(pokemon.set.speciesId==='terapagos'&&equipped!=='stellar')return '테라파고스는 스텔라 타입으로만 테라스탈할 수 있습니다.';
   }
   if(kind==='dynamax'&&pokemon.set.gigantamax&&!gmaxForms[pokemon.set.speciesId]) return '거다이맥스 폼 데이터가 없습니다.';
   if(kind==='z') {
@@ -57,7 +59,7 @@ export function gimmickReason(state:BattleState,side:Side,pokemon:Combatant,kind
     };
     if(moveId?!compatible(moveId):!pokemon.set.moves.some(compatible)) {
       const types=compatibleZTypes(pokemon.set);
-      const options=[...(exclusiveZFor(pokemon.set)?[items[exclusiveZFor(pokemon.set)!].name]:[]),...types.map(type=>items[zMoves[type].crystal]?.name??`${typeNames[type]} Z크리스탈`)];
+      const options=[...exclusiveZForAll(pokemon.set).map(crystal=>items[crystal]?.name??crystal),...types.map(type=>items[zMoves[type].crystal]?.name??`${typeNames[type]} Z크리스탈`)];
       return options.length
         ?`팀 편성 → 기믹 도구 빠른 장착 또는 지닌 도구에서 ${options.join(' 또는 ')}를 고르세요.`
         :'배운 기술과 호환되는 Z크리스탈이 없습니다. 지원되는 기술을 확인하세요.';
@@ -82,11 +84,22 @@ export function activateGimmick(state:BattleState,side:Side,slot:number,kind:Gim
       const form=megaFormFor(p)!;
       p.speciesName=form.name;p.types=[...form.types];p.stats=calculateStats({...species[p.set.speciesId],baseStats:form.baseStats},p.set);
       p.stats.hp=p.maxHp;p.set.abilityId=form.abilityId;p.transformation.formId=form.id;
-    } else if(kind==='tera') { if(selectedTeraType!=='stellar')p.types=[selectedTeraType];p.transformation.teraType=selectedTeraType;p.stellarBoostedTypes=[]; }
+    } else if(kind==='tera') {
+      p.transformation.teraType=selectedTeraType;p.stellarBoostedTypes=[];
+      if(p.set.speciesId==='terapagos'){
+        changeAbilityBattleForm(p,'terapagosstellar');
+        state.weather=null;state.field=null;refreshAbilityTypes(state);
+        addLog(state,'테라파고스의 테라폼제로! 날씨와 필드가 사라졌다!','status',{kind:'ability',actorUid:p.uid,sourceId:'teraformzero',sourceKind:'ability'});
+      }else if(selectedTeraType!=='stellar')p.types=[selectedTeraType];
+    }
     else {
       p.maxHp*=2;p.hp*=2;p.stats.hp=p.maxHp;p.transformation.turns=3;
       if(p.set.gigantamax) {p.transformation.formId=p.set.speciesId+'gmax';p.speciesName='거다이'+p.speciesName;}
     }
+  } else if(p.set.itemId==='ultranecroziumz'&&['necrozmaduskmane','necrozmadawnwings'].includes(p.set.speciesId)) {
+    remember(p);
+    p.transformation={kind:'z',formId:ultraNecrozmaForm.id};p.appearanceSpeciesId=p.set.speciesId;p.speciesName=ultraNecrozmaForm.name;p.types=[...ultraNecrozmaForm.types];
+    p.stats=calculateStats({...species[p.set.speciesId],baseStats:ultraNecrozmaForm.baseStats,types:ultraNecrozmaForm.types},p.set);p.stats.hp=p.maxHp;p.set.abilityId=ultraNecrozmaForm.abilityId;
   }
   addLog(state,`${p.speciesName}: ${gimmickNames[kind]} 발동!${kind==='tera'?` ${typeNames[selectedTeraType]} 타입`:''}`,'system',{kind:'gimmick-transform',actorUid:p.uid,gimmick:kind,type:kind==='tera'?selectedTeraType:moves[moveId]?.type});
   if(kind==='mega') applyEntryEffects(state,side,p);
@@ -94,6 +107,7 @@ export function activateGimmick(state:BattleState,side:Side,slot:number,kind:Gim
 }
 export function previewMove(p:Combatant,base:Move,kind?:Gimmick,teraType?:string):Move {
   if(base.id==='struggle') return base;
+  if(base.id==='photongeyser')base={...base,category:p.stats.atk>p.stats.spa?'physical':'special'};
   if(base.id==='terablast'&&(p.transformation?.kind==='tera'||kind==='tera')&&kind!=='z'&&kind!=='dynamax'){
     const chosen=p.transformation?.teraType??teraTypeFromItem(p.set.itemId)??teraType??p.set.teraType??p.types[0];
     const stellar=chosen==='stellar';
@@ -102,12 +116,13 @@ export function previewMove(p:Combatant,base:Move,kind?:Gimmick,teraType?:string
   }
   if(kind==='z') {
     const exclusive=exclusiveZMoves.find(z=>z.speciesId===p.set.speciesId&&z.crystal===p.set.itemId&&z.baseMove===base.id);
-    if(exclusive)return {id:exclusive.id,name:exclusive.name,type:exclusive.type,category:exclusive.category,power:exclusive.power,accuracy:null,pp:base.pp,priority:0,target:exclusive.target,powered:'z',
-      ignoreAbility:exclusive.id==='menacingmoonrazemaelstrom',contact:['letssnuggleforever','maliciousmoonsault','pulverizingpancake'].includes(exclusive.id),
-      effects:exclusive.id==='clangoroussoulblaze'?(['atk','def','spa','spd','spe'] as const).map(stat=>({kind:'stat' as const,stat,stages:1,target:'self' as const})):undefined};
+    if(exclusive)return {id:exclusive.id,name:exclusive.name,type:exclusive.type,category:exclusive.id==='lightthatburnsthesky'?(p.stats.atk>p.stats.spa?'physical':'special'):exclusive.category,power:exclusive.power,accuracy:null,pp:base.pp,priority:0,target:exclusive.target,powered:'z',
+      ignoreAbility:'ignoreAbility' in exclusive?exclusive.ignoreAbility:false,contact:'contact' in exclusive?exclusive.contact:false,critStage:'critStage' in exclusive?exclusive.critStage:undefined,
+      bypassSubstitute:true,fixedHpFraction:'fixedHpFraction' in exclusive?exclusive.fixedHpFraction:undefined,fixedHpBasis:'fixedHpBasis' in exclusive?exclusive.fixedHpBasis:undefined,
+       effects:('effects' in exclusive&&exclusive.effects?[...exclusive.effects]:exclusive.id==='clangoroussoulblaze'?(['atk','def','spa','spd','spe'] as const).map(stat=>({kind:'stat' as const,stat,stages:1,target:'self' as const})):undefined)};
     if(base.category==='status') return {...base,name:'Z'+base.name,powered:'z'};
     const z=zMoves[base.type];
-    return {id:z.id,name:z.name,type:base.type,category:base.category,power:powerMetadata[base.id]?.z?.basePower??zPower(base.power),accuracy:null,pp:base.pp,priority:base.priority,target:'enemy',powered:'z'};
+    return {id:z.id,name:z.name,type:base.type,category:base.category,power:powerMetadata[base.id]?.z?.basePower??zPower(base.power),accuracy:null,pp:base.pp,priority:0,target:'enemy',powered:'z',bypassSubstitute:true};
   }
   if(kind==='dynamax'||p.transformation?.kind==='dynamax') {
     if(base.category==='status') return {id:'maxguard',name:'다이월',type:'normal',category:'status',power:0,accuracy:null,pp:base.pp,priority:4,target:'self',effects:[{kind:'protect'}],powered:'max'};
@@ -128,7 +143,7 @@ export function applyExclusiveZEffect(state:BattleState,move:Move):void {
   if(move.id==='genesissupernova'){
     state.field={id:'psychic',turns:5};refreshAbilityTypes(state);addLog(state,'Genesis Supernova: 사이코필드가 펼쳐졌다!','status',{kind:'field'});
   }else if(move.id==='splinteredstormshards'&&state.field){
-    state.field=null;refreshAbilityTypes(state);addLog(state,'Splintered Stormshards: 필드가 사라졌다!','status',{kind:'field'});
+    state.field=null;refreshAbilityTypes(state);addLog(state,'레이디얼에지스톰: 필드가 사라졌다!','status',{kind:'field'});
   }
 }
 export function applyZStatus(state:BattleState,p:Combatant,baseId:string) {
@@ -209,7 +224,7 @@ export function applyMaxEffect(state:BattleState,side:Side,p:Combatant,move:Move
     }
   } else {
     const effect=maxEffects[move.type]; if(!effect) return;
-    if('weather' in effect) {state.weather={id:effect.weather,turns:5};refreshAbilityTypes(state);addLog(state,`${move.name}: 날씨 ${effect.weather}!`,'status',{kind:'weather'});}
+    if('weather' in effect) {if(setBattleWeather(state,effect.weather,5))addLog(state,`${move.name}: 날씨 ${effect.weather}!`,'status',{kind:'weather'});else addLog(state,'강한 날씨가 다른 날씨를 밀어냈다!','status',{kind:'blocked'});}
     else if('field' in effect) {state.field={id:effect.field,turns:5};refreshAbilityTypes(state);addLog(state,`${move.name}: ${effect.field} 필드!`,'status',{kind:'field'});}
     else for(const target of activePokemon(state,effect.side==='allies'?side:foe)) applyStatChange(state,target,effect.stat,effect.stages,p);
   }
@@ -237,8 +252,9 @@ export function restoreBattleForms(state:BattleState) {
     endDynamax(state,p);
     if(p.original) {
       p.speciesName=p.original.name;p.types=[...p.original.types];p.stats={...p.original.stats};p.set.abilityId=p.original.abilityId;
-      p.maxHp=p.original.maxHp;p.hp=Math.min(p.hp,p.maxHp);p.original=undefined;p.transformation=undefined;
+      p.maxHp=p.original.maxHp;p.hp=Math.min(p.hp,p.maxHp);p.original=undefined;p.transformation=undefined;p.appearanceSpeciesId=undefined;
       addLog(state,`${p.speciesName}이 원래 모습으로 돌아왔다.`,'system',{kind:'gimmick-end',actorUid:p.uid});
     }
+    if(p.abilityFormOriginal)restoreAbilityBattleForm(state,p);
   }
 }

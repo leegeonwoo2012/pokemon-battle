@@ -4,7 +4,7 @@ export type Side = 'player' | 'cpu';
 export type Format = 'singles' | 'doubles';
 export type Status = 'burn' | 'poison' | 'paralysis' | 'sleep' | 'freeze';
 export type VolatileCondition = 'confusion' | 'flinch';
-export type Weather = 'sun' | 'rain' | 'sand' | 'snow';
+export type Weather = 'sun' | 'rain' | 'sand' | 'snow' | 'strongwinds';
 export type Field = 'electric' | 'grassy' | 'misty' | 'psychic';
 export type Stats = Record<Stat, number>;
 export type Gimmick = 'mega' | 'tera' | 'z' | 'dynamax';
@@ -63,7 +63,8 @@ export type MoveEffect =
   | { kind: 'yawn' }
   | { kind: 'attract' }
   | { kind: 'entrainment' }
-  | { kind: 'rest' };
+  | { kind: 'rest' }
+  | { kind: 'trap' | 'suppressAbility' };
 
 export type Hazard = 'stealthrock' | 'spikes' | 'toxicspikes' | 'stickyweb' | 'steelsurge';
 export type ScreenCondition = 'reflect' | 'lightscreen' | 'auroraveil';
@@ -101,6 +102,16 @@ export interface Move {
   delayedTurns?: number;
   ignoreDefenderStages?: boolean;
   ignoreAbility?: boolean;
+  /** Ignore type-chart immunities caused by the listed attacking types. */
+  ignoreImmunity?: string[];
+  /** Ignores the target's evasion stage when calculating accuracy. */
+  ignoreEvasion?: boolean;
+  /** A move only exists while the user is in this battle form. */
+  requiresForm?: string;
+  /** Scripted damage as a fraction of the selected HP pool, before Protect reduction. */
+  fixedHpFraction?: number;
+  /** Which HP pool scripted fractional damage uses (Guardian of Alola uses current HP). */
+  fixedHpBasis?: 'max' | 'current';
   pulse?:boolean;
   bite?:boolean;
   slicing?:boolean;
@@ -109,11 +120,15 @@ export interface Move {
   charge?: 'always' | 'sun' | 'rain';
   semiInvulnerable?: 'underground' | 'underwater' | 'airborne' | 'vanished';
   fixedDamage?: 'counter' | 'mirrorcoat' | 'endeavor';
-  dynamicPower?: 'remainingHp' | 'faintedAllies' | 'positiveBoosts';
+  dynamicPower?: 'remainingHp' | 'faintedAllies' | 'positiveBoosts' | 'friendship' | 'lowFriendship';
   pivot?: boolean;
   selfCostFraction?: number;
   selfDestruct?: boolean;
   rampage?: [number, number];
+  /** Spectral Thief takes positive stat stages before damage and bypasses Substitute. */
+  stealsBoosts?: boolean;
+  /** Thousand Arrows can hit an airborne target and ground it after a hit. */
+  groundsTarget?: boolean;
 }
 
 /** Declarative trigger effects, applied by the engine's event handlers. */
@@ -187,6 +202,8 @@ export interface TeamSet {
   speciesId: string;
   nickname?: string;
   gender?: 'M' | 'F' | 'N';
+  /** Friendship (0-255), used by Return and Frustration. Defaults to 255. */
+  friendship?: number;
   moves: string[];
   abilityId: string;
   itemId: string;
@@ -199,9 +216,13 @@ export interface TeamSet {
 
 export interface Combatant {
   appearanceSpeciesId?:string;
+  /** Active art/stat form from an ability such as Power Construct or Tera Shift. */
+  battleFormId?:string;
+  abilityFormOriginal?:{speciesName:string;types:string[];stats:Stats;abilityId:string;maxHp:number;appearanceSpeciesId?:string;battleFormId?:string};
+  powerConstructActivated?:boolean;
   transformedOriginal?:{speciesName:string;types:string[];stats:Stats;abilityId:string;moves:string[];pp:Record<string,number>;stages:Record<BoostStat,number>};
   original?: { name: string; types: string[]; stats: Stats; abilityId: string; maxHp: number };
-  transformation?: { kind: Gimmick; formId?: string; turns?: number; teraType?: string };
+  transformation?: { kind: Gimmick|'primal'; formId?: string; turns?: number; teraType?: string };
   proteanUsed?:boolean;
   disguiseBroken?:boolean;
   battleBondActivated?:boolean;
@@ -232,6 +253,8 @@ export interface Combatant {
   sleepTurns: number;
   stages: Record<BoostStat, number>;
   pp: Record<string, number>;
+  /** Move-slot usage for rules such as Last Resort; persists when this Pokémon switches out. */
+  usedMoveIds: string[];
   protected: boolean;
   protectStreak?: number;
   lastProtectTurn?: number;
@@ -243,6 +266,10 @@ export interface Combatant {
   confusionTurns?: number;
   flinched?: boolean;
   actedTurn?: number;
+  /** Turn in which this combatant actually used a move after status/flinch checks. */
+  movedTurn?: number;
+  /** Regigigas Slow Start: active turns remaining, reset on switching back in. */
+  slowStartTurns?: number;
   lastMove?: string;
   lastReceivedHit?: { turn: number; damage: number; category: 'physical' | 'special'; sourceUid: string };
   charging?: { moveId: string; target?: TargetRef };
@@ -258,6 +285,7 @@ export interface Combatant {
   dragonCheerCritStages?: number;
   trapped?: boolean;
   trappedBy?:string;
+  groundedByMove?:boolean;
   yawnTurns?: number;
   rechargeTurns?: number;
   tauntTurns?: number;
@@ -302,8 +330,9 @@ export interface BattleEvent {
   id: number;
   kind: 'move' | 'damage' | 'heal' | 'stat' | 'status' | 'protect' | 'blocked' | 'miss'
     | 'effectiveness' | 'critical' | 'ability' | 'item' | 'switch-out' | 'switch-in'
-    | 'faint' | 'weather' | 'field' | 'turn-end' | 'result' | 'message' | 'gimmick-start' | 'gimmick-transform' | 'gimmick-end';
+    | 'faint' | 'weather' | 'field' | 'turn-end' | 'result' | 'message' | 'form-change' | 'gimmick-start' | 'gimmick-transform' | 'gimmick-end';
   gimmick?: Gimmick;
+  formId?:string;
   text: string;
   actorUid?: string;
   targetUid?: string;

@@ -303,6 +303,38 @@
       "bytes": 1391
     }
   },
+  "mewtwomegax": {
+    "id": 10043,
+    "slug": "mewtwo-mega-x",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10043.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 840
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10043.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 959
+    }
+  },
+  "mewtwomegay": {
+    "id": 10044,
+    "slug": "mewtwo-mega-y",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10044.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 710
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10044.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 923
+    }
+  },
   "meganiummega": {
     "id": 10282,
     "slug": "meganium-mega",
@@ -751,6 +783,38 @@
       "bytes": 2324
     }
   },
+  "latiasmega": {
+    "id": 10062,
+    "slug": "latias-mega",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10062.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 785
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10062.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 915
+    }
+  },
+  "latiosmega": {
+    "id": 10063,
+    "slug": "latios-mega",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10063.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 785
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10063.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 915
+    }
+  },
   "staraptormega": {
     "id": 10308,
     "slug": "staraptor-mega",
@@ -893,6 +957,22 @@
       "width": 96,
       "height": 96,
       "bytes": 1080
+    }
+  },
+  "heatranmega": {
+    "id": 10311,
+    "slug": "heatran-mega",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10311.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1615
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10311.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1361
     }
   },
   "emboarmega": {
@@ -1199,6 +1279,30 @@
       "bytes": 1287
     }
   },
+  "zygardemega": {
+    "id": 10301,
+    "slug": "zygarde-mega",
+    "format": "png",
+    "sourceRepository": "PokeAPI/sprites",
+    "sourceCommit": "master (retrieved 2026-10-14)",
+    "extractedFrame": 0,
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ix/legends-za/10301.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 167990,
+      "sha256": "4f44d10af9d6f7fe1c3c1ed067ac4a942fd5d927e33e94c217e335a7e1c06279",
+      "sourceFormat": "animated-webp-frame-0"
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ix/legends-za/back/10301.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 147875,
+      "sha256": "ea3209655461440257ac79b8a83165c17245a7d1c70242924ccc65e827918176",
+      "sourceFormat": "animated-webp-frame-0"
+    }
+  },
   "crabominablemega": {
     "id": 10315,
     "slug": "crabominable-mega",
@@ -1309,6 +1413,54 @@
       "width": 96,
       "height": 96,
       "bytes": 1507
+    }
+  },
+  "rayquazamega": {
+    "id": 10079,
+    "slug": "rayquaza-mega",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10079.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1730
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10079.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1801
+    }
+  },
+  "kyogreprimal": {
+    "id": 10077,
+    "slug": "kyogre-primal",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10077.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1315
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10077.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 3007
+    }
+  },
+  "groudonprimal": {
+    "id": 10078,
+    "slug": "groudon-primal",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10078.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1498
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10078.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 3732
     }
   },
   "venusaurgmax": {
@@ -1854,5 +2006,81 @@
       "height": 96,
       "bytes": 4033
     }
+  },
+  "zygardecomplete": {
+    "id": 10120,
+    "slug": "zygarde-complete",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10120.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1843,
+      "contentType": "image/png"
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10120.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1709,
+      "contentType": "image/png"
+    },
+    "format": "png"
+  },
+  "terapagosterastal": {
+    "id": 10276,
+    "slug": "terapagos-terastal",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10276.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 3267,
+      "contentType": "image/png"
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10276.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 2424,
+      "contentType": "image/png"
+    },
+    "format": "png"
+  },
+  "terapagosstellar": {
+    "id": 10277,
+    "slug": "terapagos-stellar",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10277.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 4355,
+      "contentType": "image/png"
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10277.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 6062,
+      "contentType": "image/png"
+    },
+    "format": "png"
+  },
+  "necrozmaultra": {
+    "id": 10157,
+    "slug": "necrozma-ultra",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10157.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1671,
+      "contentType": "image/png"
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10157.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1558,
+      "contentType": "image/png"
+    },
+    "format": "png"
   }
 }

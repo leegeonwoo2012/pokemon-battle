@@ -1,6 +1,8 @@
 // Ability IDs implemented in battle handlers rather than declarative effects.
 module.exports = new Set([
-  'trace','shadowtag','imposter','innardsout','protean','libero','bulletproof','spicyspray','hustle',
+  'trace','shadowtag','imposter','innardsout','protean','libero','bulletproof','spicyspray','hustle','aurabreak','airlock','darkaura','fullmetalbody',
+  'tabletsofruin','swordofruin','vesselofruin','beadsofruin','toxicchain','slowstart',
+  'powerconstruct','rkssystem','terashift','terashell','teraformzero',
   'scrappy','sandforce','surgesurfer','megasol','solarpower','fairyaura','angerpoint','soundproof',
   'sniper','steadfast','unburden','frisk','stalwart','gluttony','unnerve','pickup','cursedbody',
   'cutecharm','telepathy','cudchew','pickpocket','cheekpouch','damp','klutz','leafguard','magicguard',

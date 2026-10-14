@@ -9,7 +9,7 @@ describe('per-move battle choreography', () => {
       expect(moveMotion(move).cue.length, move.id).toBeGreaterThan(3);
       expect(moveMotion(move).cue, move.id).toMatch(/[가-힣]/);
     }
-    for(const id of ['counter','mirrorcoat','electroshot','voltswitch','lastrespects','steelbeam','waterspout','eruption','outrage','scaleshot'])expect(hasDedicatedMoveMotion(id)).toBe(true);
+    for(const id of ['counter','mirrorcoat','electroshot','voltswitch','lastrespects','steelbeam','waterspout','eruption','outrage','scaleshot','spectralthief','sunsteelstrike','moongeistbeam','photongeyser','coreenforcer','thousandarrows','thousandwaves','dragonascent','dracometeor','spacialrend','roaroftime','originpulse','precipiceblades','seedflare','fleurcannon','prismaticlaser','catastropika','10000000voltthunderbolt','clangoroussoulblaze','extremeevoboost','genesissupernova','guardianofalola','letssnuggleforever','lightthatburnsthesky','maliciousmoonsault','menacingmoonrazemaelstrom','oceanicoperetta','pulverizingpancake','searingsunrazesmash','sinisterarrowraid','soulstealing7starstrike','splinteredstormshards','stokedsparksurfer','nihillight'])expect(hasDedicatedMoveMotion(id)).toBe(true);
   });
 
   it('uses distinctly shaped choreography for signature move styles', () => {

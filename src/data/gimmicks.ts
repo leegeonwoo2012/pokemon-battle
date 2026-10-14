@@ -1,22 +1,33 @@
 import type { BoostStat, Field, Item, Weather } from '../engine/types';
-import { megaForms, zDefinitions, maxDefinitions } from './gimmicks.generated';
-export { megaForms, powerMetadata } from './gimmicks.generated';
-export const gimmickNames = {mega:'메가진화',tera:'테라스탈',z:'Z기술',dynamax:'다이맥스'};
+import { megaForms, primalForms, zDefinitions, maxDefinitions } from './gimmicks.generated';
+export { megaForms, primalForms, powerMetadata, ultraNecrozmaForm } from './gimmicks.generated';
+export const gimmickNames = {mega:'메가진화',primal:'원시회귀',tera:'테라스탈',z:'Z기술',dynamax:'다이맥스'};
 export const exclusiveZMoves = [
+  {speciesId:'pikachu',baseMove:'volttackle',crystal:'pikaniumz',id:'catastropika',name:'필살피카슛',type:'electric',category:'physical',power:210,target:'enemy',contact:true},
+  {speciesId:'pikachu',baseMove:'thunderbolt',crystal:'pikashuniumz',id:'10000000voltthunderbolt',name:'1000만볼트',type:'electric',category:'special',power:195,target:'enemy',critStage:1},
   {speciesId:'kommoo',baseMove:'clangingscales',crystal:'kommoniumz',id:'clangoroussoulblaze',name:'브레이징소울비트',type:'dragon',category:'special',power:185,target:'allEnemies'},
-  {speciesId:'mew',baseMove:'psychic',crystal:'mewniumz',id:'genesissupernova',name:'Genesis Supernova',type:'psychic',category:'special',power:185,target:'enemy'},
-  {speciesId:'lycanroc',baseMove:'stoneedge',crystal:'lycaniumz',id:'splinteredstormshards',name:'Splintered Stormshards',type:'rock',category:'physical',power:190,target:'enemy'},
-  {speciesId:'mimikyu',baseMove:'playrough',crystal:'mimikiumz',id:'letssnuggleforever',name:"Let's Snuggle Forever",type:'fairy',category:'physical',power:190,target:'enemy'},
-  {speciesId:'incineroar',baseMove:'darkestlariat',crystal:'inciniumz',id:'maliciousmoonsault',name:'Malicious Moonsault',type:'dark',category:'physical',power:180,target:'enemy'},
-  {speciesId:'lunala',baseMove:'moongeistbeam',crystal:'lunaliumz',id:'menacingmoonrazemaelstrom',name:'Menacing Moonraze Maelstrom',type:'ghost',category:'special',power:200,target:'enemy'},
-  {speciesId:'primarina',baseMove:'sparklingaria',crystal:'primariumz',id:'oceanicoperetta',name:'Oceanic Operetta',type:'water',category:'special',power:195,target:'enemy'},
-  {speciesId:'snorlax',baseMove:'gigaimpact',crystal:'snorliumz',id:'pulverizingpancake',name:'Pulverizing Pancake',type:'normal',category:'physical',power:210,target:'enemy'},
+  {speciesId:'mew',baseMove:'psychic',crystal:'mewniumz',id:'genesissupernova',name:'오리진즈슈퍼노바',type:'psychic',category:'special',power:185,target:'enemy',afterHit:'psychicTerrain'},
+  {speciesId:'lycanroc',baseMove:'stoneedge',crystal:'lycaniumz',id:'splinteredstormshards',name:'레이디얼에지스톰',type:'rock',category:'physical',power:190,target:'enemy',afterHit:'clearTerrain'},
+  {speciesId:'mimikyu',baseMove:'playrough',crystal:'mimikiumz',id:'letssnuggleforever',name:'투닥투닥프렌드타임',type:'fairy',category:'physical',power:190,target:'enemy',contact:true},
+  {speciesId:'incineroar',baseMove:'darkestlariat',crystal:'inciniumz',id:'maliciousmoonsault',name:'하이퍼다크크러셔',type:'dark',category:'physical',power:180,target:'enemy',contact:true},
+  {speciesId:'lunala',baseMove:'moongeistbeam',crystal:'lunaliumz',id:'menacingmoonrazemaelstrom',name:'문라이트블래스터',type:'ghost',category:'special',power:200,target:'enemy',ignoreAbility:true},
+  {speciesId:'primarina',baseMove:'sparklingaria',crystal:'primariumz',id:'oceanicoperetta',name:'바다의심포니',type:'water',category:'special',power:195,target:'enemy'},
+  {speciesId:'snorlax',baseMove:'gigaimpact',crystal:'snorliumz',id:'pulverizingpancake',name:'진심의공격',type:'normal',category:'physical',power:210,target:'enemy',contact:true},
+  {speciesId:'eevee',baseMove:'lastresort',crystal:'eeviumz',id:'extremeevoboost',name:'나인이볼부스트',type:'normal',category:'status',power:0,target:'self',effects:['atk','def','spa','spd','spe'].map(stat=>({kind:'stat' as const,stat:stat as 'atk'|'def'|'spa'|'spd'|'spe',stages:2,target:'self' as const}))},
+  ...(['tapukoko','tapulele','tapubulu','tapufini'] as const).map(speciesId=>({speciesId,baseMove:'naturesmadness',crystal:'tapuniumz',id:'guardianofalola',name:'알로라의수호자',type:'fairy',category:'special' as const,power:0,target:'enemy' as const,fixedHpFraction:.75,fixedHpBasis:'current' as const})),
+  {speciesId:'necrozmaduskmane',baseMove:'photongeyser',crystal:'ultranecroziumz',id:'lightthatburnsthesky',name:'하늘을태우는멸망의빛',type:'psychic',category:'special',power:200,target:'enemy',ignoreAbility:true,ultraBurst:true},
+  {speciesId:'necrozmadawnwings',baseMove:'photongeyser',crystal:'ultranecroziumz',id:'lightthatburnsthesky',name:'하늘을태우는멸망의빛',type:'psychic',category:'special',power:200,target:'enemy',ignoreAbility:true,ultraBurst:true},
+  {speciesId:'solgaleo',baseMove:'sunsteelstrike',crystal:'solganiumz',id:'searingsunrazesmash',name:'선샤인스매셔',type:'steel',category:'physical',power:200,target:'enemy',contact:true,ignoreAbility:true},
+  {speciesId:'decidueye',baseMove:'spiritshackle',crystal:'decidiumz',id:'sinisterarrowraid',name:'섀도애로우즈스트라이크',type:'ghost',category:'physical',power:180,target:'enemy'},
+  {speciesId:'marshadow',baseMove:'spectralthief',crystal:'marshadiumz',id:'soulstealing7starstrike',name:'칠성탈혼퇴',type:'ghost',category:'physical',power:195,target:'enemy',contact:true},
+  {speciesId:'raichualola',baseMove:'thunderbolt',crystal:'aloraichiumz',id:'stokedsparksurfer',name:'라이트닝서프라이드',type:'electric',category:'special',power:175,target:'enemy',effects:[{kind:'status',status:'paralysis',chance:100}]},
 ] as const;
 const koreanTypes:Record<string,string>={normal:'노말',fire:'불꽃',water:'물',electric:'전기',grass:'풀',ice:'얼음',fighting:'격투',poison:'독',ground:'땅',flying:'비행',psychic:'에스퍼',bug:'벌레',rock:'바위',ghost:'고스트',dragon:'드래곤',dark:'악',steel:'강철',fairy:'페어리'};
 export const gimmickItems: Item[] = [
-  ...megaForms.map(form=>({id:form.stoneId,name:`메가스톤 · ${form.name} (${form.stoneName})`,description:`${form.speciesId} 전용 메가스톤. 이 폼으로 메가진화합니다.`,effects:[]})),
+  ...megaForms.filter(form=>form.stoneId!=='dragonascent').map(form=>({id:form.stoneId,name:`메가스톤 · ${form.name} (${form.stoneName})`,description:`${form.speciesId} 전용 메가스톤. 이 폼으로 메가진화합니다.`,effects:[]})),
+  ...primalForms.map(form=>({id:form.orbId,name:`${form.orbName} · ${form.name}`,description:`${form.speciesId}이(가) 지니고 등장하면 원시회귀합니다.`,effects:[]})),
   ...zDefinitions.map(z=>({id:z.crystal,name:`${koreanTypes[z.type]} Z크리스탈 (${z.crystal})`,description:`${koreanTypes[z.type]} 타입 기술을 ${z.name}으로 바꿉니다.`,effects:[]})),
-  ...exclusiveZMoves.map(z=>({id:z.crystal,name:z.crystal==='kommoniumz'?'짜랑고우거Z':`${z.name} 전용 Z크리스탈`,description:`${z.speciesId}의 ${z.baseMove}를 ${z.name}으로 바꿉니다.`,effects:[]})),
+  ...new Map(exclusiveZMoves.map(z=>[z.crystal,{id:z.crystal,name:z.crystal==='kommoniumz'?'짜랑고우거Z':`${z.name} 전용 Z크리스탈`,description:`호환 포켓몬의 지정 기술을 ${z.name}으로 바꿉니다.`,effects:[]}])).values(),
 ];
 export const zMoves = Object.fromEntries(zDefinitions.map(z=>[z.type,z]));
 export type MaxEffect = {weather:Weather}|{field:Field}|{stat:BoostStat;stages:number;side:'allies'|'foes'};

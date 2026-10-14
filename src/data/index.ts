@@ -1,5 +1,7 @@
 import { roster, importedAbilities } from './roster.generated';
+import { legendaryRoster, legendaryAbilities, restrictedNationalDex } from './legendary-roster.generated';
 import { legacyRoster } from './legacy-roster.generated';
+import { signatureRoster } from './signature-roster.generated';
 import { gimmickItems } from './gimmicks';
 import { championMoves } from './champion-moves.generated';
 import type { Ability, Item, Move, Nature, Species, TeamSet } from '../engine/types';
@@ -223,6 +225,14 @@ export const moves: Record<string, Move> = Object.fromEntries(([
   {...move('dragondarts','드래곤애로','dragon','physical',50,100,10),multihit:2},
 ] as Move[]).map(entry => [entry.id, entry]));
 for(const [id,entry] of Object.entries(championMoves))if(!moves[id])moves[id]=entry;
+// Spectral Thief is marked Past by the pinned modern format, but remains Marshadow's
+// exclusive move. Keep its canonical Gen 7 move data for the explicit signature roster.
+moves.spectralthief={...move('spectralthief','섀도스틸','ghost','physical',90,100,10,'enemy',undefined,0,true),bypassSubstitute:true,stealsBoosts:true};
+moves.sunsteelstrike={...moves.sunsteelstrike,ignoreAbility:true};
+moves.moongeistbeam={...moves.moongeistbeam,ignoreAbility:true};
+moves.coreenforcer={...moves.coreenforcer,effects:[{kind:'suppressAbility'}]};
+moves.thousandarrows={...moves.thousandarrows,ignoreImmunity:['ground'],groundsTarget:true};
+moves.thousandwaves={...moves.thousandwaves,effects:[{kind:'trap'}]};
 // These source moves use callbacks or targeting rules the generated data cannot infer.
 moves.storedpower.dynamicPower='positiveBoosts';
 moves.toxic.effects=[{kind:'status',status:'poison',badlyPoisoned:true}];
@@ -351,13 +361,42 @@ export const natures: Record<string, Nature> = Object.fromEntries(([
   nature('careful', '신중', 'spd', 'spa'), nature('quirky', '변덕'),
 ] as Nature[]).map(entry => [entry.id, entry]));
 
-export const regulationSpecies:Record<string,Species>=Object.fromEntries(roster.map(entry=>[entry.id,entry]));
+export const restrictedDexNumbers=new Set(restrictedNationalDex);
+export const regulationSpecies:Record<string,Species>=Object.fromEntries([...roster,...legendaryRoster,...signatureRoster].map(entry=>[entry.id,entry]));
 const historical:Record<string,Species>=Object.fromEntries(legacyRoster.map(entry=>[entry.id,entry]));
-export const species: Record<string, Species> = {...historical,...Object.fromEntries(roster.map(entry=>{
+export const species: Record<string, Species> = {...historical,...Object.fromEntries([...roster,...legendaryRoster,...signatureRoster].map(entry=>{
   const prior=historical[entry.id];
   return [entry.id,prior?{...entry,abilities:[...new Set([...entry.abilities,...prior.abilities])],learnset:[...new Set([...entry.learnset,...prior.learnset])]}:entry];
 }))};
-Object.assign(abilities, importedAbilities);
+Object.assign(abilities, importedAbilities, legendaryAbilities);
+abilities.intrepidsword=ability('intrepidsword','불요의검','등장할 때 공격이 1단계 상승합니다.',[{trigger:'onEnter',kind:'stat',target:'self',stat:'atk',stages:1}]);
+abilities.dauntlessshield=ability('dauntlessshield','불굴의방패','등장할 때 방어가 1단계 상승합니다.',[{trigger:'onEnter',kind:'stat',target:'self',stat:'def',stages:1}]);
+abilities.chillingneigh=ability('chillingneigh','백의울음','상대를 쓰러뜨리면 공격이 1단계 상승합니다.',[{trigger:'onKO',kind:'stat',stat:'atk',stages:1}]);
+abilities.grimneigh=ability('grimneigh','흑의울음','상대를 쓰러뜨리면 특수공격이 1단계 상승합니다.',[{trigger:'onKO',kind:'stat',stat:'spa',stages:1}]);
+abilities.orichalcumpulse=ability('orichalcumpulse','진홍빛고동','등장할 때 햇살을 강하게 하고 햇살 아래 공격을 강화합니다.',[{trigger:'onEnter',kind:'weather',weather:'sun',turns:5},{trigger:'onStat',kind:'statMultiplier',stat:'atk',multiplier:4/3,condition:'sun'}]);
+abilities.hadronengine=ability('hadronengine','하드론엔진','등장할 때 일렉트릭필드를 펼칩니다.',[{trigger:'onEnter',kind:'field',field:'electric',turns:5}]);
+abilities.primordialsea=ability('primordialsea','시작의바다','등장할 때 강한 비를 내립니다.',[{trigger:'onEnter',kind:'weather',weather:'rain',turns:99}]);
+abilities.desolateland=ability('desolateland','끝의대지','등장할 때 강한 햇살을 만듭니다.',[{trigger:'onEnter',kind:'weather',weather:'sun',turns:99}]);
+abilities.deltastream=ability('deltastream','델타스트림','등장하면 난기류를 일으켜 비행 타입의 약점을 무효화하고 강한 날씨가 끝날 때까지 유지합니다.',[{trigger:'onEnter',kind:'weather',weather:'strongwinds',turns:99}]);
+abilities.aurabreak=ability('aurabreak','오라브레이크','다크오라와 페어리오라의 위력 효과를 반전합니다.',[]);
+abilities.tabletsofruin=ability('tabletsofruin','재앙의목간','자신을 제외한 모든 포켓몬의 공격을 25% 낮춥니다.',[]);
+abilities.swordofruin=ability('swordofruin','재앙의검','자신을 제외한 모든 포켓몬의 방어를 25% 낮춥니다.',[]);
+abilities.vesselofruin=ability('vesselofruin','재앙의그릇','자신을 제외한 모든 포켓몬의 특수공격을 25% 낮춥니다.',[]);
+abilities.beadsofruin=ability('beadsofruin','재앙의구슬','자신을 제외한 모든 포켓몬의 특수방어를 25% 낮춥니다.',[]);
+abilities.toxicchain=ability('toxicchain','독사슬','상대에게 피해를 주면 30% 확률로 맹독을 건다. 방진과 은밀망토는 막을 수 있습니다.',[]);
+abilities.slowstart=ability('slowstart','슬로스타트','출전 후 5턴 동안 공격과 스피드가 절반이 됩니다. 교체하면 다시 5턴부터 시작합니다.',[]);
+abilities.turboblaze=ability('turboblaze','터보블레이즈','공격할 때 상대의 방어 특성을 무시합니다.',[{trigger:'onAttack',kind:'ignoreTargetAbility'}]);
+abilities.teravolt=ability('teravolt','테라볼티지','공격할 때 상대의 방어 특성을 무시합니다.',[{trigger:'onAttack',kind:'ignoreTargetAbility'}]);
+abilities.shadowshield=ability('shadowshield','스펙터가드','HP가 가득 찼을 때 받는 피해를 절반으로 줄입니다.',[{trigger:'onDamage',kind:'damageMultiplier',condition:'fullHp',multiplier:.5}]);
+abilities.prismarmor=ability('prismarmor','프리즘아머','약점 공격으로 받는 피해를 줄입니다.',[{trigger:'onSuperEffectiveDamage',kind:'damageMultiplier',multiplier:.75}]);
+abilities.transistor=ability('transistor','트랜지스터','전기 타입 공격의 위력을 1.3배 높입니다.',[{trigger:'onAttack',kind:'damageMultiplier',type:'electric',multiplier:1.3}]);
+abilities.dragonsmaw=ability('dragonsmaw','용의턱','드래곤 타입 공격의 위력을 1.5배 높입니다.',[{trigger:'onAttack',kind:'damageMultiplier',type:'dragon',multiplier:1.5}]);
+abilities.fullmetalbody=ability('fullmetalbody','메탈프로텍트','상대에 의한 능력치 하락을 막습니다.',(['atk','def','spa','spd','spe','accuracy','evasion'] as const).map(stat=>({trigger:'onStatDrop',kind:'statImmunity',stat})));
+abilities.powerconstruct=ability('powerconstruct','스웜체인지','지가르데의 HP가 절반 이하가 되면 턴 종료 시 퍼펙트폼으로 변하고 종족값이 바뀝니다.',[]);
+abilities.rkssystem=ability('rkssystem','AR시스템','실바디가 지닌 메모리에 따라 타입이 바뀝니다. 메모리는 제거하거나 교환할 수 없습니다.',[]);
+abilities.terashift=ability('terashift','테라체인지','테라파고스가 배틀에 나오면 테라스탈폼으로 변합니다.',[]);
+abilities.terashell=ability('terashell','테라셸','HP가 가득 찬 동안 타입 상성이 있는 공격을 모두 반감 상성으로 받습니다. 타입 면역은 유지됩니다.',[]);
+abilities.teraformzero=ability('teraformzero','테라폼제로','테라파고스가 스텔라 테라스탈하면 날씨와 필드를 없앱니다.',[]);
 for(const mon of legacyRoster)for(const id of mon.abilities)if(!abilities[id])abilities[id]=ability(id,id,'이전 로스터의 특성입니다. 효과는 미지원입니다.',[]);
 abilities.imposter=ability('imposter','괴짜','등장할 때 상대 포켓몬으로 변신합니다.',[]);
 abilities.limber=ability('limber','유연','마비 상태가 되지 않습니다.',[{trigger:'onStatus',kind:'statusImmunity',status:'paralysis'}]);
@@ -562,11 +601,15 @@ for(const id of ['kowtowcleave','leafblade','stoneaxe','ceaselessedge','psychocu
 const attackFlags=['contact','sound','powder','bite','slicing','pulse','punch','bullet'] as const;
 for(const [id,definition] of Object.entries(championMoves)){
   for(const flag of attackFlags)moves[id][flag]=definition[flag]??false;
+  if(definition.dynamicPower)moves[id].dynamicPower=definition.dynamicPower;
   if(definition.ohko)moves[id].power=0;
 }
 
 items.leek=item('leek','대파','파오리 계열이 지니면 급소에 맞힐 확률이 크게 오릅니다.',[{trigger:'onCritical',kind:'criticalBoost',stages:2,speciesIds:['farfetchd','sirfetchd']}]);
 items.spelltag=item('spelltag','저주의부적','고스트 타입 기술의 위력이 1.2배가 됩니다.',[{trigger:'onAttack',kind:'damageMultiplier',type:'ghost',multiplier:1.2}]);
+
+const silvallyMemoryNames:Record<string,string>={bugmemory:'벌레메모리',darkmemory:'악메모리',dragonmemory:'드래곤메모리',electricmemory:'전기메모리',fairymemory:'페어리메모리',fightingmemory:'격투메모리',firememory:'불꽃메모리',flyingmemory:'비행메모리',ghostmemory:'고스트메모리',grassmemory:'풀메모리',groundmemory:'땅메모리',icememory:'얼음메모리',poisonmemory:'독메모리',psychicmemory:'에스퍼메모리',rockmemory:'바위메모리',steelmemory:'강철메모리',watermemory:'물메모리'};
+for(const [id,name] of Object.entries(silvallyMemoryNames))items[id]=item(id,name,'실바디의 타입을 해당 메모리 타입으로 바꾸며, 다른 포켓몬이 빼앗거나 지울 수 없습니다.',[]);
 
 export const starterTeam: TeamSet[] = [
   { speciesId: 'rotomwash', moves: ['hydropump', 'voltswitch', 'willowisp', 'protect'], abilityId: 'levitate', itemId: 'leftovers', natureId: 'modest', evs: { spa: 252, spe: 252, hp: 4 } },

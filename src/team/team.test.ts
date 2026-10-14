@@ -59,6 +59,13 @@ describe('team configuration', () => {
     expect(validateTeam(team, 'doubles').some(error => error.includes('2~6'))).toBe(true);
   });
 
+  it('stores friendship and rejects values outside the battle range',()=>{
+    const set=createSet('eevee');
+    expect(set.friendship).toBe(255);
+    set.friendship=0;expect(validateTeam([set])).toEqual([]);
+    set.friendship=256;expect(validateTeam([set]).some(error=>error.includes('친밀도'))).toBe(true);
+  });
+
   it('saves and loads an independent, validated team snapshot', () => {
     const storage = memoryStorage();
     const team = getStarterTeam();

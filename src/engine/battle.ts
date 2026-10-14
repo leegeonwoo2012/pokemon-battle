@@ -1,6 +1,6 @@
 import { abilities, items, moves, natures, species } from '../data';
 import {
-  calculateStats, damagePassiveMultiplier, effectiveSpeed, fieldMultiplier, getModifiedStat,
+  calculateStats, damagePassiveMultiplier, effectiveSpeed, fieldMultiplier, getModifiedStat, auraPowerMultiplier, ruinStatMultiplier,
   getTypeMultiplier, battleTypeMultiplier, isTypeImmune, passiveEffects, weatherMultiplier, LEVEL,
   matchingDamageEffects, burnMultiplier, moveAccuracy, secondaryChance, effectiveMovePower,
   alwaysHits, defensiveStat, criticalChance, isGrounded,
@@ -12,15 +12,15 @@ import {
 import {
   activePokemon, addLog, applyDamage, applyEntryEffects, applyHeal, applyStatus,
   displayName, getPokemonAt, processEndTurn, triggerContact, triggerSuperEffectiveHit, resistBerryMultiplier,
-  announcePassive, absorbMove, applyExitEffects, applyStatChange, passiveSource, transformCombatant, restoreTransform, refreshAbilityTypes,
+  announcePassive, absorbMove, applyExitEffects, applyStatChange, passiveSource, transformCombatant, restoreTransform, restoreAbilityBattleForm, refreshAbilityTypes, setBattleWeather,
 } from './effects';
 import { startRecording, stopRecording, withEventContext } from './events';
 import { chance, random, randomInt } from './rng';
 import { chooseCpuActions } from './ai';
 import { isMoveUsable, usableMoves } from './choices';
 import { applyVolatile, processConfusion, processFlinch } from './conditions';
-import { fieldLabel, weatherLabel } from './labels';
-import { activateGimmick, applyExclusiveZEffect, applyMaxEffect, applyZStatus, endDynamax, finishGimmickTurn, gimmickReason, gimmickSetErrors, previewMove, restoreBattleForms } from './gimmicks';
+import { fieldLabel, statLabel, weatherLabel } from './labels';
+import { activateGimmick, applyExclusiveZEffect, applyMaxEffect, applyZStatus, endDynamax, finishGimmickTurn, gimmickReason, gimmickSetErrors, megaFormFor, previewMove, restoreBattleForms } from './gimmicks';
 import { stabMultiplier } from './calculations';
 import { applyHazards, applyTacticalEffect, finishTactics } from './tactics';
 import { screenMultiplier } from './calculations';
@@ -65,8 +65,9 @@ function createCombatant(set: TeamSet, side: Side, index: number): Combatant {
     uid: `${side}-${index}`, set: structuredClone(set), speciesName: mon.name, types: [...mon.types],
     stats, hp: stats.hp, maxHp: stats.hp, status: null, sleepTurns: 0,
     ...(set.abilityId==='stancechange'?{stanceForm:'shield' as const}:{}),
+    ...(set.abilityId==='slowstart'?{slowStartTurns:5}:{}),
     stages: Object.fromEntries(BOOST_KEYS.map(stat => [stat, 0])) as Combatant['stages'],
-    pp: Object.fromEntries(set.moves.map(id => [id, moves[id].pp])), protected: false, fainted: false,
+    pp: Object.fromEntries(set.moves.map(id => [id, moves[id].pp])), usedMoveIds:[], protected: false, fainted: false,
   };
 }
 
@@ -126,7 +127,10 @@ function normalizeActions(state: BattleState, side: Side, submitted: BattleActio
     if (action?.kind === 'move') {
       const maxActivation=action.gimmick==='dynamax'&&!gimmickReason(state,side,actor,'dynamax',action.moveId);
       const permitted=maxActivation?{...actor,transformation:{kind:'dynamax' as const}}:actor;
-      if(isMoveUsable(permitted,action.moveId,action.gimmick==='z'&&!gimmickReason(state,side,actor,'z',action.moveId))) return [{...action}];
+      const megaActivation=action.gimmick==='mega'&&!gimmickReason(state,side,actor,'mega',action.moveId);
+      const megaForm=megaActivation?megaFormFor(actor):undefined;
+      const projected=megaForm?{...permitted,transformation:{kind:'mega' as const,formId:megaForm.id}}:permitted;
+      if(isMoveUsable(projected,action.moveId,action.gimmick==='z'&&!gimmickReason(state,side,actor,'z',action.moveId))) return [{...action}];
     }
     return [fallbackAction(state, side, slot)];
   });
@@ -170,7 +174,7 @@ function accuracyHits(state: BattleState, user: Combatant, target: Combatant, mo
   if(hidden){
     const exceptions:Record<NonNullable<Move['semiInvulnerable']>,string[]>={
       underground:['earthquake','magnitude','fissure'],underwater:['surf','whirlpool'],
-      airborne:['gust','twister','thunder','hurricane','skyuppercut','smackdown'],vanished:[],
+      airborne:['gust','twister','thunder','hurricane','skyuppercut','smackdown','thousandarrows'],vanished:[],
     };
     if(!exceptions[hidden].includes(move.id))return false;
   }
@@ -182,14 +186,15 @@ function moveDamage(state: BattleState, attacker: Combatant, defender: Combatant
   move=weatherBallMove(state,attacker,move);
   const effectiveness = move.id === 'struggle' ? 1 : battleTypeMultiplier(state,move,defender,attacker);
   if (effectiveness === 0 || move.id !== 'struggle' && isTypeImmune(defender, move,state)) return { damage: 0, critical: false, effectiveness: 0 };
+  if(move.fixedHpFraction!==undefined){const baseMaxHp=defender.transformation?.kind==='dynamax'?(defender.original?.maxHp??defender.maxHp):defender.maxHp;const currentHp=defender.transformation?.kind==='dynamax'?Math.floor(defender.hp*baseMaxHp/defender.maxHp):defender.hp;const hp=move.fixedHpBasis==='current'?currentHp:baseMaxHp;return {damage:Math.max(1,Math.floor(hp*move.fixedHpFraction)),critical:false,effectiveness};}
   const critical = chance(state, criticalChance(attacker, defender, move));
   const attackStat = move.category === 'physical' ? 'atk' : 'spa';
-  const defenseStat = move.category === 'physical' ? 'def' : 'spd';
+  const defenseStat = move.category === 'physical'||['psystrike','psyshock','secretsword'].includes(move.id) ? 'def' : 'spd';
   const defenderUnaware = !move.ignoreAbility&&passiveEffects(defender).some(effect => effect.trigger === 'onDamage' && effect.kind === 'ignoreFoeStages');
   const attackerUnaware = passiveEffects(attacker).some(effect => effect.trigger === 'onAttack' && effect.kind === 'ignoreFoeStages');
-  const attack = getModifiedStat(attacker, attackStat, defenderUnaware ? 'all' : critical ? 'negative' : null)
+  const attack = getModifiedStat(attacker, attackStat, defenderUnaware ? 'all' : critical ? 'negative' : null)*ruinStatMultiplier(state,attacker,attackStat)
     * (attacker.set.abilityId==='solarpower'&&move.category==='special'&&effectiveWeather(state,attacker)==='sun'?1.5:1);
-  const defense = defensiveStat(state, defender, defenseStat, attackerUnaware||move.ignoreDefenderStages ? 'all' : critical ? 'positive' : null);
+  const defense = defensiveStat(state, defender, defenseStat, attackerUnaware||move.ignoreDefenderStages ? 'all' : critical ? 'positive' : null)*ruinStatMultiplier(state,defender,defenseStat);
   const basePower=dynamicMovePower(state,attacker,weightBasedPower(attacker,defender,move),move);
   const powerMove={...move,power:attacker.helpingHandTurn===state.turn?Math.floor(basePower*1.5):basePower};
   const base = Math.floor(Math.floor(((2 * LEVEL / 5 + 2) * effectiveMovePower(attacker,powerMove) * attack) / defense) / 50) + 2;
@@ -197,10 +202,13 @@ function moveDamage(state: BattleState, attacker: Combatant, defender: Combatant
   let modifier = stab * effectiveness * weatherMultiplier(state, move,attacker) * fieldMultiplier(state, attacker, move, defender);
   modifier *= damagePassiveMultiplier(attacker, move, 'onAttack') * damagePassiveMultiplier(defender, move, 'onDamage')*genderAbilityMultiplier(attacker,defender)*partnerAbilityMultiplier(state,attacker,move);
   if(move.id==='knockoff'&&defender.set.itemId!=='none'&&!defender.itemConsumed)modifier*=1.5;
-  if(attacker.set.abilityId==='analytic'&&defender.actedTurn===state.turn)modifier*=1.3;
+  if(attacker.set.abilityId==='analytic'&&defender.movedTurn===state.turn)modifier*=1.3;
   if(move.type==='electric'&&attacker.electromorphosisCharged)modifier*=2;
   if(attacker.set.abilityId==='sandforce'&&effectiveWeather(state,attacker)==='sand'&&['rock','ground','steel'].includes(move.type))modifier*=1.3;
-  if(move.type==='fairy'&&([...activePokemon(state,'player'),...activePokemon(state,'cpu')].some(mon=>mon.set.abilityId==='fairyaura')))modifier*=1.33;
+  modifier*=auraPowerMultiplier(state,move);
+  if(attacker.set.abilityId==='hadronengine'&&move.category==='special'&&state.field?.id==='electric')modifier*=4/3;
+  if(['electrodrift','collisioncourse'].includes(move.id)&&effectiveness>1)modifier*=4/3;
+  if(['behemothblade','behemothbash','dynamaxcannon'].includes(move.id)&&defender.transformation?.kind==='dynamax')modifier*=2;
   const defenderSide:Side=state.sides.player.team.includes(defender)?'player':'cpu';
   const attackerSide:Side=state.sides.player.team.includes(attacker)?'player':'cpu';
   if(attackerSide!==defenderSide)modifier*=.75**activePokemon(state,defenderSide).filter(mon=>mon!==defender&&mon.set.abilityId==='friendguard').length;
@@ -226,11 +234,11 @@ function setAegislashStance(state:BattleState,pokemon:Combatant,form:'shield'|'b
 
 function canTransferHeldItem(pokemon:Combatant):boolean {
   const id=pokemon.set.itemId;
-  return id!=='none'&&!pokemon.itemConsumed&&(id==='eviolite'||!/(?:ite(?:x|y)?|iumz|niumz|orbs?)$/.test(id));
+  return id!=='none'&&!pokemon.itemConsumed&&(id==='eviolite'||!/(?:ite(?:x|y)?|iumz|niumz|orbs?|memory)$/.test(id));
 }
 function canRemoveHeldItem(pokemon:Combatant):boolean {
   const id=pokemon.set.itemId;
-  return id!=='none'&&!pokemon.itemConsumed&&(id==='eviolite'||!/(?:ite(?:x|y)?|iumz|niumz|orbs?)$/.test(id));
+  return id!=='none'&&!pokemon.itemConsumed&&(id==='eviolite'||!/(?:ite(?:x|y)?|iumz|niumz|orbs?|memory)$/.test(id));
 }
 
 function applyMoveEffect(state: BattleState, effect: MoveEffect, user: Combatant, target: Combatant, damageDealt: number, moveName: string): void {
@@ -270,9 +278,8 @@ function applyMoveEffect(state: BattleState, effect: MoveEffect, user: Combatant
       addLog(state,`${displayName(ally)}의 상태 이상이 나았다!`,'status',{targetUid:ally.uid,status:null});}
   }
   else if (effect.kind === 'weather') {
-    state.weather = { id: effect.weather, turns: effect.turns ?? 5 };
-    addLog(state, `${weatherLabel[effect.weather]} 시작!`, 'status', { kind: 'weather' });
-    refreshAbilityTypes(state);
+    if(setBattleWeather(state,effect.weather,effect.turns??5))addLog(state, `${weatherLabel[effect.weather]} 시작!`, 'status', { kind: 'weather' });
+    else addLog(state,'강한 날씨가 다른 날씨를 밀어냈다!','status',{kind:'blocked'});
   } else if (effect.kind === 'field') {
     state.field = { id: effect.field, turns: effect.turns ?? 5 };
     addLog(state, `${fieldLabel[effect.field]} 전개!`, 'status', { kind: 'field' });
@@ -328,6 +335,19 @@ function applyMoveEffect(state: BattleState, effect: MoveEffect, user: Combatant
       addLog(state,`${displayName(target)}을(를) 강제로 교체할 수 없다!`,'status',{kind:'blocked',targetUid:target.uid});return;
     }
     executeSwitch(state,side,{kind:'switch',slot,to:bench[randomInt(state,0,bench.length-1)]});
+  }
+  else if(effect.kind==='trap'){
+    if(target.types.includes('ghost')||target===user||target.fainted)addLog(state,`${displayName(target)}에게는 ${moveName}으로 교체 봉쇄를 걸 수 없다!`,'status',{kind:'blocked',targetUid:target.uid});
+    else {target.trapped=true;target.trappedBy=user.uid;addLog(state,`${displayName(target)}은(는) ${moveName}의 파도에 갇혀 교체할 수 없게 되었다!`,'status',{targetUid:target.uid});}
+  }
+  else if(effect.kind==='suppressAbility'){
+    if(target.movedTurn!==state.turn||target===user||target.fainted||target.set.abilityId==='none')return;
+    if(['multitype','rkssystem','powerconstruct','terashift','teraformzero','stancechange','schooling','disguise','battlebond','comatose','iceface','gulping','gorging'].includes(target.set.abilityId)){
+      addLog(state,`${displayName(target)}의 ${abilities[target.set.abilityId]?.name??target.set.abilityId}은 억눌리지 않는다!`,'status',{kind:'blocked',actorUid:user.uid,targetUid:target.uid});
+      return;
+    }
+    target.abilityBeforeChange??=target.set.abilityId;target.set.abilityId='none';
+    addLog(state,`${displayName(target)}의 특성이 ${moveName}에 억눌렸다!`,'status',{kind:'message',targetUid:target.uid});
   }
   else if(effect.kind==='recharge'&&damageDealt)user.rechargeTurns=1;
   else if(effect.kind==='cureBurn'&&damageDealt&&target.status==='burn'){
@@ -421,7 +441,9 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
   if (user.status === 'paralysis' && chance(state, 25)) { addLog(state, `${displayName(user)} 마비로 움직일 수 없다!`, 'status', { kind: 'blocked', targetUid: user.uid }); stopRampage(); return; }
   if(user.tauntTurns&&move.category==='status'&&move.powered!=='z'&&move.powered!=='max') {addLog(state,`${displayName(user)}은 도발 때문에 변화 기술을 사용할 수 없다!`,'status',{kind:'blocked',targetUid:user.uid});return;}
   if (baseMove.id !== 'struggle'&&!continuingCharge&&!continuingRampage) user.pp[baseMove.id] = Math.max(0, user.pp[baseMove.id] - 1);
+  if(baseMove.id!=='struggle'&&!user.usedMoveIds.includes(baseMove.id))user.usedMoveIds.push(baseMove.id);
   user.lastMove=baseMove.id;
+  user.movedTurn=state.turn;
   if(user.set.abilityId==='stancechange'&&user.set.speciesId==='aegislash'&&(move.category!=='status'||move.id==='kingsshield'))
     setAegislashStance(state,user,move.id==='kingsshield'?'shield':'blade');
   if(move.powered==='z'&&move.category==='status') applyZStatus(state,user,baseMove.id);
@@ -557,6 +579,18 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
       if(target!==user&&target.substituteHp&&!bypassSub&&move.category==='status'){
         addLog(state,`${displayName(target)}의 대타출동이 ${move.name}을 막았다!`,'move',{kind:'blocked',targetUid:target.uid});return;
       }
+      if(move.stealsBoosts&&target!==user&&battleTypeMultiplier(state,move,target,user)>0&&!isTypeImmune(target,move,state)){
+        const stolen=BOOST_KEYS.filter(stat=>target.stages[stat]>0).map(stat=>[stat,target.stages[stat]] as const);
+        for(const [stat,stages] of stolen){
+          const beforeStage=user.stages[stat];
+          target.stages[stat]=0;
+          user.stages[stat]=Math.min(6,beforeStage+stages);
+          const actual=user.stages[stat]-beforeStage;
+          if(actual)addLog(state,`${displayName(user)}: ${statLabel[stat]} ${actual}단계 상승!`,'status',{kind:'stat',actorUid:user.uid,targetUid:user.uid,stat,stages:actual,beforeStage,afterStage:user.stages[stat]});
+          addLog(state,`${displayName(target)}의 ${statLabel[stat]} 상승이 빼앗겼다!`,'status',{kind:'stat',actorUid:user.uid,targetUid:target.uid,stat,stages:-stages,beforeStage:stages,afterStage:0});
+        }
+        if(stolen.length)addLog(state,`${displayName(user)}이(가) ${displayName(target)}의 능력 상승을 빼앗았다!`,'status',{kind:'message',actorUid:user.uid,targetUid:target.uid});
+      }
       if(move.id==='pollenpuff'&&ref.side===side){
         applyHeal(state,target,1/2,move.name);
         return;
@@ -564,7 +598,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
       let dealt = 0;
       let hitSubstitute=false;
       let hitBody=false;
-       if (move.category !== 'status' && (move.power > 0||move.fixedDamage||move.ohko)) {
+       if (move.category !== 'status' && (move.power > 0||move.fixedDamage||move.fixedHpFraction!==undefined||move.ohko)) {
         const link=passiveEffects(user).find(effect=>effect.trigger==='onMultiHit');
         const secondStrike=!move.multihit&&!spread&&!move.powered&&!move.ohko&&move.id!=='struggle'
           ?passiveEffects(user).find(effect=>effect.trigger==='onMultiHit'&&effect.kind==='secondStrike'):undefined;
@@ -597,7 +631,8 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
           if (effect.trigger === 'onAttack' && effect.kind === 'stabMultiplier') announcePassive(state, user, effect);
         }
         const strikeDamage=secondStrike&&hit===1?Math.max(1,Math.floor(result.damage*secondStrike.multiplier)):result.damage;
-        const rawDamage=target.protected&&!move.bypassProtect?Math.max(1,Math.floor(strikeDamage/4)):strikeDamage;
+        const protectedDamage=move.fixedHpBasis==='current'?Math.ceil(strikeDamage/4-.5):Math.floor(strikeDamage/4);
+        const rawDamage=target.protected&&!move.bypassProtect?Math.max(1,protectedDamage):strikeDamage;
         const targetHpBefore=target.hp;
         const intercepted=target!==user&&!!target.substituteHp&&!bypassSub;
         const remainingSubstitute=target.substituteHp??0;
@@ -610,7 +645,14 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
           if(target.substituteHp<=0){target.substituteHp=undefined;addLog(state,`${displayName(target)}의 대타출동이 사라졌다!`,'status',{targetUid:target.uid});}
         }
         else hitBody=true;
+        if(move.groundsTarget&&hitDamage&&!intercepted){target.groundedByMove=true;addLog(state,`${displayName(target)}이 지면으로 끌려 내려왔다!`,'status',{targetUid:target.uid,kind:'field'});}
         if(hitDamage&&!intercepted&&target.set.abilityId==='spicyspray')applyStatus(state,user,'burn',displayName(target),target);
+        if(hitDamage&&!intercepted&&!target.fainted&&user.set.abilityId==='toxicchain'&&target.set.abilityId!=='shielddust'
+          &&!(target.set.itemId==='covertcloak'&&!target.itemConsumed)&&chance(state,30)
+          &&applyStatus(state,target,'poison','독사슬',user)){
+          target.toxicCounter=1;
+          addLog(state,`${displayName(target)}이(가) 독사슬에 맹독 상태가 되었다!`,'status',{kind:'ability',actorUid:user.uid,targetUid:target.uid,sourceId:'toxicchain',sourceKind:'ability',status:'poison'});
+        }
         if(target.fainted&&!intercepted&&target.set.abilityId==='innardsout'&&!move.ignoreAbility&&user!==target){
           const recoil=Math.min(user.hp,Math.max(1,targetHpBefore));
           addLog(state,`${displayName(target)}의 내용물분출!`,'status',{kind:'ability',actorUid:target.uid,targetUid:user.uid,sourceId:'innardsout',sourceKind:'ability'});
@@ -638,7 +680,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
           if(target.set.abilityId==='electromorphosis'){
             target.electromorphosisCharged=true;addLog(state,`${displayName(target)}이(가) 전기를 모았다!`,'status',{kind:'ability',actorUid:target.uid,sourceId:'electromorphosis',sourceKind:'ability'});
           }
-          if(target.set.abilityId==='sandspit'){state.weather={id:'sand',turns:5};refreshAbilityTypes(state);addLog(state,'모래뿜기: 모래바람이 불기 시작했다!','status',{kind:'ability',actorUid:target.uid,sourceId:'sandspit',sourceKind:'ability'});}
+          if(target.set.abilityId==='sandspit'&&setBattleWeather(state,'sand',5))addLog(state,'모래뿜기: 모래바람이 불기 시작했다!','status',{kind:'ability',actorUid:target.uid,sourceId:'sandspit',sourceKind:'ability'});
           if(target.set.abilityId==='seedsower'){state.field={id:'grassy',turns:5};refreshAbilityTypes(state);addLog(state,'씨뿌리기: 그래스필드가 펼쳐졌다!','status',{kind:'ability',actorUid:target.uid,sourceId:'seedsower',sourceKind:'ability'});}
           if(target.set.abilityId==='toxicdebris'&&move.category==='physical'){
             const foeSide:Side=state.sides.player.team.includes(target)?'cpu':'player';
@@ -699,7 +741,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
           if (selfEffectsApplied.has(effect)) continue;
           selfEffectsApplied.add(effect);
         }
-        const needsLivingTarget = effect.kind === 'volatile' || (effect.kind === 'status' || effect.kind === 'stat') && effect.target !== 'self'
+        const needsLivingTarget = effect.kind === 'volatile'||effect.kind==='trap'||effect.kind==='suppressAbility' || (effect.kind === 'status' || effect.kind === 'stat') && effect.target !== 'self'
           || effect.kind === 'heal' && effect.target === 'target';
         if (target.fainted && needsLivingTarget) continue;
         applyMoveEffect(state, effect, user, target, dealt, move.name);
@@ -770,6 +812,10 @@ function executeSwitch(state: BattleState, side: Side, action: Extract<BattleAct
   endDynamax(state,oldPokemon);
   applyExitEffects(state, oldPokemon);
   restoreTransform(oldPokemon);
+  if(oldPokemon.transformation?.kind!=='tera'&&oldPokemon.abilityFormOriginal){
+    const formName=oldPokemon.battleFormId==='zygardecomplete'?'스웜체인지':'테라체인지';
+    restoreAbilityBattleForm(state,oldPokemon,formName);
+  }
   for(const foe of state.sides[side==='player'?'cpu':'player'].team)if(foe.trappedBy===oldPokemon.uid){foe.trapped=false;foe.trappedBy=undefined;}
   addLog(state, `${displayName(oldPokemon)} 교체!`, 'switch', { kind: 'switch-out', actorUid: oldPokemon.uid, side, slot: action.slot });
   oldPokemon.stages = Object.fromEntries(BOOST_KEYS.map(stat => [stat, 0])) as Combatant['stages'];
@@ -782,8 +828,8 @@ function executeSwitch(state: BattleState, side: Side, action: Extract<BattleAct
   oldPokemon.flinched = false;
   oldPokemon.tauntTurns=0;oldPokemon.encore=undefined;oldPokemon.tormentedMove=undefined;oldPokemon.lastMove=undefined;oldPokemon.saltCured=false;
   oldPokemon.disabledMove=undefined;
-  oldPokemon.substituteHp=undefined;oldPokemon.gmaxCritStages=0;oldPokemon.trapped=false;oldPokemon.trappedBy=undefined;oldPokemon.yawnTurns=0;
-  oldPokemon.helpingHandTurn=undefined;oldPokemon.dragonCheerCritStages=undefined;
+  oldPokemon.substituteHp=undefined;oldPokemon.gmaxCritStages=0;oldPokemon.trapped=false;oldPokemon.trappedBy=undefined;oldPokemon.groundedByMove=false;oldPokemon.yawnTurns=0;
+  oldPokemon.helpingHandTurn=undefined;oldPokemon.dragonCheerCritStages=undefined;oldPokemon.movedTurn=undefined;
   oldPokemon.rechargeTurns=0;
   oldPokemon.charging=undefined;oldPokemon.rampage=undefined;oldPokemon.aquaRing=false;oldPokemon.lastReceivedHit=undefined;
   if(oldPokemon.abilityBeforeChange){oldPokemon.set.abilityId=oldPokemon.abilityBeforeChange;oldPokemon.abilityBeforeChange=undefined;}

@@ -34,6 +34,27 @@ describe('requested move and item mechanics',()=>{
     expect(rankedHit.sides.cpu.team[0].hp).toBeLessThan(normalHit.sides.cpu.team[0].hp);
   });
 
+  it('Return and Frustration use friendship-based power at the time they are used',()=>{
+    const state=createBattle({format:'singles',playerTeam:[setWith('tackle')],cpuTeam:[setWith('protect')],seed:31});
+    const attacker=state.sides.player.team[0];
+    expect(moves.return.dynamicPower).toBe('friendship');
+    expect(moves.frustration.dynamicPower).toBe('lowFriendship');
+    expect(dynamicMovePower(state,attacker,moves.return.power,moves.return)).toBe(102);
+    attacker.set.friendship=127;
+    expect(dynamicMovePower(state,attacker,moves.return.power,moves.return)).toBe(50);
+    expect(dynamicMovePower(state,attacker,moves.frustration.power,moves.frustration)).toBe(51);
+    attacker.set.friendship=255;
+    expect(dynamicMovePower(state,attacker,moves.frustration.power,moves.frustration)).toBe(1);
+    expect(dynamicMovePower(state,attacker,moves.return.power,{...moves.return,dynamicPower:undefined})).toBe(moves.return.power);
+    const lowFriendship={...createSet('eevee'),friendship:0},highFriendship={...createSet('eevee'),friendship:255};
+    const lowState=createBattle({format:'singles',playerTeam:[lowFriendship],cpuTeam:[setWith('protect')],seed:32});
+    const highState=createBattle({format:'singles',playerTeam:[highFriendship],cpuTeam:[setWith('protect')],seed:32});
+    expect(estimateDamage(highState,highState.sides.player.team[0],highState.sides.cpu.team[0],moves.return))
+      .toBeGreaterThan(estimateDamage(lowState,lowState.sides.player.team[0],lowState.sides.cpu.team[0],moves.return));
+    expect(estimateDamage(lowState,lowState.sides.player.team[0],lowState.sides.cpu.team[0],moves.frustration))
+      .toBeGreaterThan(estimateDamage(highState,highState.sides.player.team[0],highState.sides.cpu.team[0],moves.frustration));
+  });
+
   it('Toxic deals escalating 1/16, 2/16, 3/16 max HP damage and resets its counter on switch',()=>{
     const initial=createBattle({format:'singles',playerTeam:[setWith('toxic')],cpuTeam:[setWith('swordsdance'),setWith('protect')],seed:11});
     initial.sides.player.team[0].stats.spe=400;

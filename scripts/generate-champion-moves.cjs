@@ -7,8 +7,14 @@ const normalize=s=>String(s??'').toLowerCase().replace(/[^a-z0-9]/g,'');
 const csv=fs.readFileSync(`${root}/move_names.csv`,'utf8').trim().split(/\r?\n/).slice(1).map(line=>{const [id,language,...name]=line.split(',');return language==='3'?[Number(id),name.join(',').replace(/^"|"$/g,'')]:null;}).filter(Boolean);
 const koreanNames=new Map(csv);
 const rosterIds=JSON.parse(fs.readFileSync('docs/regulation-m-c.json','utf8')).ids;
+const legendaryIds=JSON.parse(fs.readFileSync('docs/legendary-roster.json','utf8')).addedIds;
+const {Learnsets:baseLearnsets}=read(`${root}/data/learnsets.ts`);
 const wanted=new Set();
 for(const id of rosterIds){const entry=Pokedex[id], known=Learnsets[id]?.learnset??Learnsets[normalize(entry?.baseSpecies??'')]?.learnset??{};for(const move of Object.keys(known))wanted.add(move);}
+const legendaryWanted=new Set();
+for(const id of legendaryIds){for(const move of Object.keys(baseLearnsets[id]?.learnset??baseLearnsets[normalize(Pokedex[id]?.baseSpecies??'')]?.learnset??{})){wanted.add(move);legendaryWanted.add(move);}}
+// Mega Zygarde's Z-A signature move is a supported, explicit form-only transfer rule.
+wanted.add('nihillight');legendaryWanted.add('nihillight');
 const statusMap={brn:'burn',par:'paralysis',psn:'poison',tox:'poison',slp:'sleep',frz:'freeze'};
 const weatherMap={sunnyday:'sun',desolateland:'sun',raindance:'rain',primordialsea:'rain',sandstorm:'sand',snowscape:'snow',hail:'snow'};
 const fieldMap={electricterrain:'electric',grassyterrain:'grassy',mistyterrain:'misty',psychicterrain:'psychic'};
@@ -46,7 +52,7 @@ function makeEffects(m){const effects=[];const add=(data,target='target',chance)
 const targets={normal:'enemy',adjacentFoe:'enemy',any:'any',self:'self',ally:'ally',adjacentAlly:'ally',adjacentAllyOrSelf:'any',allAdjacentFoes:'allEnemies',allAdjacent:'allOthers',foeSide:'self',allySide:'self',allyTeam:'self',all:'allOthers'};
 const data=[];
 for(const id of wanted){const original=base[id];if(!original)throw Error(`M-C learnset move missing from pinned source: ${id}`);const override=mod[id]??{};const m={...original,...Object.fromEntries(Object.entries(override).filter(([key])=>key!=='inherit'))};
-  if(m.isNonstandard==='Past'||m.isNonstandard==='Future')continue;
+  if((m.isNonstandard==='Past'||m.isNonstandard==='Future')&&!legendaryWanted.has(id))continue;
   const category=String(m.category??'Status').toLowerCase();if(!['physical','special','status'].includes(category))continue;
   const flags=m.flags??{}, power=category==='status'?0:(m.basePowerCallback?(m.basePower>0?m.basePower:40):m.basePower??0);
   const target=targets[m.target]??'enemy';
@@ -55,6 +61,8 @@ for(const id of wanted){const original=base[id];if(!original)throw Error(`M-C le
   if(['dig','dive','fly','bounce','phantomforce'].includes(id))entry.semiInvulnerable=id==='dig'?'underground':id==='dive'?'underwater':id==='phantomforce'?'vanished':'airborne';
   if(['counter','mirrorcoat','endeavor'].includes(id))entry.fixedDamage=id;
   if(['waterspout','eruption'].includes(id))entry.dynamicPower='remainingHp';
+  if(id==='return')entry.dynamicPower='friendship';
+  if(id==='frustration')entry.dynamicPower='lowFriendship';
   if(id==='lastrespects')entry.dynamicPower='faintedAllies';
   if(['voltswitch','uturn','flipturn','partingshot'].includes(id))entry.pivot=true;
   if(id==='steelbeam')entry.selfCostFraction=.5;
@@ -72,6 +80,7 @@ for(const id of wanted){const original=base[id];if(!original)throw Error(`M-C le
   if(m.ohko)entry.ohko=true;
   if(m.multiaccuracy)entry.multiaccuracy=true;
   if(m.breaksProtect)entry.bypassProtect=true;
+  if(id==='nihillight')Object.assign(entry,{name:'니힐레이저',type:'dragon',category:'special',power:200,accuracy:100,target:'allEnemies',requiresForm:'zygardemega',ignoreEvasion:true,ignoreDefenderStages:true,ignoreImmunity:['dragon'],bypassProtect:true,effects:undefined});
   data.push(entry);
 }
 fs.writeFileSync('src/data/champion-moves.generated.ts',`// Generated from the pinned Pokémon Showdown Champions M-C learnsets and move data.\nimport type { Move } from '../engine/types';\nexport const championMoves: Record<string,Move> = ${JSON.stringify(Object.fromEntries(data.map(move=>[move.id,move])),null,2)};\n`);

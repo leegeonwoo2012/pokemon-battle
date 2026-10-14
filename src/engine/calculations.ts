@@ -4,9 +4,31 @@ import type { BattleState, BoostStat, Combatant, Move, PassiveEffect, Species, S
 export const LEVEL = 50;
 
 export function effectiveWeather(state:BattleState,source?:Combatant):Weather|undefined{
-  if([...state.sides.player.active.map(index=>state.sides.player.team[index]),...state.sides.cpu.active.map(index=>state.sides.cpu.team[index])]
-    .some(mon=>mon&&!mon.fainted&&(mon.set.abilityId==='cloudnine'||mon.set.abilityId==='airlock')))return undefined;
+  const active=[...state.sides.player.active.map(index=>state.sides.player.team[index]),...state.sides.cpu.active.map(index=>state.sides.cpu.team[index])].filter((mon):mon is Combatant=>!!mon&&!mon.fainted);
+  // Air Lock and Cloud Nine suppress weather effects while leaving the field weather intact.
+  if(active.some(mon=>mon.set.abilityId==='cloudnine'||mon.set.abilityId==='airlock'))return undefined;
   return source?.set.abilityId==='megasol'?'sun':state.weather?.id??undefined;
+}
+
+export function auraPowerMultiplier(state:BattleState,move:Move):number{
+  const active=[...state.sides.player.active.map(index=>state.sides.player.team[index]),...state.sides.cpu.active.map(index=>state.sides.cpu.team[index])]
+    .filter((mon):mon is Combatant=>!!mon&&!mon.fainted);
+  const aura=move.type==='dark'?'darkaura':move.type==='fairy'?'fairyaura':undefined;
+  if(!aura||!active.some(mon=>mon.set.abilityId===aura))return 1;
+  return active.some(mon=>mon.set.abilityId==='aurabreak')?.75:5448/4096;
+}
+
+export function ruinStatMultiplier(state:BattleState,pokemon:Combatant,stat:Exclude<Stat,'hp'>):number{
+  const abilityByStat:Partial<Record<Exclude<Stat,'hp'>,string>>={atk:'tabletsofruin',def:'swordofruin',spa:'vesselofruin',spd:'beadsofruin'};
+  const ability=abilityByStat[stat];
+  if(!ability)return 1;
+  const active=[...state.sides.player.active.map(index=>state.sides.player.team[index]),...state.sides.cpu.active.map(index=>state.sides.cpu.team[index])];
+  return active.some(mon=>mon&&!mon.fainted&&mon.uid!==pokemon.uid&&mon.set.abilityId===ability)?.75:1;
+}
+
+function strongWindsTypeMultiplier(state:BattleState,move:Move,defender:Combatant,attacker?:Combatant):number|undefined{
+  if(effectiveWeather(state,attacker)!=='strongwinds'||!defender.types.includes('flying')||!['electric','ice','rock'].includes(move.type))return undefined;
+  return getTypeMultiplier(move.type,defender.types.filter(type=>type!=='flying'));
 }
 
 /** Weather Ball resolves its type and doubled base power at use time. */
@@ -42,9 +64,17 @@ export function getTypeMultiplier(attackType: string, defenderTypes: string[]): 
 
 export function battleTypeMultiplier(state:BattleState,move:Move,defender:Combatant,attacker?:Combatant):number {
   if(move.type==='stellar')return defender.transformation?.kind==='tera'?2:1;
-  let types=state.gravity&&move.type==='ground'?defender.types.filter(type=>type!=='flying'):defender.types;
+  let types=(state.gravity||defender.groundedByMove)&&move.type==='ground'?defender.types.filter(type=>type!=='flying'):defender.types;
   if(attacker?.set.abilityId==='scrappy'&&['normal','fighting'].includes(move.type))types=types.filter(type=>type!=='ghost');
-  return getTypeMultiplier(move.type,types);
+  const winds=strongWindsTypeMultiplier(state,move,defender,attacker);
+  if(winds!==undefined)return winds;
+  if(move.ignoreImmunity?.includes(move.type)) {
+    const chart=typeChart[move.type]??{};
+    const immunityIgnored=types.reduce((value,type)=>value*((chart[type]??1)===0?1:(chart[type]??1)),1);
+    return !move.ignoreAbility&&defender.set.abilityId==='terashell'&&defender.hp===defender.maxHp&&immunityIgnored>0?.5:immunityIgnored;
+  }
+  const multiplier=getTypeMultiplier(move.type,types);
+  return !move.ignoreAbility&&defender.set.abilityId==='terashell'&&defender.hp===defender.maxHp&&multiplier>0?.5:multiplier;
 }
 
 export function passiveEffects(pokemon: Combatant): PassiveEffect[] {
@@ -88,14 +118,20 @@ export function matchingDamageEffects(pokemon: Combatant, move: Move, trigger: '
 }
 
 export function isTypeImmune(pokemon: Combatant, move: Move, state?:BattleState): boolean {
+  if(state&&move.category!=='status'){
+    const active=[...state.sides.player.active.map(index=>state.sides.player.team[index]),...state.sides.cpu.active.map(index=>state.sides.cpu.team[index])];
+    if(active.some(mon=>mon&&!mon.fainted&&mon.set.abilityId==='primordialsea')&&move.type==='fire')return true;
+    if(active.some(mon=>mon&&!mon.fainted&&mon.set.abilityId==='desolateland')&&move.type==='water')return true;
+  }
   return passiveEffects(pokemon).some(effect => effect.trigger === 'onDamage' && effect.kind === 'typeImmunity' && effect.type === move.type
-    && !(state?.gravity&&move.type==='ground'&&pokemon.set.abilityId==='levitate'&&abilities.levitate?.effects.includes(effect))
+    && !((state?.gravity||pokemon.groundedByMove)&&move.type==='ground'&&pokemon.set.abilityId==='levitate'&&abilities.levitate?.effects.includes(effect))
     && !(move.ignoreAbility&&abilities[pokemon.set.abilityId]?.effects.includes(effect)));
 }
 
 export function effectiveSpeed(state: BattleState, pokemon: Combatant): number {
   let speed = pokemon.stats.spe * stageMultiplier(pokemon.stages.spe);
   if(pokemon.set.abilityId==='unburden'&&pokemon.itemConsumed)speed*=2;
+  if(pokemon.set.abilityId==='slowstart'&&(pokemon.slowStartTurns??0)>0)speed*=.5;
   const weather=effectiveWeather(state,pokemon);
   const side=state.sides.player.team.includes(pokemon)?state.sides.player:state.sides.cpu;
   if(side.tailwind)speed*=2;
@@ -122,7 +158,8 @@ export function getModifiedStat(pokemon: Combatant, stat: Exclude<Stat, 'hp'>, c
   if (critIgnore === 'positive') stage = Math.min(0, stage);
   const multiplier = passiveEffects(pokemon).reduce((value, effect) => effect.trigger === 'onStat'
     && effect.stat === stat && (!effect.condition || effect.condition==='status'&&!!pokemon.status) ? value * effect.multiplier : value, 1);
-  const abilityMultiplier=pokemon.set.abilityId==='hustle'&&stat==='atk'?1.5:1;
+  const abilityMultiplier=(pokemon.set.abilityId==='hustle'&&stat==='atk'?1.5:1)
+    *(pokemon.set.abilityId==='slowstart'&&stat==='atk'&&(pokemon.slowStartTurns??0)>0?.5:1);
   return Math.max(1, Math.floor(pokemon.stats[stat] * stageMultiplier(stage) * multiplier*abilityMultiplier));
 }
 
@@ -137,7 +174,7 @@ export function moveAccuracy(state: BattleState, user: Combatant, target: Combat
   const base = accuracy === undefined ? move.id==='sheercold'&&!user.types.includes('ice')?20:move.accuracy : accuracy;
   if (base === null) return 100;
   const ignoreEvasion=user.set.abilityId==='illuminate'||passiveEffects(user).some(effect=>effect.trigger==='onAccuracy'&&effect.kind==='ignoreEvasion');
-  const targetEvasion=target.stages.evasion+(target.confusionTurns&&target.set.abilityId==='tangledfeet'?2:0);
+  const targetEvasion=move.ignoreEvasion?0:target.stages.evasion+(target.confusionTurns&&target.set.abilityId==='tangledfeet'?2:0);
   let result = base * stageMultiplier(user.stages.accuracy, true) / (ignoreEvasion&&targetEvasion>0?1:stageMultiplier(targetEvasion, true));
   for (const [pokemon, role] of [[user, 'self'], [target, 'attacker']] as const) {
     for (const effect of passiveEffects(pokemon)) {
@@ -157,7 +194,7 @@ export function alwaysHits(state: BattleState, move: Move, user?: Combatant, tar
 }
 
 export function isGrounded(pokemon: Combatant,state?:BattleState): boolean {
-  if(state?.gravity)return true;
+  if(state?.gravity||pokemon.groundedByMove)return true;
   return !pokemon.types.includes('flying') && !passiveEffects(pokemon).some(effect =>
     effect.trigger === 'onDamage' && effect.kind === 'typeImmunity' && effect.type === 'ground');
 }
@@ -228,14 +265,19 @@ export function estimateDamage(state: BattleState, attacker: Combatant, defender
   const type = battleTypeMultiplier(state,move,defender);
   if (type === 0) return 0;
   if(move.ohko)return passiveEffects(defender).some(effect=>effect.trigger==='onOHKO')||move.id==='sheercold'&&defender.types.includes('ice')?0:defender.hp;
-  const offense = getModifiedStat(attacker, move.category === 'physical' ? 'atk' : 'spa')
+  const offenseStat=move.category==='physical'?'atk':'spa';
+  const offense = getModifiedStat(attacker, offenseStat)*ruinStatMultiplier(state,attacker,offenseStat)
     * (attacker.set.abilityId==='solarpower'&&move.category==='special'&&effectiveWeather(state,attacker)==='sun'?1.5:1);
-  const defense = defensiveStat(state, defender, move.category === 'physical' ? 'def' : 'spd');
+  const defenseStat=move.category === 'physical'||['psystrike','psyshock','secretsword'].includes(move.id)?'def':'spd';
+  const defense = defensiveStat(state, defender, defenseStat)*ruinStatMultiplier(state,defender,defenseStat);
   let multiplier = stabMultiplier(attacker,move);
   multiplier *= type * weatherMultiplier(state, move,attacker) * fieldMultiplier(state, attacker, move, defender)*genderAbilityMultiplier(attacker,defender)*partnerAbilityMultiplier(state,attacker,move);
   multiplier *= damagePassiveMultiplier(attacker, move, 'onAttack') * damagePassiveMultiplier(defender, move, 'onDamage');
   if(attacker.set.abilityId==='sandforce'&&effectiveWeather(state,attacker)==='sand'&&['rock','ground','steel'].includes(move.type))multiplier*=1.3;
-  if(move.type==='fairy'&&Object.values(state.sides).some(side=>side.active.some(index=>side.team[index]?.set.abilityId==='fairyaura')))multiplier*=1.33;
+  multiplier*=auraPowerMultiplier(state,move);
+  if(attacker.set.abilityId==='hadronengine'&&move.category==='special'&&state.field?.id==='electric')multiplier*=4/3;
+  if(['electrodrift','collisioncourse'].includes(move.id)&&type>1)multiplier*=4/3;
+  if(['behemothblade','behemothbash','dynamaxcannon'].includes(move.id)&&defender.transformation?.kind==='dynamax')multiplier*=2;
   const attackerSide=state.sides.player.team.includes(attacker)?'player':'cpu';
   const defenderSide=state.sides.player.team.includes(defender)?'player':'cpu';
   if(attackerSide!==defenderSide)multiplier*=.75**state.sides[defenderSide].active.map(index=>state.sides[defenderSide].team[index]).filter(mon=>mon&&mon!==defender&&mon.set.abilityId==='friendguard').length;
@@ -260,6 +302,8 @@ export function dynamicMovePower(state:BattleState,attacker:Combatant,base:numbe
     const side=state.sides.player.team.includes(attacker)?'player':'cpu';
     return base+50*state.sides[side].team.filter(pokemon=>pokemon!==attacker&&pokemon.fainted).length;
   }
+  if(move.dynamicPower==='friendship')return Math.max(1,Math.floor((attacker.set.friendship??255)*10/25));
+  if(move.dynamicPower==='lowFriendship')return Math.max(1,Math.floor((255-(attacker.set.friendship??255))*10/25));
   return base;
 }
 

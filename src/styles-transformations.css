@@ -45,6 +45,10 @@
 .spotlight-tera { background:radial-gradient(ellipse,#236689ed,#133f65e9 65%,#0c263ec9);border-color:#a9e9ff;box-shadow:0 0 75px #89e7ffb3,0 10px 25px #08192eb0; }
 .spotlight-tera .spotlight-emblem { clip-path:polygon(50% 0,95% 28%,82% 86%,50% 100%,18% 86%,5% 28%);border-radius:0;background:linear-gradient(130deg,#fff,#84d8f3,#e9f9ff);color:#184862; }
 .spotlight-tera small,.spotlight-tera span { color:#d5f6ff; }
+.spotlight-ultra { background:radial-gradient(ellipse,#7a5a13f0,#30205de8 61%,#130c2de8);border-color:#fff08d;box-shadow:0 0 88px #ffe86fc9,0 0 140px #a26aff66,0 10px 25px #170717b0; }
+.spotlight-ultra .spotlight-emblem { border:2px solid #fff5ad;border-radius:50%;background:radial-gradient(circle,#fff 0 10%,#ffe889 22%,#b77aff 75%);color:#48298b;box-shadow:0 0 28px #ffe86f; }
+.spotlight-ultra small,.spotlight-ultra span { color:#fff0ad; }
+.vfx-move-ultra-orbit { width:clamp(70px,12vw,155px);height:clamp(70px,12vw,155px);border:5px double #fff8a8;border-radius:50%;background:radial-gradient(circle,transparent 48%,#9b6fffaa 50% 53%,transparent 55%);box-shadow:0 0 30px #fff17e, inset 0 0 23px #c58fff; }
 @keyframes transform-card-in { from { opacity:0;transform:translate(-50%,18px) scale(.76);filter:blur(8px); } to { opacity:1;transform:translate(-50%,0) scale(1);filter:blur(0); } }
 @keyframes tera-crown-rise { from { opacity:0;transform:translate(-50%,26px) scale(.35) rotate(-15deg); } to { opacity:1;transform:translate(-50%,0) scale(1) rotate(0); } }
 @keyframes form-pulse { 50% { opacity:.55;transform:translateX(-50%) scale(1.12); } }

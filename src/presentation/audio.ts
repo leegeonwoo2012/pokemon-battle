@@ -16,6 +16,7 @@ export const typeSoundProfiles:Record<string,TypeSound>={
 };
 export function eventSoundKeys(event:BattleEvent,localSide='player'):string[] {
   if(event.kind==='move')return ['move-'+event.moveId,'type-'+(event.type??'normal')];
+  if(event.kind==='form-change')return ['form-'+event.formId,'form-change'];
   if(event.kind==='damage')return [...(event.critical?['critical-hit']:[]),...(event.effectiveness!==undefined&&event.effectiveness>1?['super-effective']:event.effectiveness!==undefined&&event.effectiveness<1?['resisted-hit']:[]),'damage'];
   if(event.kind==='gimmick-transform')return ['gimmick-'+event.gimmick];
   if(event.kind==='status'&&event.status)return ['status-'+event.status];
@@ -86,6 +87,15 @@ class BattleAudio {
     if(moveId==='earthquake'){for(let i=0;i<3;i++){this.noise(.35,220,.25,i*.22);this.tone(70,30,.3,i*.22,'triangle',.15);}return;}
     if(moveId==='steelbeam'){this.tone(110,1800,.48,0,'sawtooth',.07);this.noise(.65,6200,.1,.25);this.tone(1400,160,.7,.35,'triangle',.06);return;}
     if(moveId==='outrage'){[0,.18,.42].forEach(delay=>{this.tone(160,52,.4,delay,'sawtooth',.075);this.noise(.24,1700,.17,delay);});return;}
+    if(moveId==='dracometeor'){[0,.16,.32,.48].forEach(delay=>{this.tone(240,58,.22,delay,'sawtooth',.08);this.noise(.42,1100,.16,delay);});return;}
+    if(moveId==='dragonascent'){this.tone(180,920,.48,0,'sawtooth',.055);this.noise(.48,2700,.16,.32);this.tone(300,48,.22,.4,'triangle',.12);return;}
+    if(moveId==='spacialrend'){this.tone(1700,180,.58,0,'sine',.06);this.noise(.4,6800,.12,.25);this.tone(120,980,.22,.32,'triangle',.08);return;}
+    if(moveId==='roaroftime'){[0,.14,.28].forEach((delay,index)=>{this.tone(76+index*26,420+index*180,.42,delay,'sawtooth',.065);this.noise(.34,340,.18,delay);});return;}
+    if(moveId==='originpulse'){[0,.12,.24].forEach((delay,index)=>{this.tone(180+index*90,720+index*80,.34,delay,'sine',.05);this.noise(.16,2200,.1,delay);});return;}
+    if(moveId==='precipiceblades'){this.noise(.58,180,.32);[0,.12,.24].forEach(delay=>this.tone(68,42,.24,delay,'triangle',.13));return;}
+    if(moveId==='seedflare'){[520,780,1040,1560].forEach((pitch,index)=>this.tone(pitch,pitch*.6,.24,index*.08,'sine',.045));this.noise(.28,4400,.12,.24);return;}
+    if(moveId==='fleurcannon'){[740,980,1480,1960].forEach((pitch,index)=>this.tone(pitch,pitch*1.1,.3,index*.08,'sine',.045));this.noise(.36,5200,.12,.32);return;}
+    if(moveId==='prismaticlaser'){[420,630,840,1260,1680].forEach((pitch,index)=>this.tone(pitch,pitch*1.2,.32,index*.07,'sine',.04));this.noise(.5,6200,.1,.28);return;}
     this.tone(p.pitch*.5,p.pitch,.3,0,p.shape,.06);this.noise(.5,p.filter,p.noise*.35,.08);this.tone(p.pitch,p.pitch*.3,.45,.22,p.shape,.045);
     if(['fairy','ice','psychic','stellar'].includes(type))[1,1.5,2].forEach((ratio,i)=>this.tone(p.pitch*ratio,p.pitch*ratio,.2,i*.1,'sine',.022));
   }
@@ -113,6 +123,10 @@ class BattleAudio {
       else if(event.kind==='gimmick-transform'){
         const pitches=event.gimmick==='mega'?[330,494,660,988]:event.gimmick==='tera'?[880,1320,1760,2200]:[110,165,220,330];
         pitches.forEach((pitch,i)=>this.tone(pitch,pitch*1.15,.35,i*.12,event.gimmick==='dynamax'?'sawtooth':'sine',.05));if(event.gimmick==='dynamax')this.noise(.8,420,.18);
+      }else if(event.kind==='form-change'){
+        const pitches=event.formId==='zygardecomplete'?[95,190,380,570,760]:[620,930,1240,1860,2480];
+        pitches.forEach((pitch,index)=>this.tone(pitch,pitch*1.08,.3,index*.1,event.formId==='zygardecomplete'?'triangle':'sine',.055));
+        if(event.formId==='zygardecomplete')this.noise(.55,520,.18,.18);
       }else if(event.kind==='status'&&event.status)this.typeCue({burn:'fire',poison:'poison',paralysis:'electric',sleep:'psychic',freeze:'ice'}[event.status]);
       else if(event.kind==='result'){const notes=event.snapshot.winner===localSide?[330,440,660,880]:[440,392,330,220];notes.forEach((pitch,i)=>this.tone(pitch,pitch,.35,i*.13,'triangle',.06));}
     }

@@ -18,8 +18,8 @@ try {
  await page.goto('http://127.0.0.1:5178/',{waitUntil:'networkidle'});
  await page.getByRole('heading',{name:/전략을 세우고/}).waitFor();
  await page.getByRole('button',{name:'포켓몬 목록',exact:true}).click();
- assert.equal(await page.locator('.dex-card').count(),264);
- await page.getByLabel('도감 대표 타입').selectOption('fire');assert.equal(await page.locator('.dex-card').count(),21);
+ assert.equal(await page.locator('.dex-card').count(),344);
+ await page.getByLabel('도감 대표 타입').selectOption('fire');assert.equal(await page.locator('.dex-card').count(),25);
  await page.getByPlaceholder('포켓몬 검색').fill('리자몽');assert.equal(await page.locator('.dex-card').count(),1);
  await page.screenshot({path:'work/roster.png',fullPage:true});
  await page.getByRole('button',{name:'팀 편성',exact:true}).click();
@@ -35,7 +35,7 @@ try {
  for(const [i,id] of ['swordsdance','dragonclaw','earthquake','protect'].entries())await selects.nth(i).selectOption(id);
  await page.getByRole('button',{name:'포켓몬 추가',exact:true}).click();
  await page.getByPlaceholder('이름 또는 영문 ID 검색').fill('워시');await page.getByRole('dialog').getByRole('button',{name:/로토무 \(워시\)/}).click();
- assert.equal(await page.locator('.team-slot').count(),6);
+  assert.equal(await page.locator('.team-slot').count(),6,`Team editor disappeared: ${errors.join(' | ')}`);
  await page.getByRole('button',{name:'팀 저장',exact:true}).click();
  await page.getByRole('button',{name:'불러오기',exact:true}).click();
  assert.equal(await page.locator('.move-select-list select').first().inputValue(),'swordsdance');
@@ -89,7 +89,7 @@ try {
  await page.screenshot({path:'work/mobile-battle.png',fullPage:true});
  assert.deepEqual(errors,[]);assert.deepEqual(badImages,[]);
  const sprites=await page.evaluate(async()=>{const assets=await import('/src/presentation/sprites.ts');await assets.initializeSprites();return assets.spriteDiagnosticReport();});
- const report={roster:264,representativeTypes:18,fireRepresentatives:21,teamSize:6,turnQueue:true,inputLock:true,physical:true,special:true,rankUp:true,protect:true,switchOutBeforeIn:true,doubles:true,mobile:true,browserErrors:errors,missingSpriteRequests:badImages,actualBundledPokemonSprites:sprites.success,missingPokemonSprites:sprites.failed,artworkStatus:sprites.failed?'PARTIAL':'COMPLETE'};
+ const report={roster:344,representativeTypes:18,fireRepresentatives:25,teamSize:6,turnQueue:true,inputLock:true,physical:true,special:true,rankUp:true,protect:true,switchOutBeforeIn:true,doubles:true,mobile:true,browserErrors:errors,missingSpriteRequests:badImages,actualBundledPokemonSprites:sprites.success,missingPokemonSprites:sprites.failed,artworkStatus:sprites.failed?'PARTIAL':'COMPLETE'};
  writeFileSync('work/browser-report.json',JSON.stringify(report,null,2));
  console.log('BROWSER_SMOKE_OK '+JSON.stringify(report));
 } finally {await browser?.close();await server.close();}

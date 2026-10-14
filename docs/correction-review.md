@@ -40,3 +40,17 @@
 - `outputs/sprite-scene-tests.json`: 프로덕션 빌드의 540개 이미지 디코딩과 실제 전투 표시.
 
 빌드·검사 명령은 README에 기록했다. 실행하지 않은 검사나 접근할 수 없는 외부 접속을 성공으로 집계하지 않는다.
+
+## 2026-10-14 추가 검증 기록
+
+- `npm test`: 39개 파일, 452개 테스트 통과.
+- `npm run build`: TypeScript 검사와 Vite 프로덕션 빌드 통과. battle-data 청크가 약 751 kB라 Vite 크기 경고가 남아 있다.
+- `npm run assets:metrics`: 정·후면 및 지원 폼 스프라이트 954장을 실제 브라우저에서 디코딩·측정했고, 빈 이미지는 0장이다.
+- `npm run assets:regmc:audit`: M-C 로스터 344종 정면/후면 각각 344/344, 실패 0.
+- `npm run assets:forms`: 지원 전용 폼 정면/후면 이미지 129/129쌍 확인.
+- `node scripts/audit-coverage.cjs`: 적용 가능한 로스터 특성 230/230, 트레이너 대전에 비적용인 도주 2종, 미지원 적용 특성 0, 학습 목록 기술 정의 누락 0.
+- `node scripts/audit-rule-fidelity.cjs`: 원본에서 가져온 기술 기본 필드 682개 비교, 차이 0. 이 검사는 모든 특수 콜백과 세대별 상호작용이 공식 엔진과 같음을 증명하지 않는다.
+- 별도 전용 장면 연출 16종과 전용 Z기술 18종을 데이터에 연결했다. Chrome 배틀 시나리오에서는 기존 맞춤 연출 7종 및 화룡점정·시간의포효·공간절단·단애의칼 4종의 동작을 추가로 확인했다.
+- Power Construct, RKS System, Tera Shift/Shell/Form Zero 전환을 테스트했고, 메가 지가르데 정·후면 512×512 PNG를 실제 Chrome 배틀에서 표시했다.
+
+기존 문서의 2026-10-10 기록과 위의 새 검증 결과는 서로 다른 시점의 검사다. 전체 Showdown·공식 게임과 전투 규칙이 완전히 같다는 뜻은 아니다.

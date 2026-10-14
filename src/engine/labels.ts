@@ -10,7 +10,7 @@ export const statusLabel: Record<Status, string> = {
 };
 
 export const weatherLabel: Record<Weather, string> = {
-  sun: '쾌청', rain: '비', sand: '모래바람', snow: '눈',
+  sun: '쾌청', rain: '비', sand: '모래바람', snow: '눈', strongwinds: '난기류',
 };
 
 export const fieldLabel: Record<Field, string> = {

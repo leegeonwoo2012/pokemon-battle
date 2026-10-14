@@ -13,6 +13,7 @@
     "test:gimmicks": "node scripts/browser-gimmicks.mjs",
     "test:polish": "node scripts/browser-polish.mjs",
     "test:cinematic": "node scripts/browser-cinematic.mjs",
+    "test:zygarde": "node scripts/browser-zygarde-mega.mjs",
     "test:correction": "node scripts/browser-correction.mjs",
     "test:server": "node --test scripts/friend-server.test.mjs",
     "test:dev": "node --test scripts/dev.test.mjs",

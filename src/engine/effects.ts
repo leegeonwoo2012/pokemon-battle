@@ -1,13 +1,39 @@
 import { abilities, items, moves, species } from '../data';
-import { adjustStage, passiveEffects, isGrounded, effectiveWeather, getTypeMultiplier } from './calculations';
+import { primalForms } from '../data/gimmicks.generated';
+import { abilityBattleForms, silvallyMemoryTypes } from '../data/ability-battle-forms';
+import { adjustStage, passiveEffects, isGrounded, effectiveWeather, getTypeMultiplier, calculateStats } from './calculations';
 import { fieldLabel, sourceLabel, statLabel, statusLabel, weatherLabel } from './labels';
 import { chance, randomInt } from './rng';
 import { recordEvent, withEventContext, type EventDetails } from './events';
-import type { BattleLog, BattleState, BoostStat, Combatant, Move, PassiveEffect, Side, Status, TargetRef } from './types';
+import type { BattleLog, BattleState, BoostStat, Combatant, Move, PassiveEffect, Side, Status, TargetRef, Weather } from './types';
 
 export function addLog(state: BattleState, text: string, kind: BattleLog['kind'] = 'system', details: EventDetails = {}): void {
   state.log.push({ turn: state.turn, text, kind });
   recordEvent(state, text, { kind: kind === 'system' || kind === 'switch' ? 'message' : kind, ...details });
+}
+const weatherAbilityIds=['primordialsea','desolateland','deltastream'] as const;
+function weatherForAbility(id:string):Weather|undefined{
+  return id==='primordialsea'?'rain':id==='desolateland'?'sun':id==='deltastream'?'strongwinds':undefined;
+}
+export function setBattleWeather(state:BattleState,weather:Weather,turns=5):boolean{
+  const active=[...activePokemon(state,'player'),...activePokemon(state,'cpu')];
+  const hasStrongWeather=active.some(mon=>weatherAbilityIds.includes(mon.set.abilityId as typeof weatherAbilityIds[number]));
+  if(hasStrongWeather&&!active.some(mon=>weatherForAbility(mon.set.abilityId)===weather))return false;
+  state.weather={id:weather,turns:weather==='strongwinds'?99:turns};
+  refreshAbilityTypes(state);
+  return true;
+}
+function releasePrimalWeather(state:BattleState,pokemon:Combatant):void {
+  const ownWeather=weatherForAbility(pokemon.set.abilityId);
+  if(!ownWeather)return;
+  const remaining=(['player','cpu'] as const).flatMap(side=>activePokemon(state,side)).filter(mon=>mon!==pokemon);
+  const ability=remaining.find(mon=>weatherAbilityIds.includes(mon.set.abilityId as typeof weatherAbilityIds[number]))?.set.abilityId;
+  const nextWeather=ability?weatherForAbility(ability):undefined;
+  if(nextWeather)state.weather={id:nextWeather,turns:99};
+  else if(state.weather?.id===ownWeather){
+    state.weather=null;
+    addLog(state,'강한 날씨가 끝났다.','status',{kind:'weather',actorUid:pokemon.uid});
+  }
 }
 
 export function passiveSource(pokemon: Combatant, effect: PassiveEffect): { sourceId: string; sourceKind: 'ability' | 'item'; name: string } {
@@ -88,6 +114,7 @@ export function applyDamage(state: BattleState, pokemon: Combatant, amount: numb
   if (pokemon.hp <= 0) {
     pokemon.hp = 0;
     pokemon.fainted = true;
+    releasePrimalWeather(state,pokemon);
     for(const side of ['player','cpu'] as const)for(const other of state.sides[side].team)if(other.trappedBy===pokemon.uid){other.trapped=false;other.trappedBy=undefined;}
     addLog(state, `${displayName(pokemon)} 기절!`, 'faint', { targetUid: pokemon.uid });
     const side:Side=state.sides.player.team.includes(pokemon)?'player':'cpu';
@@ -143,7 +170,7 @@ function handleConsumedItem(state:BattleState,pokemon:Combatant):void{
     if(pokemon.set.abilityId==='cheekpouch')applyHeal(state,pokemon,1/3,'먹보주머니');
   }
   const side:Side=state.sides.player.team.includes(pokemon)?'player':'cpu';
-  const donor=activePokemon(state,side).find(ally=>ally!==pokemon&&ally.set.abilityId==='symbiosis'&&ally.set.itemId!=='none'&&!ally.itemConsumed&&!/ite|iumz|niumz|orbs?$/.test(ally.set.itemId));
+  const donor=activePokemon(state,side).find(ally=>ally!==pokemon&&ally.set.abilityId==='symbiosis'&&ally.set.itemId!=='none'&&!ally.itemConsumed&&!/(?:ite(?:x|y)?|iumz|niumz|orbs?|memory)$/.test(ally.set.itemId));
   if(!donor)return;
   pokemon.set.itemId=donor.set.itemId;pokemon.itemConsumed=false;pokemon.cudChewUsed=false;pokemon.consumedItemTurn=undefined;donor.set.itemId='none';donor.itemConsumed=false;donor.consumedItemTurn=undefined;
   addLog(state,`${donor.speciesName}의 공생이 ${pokemon.speciesName}에게 도구를 건넸다!`,'status',{kind:'ability',actorUid:donor.uid,targetUid:pokemon.uid,sourceId:'symbiosis',sourceKind:'ability'});
@@ -235,6 +262,8 @@ export function applyStatChange(state: BattleState, pokemon: Combatant, stat: Bo
 
 export function applyExitEffects(state: BattleState, pokemon: Combatant): void {
   if (pokemon.fainted) return;
+  releasePrimalWeather(state,pokemon);
+  if(pokemon.set.abilityId==='slowstart'&&pokemon.slowStartTurns){pokemon.slowStartTurns=undefined;addLog(state,`${displayName(pokemon)}의 슬로스타트가 교체로 다시 시작된다.`,'status',{kind:'ability',actorUid:pokemon.uid,sourceId:'slowstart',sourceKind:'ability'});}
   for (const effect of passiveEffects(pokemon)) {
     if (effect.trigger !== 'onExit') continue;
     if(effect.kind==='cureStatus'){
@@ -247,6 +276,42 @@ export function applyExitEffects(state: BattleState, pokemon: Combatant): void {
     announcePassive(state, pokemon, effect);
     withEventContext(state, { actorUid: pokemon.uid }, () => applyHeal(state, pokemon, effect.fraction, passiveSource(pokemon, effect).name));
   }
+}
+
+/** Recalculate battle stats and sprite identity for an ability-driven form change. */
+export function changeAbilityBattleForm(pokemon:Combatant,formId:string):boolean {
+  const form=abilityBattleForms[formId];
+  if(!form||pokemon.set.speciesId!==form.speciesId)return false;
+  pokemon.abilityFormOriginal??={speciesName:pokemon.speciesName,types:[...pokemon.types],stats:{...pokemon.stats},abilityId:pokemon.set.abilityId,maxHp:pokemon.maxHp,appearanceSpeciesId:pokemon.appearanceSpeciesId,battleFormId:pokemon.battleFormId};
+  const missingHp=Math.max(0,pokemon.maxHp-pokemon.hp);
+  const stats=calculateStats({...species[form.speciesId],baseStats:form.baseStats},pokemon.set);
+  pokemon.stats=stats;
+  pokemon.maxHp=stats.hp;
+  pokemon.hp=Math.max(0,Math.min(pokemon.maxHp,pokemon.maxHp-missingHp));
+  pokemon.speciesName=form.name;
+  pokemon.types=[...form.types];
+  pokemon.set.abilityId=form.abilityId;
+  pokemon.battleFormId=form.id;
+  pokemon.appearanceSpeciesId=undefined;
+  return true;
+}
+
+/** Undo temporary ability forms when leaving or when the battle ends. */
+export function restoreAbilityBattleForm(state:BattleState,pokemon:Combatant,reason?:string):void {
+  const original=pokemon.abilityFormOriginal;
+  if(!original)return;
+  const missingHp=Math.max(0,pokemon.maxHp-pokemon.hp);
+  pokemon.speciesName=original.speciesName;
+  pokemon.types=[...original.types];
+  pokemon.stats={...original.stats};
+  pokemon.set.abilityId=original.abilityId;
+  pokemon.maxHp=original.maxHp;
+  pokemon.hp=Math.max(0,Math.min(pokemon.maxHp,pokemon.maxHp-missingHp));
+  pokemon.appearanceSpeciesId=original.appearanceSpeciesId;
+  pokemon.battleFormId=original.battleFormId;
+  pokemon.abilityFormOriginal=undefined;
+  pokemon.powerConstructActivated=false;
+  if(reason)addLog(state,`${displayName(pokemon)}의 ${reason} 폼이 원래대로 돌아왔다.`,'status',{kind:'ability',actorUid:pokemon.uid});
 }
 
 /** Absorption runs for damaging and status moves after protection, before accuracy. */
@@ -265,6 +330,18 @@ export function absorbMove(state: BattleState, pokemon: Combatant, move: Move): 
 }
 
 export function applyEntryEffects(state: BattleState, side: Side, pokemon: Combatant): void {
+  const primal=primalForms.find(form=>form.speciesId===pokemon.set.speciesId&&form.orbId===pokemon.set.itemId);
+  if(primal&&!pokemon.itemConsumed&&!pokemon.transformation){
+    pokemon.original={name:pokemon.speciesName,types:[...pokemon.types],stats:{...pokemon.stats},abilityId:pokemon.set.abilityId,maxHp:pokemon.maxHp};
+    pokemon.speciesName=primal.name;pokemon.types=[...primal.types];
+    pokemon.stats=calculateStats({...species[pokemon.set.speciesId],baseStats:primal.baseStats},pokemon.set);
+    pokemon.stats.hp=pokemon.maxHp;pokemon.set.abilityId=primal.abilityId;
+    pokemon.transformation={kind:'primal',formId:primal.id};
+    addLog(state,`${pokemon.speciesName}이(가) 원시회귀했다!`,'system',{kind:'gimmick-transform',actorUid:pokemon.uid,gimmick:'mega'});
+  }
+  if(pokemon.set.speciesId==='terapagos'&&pokemon.set.abilityId==='terashift'&&pokemon.battleFormId!=='terapagosterastal'){
+    if(changeAbilityBattleForm(pokemon,'terapagosterastal'))addLog(state,`${displayName(pokemon)}의 테라체인지! 테라스탈폼으로 변했다!`,'status',{kind:'form-change',formId:'terapagosterastal',actorUid:pokemon.uid,sourceId:'terashift',sourceKind:'ability'});
+  }
   if(pokemon.set.abilityId==='trace'){
     const target=activePokemon(state,side==='player'?'cpu':'player')[0];
     if(target&&target.set.abilityId!=='trace'&&target.set.abilityId!=='noability'){
@@ -312,14 +389,17 @@ export function applyEntryEffects(state: BattleState, side: Side, pokemon: Comba
     pokemon.fallenAllies=Math.min(5,state.sides[side].team.filter(ally=>ally.uid!==pokemon.uid&&ally.fainted).length);
     if(pokemon.fallenAllies)addLog(state,`${displayName(pokemon)}의 총대장: 쓰러진 아군 ${pokemon.fallenAllies}마리의 힘을 받았다!`,'status',{kind:'ability',actorUid:pokemon.uid,sourceId:'supremeoverlord',sourceKind:'ability'});
   }
+  if(pokemon.set.abilityId==='slowstart'){
+    pokemon.slowStartTurns=5;
+    addLog(state,`${displayName(pokemon)}의 슬로스타트! 5턴 동안 공격과 스피드가 절반이다.`,'status',{kind:'ability',actorUid:pokemon.uid,sourceId:'slowstart',sourceKind:'ability'});
+  }
   for (const effect of passiveEffects(pokemon)) {
     if (effect.trigger !== 'onEnter') continue;
     const source = passiveSource(pokemon, effect).name;
     announcePassive(state, pokemon, effect);
     if (effect.kind === 'weather') {
-      state.weather = { id: effect.weather, turns: effect.turns ?? 5 };
-      addLog(state, `${displayName(pokemon)}의 ${source}: ${weatherLabel[effect.weather]} 시작!`, 'status', { kind: 'weather', actorUid: pokemon.uid });
-      refreshAbilityTypes(state);
+      if(setBattleWeather(state,effect.weather,effect.turns??5))addLog(state, `${displayName(pokemon)}의 ${source}: ${weatherLabel[effect.weather]} 시작!`, 'status', { kind: 'weather', actorUid: pokemon.uid });
+      else addLog(state,'강한 날씨가 다른 날씨를 밀어냈다!','status',{kind:'blocked',actorUid:pokemon.uid});
     } else if (effect.kind === 'field') {
       state.field = { id: effect.field, turns: effect.turns ?? 5 };
       addLog(state, `${displayName(pokemon)}의 ${source}: ${fieldLabel[effect.field]} 전개!`, 'status', { kind: 'field', actorUid: pokemon.uid });
@@ -335,11 +415,13 @@ export function applyEntryEffects(state: BattleState, side: Side, pokemon: Comba
 /** Reactive typing from Forecast and Mimicry follows the current field state. */
 export function refreshAbilityTypes(state:BattleState):void {
   for(const side of ['player','cpu'] as const)for(const pokemon of activePokemon(state,side)){
-    if(pokemon.transformation?.kind==='tera'||pokemon.transformation?.kind==='mega'||pokemon.transformedOriginal)continue;
+    if(pokemon.transformation?.kind==='tera'||pokemon.transformation?.kind==='mega'||pokemon.transformation?.kind==='primal'||pokemon.transformedOriginal)continue;
     const base=species[pokemon.set.speciesId]?.types.map(type=>type.toLowerCase());
     if(!base)continue;
     let next=base;
-    if(pokemon.set.abilityId==='forecast'&&pokemon.set.speciesId==='castform'){
+    if(pokemon.set.abilityId==='rkssystem'&&pokemon.set.speciesId==='silvally'){
+      next=[silvallyMemoryTypes[pokemon.set.itemId]??'normal'];
+    }else if(pokemon.set.abilityId==='forecast'&&pokemon.set.speciesId==='castform'){
       const weather=effectiveWeather(state,pokemon);
       next=weather==='sun'?['fire']:weather==='rain'?['water']:weather==='snow'?['ice']:base;
     }else if(pokemon.set.abilityId==='mimicry'){
@@ -395,7 +477,7 @@ export function triggerContact(state: BattleState, defender: Combatant, attacker
     addLog(state,`${defender.speciesName}의 애프터매스!`,'status',{kind:'ability',actorUid:defender.uid,targetUid:attacker.uid,sourceId:'aftermath',sourceKind:'ability'});
     applyDamage(state,attacker,Math.max(1,Math.floor((attacker.original?.maxHp??attacker.maxHp)/4)),'애프터매스');
   }
-  const transferable=(mon:Combatant)=>mon.set.itemId!=='none'&&!mon.itemConsumed&&(mon.set.itemId==='eviolite'||!/ite(?:x|y)?|iumz|niumz|orbs?$/.test(mon.set.itemId));
+  const transferable=(mon:Combatant)=>mon.set.itemId!=='none'&&!mon.itemConsumed&&(mon.set.itemId==='eviolite'||!/(?:ite(?:x|y)?|iumz|niumz|orbs?|memory)$/.test(mon.set.itemId));
   if(defender.set.abilityId==='mummy'&&!defender.fainted&&!['mummy','multitype','stancechange','schooling','disguise','battlebond'].includes(attacker.set.abilityId)){
     attacker.set.abilityId='mummy';addLog(state,`${attacker.speciesName}의 특성이 미라로 바뀌었다!`,'status',{kind:'ability',actorUid:defender.uid,targetUid:attacker.uid,sourceId:'mummy',sourceKind:'ability'});
   }else if(defender.set.abilityId==='wanderingspirit'&&!defender.fainted&&!['wanderingspirit','multitype','stancechange','schooling','disguise','battlebond'].includes(attacker.set.abilityId)){
@@ -444,7 +526,7 @@ export function processEndTurn(state: BattleState): void {
         pokemon.itemConsumed=false;addLog(state,`${displayName(pokemon)}의 수확으로 열매가 돌아왔다!`,'status',{kind:'ability',actorUid:pokemon.uid,sourceId:'harvest',sourceKind:'ability'});
       }
       if(pokemon.set.abilityId==='pickup'&&pokemon.set.itemId==='none'){
-        const lost=[...activePokemon(state,side),...activePokemon(state,side==='player'?'cpu':'player')].find(mon=>mon.itemConsumed&&mon.consumedItemTurn===state.turn&&mon.set.itemId!=='none'&&(mon.set.itemId==='eviolite'||!/(?:ite(?:x|y)?|iumz|niumz|orbs?)$/.test(mon.set.itemId)));
+        const lost=[...activePokemon(state,side),...activePokemon(state,side==='player'?'cpu':'player')].find(mon=>mon.itemConsumed&&mon.consumedItemTurn===state.turn&&mon.set.itemId!=='none'&&(mon.set.itemId==='eviolite'||!/(?:ite(?:x|y)?|iumz|niumz|orbs?|memory)$/.test(mon.set.itemId)));
         if(lost){pokemon.set.itemId=lost.set.itemId;pokemon.itemConsumed=false;pokemon.cudChewUsed=false;pokemon.cudChewReadyTurn=undefined;pokemon.cudChewItemId=undefined;pokemon.consumedItemTurn=undefined;lost.set.itemId='none';lost.itemConsumed=false;lost.consumedItemTurn=undefined;lost.cudChewReadyTurn=undefined;lost.cudChewItemId=undefined;
           addLog(state,`${displayName(pokemon)}이(가) ${items[pokemon.set.itemId]?.name??pokemon.set.itemId}을 주웠다!`,'status',{kind:'ability',actorUid:pokemon.uid,sourceId:'pickup',sourceKind:'ability'});}
       }
@@ -506,9 +588,21 @@ export function processEndTurn(state: BattleState): void {
           }
         }
       }
+      if(pokemon.slowStartTurns){
+        pokemon.slowStartTurns--;
+        if(pokemon.slowStartTurns===0){pokemon.slowStartTurns=undefined;addLog(state,`${displayName(pokemon)}의 슬로스타트가 끝났다!`,'status',{kind:'ability',actorUid:pokemon.uid,sourceId:'slowstart',sourceKind:'ability'});}
+      }
+      if(pokemon.set.abilityId==='powerconstruct'&&pokemon.set.speciesId==='zygarde'&&!pokemon.powerConstructActivated&&!pokemon.transformedOriginal&&pokemon.hp>0&&pokemon.hp*2<=pokemon.maxHp){
+        if(changeAbilityBattleForm(pokemon,'zygardecomplete')){
+          pokemon.powerConstructActivated=true;
+          addLog(state,`${displayName(pokemon)}의 스웜체인지! 퍼펙트폼으로 변했다!`,'status',{kind:'form-change',formId:'zygardecomplete',actorUid:pokemon.uid,sourceId:'powerconstruct',sourceKind:'ability'});
+        }
+      }
     }
   }
-  if (state.weather && --state.weather.turns <= 0) {
+  const permanentWeather=[...activePokemon(state,'player'),...activePokemon(state,'cpu')]
+    .some(mon=>weatherAbilityIds.includes(mon.set.abilityId as typeof weatherAbilityIds[number]));
+  if (state.weather && !permanentWeather && --state.weather.turns <= 0) {
     const text = `${weatherLabel[state.weather.id]} 종료.`;
     state.weather = null;
     addLog(state, text, 'status', { kind: 'weather' });

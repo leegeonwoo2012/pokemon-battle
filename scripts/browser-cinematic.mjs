@@ -20,7 +20,7 @@ try{
     };
   });
   const origin='http://127.0.0.1:5195';
-  async function setup(id,moveId='protect',format='singles',gear={}){
+  async function setup(id,moveId='protect',format='singles',gear={},allowRestricted=false){
     await page.goto(origin,{waitUntil:'networkidle'});
     await page.evaluate(async({id,moveId,gear})=>{
       const {createSet,TEAM_STORAGE_KEY}=await import('/src/team/index.ts');
@@ -31,6 +31,7 @@ try{
       localStorage.setItem('arena-reduced-motion','false');localStorage.setItem('arena-playback-rate','1.5');localStorage.setItem('arena-sound','true');
     },{id,moveId,gear});
     await page.reload({waitUntil:'networkidle'});
+    if(allowRestricted)await page.getByRole('checkbox',{name:/초전설 허용/}).check();
     await page.getByRole('button',{name:format==='singles'?'싱글 배틀 시작':'더블 배틀',exact:true}).click();
     await selectTeamPreview(page);
     await page.waitForFunction(()=>document.querySelector('.battle-scene')&&[...document.querySelectorAll('.scene-actor .pokemon-sprite')].every(image=>image.complete&&image.naturalWidth>0));
@@ -62,6 +63,37 @@ try{
     if(moveId==='steelbeam'){await page.getByRole('button',{name:'기록',exact:true}).click();assert.match(await page.locator('.history-lines').innerText(),/철제광선의 반동/);}
     report.moves.push({id:moveId,phases,signatureRendered:true,hpDelayed:true,audioStarted:true});console.log('CINEMATIC_MOVE_OK '+moveId);
   }
+
+  for(const [id,moveId] of [['marshadow','spectralthief'],['solgaleo','sunsteelstrike'],['lunala','moongeistbeam'],['necrozmaduskmane','photongeyser'],['zygarde','coreenforcer'],['zygarde','thousandarrows'],['zygarde','thousandwaves']]){
+    const restricted=['solgaleo','lunala','necrozmaduskmane','zygarde'].includes(id);
+    await setup(id,moveId,'singles',{},restricted);await observe();await choose(moveId);await page.getByRole('button',{name:'행동 결정',exact:true}).click();
+    await page.locator('[class*="vfx-move-sig-'+moveId+'-"]').first().waitFor({timeout:20000});
+    await page.waitForFunction(expected=>document.querySelector('.battle-scene')?.dataset.signatureMove===expected,moveId);
+    await page.screenshot({path:'work/cinematic-signature-'+moveId+'.png'});await skip();
+    const frames=await page.evaluate(()=>window.frames);
+    assert(frames.some(frame=>frame.kind==='move'&&frame.actor==='player-0'&&frame.phase==='cast'),moveId+' cast timeline event missing');
+    report.moves.push({id:moveId,signatureMotion:true,castTimeline:true});console.log('CINEMATIC_SIGNATURE_OK '+moveId);
+  }
+
+  for(const [id,moveId] of [['rayquaza','dragonascent'],['dialga','roaroftime'],['palkia','spacialrend'],['groudon','precipiceblades']]){
+    await setup(id,moveId,'singles',{},true);await observe();await choose(moveId);await page.getByRole('button',{name:'행동 결정',exact:true}).click();
+    await page.locator('[class*="vfx-move-sig-'+moveId+'-"]').first().waitFor({timeout:20000});
+    await page.waitForFunction(expected=>document.querySelector('.battle-scene')?.dataset.signatureMove===expected,moveId);
+    await page.screenshot({path:'work/cinematic-signature-'+moveId+'.png'});await skip();
+    const frames=await page.evaluate(()=>window.frames);
+    assert(frames.some(frame=>frame.kind==='move'&&frame.actor==='player-0'&&frame.phase==='cast'),moveId+' cast timeline event missing');
+    report.moves.push({id:moveId,signatureMotion:true,castTimeline:true});console.log('CINEMATIC_SIGNATURE_OK '+moveId);
+  }
+
+  await setup('zygarde','nihillight','singles',{itemId:'zygardite'},true);
+  await page.locator('[data-gimmick="mega"]').click();await page.locator('[data-move-id="nihillight"]').click();
+  if(await page.locator('.target-actions').count())await page.locator('.target-actions>button:not(.action-back)').first().click();
+  await page.getByRole('button',{name:'행동 결정',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.battle-scene')?.dataset.eventKind==='gimmick-transform'&&document.querySelector('.battle-scene')?.dataset.eventActor==='player-0',null,{timeout:20000});
+  await page.locator('.stadium-transform-spotlight').waitFor({timeout:20000});
+  await page.waitForFunction(()=>{const image=document.querySelector('.formation-player img[src*="zygardemega-back.png"]');return image?.complete&&image.naturalWidth===512;});
+  await page.screenshot({path:'work/cinematic-mega-zygarde.png'});await skip();
+  report.gimmicks.push({kind:'mega',form:'zygardemega',verifiedLocalBackSprite:512});console.log('CINEMATIC_FORM_SPRITE_OK zygardemega');
 
   await setup('garchomp');await observe();await page.getByRole('button',{name:'포켓몬',exact:true}).click();await page.locator('.party-actions').getByRole('button',{name:/거북왕/}).click();await page.getByRole('button',{name:'행동 결정',exact:true}).click();await finish();
   const switches=await page.evaluate(()=>({frames:window.frames,vfx:window.vfx}));

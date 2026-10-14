@@ -62,6 +62,29 @@ test('an unprepared lobby can resume and an unrelated service is not reused',asy
   }finally{for(const socket of sockets)socket.close();await relay.close();}
 });
 
+test('host rule is broadcast and server refuses restricted legends when disabled',async()=>{
+  const relay=startFriendServer(0,'127.0.0.1');await new Promise(resolve=>relay.http.once('listening',resolve));
+  const sockets=[];
+  try{
+    const port=relay.http.address().port,host=await client(port),guest=await client(port);sockets.push(host,guest);
+    host.send({type:'create-room'});const {code}=await host.wait('room-created');guest.send({type:'join-room',code});await guest.wait('room-joined');
+    const data=runtime.loadData().species;
+    const make=id=>({speciesId:id,moves:data[id].learnset.slice(0,4),abilityId:data[id].abilities[0],itemId:'none',natureId:'hardy'});
+    const normal=['raichu','charizard','gyarados','blastoise','venusaur'].map(make);
+    host.send({type:'ready',name:'A',team:[make('kyogre'),...normal]});
+    guest.send({type:'ready',name:'B',team:[make('mewtwo'),...normal]});
+    await Promise.all([host.wait('peer-ready'),guest.wait('peer-ready')]);
+    await Promise.all([host.wait('format-selected'),guest.wait('format-selected')]);
+    host.send({type:'start_team_preview',format:'doubles',allowRestricted:false});
+    assert.match((await host.wait('error')).message,/초전설/);
+    host.send({type:'select-format',format:'doubles',allowRestricted:true});
+    const selected=await guest.wait('format-selected');assert.equal(selected.allowRestricted,true);
+    host.send({type:'start_team_preview',format:'doubles',allowRestricted:true});
+    const [a,b]=await Promise.all([host.wait('team-preview-started'),guest.wait('team-preview-started')]);
+    assert.equal(a.allowRestricted,true);assert.equal(b.allowRestricted,true);
+  }finally{for(const socket of sockets)socket.close();await relay.close();}
+});
+
 test('double preview preserves submitted order and refuses duplicate or short selections',async()=>{
   const relay=startFriendServer(0,'127.0.0.1');await new Promise(resolve=>relay.http.once('listening',resolve));
   const sockets=[];

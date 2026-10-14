@@ -15,6 +15,7 @@ export interface TeamSelectionPayload { indices: number[] }
 export interface TeamPreviewState {
   type: 'team-preview-started';
   format: 'singles' | 'doubles';
+  allowRestricted: boolean;
   endsAt: number;
   durationMs: number;
   own: TeamPreviewEntry[];
@@ -25,8 +26,8 @@ export interface TeamPreviewState {
 
 export type FriendMessage =
   | { type: 'room-created' | 'room-joined'; code: string; role: 'host' | 'guest'; token:string }
-  | { type:'room-resumed';code:string;role:'host'|'guest';token:string;peer?:FriendProfile;profile?:{name:string;team:TeamSet[]};state:BattleState|null;format?:'singles'|'doubles';revision:number;waiting:boolean;peerConnected:boolean;preview?:TeamPreviewState|null }
-  | { type:'format-selected';format:'singles'|'doubles' }
+  | { type:'room-resumed';code:string;role:'host'|'guest';token:string;peer?:FriendProfile;profile?:{name:string;team:TeamSet[]};state:BattleState|null;format?:'singles'|'doubles';allowRestricted?:boolean;revision:number;waiting:boolean;peerConnected:boolean;preview?:TeamPreviewState|null }
+  | { type:'format-selected';format:'singles'|'doubles';allowRestricted:boolean }
   | { type: 'peer-joined' }
   | { type: 'peer-ready'; peer: FriendProfile }
   | TeamPreviewState
@@ -48,9 +49,9 @@ export type FriendOutgoing =
   | { type:'resume-room';code:string;token:string }
   | { type: 'ready'; name: string; team: TeamSet[]; format?:'singles'|'doubles' }
   | { type: 'start-battle'; format?:'singles'|'doubles' }
-  | { type: 'start_team_preview'; format:'singles'|'doubles' }
+  | { type: 'start_team_preview'; format:'singles'|'doubles';allowRestricted:boolean }
   | ({ type: 'submit_team_selection' } & TeamSelectionPayload)
-  | { type:'select-format';format:'singles'|'doubles' }
+  | { type:'select-format';format:'singles'|'doubles';allowRestricted:boolean }
   | { type: 'actions'; actions: BattleAction[];revision:number }
   | { type:'playback-ready';revision:number }
   | { type:'playback-rate';rate:number }

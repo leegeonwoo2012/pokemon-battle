@@ -1,4 +1,4 @@
-import { abilities, getStarterTeam, items, moves, natures, regulationSpecies, species } from '../data';
+import { abilities, getStarterTeam, items, moves, natures, regulationSpecies, restrictedDexNumbers, species } from '../data';
 import type { Format, Stat, Stats, TeamSet } from '../engine/types';
 import { gimmickSetErrors } from '../engine/gimmicks';
 
@@ -21,7 +21,7 @@ function storageOrBrowser(storage?: TeamStorage): TeamStorage {
 export function createSet(speciesId: string): TeamSet {
   const entry = regulationSpecies[speciesId]??species[speciesId];
   if (!entry) throw new Error(`알 수 없는 포켓몬: ${speciesId}`);
-  if(speciesId==='ditto')return {speciesId,moves:['transform'],abilityId:entry.abilities[0],itemId:'none',teraType:'normal',gigantamax:false,natureId:'hardy',ivs:{hp:31,atk:31,def:31,spa:31,spd:31,spe:31},evs:{hp:0,atk:0,def:0,spa:0,spd:0,spe:0}};
+  if(speciesId==='ditto')return {speciesId,friendship:255,moves:['transform'],abilityId:entry.abilities[0],itemId:'none',teraType:'normal',gigantamax:false,natureId:'hardy',ivs:{hp:31,atk:31,def:31,spa:31,spd:31,spe:31},evs:{hp:0,atk:0,def:0,spa:0,spd:0,spe:0}};
   const score = (id: string) => {
     const move = moves[id];
     return move.power * (move.accuracy ?? 100) / 100 * (entry.types.includes(move.type) ? 1.5 : 1)
@@ -32,6 +32,7 @@ export function createSet(speciesId: string): TeamSet {
   const supportMoves = entry.learnset.filter(id => moves[id]?.category === 'status').sort((a,b) => Number(b === 'protect') - Number(a === 'protect'));
   return {
     speciesId,
+    friendship: 255,
     moves: [...new Set([...coverage.slice(0, 3), ...supportMoves, ...attackingMoves])].slice(0, 4),
     abilityId: entry.abilities[0],
     itemId: 'none',
@@ -104,6 +105,9 @@ export function validateTeam(team: TeamSet[], format: Format = 'singles'): strin
       errors.push(`${label}: 등록되지 않은 포켓몬입니다.`);
       continue;
     }
+    if (set.friendship !== undefined && (!Number.isInteger(set.friendship) || set.friendship < 0 || set.friendship > 255)) {
+      errors.push(`${label}: 친밀도는 0~255 사이의 정수여야 합니다.`);
+    }
     if (usedSpecies.has(set.speciesId)) errors.push(`${label}: 같은 포켓몬은 중복할 수 없습니다.`);
     usedSpecies.add(set.speciesId);
     if(set.gender){
@@ -111,8 +115,9 @@ export function validateTeam(team: TeamSet[], format: Format = 'singles'): strin
       if(!['M','F','N'].includes(set.gender)||(set.gender==='N'?(ratio.M??0)+(ratio.F??0)>0:(ratio[set.gender]??0)<=0))
         errors.push(`${label}: 선택할 수 없는 성별입니다.`);
     }
-    if (!Array.isArray(set.moves) || set.moves.length !== (set.speciesId==='ditto'?1:4)) {
-      errors.push(`${label}: ${set.speciesId==='ditto'?'메타몽은 변신 1개':'기술 4개'}를 선택해야 합니다.`);
+    const moveSlots=set.speciesId==='ditto'?1:Math.min(4,entry.learnset.length);
+    if (!Array.isArray(set.moves) || set.moves.length !== moveSlots) {
+      errors.push(`${label}: 기술 ${moveSlots}개를 선택해야 합니다.`);
     } else {
       const unique = new Set<string>();
       for (const id of set.moves) {
@@ -139,6 +144,14 @@ export function validateTeam(team: TeamSet[], format: Format = 'singles'): strin
     if (totalEvs > 510) errors.push(`${label}: 노력치 총합은 510 이하여야 합니다.`);
   }
   return errors;
+}
+
+/** Restricted legends are judged by national number so alternate forms count together. */
+export function validateRestrictedTeam(team:TeamSet[],allowRestricted:boolean):string[] {
+  const restricted=team.filter(set=>restrictedDexNumbers.has(species[set.speciesId]?.nationalDex));
+  if(!allowRestricted&&restricted.length)return ['이 배틀은 초전설을 허용하지 않습니다. 팀에서 초전설을 빼거나 허용을 켜세요.'];
+  if(restricted.length>1)return ['초전설은 팀에 최대 1마리만 넣을 수 있습니다.'];
+  return [];
 }
 
 /** Validated persistence with an injectable storage dependency for tests. */

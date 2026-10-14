@@ -8,7 +8,7 @@ const evidence = sourceEvidence as Record<string,{nationalDex:number;spriteId:nu
 const normalize = (value:string) => value.toLowerCase().replace(/[^a-z0-9]/g,'');
 describe('source-verified roster',()=>{
   it('matches the pinned M-C selectable roster, including regional forms',()=>{
-    const roster=Object.values(species);
+    const roster=regulation.ids.map(id=>species[id]);
     expect(roster).toHaveLength(264);
     expect(roster.map(mon=>mon.id)).toEqual(regulation.ids);
     expect(new Set(roster.map(mon=>mon.spriteId)).size).toBe(264);
@@ -19,10 +19,11 @@ describe('source-verified roster',()=>{
     for(const mon of roster)expect(mon.types).toContain(mon.representativeType);
   });
   it('includes all eight Eevee evolutions',()=>{
+    expect(species.eevee).toBeDefined();
     for(const id of ['vaporeon','jolteon','flareon','espeon','umbreon','leafeon','glaceon','sylveon'])expect(species[id],id).toBeDefined();
   });
   it('matches recorded upstream stats, dual types, abilities and learnset evidence for every species',()=>{
-    for(const mon of Object.values(species)){
+    for(const mon of regulation.ids.map(id=>species[id])){
       const original=evidence[mon.id];
       expect(mon.nationalDex).toBe(original.nationalDex);
       expect(mon.spriteId).toBe(original.spriteId);

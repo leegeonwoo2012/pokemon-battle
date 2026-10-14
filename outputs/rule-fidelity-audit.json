@@ -1,8 +1,9 @@
 {
   "source": "Pinned Showdown M-C-derived move metadata, commit 942cda71",
-  "comparedMoves": 510,
+  "comparedMoves": 682,
   "coreFieldDifferences": [],
   "explicitCustomRules": [
+    "Return/Frustration friendship-based power",
     "Life Orb costs 1/8 maximum HP",
     "Rampage lasts 2–5 turns",
     "Make It Rain lowers Special Attack by 2 stages",

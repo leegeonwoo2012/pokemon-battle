@@ -1,7 +1,7 @@
 {
-  "roster": 264,
-  "frontVerified": 264,
-  "backVerified": 264,
+  "roster": 344,
+  "frontVerified": 344,
+  "backVerified": 344,
   "failures": [],
   "entries": [
     {
@@ -5281,6 +5281,1606 @@
           "path": "back/1019.png",
           "sha256": "0b30364c0b926b8edbaebfcf585c093072d37a9e473353940630fe138b36a0e8",
           "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1019.png"
+        }
+      }
+    },
+    {
+      "id": "articuno",
+      "name": "프리져",
+      "nationalDex": 144,
+      "spriteId": 144,
+      "pokeapiIdentifier": "articuno",
+      "sourceProvider": "PMDCollab/SpriteCollab or PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/144.png",
+          "sha256": "2e61aa2df03943e765c7c93af3b52497cfea834be15ac83400eaa582e0140a4a",
+          "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0144/0003/Idle-Anim.png"
+        },
+        "back": {
+          "path": "back/144.png",
+          "sha256": "19efff4c19f3fdd853d2d48267951be37c97cdc2d876a409a16670720f7247fb",
+          "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0144/0003/Idle-Anim.png"
+        }
+      }
+    },
+    {
+      "id": "zapdos",
+      "name": "썬더",
+      "nationalDex": 145,
+      "spriteId": 145,
+      "pokeapiIdentifier": "zapdos",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/145.png",
+          "sha256": "001fee7d56c08a8e3f9b76142e1051c6e640e80e3b7efc39c152c9ff53091d45",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/145.png"
+        },
+        "back": {
+          "path": "back/145.png",
+          "sha256": "bf843a8cf3db5d16b1deee8de8e3d98219d6160cae0fae523b46e6e0a1264af9",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/145.png"
+        }
+      }
+    },
+    {
+      "id": "moltres",
+      "name": "파이어",
+      "nationalDex": 146,
+      "spriteId": 146,
+      "pokeapiIdentifier": "moltres",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/146.png",
+          "sha256": "985ab0a99c18014f437bef4f2c04cf6c391f6e9d47af329604df814877c186ac",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/146.png"
+        },
+        "back": {
+          "path": "back/146.png",
+          "sha256": "8cbe54b65d4c5f07164d7fd1fb44264e4a60277c89c8a7f3bf375a5a735c7439",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/146.png"
+        }
+      }
+    },
+    {
+      "id": "mewtwo",
+      "name": "뮤츠",
+      "nationalDex": 150,
+      "spriteId": 150,
+      "pokeapiIdentifier": "mewtwo",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/150.png",
+          "sha256": "31c5aebb134a3711864a92091cb1b5c35158e4e90ca5c88afddf56f0cf4bc129",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/150.png"
+        },
+        "back": {
+          "path": "back/150.png",
+          "sha256": "b4b962c5c64581fbb8f3f7a1a7fb7eb2460f05369a481825d286082520e3393c",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/150.png"
+        }
+      }
+    },
+    {
+      "id": "raikou",
+      "name": "라이코",
+      "nationalDex": 243,
+      "spriteId": 243,
+      "pokeapiIdentifier": "raikou",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/243.png",
+          "sha256": "f0c64d337e0a035964c69a1db302f3ad9efcb93c4eb5e0cedfd1de700e811ca6",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/243.png"
+        },
+        "back": {
+          "path": "back/243.png",
+          "sha256": "3522206613e4a9c7f73b3d549761ea376ae892f05330688e697d03270c5b7ae5",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/243.png"
+        }
+      }
+    },
+    {
+      "id": "entei",
+      "name": "앤테이",
+      "nationalDex": 244,
+      "spriteId": 244,
+      "pokeapiIdentifier": "entei",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/244.png",
+          "sha256": "9c383d3d33ca389f45a7550e27e9d21a46af6dda64b0276750bee321665202d4",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/244.png"
+        },
+        "back": {
+          "path": "back/244.png",
+          "sha256": "d9055677ac7c90b898154d78529e684ea8a096815fa93cc70142cb7fe6b6befb",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/244.png"
+        }
+      }
+    },
+    {
+      "id": "suicune",
+      "name": "스이쿤",
+      "nationalDex": 245,
+      "spriteId": 245,
+      "pokeapiIdentifier": "suicune",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/245.png",
+          "sha256": "44bc616b649a3c5a57711c441523d3abddcaa14361574d38fa5d9cad8d4247d9",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/245.png"
+        },
+        "back": {
+          "path": "back/245.png",
+          "sha256": "0b9284169c85b43d2cede2f8fd1a6275a702fc6788c91efb894bae13ca5ac8b6",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/245.png"
+        }
+      }
+    },
+    {
+      "id": "lugia",
+      "name": "루기아",
+      "nationalDex": 249,
+      "spriteId": 249,
+      "pokeapiIdentifier": "lugia",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/249.png",
+          "sha256": "9e4cf8a68e70df5f4894fcbe1a462d98fbf79bc6a9d6c9f5d58716056bd444af",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/249.png"
+        },
+        "back": {
+          "path": "back/249.png",
+          "sha256": "3870800e8729e2a2d8d211ee6b45bdd3a41789686ee832aa47b7987adadc7fe2",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/249.png"
+        }
+      }
+    },
+    {
+      "id": "hooh",
+      "name": "칠색조",
+      "nationalDex": 250,
+      "spriteId": 250,
+      "pokeapiIdentifier": "ho-oh",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/250.png",
+          "sha256": "820f7733f223f6f93279c48ca93116213ae94a0433f0721e584349b975d14f1b",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/250.png"
+        },
+        "back": {
+          "path": "back/250.png",
+          "sha256": "7808b93e4bb24d83cd27f0ecf990f98e8f0805de394d29b82e8c54a39296e967",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/250.png"
+        }
+      }
+    },
+    {
+      "id": "regirock",
+      "name": "레지락",
+      "nationalDex": 377,
+      "spriteId": 377,
+      "pokeapiIdentifier": "regirock",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/377.png",
+          "sha256": "05d025c0e9b665db35c595eec8dcacbcf7daecdb7f52759394e1a92849f7b0fe",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/377.png"
+        },
+        "back": {
+          "path": "back/377.png",
+          "sha256": "51c270dc535ad54787d8910e8fca5c688d3e945c9db36202ec36d9eb09dbf684",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/377.png"
+        }
+      }
+    },
+    {
+      "id": "regice",
+      "name": "레지아이스",
+      "nationalDex": 378,
+      "spriteId": 378,
+      "pokeapiIdentifier": "regice",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/378.png",
+          "sha256": "a0485f55e07f4a0715e9296861bf860d26837ee40d7031f3fe3368e404d57cc6",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/378.png"
+        },
+        "back": {
+          "path": "back/378.png",
+          "sha256": "f6fc7231d2fdcb448f0107740b9e8d454f1918967c6be03f5c53a5268081d76e",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/378.png"
+        }
+      }
+    },
+    {
+      "id": "registeel",
+      "name": "레지스틸",
+      "nationalDex": 379,
+      "spriteId": 379,
+      "pokeapiIdentifier": "registeel",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/379.png",
+          "sha256": "6c3e126567550aa2b98a7d5b545d3d9fa0768e1c8a8d4acd9fc854f51764e5d6",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/379.png"
+        },
+        "back": {
+          "path": "back/379.png",
+          "sha256": "7392e5a8422dc4bd6c091ccb1141882ce96d4e583de82fb94a80f3ed226b8a38",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/379.png"
+        }
+      }
+    },
+    {
+      "id": "latias",
+      "name": "라티아스",
+      "nationalDex": 380,
+      "spriteId": 380,
+      "pokeapiIdentifier": "latias",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/380.png",
+          "sha256": "6e33be59482beed60a56aaeaf742d7f64b153d50cb993d217739a6fef9202c6a",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/380.png"
+        },
+        "back": {
+          "path": "back/380.png",
+          "sha256": "d73aeac9474f040e330555eec75ebc927b3182126233a5f4dc12ad554d554176",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/380.png"
+        }
+      }
+    },
+    {
+      "id": "latios",
+      "name": "라티오스",
+      "nationalDex": 381,
+      "spriteId": 381,
+      "pokeapiIdentifier": "latios",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/381.png",
+          "sha256": "f1080a0f167efd28b4eca128e2d084bbe18f95171a5c41981966f58b5ca00be4",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/381.png"
+        },
+        "back": {
+          "path": "back/381.png",
+          "sha256": "b920be1eabfd27df082c1cbb7781c68631ab9a023eb7975f978d94bf7f6e1bf5",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/381.png"
+        }
+      }
+    },
+    {
+      "id": "kyogre",
+      "name": "가이오가",
+      "nationalDex": 382,
+      "spriteId": 382,
+      "pokeapiIdentifier": "kyogre",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/382.png",
+          "sha256": "02c45c92e404ddb71260dbf6d2110acd96dd3870f618e3d006b4d47e8ee1778d",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/382.png"
+        },
+        "back": {
+          "path": "back/382.png",
+          "sha256": "e592f6afecbabb4a38e73f8adcb9539aa92dfd5e0a12a9009239fb52729f69c7",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/382.png"
+        }
+      }
+    },
+    {
+      "id": "groudon",
+      "name": "그란돈",
+      "nationalDex": 383,
+      "spriteId": 383,
+      "pokeapiIdentifier": "groudon",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/383.png",
+          "sha256": "4a29eaa120446ce65fe424ae641ff96fad9a699f88d0057767d4983a39259243",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/383.png"
+        },
+        "back": {
+          "path": "back/383.png",
+          "sha256": "155dae9a6aa914347e79c944c26b2954196e088ab807c80e348f5e82ef0f63e8",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/383.png"
+        }
+      }
+    },
+    {
+      "id": "rayquaza",
+      "name": "레쿠쟈",
+      "nationalDex": 384,
+      "spriteId": 384,
+      "pokeapiIdentifier": "rayquaza",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/384.png",
+          "sha256": "2377f7a7be0f3fe2f164df5e24511216ab5a5bddc3bb23fd06cd7ae26a060875",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/384.png"
+        },
+        "back": {
+          "path": "back/384.png",
+          "sha256": "1bfd4fee91e09cc5cdd8b4a9f1ad95ec54ea04aa84e7e66c0af6431cf59ea2d2",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/384.png"
+        }
+      }
+    },
+    {
+      "id": "uxie",
+      "name": "유크시",
+      "nationalDex": 480,
+      "spriteId": 480,
+      "pokeapiIdentifier": "uxie",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/480.png",
+          "sha256": "412f4f971f9dacff01a58645d961c66e89866efeb9ba2f36ac24bc3e7f331273",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/480.png"
+        },
+        "back": {
+          "path": "back/480.png",
+          "sha256": "0a05cd26664779ed6c48fe139f805e0a683b75dea91c5ed42b83395908b8b2d6",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/480.png"
+        }
+      }
+    },
+    {
+      "id": "mesprit",
+      "name": "엠라이트",
+      "nationalDex": 481,
+      "spriteId": 481,
+      "pokeapiIdentifier": "mesprit",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/481.png",
+          "sha256": "7e1898bd3461504b9d88e03c10c6ec602f05f413077a4c59801c786f8b95b840",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/481.png"
+        },
+        "back": {
+          "path": "back/481.png",
+          "sha256": "47cd9ae943b4bf8aa8d929a68cb11b59e8a589cd2df241ad274cf4ced5d9ec06",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/481.png"
+        }
+      }
+    },
+    {
+      "id": "azelf",
+      "name": "아그놈",
+      "nationalDex": 482,
+      "spriteId": 482,
+      "pokeapiIdentifier": "azelf",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/482.png",
+          "sha256": "859667784421240ca6b65bfb07c44f7f59cdf06287c6ee8ae0132160ed006973",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/482.png"
+        },
+        "back": {
+          "path": "back/482.png",
+          "sha256": "16b719621226901a57ab1dc91c44727cf57d1149777675a730db29b80c087fe5",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/482.png"
+        }
+      }
+    },
+    {
+      "id": "dialga",
+      "name": "디아루가",
+      "nationalDex": 483,
+      "spriteId": 483,
+      "pokeapiIdentifier": "dialga",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/483.png",
+          "sha256": "5be5a2cc5001ddfc9668ce42bb895e57555f4188a6b973a6683745248b80e39a",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/483.png"
+        },
+        "back": {
+          "path": "back/483.png",
+          "sha256": "bb20b058e1ee78df600701c2de10e891d903d2d3ee54cc0cf98870bc98d2153d",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/483.png"
+        }
+      }
+    },
+    {
+      "id": "palkia",
+      "name": "펄기아",
+      "nationalDex": 484,
+      "spriteId": 484,
+      "pokeapiIdentifier": "palkia",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/484.png",
+          "sha256": "9747898af471d2c3a7e149517359a45f40d559e3b21f7635ac2859f5859254a1",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/484.png"
+        },
+        "back": {
+          "path": "back/484.png",
+          "sha256": "58cf0bed5982560772d16abb93d1d9d93ba763df65bb8e3ad46b3d7a18061b12",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/484.png"
+        }
+      }
+    },
+    {
+      "id": "heatran",
+      "name": "히드런",
+      "nationalDex": 485,
+      "spriteId": 485,
+      "pokeapiIdentifier": "heatran",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/485.png",
+          "sha256": "7839de085584e8d883bf506ec99666f36baaec2f843cfb0164343e4d31cd2242",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/485.png"
+        },
+        "back": {
+          "path": "back/485.png",
+          "sha256": "cfc55eeea31f64029ebda3478e1269281661958f8663f795752a8f20d4fec6b8",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/485.png"
+        }
+      }
+    },
+    {
+      "id": "regigigas",
+      "name": "레지기가스",
+      "nationalDex": 486,
+      "spriteId": 486,
+      "pokeapiIdentifier": "regigigas",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/486.png",
+          "sha256": "b8431a634a9ec1f6e9d9f42d83476f61e4088a0772feeaff4228a73d6f7678f1",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/486.png"
+        },
+        "back": {
+          "path": "back/486.png",
+          "sha256": "29c6f3d94db15790bb1dc07af76fccbe7e3fee88dd7b0f4e008837964ebb1341",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/486.png"
+        }
+      }
+    },
+    {
+      "id": "giratina",
+      "name": "기라티나",
+      "nationalDex": 487,
+      "spriteId": 487,
+      "pokeapiIdentifier": "giratina-altered",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/487.png",
+          "sha256": "3cabb5dfe194e833596ea552226c429c923664f7351159edf931f78659c94292",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/487.png"
+        },
+        "back": {
+          "path": "back/487.png",
+          "sha256": "5048092345fbdab4dcc3dcaa2930ef43b8912bc0943b1532aa2f7b3a28b9f41e",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/487.png"
+        }
+      }
+    },
+    {
+      "id": "cresselia",
+      "name": "크레세리아",
+      "nationalDex": 488,
+      "spriteId": 488,
+      "pokeapiIdentifier": "cresselia",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/488.png",
+          "sha256": "956d8f33efcdb4d8eca39e35702ac1d57209001c43617ddd7cb757273746db32",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/488.png"
+        },
+        "back": {
+          "path": "back/488.png",
+          "sha256": "a06054f6055a295c84e48997de877e1f41038bc07d4309fc90c38d89608c0a82",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/488.png"
+        }
+      }
+    },
+    {
+      "id": "cobalion",
+      "name": "코바르온",
+      "nationalDex": 638,
+      "spriteId": 638,
+      "pokeapiIdentifier": "cobalion",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/638.png",
+          "sha256": "35201010db8b09e1264a650ac5adf982e1fbabf263ee509e7dfda7e99a70e4e1",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/638.png"
+        },
+        "back": {
+          "path": "back/638.png",
+          "sha256": "992b7051db39d439b81cb8bfe52e233fb937c0296657866aada4294748740214",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/638.png"
+        }
+      }
+    },
+    {
+      "id": "terrakion",
+      "name": "테라키온",
+      "nationalDex": 639,
+      "spriteId": 639,
+      "pokeapiIdentifier": "terrakion",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/639.png",
+          "sha256": "232b8604bf53f32c5957f8f6a39c2941a03949ac26028bb7c8cb6c1feb07f987",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/639.png"
+        },
+        "back": {
+          "path": "back/639.png",
+          "sha256": "d3573e63343e9d6643a9146084cc27b7824da8a09dd43c41be6f7a14b6e16943",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/639.png"
+        }
+      }
+    },
+    {
+      "id": "virizion",
+      "name": "비리디온",
+      "nationalDex": 640,
+      "spriteId": 640,
+      "pokeapiIdentifier": "virizion",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/640.png",
+          "sha256": "6960381aa53e54afdd130eae76baf50610891f35cf0ca9b9efa4ada7767bd418",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/640.png"
+        },
+        "back": {
+          "path": "back/640.png",
+          "sha256": "ea02bdca2bd4b2687ef8331df664fbfdf710ffc8ca41a21c44a5db1780d7ddd2",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/640.png"
+        }
+      }
+    },
+    {
+      "id": "tornadus",
+      "name": "토네로스",
+      "nationalDex": 641,
+      "spriteId": 641,
+      "pokeapiIdentifier": "tornadus-incarnate",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/641.png",
+          "sha256": "58bba438eca62fd65cb9fe9e523eabc96703b77a32f21ac01f4e21871ca6d745",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/641.png"
+        },
+        "back": {
+          "path": "back/641.png",
+          "sha256": "76f5118d86ca4ec52b41bc4b442ca4dae0255eb57310f69eedf06b74fa90102e",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/641.png"
+        }
+      }
+    },
+    {
+      "id": "thundurus",
+      "name": "볼트로스",
+      "nationalDex": 642,
+      "spriteId": 642,
+      "pokeapiIdentifier": "thundurus-incarnate",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/642.png",
+          "sha256": "3267db82996f1ed9403e9f5795d1a7d384fca3a5d13a744cd8821ad6d1d256a9",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/642.png"
+        },
+        "back": {
+          "path": "back/642.png",
+          "sha256": "f3b678aee58edc7a21bda1d1c8a1f26c849bb4e9f654ea6e9b4689dabd7661d4",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/642.png"
+        }
+      }
+    },
+    {
+      "id": "reshiram",
+      "name": "레시라무",
+      "nationalDex": 643,
+      "spriteId": 643,
+      "pokeapiIdentifier": "reshiram",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/643.png",
+          "sha256": "c45da257df77e015ca964221066c34129268ad578eb9e288778962dd1c711bc7",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/643.png"
+        },
+        "back": {
+          "path": "back/643.png",
+          "sha256": "94a3d6f549669ca9ac4c80e4c3050a6d315cdb38ff11957e2fba0cda00d086ea",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/643.png"
+        }
+      }
+    },
+    {
+      "id": "zekrom",
+      "name": "제크로무",
+      "nationalDex": 644,
+      "spriteId": 644,
+      "pokeapiIdentifier": "zekrom",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/644.png",
+          "sha256": "52097cba8e0bd8e1889e72802cd11c6f0e1a6f568e9150b8b1c26c21dd39cb12",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/644.png"
+        },
+        "back": {
+          "path": "back/644.png",
+          "sha256": "e13a7dccffac054b5c7659d71187a1d5dd7d8e2d7602c5e6a4fbece389e21f42",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/644.png"
+        }
+      }
+    },
+    {
+      "id": "landorus",
+      "name": "랜드로스",
+      "nationalDex": 645,
+      "spriteId": 645,
+      "pokeapiIdentifier": "landorus-incarnate",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/645.png",
+          "sha256": "9708fb769581a3ad61773f8aab1b21a01ec0994087fa6e00485ee1092d4ed5dd",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/645.png"
+        },
+        "back": {
+          "path": "back/645.png",
+          "sha256": "e61b07d928d10acfa00036671b42c3391b23ad4a1580c482b4d8a13cfa060526",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/645.png"
+        }
+      }
+    },
+    {
+      "id": "kyurem",
+      "name": "큐레무",
+      "nationalDex": 646,
+      "spriteId": 646,
+      "pokeapiIdentifier": "kyurem",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/646.png",
+          "sha256": "16b05a5420407f3d5aed368b1c9e69d5bc1b164bd820bab7e647c645cbe36647",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/646.png"
+        },
+        "back": {
+          "path": "back/646.png",
+          "sha256": "c747311ad060587ed25da9b15eaf501a97721f1ca198e9e5348f01b1650d0774",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/646.png"
+        }
+      }
+    },
+    {
+      "id": "xerneas",
+      "name": "제르네아스",
+      "nationalDex": 716,
+      "spriteId": 716,
+      "pokeapiIdentifier": "xerneas",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/716.png",
+          "sha256": "c7011414e6e492368e46b60389dcf062a7937151a1101a6ccd51157a93d1858f",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/716.png"
+        },
+        "back": {
+          "path": "back/716.png",
+          "sha256": "3e5774f76f0844007ca23e4b5573a690b6d2aac6bd3f6ccdc3cc0a0ec8639ff9",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/716.png"
+        }
+      }
+    },
+    {
+      "id": "yveltal",
+      "name": "이벨타르",
+      "nationalDex": 717,
+      "spriteId": 717,
+      "pokeapiIdentifier": "yveltal",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/717.png",
+          "sha256": "3868dc8dc7638d3b1f557a9b197cc76298d8bcfdb6443986713b90f057c255e5",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/717.png"
+        },
+        "back": {
+          "path": "back/717.png",
+          "sha256": "89cfaa7d47e729ead96b0e6f6cade54d0e1784c60fd54718907a58fd86244527",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/717.png"
+        }
+      }
+    },
+    {
+      "id": "zygarde",
+      "name": "지가르데",
+      "nationalDex": 718,
+      "spriteId": 718,
+      "pokeapiIdentifier": "zygarde-50",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/718.png",
+          "sha256": "2b6e0692b3ce3fb16b2fa531848d98062bca634ebbaab3c9e16fd67f650d5a6a",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/718.png"
+        },
+        "back": {
+          "path": "back/718.png",
+          "sha256": "fe7d3951d854466d64b3c355a0a1a99c65dca0ee7eb69c95e69f034035c04486",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/718.png"
+        }
+      }
+    },
+    {
+      "id": "typenull",
+      "name": "타입:널",
+      "nationalDex": 772,
+      "spriteId": 772,
+      "pokeapiIdentifier": "type-null",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/772.png",
+          "sha256": "63aa99ce8d5392109f06daaa2c4d8149bb1b014976bee6889cb91544d58498dc",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/772.png"
+        },
+        "back": {
+          "path": "back/772.png",
+          "sha256": "3081e38b97934f0cb8a1c3576e5fc583b5a11ff902e50c3b9ed2ee50c392ffae",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/772.png"
+        }
+      }
+    },
+    {
+      "id": "silvally",
+      "name": "실버디",
+      "nationalDex": 773,
+      "spriteId": 773,
+      "pokeapiIdentifier": "silvally",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/773.png",
+          "sha256": "97cac4c08cdc9264b0a3afe26968c5d29ea183ca532adbf7bfaf2b07fd02ecc8",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/773.png"
+        },
+        "back": {
+          "path": "back/773.png",
+          "sha256": "2783467e56d5c6076f398efb6e78dee7904d53d4f561d393b5c5e38fb09e643e",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/773.png"
+        }
+      }
+    },
+    {
+      "id": "tapukoko",
+      "name": "카푸꼬꼬꼭",
+      "nationalDex": 785,
+      "spriteId": 785,
+      "pokeapiIdentifier": "tapu-koko",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/785.png",
+          "sha256": "804976eeab8ab5cbaf550175d8536f74ae5d1ac1f21746030cd096b8962f77db",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/785.png"
+        },
+        "back": {
+          "path": "back/785.png",
+          "sha256": "db92a6e3a325d0f5f6ab6625a68009656873b88750d12bc37cdbfe074eb109f6",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/785.png"
+        }
+      }
+    },
+    {
+      "id": "tapulele",
+      "name": "카푸나비나",
+      "nationalDex": 786,
+      "spriteId": 786,
+      "pokeapiIdentifier": "tapu-lele",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/786.png",
+          "sha256": "6a6a85b6e81ec08b83a8c9a7a899666805838768e52f9371d2302c6896ae96c6",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/786.png"
+        },
+        "back": {
+          "path": "back/786.png",
+          "sha256": "ffa01f49ea85cc7ec0541c730f023790d6dec0025282d58cd262bd829f49bd10",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/786.png"
+        }
+      }
+    },
+    {
+      "id": "tapubulu",
+      "name": "카푸브루루",
+      "nationalDex": 787,
+      "spriteId": 787,
+      "pokeapiIdentifier": "tapu-bulu",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/787.png",
+          "sha256": "dd31a3a52ce3cc0dc0687dde7176611ced76c70af4c677a46a0b66fb3a9256f2",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/787.png"
+        },
+        "back": {
+          "path": "back/787.png",
+          "sha256": "4241d09a918c3751e125e2f51360b01e21b4dc5677dca5dabf2f608fdd6392eb",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/787.png"
+        }
+      }
+    },
+    {
+      "id": "tapufini",
+      "name": "카푸느지느",
+      "nationalDex": 788,
+      "spriteId": 788,
+      "pokeapiIdentifier": "tapu-fini",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/788.png",
+          "sha256": "d1878402d77458d133fc92b914c1220f7a59d78da28827c5c33f95e204d8eb54",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/788.png"
+        },
+        "back": {
+          "path": "back/788.png",
+          "sha256": "424c187046e8112463e7a23e431949a2cceebd2baa149033dfb35138f0706844",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/788.png"
+        }
+      }
+    },
+    {
+      "id": "cosmog",
+      "name": "코스모그",
+      "nationalDex": 789,
+      "spriteId": 789,
+      "pokeapiIdentifier": "cosmog",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/789.png",
+          "sha256": "b632a746d7f712f0a0a05240b9933b633634e2b1125040f72375ab8c25afb39b",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/789.png"
+        },
+        "back": {
+          "path": "back/789.png",
+          "sha256": "8d9352cd6943b2290c95fe263c72497472042a69d76e74d596b48a043b9669d4",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/789.png"
+        }
+      }
+    },
+    {
+      "id": "cosmoem",
+      "name": "코스모움",
+      "nationalDex": 790,
+      "spriteId": 790,
+      "pokeapiIdentifier": "cosmoem",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/790.png",
+          "sha256": "552cf9aaff090f3abfa0afa78a6c44ef3699261dc9381109f6f48eb57cc1446e",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/790.png"
+        },
+        "back": {
+          "path": "back/790.png",
+          "sha256": "c74fed504eeb245bc7037f6004dfbba5a0c0949d5be1b04f0fa2623d5eebb8c2",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/790.png"
+        }
+      }
+    },
+    {
+      "id": "solgaleo",
+      "name": "솔가레오",
+      "nationalDex": 791,
+      "spriteId": 791,
+      "pokeapiIdentifier": "solgaleo",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/791.png",
+          "sha256": "e8209db5f493b4345ec5f921f521a497c21b87ed889a7390bd1eaaccb934e312",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/791.png"
+        },
+        "back": {
+          "path": "back/791.png",
+          "sha256": "8ac4eb9aad5732c95c1591870e6104c53ec7ebd6aee287067d291b86dfb35d11",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/791.png"
+        }
+      }
+    },
+    {
+      "id": "lunala",
+      "name": "루나아라",
+      "nationalDex": 792,
+      "spriteId": 792,
+      "pokeapiIdentifier": "lunala",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/792.png",
+          "sha256": "17ab0fa9bbd458fb2f2b400e66bf2f0e45456a5790cff2346307e5b2659d1141",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/792.png"
+        },
+        "back": {
+          "path": "back/792.png",
+          "sha256": "fd896ba5c4d1c625787c6350328b2e2e974a150e6cd7d605125ff8cd11ce7dd9",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/792.png"
+        }
+      }
+    },
+    {
+      "id": "necrozma",
+      "name": "네크로즈마",
+      "nationalDex": 800,
+      "spriteId": 800,
+      "pokeapiIdentifier": "necrozma",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/800.png",
+          "sha256": "186a791944e119f3d012b800d4dd2b8d54548bd7d11e7eba3351725792666f64",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/800.png"
+        },
+        "back": {
+          "path": "back/800.png",
+          "sha256": "7263ba3d79f093060a452060b17d8e9736bae6c50f0ef0463f3bf88abb3e3aa8",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/800.png"
+        }
+      }
+    },
+    {
+      "id": "zacian",
+      "name": "자시안",
+      "nationalDex": 888,
+      "spriteId": 888,
+      "pokeapiIdentifier": "zacian",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/888.png",
+          "sha256": "135b14b02f3308ac621448eb3eddcaa2d0cc4d254455ef55132ecaf4911f2e06",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/888.png"
+        },
+        "back": {
+          "path": "back/888.png",
+          "sha256": "2fb1ff08a2da513cbb3bb3184ef3735abf7b58eaf8ea4738670d2415a9772a9a",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/888.png"
+        }
+      }
+    },
+    {
+      "id": "zamazenta",
+      "name": "자마젠타",
+      "nationalDex": 889,
+      "spriteId": 889,
+      "pokeapiIdentifier": "zamazenta",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/889.png",
+          "sha256": "ae72aefb50699742b645125551af2c22e67384add03176df566c999ffedd3bf8",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/889.png"
+        },
+        "back": {
+          "path": "back/889.png",
+          "sha256": "562de9bd61d29a1952c70dea8cf1a0f9a4160b5ec4423b04d50cf615b98f36fe",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/889.png"
+        }
+      }
+    },
+    {
+      "id": "eternatus",
+      "name": "무한다이노",
+      "nationalDex": 890,
+      "spriteId": 890,
+      "pokeapiIdentifier": "eternatus",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/890.png",
+          "sha256": "960bdd56b533935f4ff504cd89c502d270f0a7736d393c1f1e1b1d638fca2d0d",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/890.png"
+        },
+        "back": {
+          "path": "back/890.png",
+          "sha256": "07432294165b1b54f978c69a1e8c1d3860e6a2f9c9dd5f333ad14097e85833ff",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/890.png"
+        }
+      }
+    },
+    {
+      "id": "kubfu",
+      "name": "치고마",
+      "nationalDex": 891,
+      "spriteId": 891,
+      "pokeapiIdentifier": "kubfu",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/891.png",
+          "sha256": "9444ee5660f21eb107784a9641f5254a36a95a3a34d9f41c2bb561927a95b48f",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/891.png"
+        },
+        "back": {
+          "path": "back/891.png",
+          "sha256": "58697fd96eb0fa71744ff37e3ddeafceac1cf028b22648a56e2803b97356a12c",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/891.png"
+        }
+      }
+    },
+    {
+      "id": "urshifu",
+      "name": "우라오스",
+      "nationalDex": 892,
+      "spriteId": 892,
+      "pokeapiIdentifier": "urshifu-single-strike",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/892.png",
+          "sha256": "f2224ee760d1ecf336f8dc7125b8dff45435eb94a65c5e7dbea8bae1d162db9b",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/892.png"
+        },
+        "back": {
+          "path": "back/892.png",
+          "sha256": "6159028bc6af6ac5ba94dc5b76248fc6aa25543f4c58ea0b5e5c162510441085",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/892.png"
+        }
+      }
+    },
+    {
+      "id": "regieleki",
+      "name": "레지에레키",
+      "nationalDex": 894,
+      "spriteId": 894,
+      "pokeapiIdentifier": "regieleki",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/894.png",
+          "sha256": "7c76d53fd1e68ba931c5fd0c04db328322866d1741c14c95c450aa4273e7b52b",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/894.png"
+        },
+        "back": {
+          "path": "back/894.png",
+          "sha256": "0571cd4fcfa551d5d4448068787ab6f2db133ae24e430b3b12fbedd7ee3a201f",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/894.png"
+        }
+      }
+    },
+    {
+      "id": "regidrago",
+      "name": "레지드래고",
+      "nationalDex": 895,
+      "spriteId": 895,
+      "pokeapiIdentifier": "regidrago",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/895.png",
+          "sha256": "8555e63e7448c92e2bcb6d32119daf27187786be2a58c420b8f6067b4bc7e472",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/895.png"
+        },
+        "back": {
+          "path": "back/895.png",
+          "sha256": "ee40b8d45068bad1a77abc3f4b126efd79bdcba07050a2361b4e5dcb70272098",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/895.png"
+        }
+      }
+    },
+    {
+      "id": "glastrier",
+      "name": "블리자포스",
+      "nationalDex": 896,
+      "spriteId": 896,
+      "pokeapiIdentifier": "glastrier",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/896.png",
+          "sha256": "bd0b67db9527d7f186c12eacf4dce974d64e4b49bf64de9fca0793e3992c29be",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/896.png"
+        },
+        "back": {
+          "path": "back/896.png",
+          "sha256": "296d0ee2d5cfe6277c6736daa53494a3980cd6372232e4302994367f2e5a00f7",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/896.png"
+        }
+      }
+    },
+    {
+      "id": "spectrier",
+      "name": "레이스포스",
+      "nationalDex": 897,
+      "spriteId": 897,
+      "pokeapiIdentifier": "spectrier",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/897.png",
+          "sha256": "9478a30f257cd5a64afb6cd5cdf0a762a3fdfa1345d3219882e803d16b4842f3",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/897.png"
+        },
+        "back": {
+          "path": "back/897.png",
+          "sha256": "e2750a1b9b287497843602d4881f9be0475c3e39fd4c56082ffd0ca4f9230b08",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/897.png"
+        }
+      }
+    },
+    {
+      "id": "calyrex",
+      "name": "버드렉스",
+      "nationalDex": 898,
+      "spriteId": 898,
+      "pokeapiIdentifier": "calyrex",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/898.png",
+          "sha256": "97d0ee6892f7311f35c0646488729152c0740a0396b9b9e067c33934f546f2bf",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/898.png"
+        },
+        "back": {
+          "path": "back/898.png",
+          "sha256": "260ad32b88425f947913b2a1807471644d63e28ad268433b2f6e3e5c41332a8b",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/898.png"
+        }
+      }
+    },
+    {
+      "id": "enamorus",
+      "name": "러브로스",
+      "nationalDex": 905,
+      "spriteId": 905,
+      "pokeapiIdentifier": "enamorus-incarnate",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/905.png",
+          "sha256": "c9e4990cc3c5f4a02aef523841647ca2a0ca3cdefbf3c1ac0bb05df122219d58",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/905.png"
+        },
+        "back": {
+          "path": "back/905.png",
+          "sha256": "2b47dce2fb38111d0b104924fdc8513adcd660477dbb6c4e41257f3330841ed4",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/905.png"
+        }
+      }
+    },
+    {
+      "id": "wochien",
+      "name": "총지엔",
+      "nationalDex": 1001,
+      "spriteId": 1001,
+      "pokeapiIdentifier": "wo-chien",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/1001.png",
+          "sha256": "70a25f6d8588a7b7f8ba278506192873d371020f4b0762ac83213205474d627c",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1001.png"
+        },
+        "back": {
+          "path": "back/1001.png",
+          "sha256": "337c7c92cf50ff231b57a18203d703d75a2b4ab806e11b1fbca8a8248a4a02f4",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1001.png"
+        }
+      }
+    },
+    {
+      "id": "chienpao",
+      "name": "파오젠",
+      "nationalDex": 1002,
+      "spriteId": 1002,
+      "pokeapiIdentifier": "chien-pao",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/1002.png",
+          "sha256": "3f3b08a3b9e38a0d7bb56f745c19d40e2c076a5a88ae8ed70ee588222b0b9784",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1002.png"
+        },
+        "back": {
+          "path": "back/1002.png",
+          "sha256": "092404a5f5c64db657d9d2be963696c99c65ba6d3ead84be794dd88d780b6c48",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1002.png"
+        }
+      }
+    },
+    {
+      "id": "tinglu",
+      "name": "딩루",
+      "nationalDex": 1003,
+      "spriteId": 1003,
+      "pokeapiIdentifier": "ting-lu",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/1003.png",
+          "sha256": "281aa93a4f07c5ed38a1f9788cc7deeb43c40b7b9967f9ba2a291baf952166b9",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1003.png"
+        },
+        "back": {
+          "path": "back/1003.png",
+          "sha256": "d1c2e10a9af5ad63aaecce7a80c6ee7b403683f5b42b40dfa877120dada8fc66",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1003.png"
+        }
+      }
+    },
+    {
+      "id": "chiyu",
+      "name": "위유이",
+      "nationalDex": 1004,
+      "spriteId": 1004,
+      "pokeapiIdentifier": "chi-yu",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/1004.png",
+          "sha256": "e9112cdc066291ac136a990df6082d91ab4ce7405a0b388ef706896d7b106e45",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1004.png"
+        },
+        "back": {
+          "path": "back/1004.png",
+          "sha256": "ab2b2568cd1a7549f9dd0932629e3b2556aa48284168f9b471218868dcac7a20",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1004.png"
+        }
+      }
+    },
+    {
+      "id": "koraidon",
+      "name": "코라이돈",
+      "nationalDex": 1007,
+      "spriteId": 1007,
+      "pokeapiIdentifier": "koraidon",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/1007.png",
+          "sha256": "e5cae616ad9373092aaab947d917705cc0d83eb866006cbc4739626c4fa50c5d",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1007.png"
+        },
+        "back": {
+          "path": "back/1007.png",
+          "sha256": "e10dcf653feb25d6cedea3f9f76207b20ce54059ce513331f9d4cac3f77e9360",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1007.png"
+        }
+      }
+    },
+    {
+      "id": "miraidon",
+      "name": "미라이돈",
+      "nationalDex": 1008,
+      "spriteId": 1008,
+      "pokeapiIdentifier": "miraidon",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/1008.png",
+          "sha256": "6c21ac250b77c5c89146c8885cbcf7a8ae8b6289a043011ef4f94a6be79f7212",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1008.png"
+        },
+        "back": {
+          "path": "back/1008.png",
+          "sha256": "1888594eb49187059c8c28fe88e59e08ed68bb780ba393ac9d6b834296ab0ae6",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1008.png"
+        }
+      }
+    },
+    {
+      "id": "okidogi",
+      "name": "조타구",
+      "nationalDex": 1014,
+      "spriteId": 1014,
+      "pokeapiIdentifier": "okidogi",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/1014.png",
+          "sha256": "7c9898c00dd1361be45ed33e3ccde3f5f0c0a54e7a1dc9f5927932aa5dd6cb59",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1014.png"
+        },
+        "back": {
+          "path": "back/1014.png",
+          "sha256": "551f72c953cb25c637ecd4515063f48fb338e97f567c7351b69ac16fb1a53af1",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1014.png"
+        }
+      }
+    },
+    {
+      "id": "munkidori",
+      "name": "이야후",
+      "nationalDex": 1015,
+      "spriteId": 1015,
+      "pokeapiIdentifier": "munkidori",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/1015.png",
+          "sha256": "96f6858e15e38b41cb14f42e2e1a8846a1492ea06ed43225a22af117ad1422b7",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1015.png"
+        },
+        "back": {
+          "path": "back/1015.png",
+          "sha256": "6825b7abd9d44ec1eeb3458f886d2b7f4f8bff86547d183b3c6b2340ad3054e3",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1015.png"
+        }
+      }
+    },
+    {
+      "id": "fezandipiti",
+      "name": "기로치",
+      "nationalDex": 1016,
+      "spriteId": 1016,
+      "pokeapiIdentifier": "fezandipiti",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/1016.png",
+          "sha256": "4cd27bc21b0f80720614be161c64ecb26accf6b41a7028724f8f2b9865d16544",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1016.png"
+        },
+        "back": {
+          "path": "back/1016.png",
+          "sha256": "440e78a00501f9731786fd4b09bfdbce146d254af67295ce05f9bbf0820ae1dc",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1016.png"
+        }
+      }
+    },
+    {
+      "id": "ogerpon",
+      "name": "오거폰",
+      "nationalDex": 1017,
+      "spriteId": 1017,
+      "pokeapiIdentifier": "ogerpon",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/1017.png",
+          "sha256": "1a06ffb04203a425d843703c3e516c1b2877b7efd0438722a2009d5059b2b30d",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1017.png"
+        },
+        "back": {
+          "path": "back/1017.png",
+          "sha256": "d7b62d70e2ccb6da7afbae865abe6fcef196f3986c76f7b4e7d9e7b3c5bc2ddc",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1017.png"
+        }
+      }
+    },
+    {
+      "id": "terapagos",
+      "name": "테라파고스",
+      "nationalDex": 1024,
+      "spriteId": 1024,
+      "pokeapiIdentifier": "terapagos",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/1024.png",
+          "sha256": "fc1efe431dc6ce93d9af75f6a860b21081dbe4ac63212c74ec6257b66e49e437",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/1024.png"
+        },
+        "back": {
+          "path": "back/1024.png",
+          "sha256": "1af8000d56e8594a22b26e723870f008081630d2475c3942e76e30cc234a932e",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/1024.png"
+        }
+      }
+    },
+    {
+      "id": "urshifurapidstrike",
+      "name": "우라오스 (연격)",
+      "nationalDex": 892,
+      "spriteId": 10191,
+      "pokeapiIdentifier": "urshifu-rapid-strike",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/10191.png",
+          "sha256": "980504b0da301ea412ec647807362805a3b19f7354f42aaead13ada26fbeaaa3",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10191.png"
+        },
+        "back": {
+          "path": "back/10191.png",
+          "sha256": "933594ed4a513460f1d25459b24911771b10b653c45e0877d402e7a9811e4621",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10191.png"
+        }
+      }
+    },
+    {
+      "id": "tornadustherian",
+      "name": "토네로스 (영물)",
+      "nationalDex": 641,
+      "spriteId": 10019,
+      "pokeapiIdentifier": "tornadus-therian",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/10019.png",
+          "sha256": "3fe650651c383b9e842892644504e0d1a73ecda9cc062f8377ee3914d33e6fee",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10019.png"
+        },
+        "back": {
+          "path": "back/10019.png",
+          "sha256": "16c9bd4ea786ffbbeba2c95b18247f083f92b2f5c3aaadd67c363057daf19aa0",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10019.png"
+        }
+      }
+    },
+    {
+      "id": "thundurustherian",
+      "name": "볼트로스 (영물)",
+      "nationalDex": 642,
+      "spriteId": 10020,
+      "pokeapiIdentifier": "thundurus-therian",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/10020.png",
+          "sha256": "d71285f160d7c7924d3cd0f5ea728ae1d553c2e9a2a308a0d45194d44af530d7",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10020.png"
+        },
+        "back": {
+          "path": "back/10020.png",
+          "sha256": "ad1af75bc2e5f7996858f83c0a26aca3d6457c6d1e18ba684ba34fd1c19d21af",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10020.png"
+        }
+      }
+    },
+    {
+      "id": "landorustherian",
+      "name": "랜드로스 (영물)",
+      "nationalDex": 645,
+      "spriteId": 10021,
+      "pokeapiIdentifier": "landorus-therian",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/10021.png",
+          "sha256": "217bd698f580238f17efdb457084877723d7322059b626ef7a62262e6f0546da",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10021.png"
+        },
+        "back": {
+          "path": "back/10021.png",
+          "sha256": "85464e201535e0a8b6377c6ffacc78dfa1233f22eb6a765fc69dba918033312f",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10021.png"
+        }
+      }
+    },
+    {
+      "id": "enamorustherian",
+      "name": "러브로스 (영물)",
+      "nationalDex": 905,
+      "spriteId": 10249,
+      "pokeapiIdentifier": "enamorus-therian",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/10249.png",
+          "sha256": "8c7488429e66850e6cc1493ba9c16c20798d4765e4cd3c61ae1bef35f62fb0e8",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10249.png"
+        },
+        "back": {
+          "path": "back/10249.png",
+          "sha256": "a7c69c145474992f69f726a6f796143881f053c14a81121f1db807bd3970b92d",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10249.png"
+        }
+      }
+    },
+    {
+      "id": "necrozmaduskmane",
+      "name": "네크로즈마 (황혼의갈기)",
+      "nationalDex": 800,
+      "spriteId": 10155,
+      "pokeapiIdentifier": "necrozma-dusk",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/10155.png",
+          "sha256": "b4c1685b1f145389ab8eb73db3446cb8cbe2336bf1c1800738234b8a9f6d9d82",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10155.png"
+        },
+        "back": {
+          "path": "back/10155.png",
+          "sha256": "4b4de5ea9e5450691342b89fefc8a5cc6aa1e9f00fbadfd8212f334f22411a5a",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10155.png"
+        }
+      }
+    },
+    {
+      "id": "necrozmadawnwings",
+      "name": "네크로즈마 (새벽의날개)",
+      "nationalDex": 800,
+      "spriteId": 10156,
+      "pokeapiIdentifier": "necrozma-dawn",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/10156.png",
+          "sha256": "d0e605138652e3787787de50c935bc6886c3f9ce360b06998cd8097074e6f28a",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10156.png"
+        },
+        "back": {
+          "path": "back/10156.png",
+          "sha256": "29636106c39309e9410d7677e044151bc5a9f375b3ac074580a85a14f6af0a98",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10156.png"
+        }
+      }
+    },
+    {
+      "id": "eevee",
+      "name": "이브이",
+      "nationalDex": 133,
+      "spriteId": 133,
+      "pokeapiIdentifier": "eevee",
+      "sourceProvider": "PMDCollab/SpriteCollab or PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/133.png",
+          "sha256": "74ae5fbe043626bad129da42c5c1418a35238bc7632f1a98de37ddcb13bfe5a8",
+          "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0133/0002/Idle-Anim.png"
+        },
+        "back": {
+          "path": "back/133.png",
+          "sha256": "554d25622435d8696b8b4f013381ca0379e5c3f7b1d76a7b676c2d204812d9e6",
+          "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0133/0002/Idle-Anim.png"
+        }
+      }
+    },
+    {
+      "id": "marshadow",
+      "name": "마샤도",
+      "nationalDex": 802,
+      "spriteId": 802,
+      "pokeapiIdentifier": "marshadow",
+      "sourceProvider": "PokeAPI/sprites",
+      "faces": {
+        "front": {
+          "path": "front/802.png",
+          "sha256": "81a77ad861b1ee6f0ae7930b3b96dfc71cf5d845364465285aba50cf3383e89b",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/802.png"
+        },
+        "back": {
+          "path": "back/802.png",
+          "sha256": "dd531060ba0c5469b4ce1007cad39fac626de257c61363d10d246f2b47efd4f4",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/802.png"
         }
       }
     }

@@ -18,7 +18,9 @@ interface Props {
   connecting: boolean;
   team: TeamSet[];
   format:Format;
+  allowRestricted:boolean;
   onFormat:(format:Format)=>void;
+  onRestricted:(enabled:boolean)=>void;
   onCreate: (name: string) => void;
   onJoin: (name: string, code: string) => void;
   onStart: () => void;
@@ -26,7 +28,7 @@ interface Props {
   onHome: () => void;
 }
 
-export function FriendlyLobby({ room, status, connecting, team, format, onFormat, onCreate, onJoin, onStart, onLeave, onHome }: Props) {
+export function FriendlyLobby({ room, status, connecting, team, format, allowRestricted, onFormat, onRestricted, onCreate, onJoin, onStart, onLeave, onHome }: Props) {
   const [name, setName] = useState(localStorage.getItem('arena-trainer-name') ?? '트레이너');
   const [code, setCode] = useState(new URLSearchParams(location.search).get('friendCode') ?? '');
   const [copied, setCopied] = useState(false);
@@ -41,6 +43,7 @@ export function FriendlyLobby({ room, status, connecting, team, format, onFormat
   return <main className="friendly-page page-enter" id="friend">
     <div className="friendly-heading"><button className="friendly-back" onClick={room ? onLeave : onHome}><ArrowLeft size={17} /> {room ? '방 나가기' : '메인 메뉴'}</button><div className="friendly-kicker"><Radio size={15} /> PRIVATE MATCH · {format.toUpperCase()}</div><h1>친구와 대전</h1><p>저장한 팀으로 싱글 또는 더블 친선전을 진행합니다. 호스트가 배틀 형식을 선택합니다.</p>
       {(!room||room.role==='host')?<div className="friendly-format" role="group" aria-label="친선 배틀 형식"><button aria-pressed={format==='singles'} onClick={()=>onFormat('singles')}>싱글 · 1대1</button><button aria-pressed={format==='doubles'} onClick={()=>onFormat('doubles')}>더블 · 2대2</button></div>:<span className="friendly-format-note">배틀 형식은 호스트가 선택합니다.</span>}
+      <label className="restricted-rule"><input type="checkbox" checked={allowRestricted} disabled={!!room&&room.role==='guest'} onChange={event=>onRestricted(event.target.checked)}/>초전설 허용 · 팀당 최대 1마리</label>
     </div>
     <div className="friendly-layout">
       <section className="friendly-board">

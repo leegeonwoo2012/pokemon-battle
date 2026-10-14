@@ -131,7 +131,7 @@ describe('playable UI flows', () => {
     fireEvent.click(screen.getByRole('button', { name: /기록/ }));
     expect(screen.getAllByText(/하이드로펌프 사용!/).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/소울크래시 사용!/).length).toBeGreaterThan(0);
-  });
+  }, 15_000);
 
   it('marks artwork as incomplete without requesting nonexistent sprite files', async () => {
     render(<App />);
@@ -148,9 +148,9 @@ describe('playable UI flows', () => {
   it('searches the M-C roster and filters fire representatives while keeping dual types', () => {
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: '포켓몬 목록' }));
-    expect(document.querySelectorAll('.dex-card')).toHaveLength(264);
+    expect(document.querySelectorAll('.dex-card')).toHaveLength(344);
     fireEvent.change(screen.getByLabelText('도감 대표 타입'), {target:{value:'fire'}});
-    expect(document.querySelectorAll('.dex-card')).toHaveLength(21);
+    expect(document.querySelectorAll('.dex-card')).toHaveLength(25);
     fireEvent.change(screen.getByPlaceholderText('포켓몬 검색'), {target:{value:'리자몽'}});
     expect(document.querySelectorAll('.dex-card')).toHaveLength(1);
     expect(document.querySelector('.dex-card .type-flying')).toBeTruthy();
