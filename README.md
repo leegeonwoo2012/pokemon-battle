@@ -1,6 +1,6 @@
 # ARENA / BATTLE LAB
 
-React + TypeScript + Vite로 만든 비공식 로컬 포켓몬 배틀 게임입니다. CPU 싱글·더블과 같은 Wi‑Fi 네트워크의 친구 친선 싱글·더블을 지원합니다.
+React + TypeScript + Vite로 만든 비공식 포켓몬 배틀 게임입니다. CPU 싱글·더블과 친구 친선 싱글·더블을 지원합니다. 로컬에서는 같은 Wi‑Fi에서, Vercel 프런트엔드와 Render 릴레이가 배포되어 있으면 인터넷에서도 대전할 수 있습니다.
 
 ## 실행
 
@@ -13,6 +13,22 @@ npm.cmd run dev
 
 CMD에서는 `npm run dev`도 됩니다. 표시되는 `http://localhost:5173/`은 본인 PC용입니다. 친구는 실행 화면에 나오는 **Wi‑Fi IPv4 주소**의 `:5173/` 링크를 사용합니다. Wi‑Fi가 바뀌면 주소도 바뀝니다. 친구 대전 릴레이는 같은 명령으로 시작하며 8787 포트를 사용합니다. 다른 서버가 포트를 점유하면 기존 프로세스를 종료한 뒤 다시 실행해야 합니다.
 
+## 이미 만든 웹사이트에 변경 사항 반영
+
+이 폴더는 GitHub `leegeonwoo2012/pokemon-battle`의 `main` 브랜치에 연결되어 있습니다. 이 프로젝트에서 사용한 **Vercel 프런트엔드와 Render 친구 대전 서버가 둘 다 같은 GitHub 브랜치를 자동 배포하도록 설정되어 있다면**, 아래 명령으로 업데이트할 수 있습니다.
+
+```powershell
+cd "C:\Users\user\Documents\Codex\2026-10-09\pok-mon-champions-1-pok-mon"
+npm.cmd test
+npm.cmd run test:server
+npm.cmd run build
+git add src scripts package.json README.md
+git commit -m "Add team preview and critical hit effects"
+git push origin main
+```
+
+그다음 Vercel 프로젝트 **Deployments**와 Render 서비스 **Deploys**에서 새 커밋의 배포 완료를 각각 확인하고 기존 주소 `https://pokemon-battle-liard.vercel.app/`을 새로고침하세요. Render는 `npm run friend-server`를 실행하고 공개 포트는 `PORT` 또는 `FRIEND_PORT` 환경변수로 받습니다. Vercel의 **Production** 환경변수 `VITE_FRIEND_SOCKET_URL`은 `wss://pokemon-battle-miex.onrender.com/friend`를 가리켜야 합니다. Vite 환경변수는 빌드 시 반영되므로 값을 바꿨다면 Vercel을 다시 배포해야 합니다. 자동 배포가 꺼져 있다면 각 서비스 대시보드에서 해당 커밋을 수동 배포하세요. 서버 재배포 중 진행 중인 방은 메모리에서 사라지므로, 접속자가 없는 때에 배포하는 편이 좋습니다. [Vercel Git 배포](https://vercel.com/docs/git), [Render 자동 배포](https://render.com/docs/deploys).
+
 ## 현재 편성 목록
 
 - Pokémon Showdown의 Champions **Regulation M‑C** 데이터 [고정 커밋 `942cda71`](https://github.com/smogon/pokemon-showdown/tree/942cda71d14bf0618bd57991708a2e2734b6daba/data/mods/champions)에서 팀 선택 가능 **264개 종·폼**을 추렸습니다. 기본형 230개와 지역·성별·크기·깃털 색에 따라 배틀 데이터가 달라지는 폼 34개입니다. 암컷 냐오닉스는 기본형의 허용 여부를 물려받으며 특성과 메가폼이 달라 별도 항목입니다. 펌킨인 크기별 종족값과 시비꼬 깃털별 특성도 따로 반영했습니다. 메가폼과 날씨·자세·외형만 바뀌는 폼은 팀 슬롯 수에 넣지 않았습니다. ID 전체와 선택 기준은 [`docs/regulation-m-c.json`](docs/regulation-m-c.json)에 있습니다.
@@ -24,6 +40,14 @@ CMD에서는 `npm run dev`도 됩니다. 표시되는 `http://localhost:5173/`�
 새 기본 파티는 **워시로토무 → 오롱털 → 한카리아스 → 리자몽 → 타부자고 → 대쓰여너**입니다. 이미 저장한 팀은 자동으로 덮어쓰지 않습니다. 편성 화면의 **새 기본 파티** 버튼으로 불러온 뒤 **팀 저장**을 누르면 교체됩니다. 파티 슬롯의 위·아래 화살표로 순서를 바꿔도 기술·특성·도구·성격·노력치 설정이 함께 이동합니다. 기술 선택 목록과 배틀 기술 메뉴는 한국어 이름순입니다.
 
 ## 배틀 규칙과 범위
+
+### 팀 프리뷰와 선출
+
+배틀을 누르면 양쪽 6마리 엔트리를 마주 보고 **싱글 3마리 / 더블 4마리**를 출전 순서대로 고릅니다. 포켓몬을 클릭하거나 순서 슬롯으로 끌어 배치할 수 있습니다. 친구 친선전에서는 서버가 90초 타이머와 양쪽 확정 상태를 관리하며, 미제출자는 시간 종료 시 팀의 앞 3마리 또는 4마리가 자동 선출됩니다. 상대 프리뷰에는 종·폼·레벨·설정된 성별만 보내고, 기술·도구·특성은 숨깁니다. 두 사람이 선출한 뒤 서버가 파티 순서를 확정하고 기존 배틀 엔진을 시작합니다. CPU 배틀도 같은 프리뷰 화면을 사용하며, 6마리 미만의 저장 팀은 기존 편성 기능과의 호환을 위해 현재 가진 포켓몬 수만큼 고를 수 있습니다.
+
+### 급소와 타입 상성 연출
+
+실제 피해 이벤트에 담긴 급소·타입 상성 결과로 피격 순간의 카메라 흔들림, 금색/붉은색/푸른색 섬광, 대상 근처 팝업과 합성 타격음을 결정합니다. **급소 + 약점**이면 두 팝업과 강한 흔들림을 함께 표시합니다. 이 효과는 HP 바가 줄어들기 직전 시작하며 무효 또는 회복 이벤트에는 표시하지 않습니다. 모션 줄이기 설정에서는 시각적 움직임을 생략하고 전투 메시지를 유지합니다.
 
 자체 TypeScript 전투 엔진이 HP·타입 상성·자속·우선도·스피드·명중·급소·PP·상태·교체·승패를 계산합니다. 날씨·필드·설치물·장막·트릭룸·순풍·대타출동·중력·강제 교체·지연 공격·일격기와 일부 특성/도구를 지원합니다. 난수 시드를 지정하면 같은 행동의 결과가 재현됩니다. 서버가 친구 대전 판정을 계산하고 각 브라우저는 실제 이벤트를 순서대로 재생합니다.
 
@@ -61,12 +85,16 @@ CMD에서는 `npm run dev`도 됩니다. 표시되는 `http://localhost:5173/`�
 
 ## 검사와 데이터 재생성
 
+급소/상성 전용 효과음을 사용하려면 설정에서 `critical-hit.wav`, `super-effective.wav`, `resisted-hit.wav`라는 파일명으로 가져올 수 있습니다. 파일이 없어도 합성음이 재생됩니다.
+
 ```powershell
 npm test                 # 자동 테스트
 npm run build            # 타입 검사와 배포 빌드
 npm run test:browser     # 실제 Chrome/Edge: 편성·싱글·더블·기술·교체·모바일
 npm run test:cinematic   # 전용 기술·HP 지연·교체·기믹·대상·8개 화면 배치·실제 WAV 가져오기
 npm run test:server      # 친선 서버 판정
+npm run test:friend      # 실제 두 브라우저의 친선 프리뷰·선출·턴 처리
+npm run test:hit-effects # 실제 브라우저의 급소+약점 팝업·섬광·HP 변화
 npm run assets:check     # 현재 264개 종·폼 정면/후면 PNG 디코딩
 npm run assets:regmc:audit # 로컬 PNG 해시·종 ID·경로·출처 기록 대조
 npm run assets:forms     # 82개 메가 + 34개 거다이 폼 경로/파일 확인

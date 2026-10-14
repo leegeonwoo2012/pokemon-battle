@@ -2,6 +2,7 @@ import { createServer } from 'vite';
 import { chromium } from 'playwright-core';
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import {selectTeamPreview} from './browser-preview.mjs';
 
 const browserPaths = [
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
@@ -48,6 +49,7 @@ try {
   report.playerConfiguration = saved.team[0];
 
   await page.getByRole('button', { name: '싱글 출전', exact: true }).click();
+  await selectTeamPreview(page);
   await page.locator('.formation-player .scene-actor[data-species="raichu"]').waitFor();
 
   async function confirm(nextTurn, speciesId) {

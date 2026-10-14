@@ -2,6 +2,7 @@ import { createServer } from 'vite';
 import { chromium } from 'playwright-core';
 import { existsSync,mkdirSync,readFileSync,writeFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import {selectTeamPreview} from './browser-preview.mjs';
 const executablePath=process.env.CHROME_PATH||['C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(existsSync);
 if(!executablePath)throw Error('Chrome 또는 Edge가 필요합니다.');
 mkdirSync('work',{recursive:true});
@@ -32,6 +33,7 @@ try {
     },{kind,reduced});
     await page.reload({waitUntil:'networkidle'});
     await page.getByRole('button',{name:format==='singles'?'싱글 배틀 시작':'더블 배틀',exact:true}).click();
+    await selectTeamPreview(page);
     await page.locator('.battle-scene').waitFor();
   }
   async function choose(kind,move=/화염방사/) {
@@ -118,6 +120,7 @@ try {
     },stone);
     await page.reload({waitUntil:'networkidle'});
     await page.getByRole('button',{name:'싱글 배틀 시작',exact:true}).click();
+    await selectTeamPreview(page);
     await page.locator('[data-gimmick="mega"]').click();
     await page.locator('.move-actions>button').filter({hasText:/방어/}).first().click();
     await run();

@@ -1,6 +1,6 @@
 export interface ImportedSound {key:string;name:string;blob:Blob}
 const databaseName='arena-battle-sounds-v1';
-const commonKeys=new Set(['confirm','cursor','cancel','damage','heal','faint','switch-in','switch-out','low-hp','victory','defeat']);
+const commonKeys=new Set(['confirm','cursor','cancel','damage','critical-hit','super-effective','resisted-hit','heal','faint','switch-in','switch-out','low-hp','victory','defeat']);
 const types=new Set(['normal','fire','water','electric','grass','ice','fighting','poison','ground','flying','psychic','bug','rock','ghost','dragon','dark','steel','fairy','stellar']);
 export function soundFileKey(name:string):string|undefined {
   if(!/\.(wav|mp3|ogg|m4a)$/i.test(name))return undefined;

@@ -16,4 +16,4 @@ function load(file) {
   new Function('require','module','exports',code)(localRequire,module,module.exports);
   return module.exports;
 }
-module.exports={loadEngine:()=>load(path.join(__dirname,'../src/engine/battle.ts')),loadChoices:()=>load(path.join(__dirname,'../src/engine/choices.ts')),loadGimmicks:()=>load(path.join(__dirname,'../src/engine/gimmicks.ts'))};
+module.exports={loadEngine:()=>load(path.join(__dirname,'../src/engine/battle.ts')),loadChoices:()=>load(path.join(__dirname,'../src/engine/choices.ts')),loadGimmicks:()=>load(path.join(__dirname,'../src/engine/gimmicks.ts')),loadData:()=>load(path.join(__dirname,'../src/data/index.ts'))};

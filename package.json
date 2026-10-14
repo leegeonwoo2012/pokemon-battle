@@ -34,7 +34,8 @@
     "assets:regmc": "node scripts/acquire-regmc-sprites.mjs",
     "assets:regmc:audit": "node scripts/audit-regmc-assets.mjs",
     "test:assets": "node scripts/browser-assets.mjs",
-    "test:friend": "node scripts/browser-friend.mjs"
+    "test:friend": "node scripts/browser-friend.mjs",
+    "test:hit-effects": "node scripts/browser-hit-effects.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

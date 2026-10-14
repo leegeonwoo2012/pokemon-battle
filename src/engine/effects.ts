@@ -66,7 +66,7 @@ export function restoreTransform(pokemon:Combatant):void {
   pokemon.stages=original.stages;pokemon.appearanceSpeciesId=undefined;pokemon.transformedOriginal=undefined;
 }
 
-export function applyDamage(state: BattleState, pokemon: Combatant, amount: number, source: string, directAttack = false, ignoreAbility = false): number {
+export function applyDamage(state: BattleState, pokemon: Combatant, amount: number, source: string, directAttack = false, ignoreAbility = false, visuals: EventDetails = {}): number {
   if (pokemon.fainted || amount <= 0) return 0;
   let dealt = Math.min(pokemon.hp, Math.max(1, Math.floor(amount)));
   if(directAttack&&pokemon.set.abilityId==='illusion'&&pokemon.appearanceSpeciesId){pokemon.appearanceSpeciesId=undefined;addLog(state,`${displayName(pokemon)}의 일루전이 풀렸다!`,'status',{kind:'ability',actorUid:pokemon.uid,sourceId:'illusion',sourceKind:'ability'});}
@@ -84,7 +84,7 @@ export function applyDamage(state: BattleState, pokemon: Combatant, amount: numb
   const beforeHp = pokemon.hp;
   pokemon.hp -= dealt;
   addLog(state, `${displayName(pokemon)}: ${dealt} HP 피해 (${sourceLabel(source)})`, 'damage',
-    { targetUid: pokemon.uid, beforeHp, afterHp: pokemon.hp });
+    { targetUid: pokemon.uid, beforeHp, afterHp: pokemon.hp, ...visuals });
   if (pokemon.hp <= 0) {
     pokemon.hp = 0;
     pokemon.fainted = true;

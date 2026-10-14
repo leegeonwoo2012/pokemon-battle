@@ -2,6 +2,7 @@ import { createServer } from 'vite';
 import { chromium } from 'playwright-core';
 import { existsSync,mkdirSync,writeFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import {selectTeamPreview} from './browser-preview.mjs';
 const executablePath=process.env.CHROME_PATH||['C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(existsSync);
 const server=await createServer({server:{host:'127.0.0.1',port:5193,strictPort:true},logLevel:'error'});
 const report={passed:false,errors:[],imageErrors:[],layouts:[],controls:{}};mkdirSync('work',{recursive:true});let browser,page;
@@ -20,6 +21,7 @@ try {
       localStorage.setItem(TEAM_STORAGE_KEY,JSON.stringify({version:1,team}));localStorage.setItem('arena-reduced-motion','false');localStorage.setItem('arena-playback-rate','1.5');
     },{id,onlyOne});
     await page.reload({waitUntil:'networkidle'});await page.getByRole('button',{name:format==='singles'?'싱글 배틀 시작':'더블 배틀',exact:true}).click();
+    await selectTeamPreview(page);
     await page.waitForFunction(()=>[...document.querySelectorAll('.scene-actor .pokemon-sprite')].every(image=>image.complete&&image.naturalWidth>0));
   }
   const viewports=[{width:1440,height:900},{width:1024,height:768},{width:390,height:844}];

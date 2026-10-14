@@ -3,6 +3,7 @@ import { chromium } from 'playwright-core';
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
+import {selectTeamPreview} from './browser-preview.mjs';
 const executablePath=process.env.CHROME_PATH||['C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe','C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe','/usr/bin/google-chrome','/usr/bin/chromium'].find(existsSync);
 const server=await createServer({server:{host:'127.0.0.1',port:5179,strictPort:true},logLevel:'error'});let browser;
 try{
@@ -22,6 +23,7 @@ try{
  await page.getByText('검증한 PNG 3개를 저장했습니다.').waitFor();
  await page.reload({waitUntil:'networkidle'});
  await page.getByRole('button',{name:/싱글 배틀 시작/}).click();
+ await selectTeamPreview(page);
  const front=page.locator('.formation-foe .pokemon-sprite');
  const back=page.locator('.formation-player .pokemon-sprite');
  await page.waitForFunction(()=>[...document.querySelectorAll('.scene-actor img')].length===2&&[...document.querySelectorAll('.scene-actor img')].every(image=>image.complete&&image.naturalWidth===96));

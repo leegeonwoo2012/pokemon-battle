@@ -1,6 +1,7 @@
 import type { BattleEvent } from '../engine/types';
 import { moveMotion } from './move-motions';
 import { battleAudio } from './audio';
+import { describeHit, playHitEffect } from './hit-effects';
 import { animationPause, battleTiming } from './timing';
 
 const colors: Record<string, string> = { fire:'#ff8550',water:'#77d5ff',electric:'#fff473',grass:'#93ee86',ice:'#c0f7ff',fighting:'#ffc18d',poison:'#d3a1ff',ground:'#e4c994',flying:'#d9f2ff',psychic:'#ffa4d4',bug:'#c6ec89',rock:'#ddcb9c',ghost:'#b99cff',dragon:'#b4b8ff',dark:'#8d99b9',steel:'#d4eaff',fairy:'#ffc6ed',normal:'#fff9d6' };
@@ -345,6 +346,7 @@ export async function animateBattleEvent(root: HTMLElement | null, event: Battle
     case 'damage': {
       const tasks=[tween(target,[{transform:'translateX(0)',filter:'brightness(1)'},{transform:'translateX(-12px)',filter:'brightness(2)'},{transform:'translateX(10px)',opacity:.45},{transform:'translateX(-6px)',opacity:1},{transform:'translateX(0)',filter:'brightness(1)'}],battleTiming.impact,signal)];
       if (event.moveId) tasks.push(effect(root,target,'impact',color,signal,undefined,battleTiming.impact));
+      const hit=describeHit(event);if(hit)tasks.push(playHitEffect(root,target,hit,signal));
       await Promise.all(tasks);root.dataset.motionPhase='hp';await scaledPause(root,battleTiming.hpDuration,signal);break;
     }
     case 'switch-out': await recallPokemon(root,user,signal); break;

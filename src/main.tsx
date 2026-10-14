@@ -9,6 +9,8 @@ import './styles-battle.css';
 import './styles-intro.css';
 import './styles-team-order.css';
 import './styles-cinematic.css';
+import './styles-team-preview.css';
+import './styles-hit-effects.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode><App /></React.StrictMode>,

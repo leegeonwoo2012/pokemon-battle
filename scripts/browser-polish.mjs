@@ -2,6 +2,7 @@ import { createServer } from 'vite';
 import { chromium } from 'playwright-core';
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import {selectTeamPreview} from './browser-preview.mjs';
 
 const executablePath = process.env.CHROME_PATH || ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(existsSync);
 if (!executablePath) throw Error('Chrome 또는 Edge가 필요합니다.');
@@ -29,6 +30,7 @@ try {
     }, lead);
     await page.reload({ waitUntil: 'networkidle' });
     await page.getByRole('button', { name: format === 'singles' ? '싱글 배틀 시작' : '더블 배틀', exact: true }).click();
+    await selectTeamPreview(page);
     await page.waitForFunction(() => [...document.querySelectorAll('.scene-actor .pokemon-sprite')].every(image => image.complete && image.naturalWidth > 0));
   }
   async function choose(name) {

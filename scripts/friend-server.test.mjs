@@ -20,8 +20,14 @@ test('server calculates real outcomes, rejects forged/stale choices, and resumes
     host.send({type:'create-room'});const room=await host.wait('room-created');
     guest.send({type:'join-room',code:room.code});const join=await guest.wait('room-joined');
     const team={speciesId:'raichu',moves:['thunderbolt','quickattack','thunderwave','protect'],abilityId:'static',itemId:'none',natureId:'hardy'};
-    host.send({type:'ready',name:'호스트',team:[team]});guest.send({type:'ready',name:'친구',team:[team]});await Promise.all([host.wait('peer-ready'),guest.wait('peer-ready')]);
-    host.send({type:'start-battle',state:{winner:'player',hp:999999}});const start=await host.wait('battle-started');await guest.wait('battle-started');
+    host.send({type:'ready',name:'호스트',team:Array(6).fill(team)});guest.send({type:'ready',name:'친구',team:Array(6).fill(team)});await Promise.all([host.wait('peer-ready'),guest.wait('peer-ready')]);
+    host.send({type:'start_team_preview',format:'singles',state:{winner:'player',hp:999999}});
+    const [preview,peerPreview]=await Promise.all([host.wait('team-preview-started'),guest.wait('team-preview-started')]);
+    assert.equal(preview.own.length,6);assert.equal(peerPreview.opponent.length,6);
+    assert.equal(JSON.stringify(peerPreview.opponent).includes('thunderbolt'),false);
+    assert.equal(preview.opponent[0].itemRevealed,false);
+    host.send({type:'submit_team_selection',indices:[0,1,2]});guest.send({type:'submit_team_selection',indices:[0,1,2]});
+    const start=await host.wait('battle-started');await guest.wait('battle-started');
     assert.equal(start.state.winner,null);assert.equal(start.state.sides.player.team[0].hp,start.state.sides.player.team[0].maxHp);
     host.send({type:'ready',name:'바뀐 팀',team:[team]});assert.match((await host.wait('error')).message,/팀을 변경/);
     host.send({type:'actions',revision:0,actions:[{kind:'move',slot:0,moveId:'thunderbolt'}]});assert.match((await host.wait('error')).message,/지난 턴/);
@@ -53,5 +59,57 @@ test('an unprepared lobby can resume and an unrelated service is not reused',asy
     const guest=await client(port);sockets.push(guest);guest.send({type:'join-room',code:room.code});await guest.wait('room-joined');
     const team={speciesId:'raichu',moves:['thunderbolt','quickattack','thunderwave','protect'],abilityId:'static',itemId:'none',natureId:'hardy'};
     restored.send({type:'ready',name:'복구',team:[team]});guest.send({type:'ready',name:'친구',team:[team]});await Promise.all([restored.wait('peer-ready'),guest.wait('peer-ready')]);
+  }finally{for(const socket of sockets)socket.close();await relay.close();}
+});
+
+test('double preview preserves submitted order and refuses duplicate or short selections',async()=>{
+  const relay=startFriendServer(0,'127.0.0.1');await new Promise(resolve=>relay.http.once('listening',resolve));
+  const sockets=[];
+  try{
+    const port=relay.http.address().port,host=await client(port),guest=await client(port);sockets.push(host,guest);
+    host.send({type:'create-room'});const {code}=await host.wait('room-created');
+    guest.send({type:'join-room',code});const joined=await guest.wait('room-joined');
+    const data=runtime.loadData().species,ids=['raichu','charizard','gyarados','blastoise','venusaur','arcanine'];
+    const team=ids.map(speciesId=>({speciesId,moves:data[speciesId].learnset.slice(0,4),abilityId:data[speciesId].abilities[0],itemId:'none',natureId:'hardy'}));
+    host.send({type:'ready',name:'A',team});guest.send({type:'ready',name:'B',team});
+    await Promise.all([host.wait('peer-ready'),guest.wait('peer-ready')]);
+    host.send({type:'start_team_preview',format:'doubles'});
+    await Promise.all([host.wait('team-preview-started'),guest.wait('team-preview-started')]);
+    host.send({type:'submit_team_selection',indices:[3,3,0,1]});assert.match((await host.wait('error')).message,/선출/);
+    host.send({type:'submit_team_selection',indices:[3,0,5]});assert.match((await host.wait('error')).message,/선출/);
+    host.send({type:'submit_team_selection',indices:[3,0,5,2]});
+    guest.close();await host.wait('peer-left');
+    const restored=await client(port);sockets.push(restored);
+    restored.send({type:'resume-room',code,token:joined.token});
+    const resumed=await restored.wait('room-resumed');
+    assert.equal(resumed.preview?.submitted,false);assert.equal(resumed.preview?.opponentSubmitted,true);
+    assert.equal(resumed.preview?.opponent.length,6);
+    restored.send({type:'submit_team_selection',indices:[1,4,2,0]});
+    const start=await host.wait('battle-started');await restored.wait('battle-started');
+    assert.equal(start.state.format,'doubles');
+    assert.deepEqual(start.state.sides.player.team.map(mon=>mon.set.speciesId),['blastoise','raichu','arcanine','gyarados']);
+    assert.deepEqual(start.state.sides.cpu.team.map(mon=>mon.set.speciesId),['charizard','venusaur','gyarados','raichu']);
+    assert.deepEqual(start.state.sides.player.active,[0,1]);
+  }finally{for(const socket of sockets)socket.close();await relay.close();}
+});
+
+test('preview timer automatically selects the first three for an unsubmitted trainer',async()=>{
+  const relay=startFriendServer(0,'127.0.0.1',{previewMs:120});await new Promise(resolve=>relay.http.once('listening',resolve));
+  const sockets=[];
+  try{
+    const port=relay.http.address().port,host=await client(port),guest=await client(port);sockets.push(host,guest);
+    host.send({type:'create-room'});const {code}=await host.wait('room-created');
+    guest.send({type:'join-room',code});await guest.wait('room-joined');
+    const data=runtime.loadData().species,ids=['raichu','charizard','gyarados','blastoise','venusaur','arcanine'];
+    const team=ids.map(speciesId=>({speciesId,moves:data[speciesId].learnset.slice(0,4),abilityId:data[speciesId].abilities[0],itemId:'none',natureId:'hardy'}));
+    host.send({type:'ready',name:'A',team});guest.send({type:'ready',name:'B',team});
+    await Promise.all([host.wait('peer-ready'),guest.wait('peer-ready')]);
+    host.send({type:'start_team_preview',format:'singles'});
+    const [preview]=await Promise.all([host.wait('team-preview-started'),guest.wait('team-preview-started')]);
+    assert.equal(preview.durationMs,120);
+    host.send({type:'submit_team_selection',indices:[5,4,3]});
+    const start=await host.wait('battle-started');await guest.wait('battle-started');
+    assert.deepEqual(start.state.sides.player.team.map(mon=>mon.set.speciesId),['arcanine','venusaur','blastoise']);
+    assert.deepEqual(start.state.sides.cpu.team.map(mon=>mon.set.speciesId),ids.slice(0,3));
   }finally{for(const socket of sockets)socket.close();await relay.close();}
 });

@@ -21,6 +21,15 @@ try {
   const host = await hostContext.newPage(), guest = await guestContext.newPage();
   for (const page of [host, guest]) page.on('pageerror', error => report.browserErrors.push(error.message));
   await host.goto('http://127.0.0.1:5185/', { waitUntil: 'networkidle' });
+  for(const page of [host,guest]){
+    if(page===guest)await guest.goto('http://127.0.0.1:5185/',{waitUntil:'networkidle'});
+    await page.evaluate(async()=>{
+      const {createSet,TEAM_STORAGE_KEY}=await import('/src/team/index.ts');
+      const lead={...createSet('raichu'),moves:['thunderbolt','quickattack','thunderwave','protect']};
+      localStorage.setItem(TEAM_STORAGE_KEY,JSON.stringify({version:1,team:[lead,...['charizard','gyarados','blastoise','venusaur','arcanine'].map(createSet)]}));
+    });
+    await page.reload({waitUntil:'networkidle'});
+  }
   await host.getByRole('button', { name: '친구 친선전', exact: true }).first().click();
   await host.getByLabel('트레이너 이름').fill('호스트');
   await host.getByRole('button', { name: /방 만들기/ }).click();
@@ -31,11 +40,19 @@ try {
   await guest.goto(`http://127.0.0.1:5185/?friendCode=${code}#friend`, { waitUntil: 'networkidle' });
   await guest.getByLabel('트레이너 이름').fill('친구');
   await guest.getByRole('button', { name: '코드로 참가', exact: true }).click();
-  await host.getByRole('button', { name: /친선 배틀 시작/ }).waitFor({ timeout: 15000 });
+  await host.getByRole('button', { name: /팀 프리뷰 시작/ }).waitFor({ timeout: 15000 });
   assert((await guest.evaluate(() => document.documentElement.scrollWidth - innerWidth)) <= 1);
   report.mobileFriendlyLobby = true;
   await host.screenshot({ path: 'work/friend-lobby.png', fullPage: true });
-  await host.getByRole('button', { name: /친선 배틀 시작/ }).click();
+  await host.getByRole('button', { name: /팀 프리뷰 시작/ }).click();
+  await Promise.all([host.getByRole('main',{name:'팀 프리뷰와 선출'}).waitFor(),guest.getByRole('main',{name:'팀 프리뷰와 선출'}).waitFor()]);
+  await host.screenshot({path:'work/team-preview-desktop.png',fullPage:true});
+  await guest.screenshot({path:'work/team-preview-mobile.png',fullPage:true});
+  for(const page of [host,guest]){
+    await page.getByRole('main',{name:'팀 프리뷰와 선출'}).waitFor();
+    for(const name of ['라이츄','리자몽','갸라도스'])await page.getByRole('button',{name:new RegExp(`${name} 선출`)}).first().click();
+    await page.getByRole('button',{name:/3마리 선출 완료/}).click();
+  }
   await host.locator('.battle-scene').waitFor();
   await guest.locator('.battle-scene').waitFor({ timeout: 15000 });
   assert((await guest.evaluate(() => document.documentElement.scrollWidth - innerWidth)) <= 1);
@@ -83,7 +100,7 @@ try {
     await page.evaluate(async role => {
       const { createSet, TEAM_STORAGE_KEY } = await import('/src/team/index.ts');
       const lead = role === 'host' ? { ...createSet('charizard'), itemId: 'none', ivs: { hp: 0 }, evs: { spa: 252, spe: 252 }, moves: ['flamethrower', 'airslash', 'roost', 'protect'] } : { ...createSet('raichu'), natureId:'modest', evs:{spa:252,spe:252}, moves:['thunderbolt','quickattack','thunderwave','protect'] };
-      const team = [lead, createSet(role === 'host' ? 'gyarados' : 'blastoise')];
+      const team = [lead,createSet(role === 'host' ? 'gyarados' : 'blastoise'),...['venusaur','arcanine','lucario','gardevoir'].map(createSet)];
       localStorage.setItem(TEAM_STORAGE_KEY, JSON.stringify({ version: 1, team }));
       localStorage.setItem('arena-reduced-motion', 'true'); localStorage.setItem('arena-playback-rate', '1.5');
     }, role);
@@ -94,7 +111,12 @@ try {
   const nextCode = (await host.getByLabel('친선 대전 코드').innerText()).trim();
   await guest.getByLabel('친구의 방 코드').fill(nextCode);
   await guest.getByRole('button', { name: '코드로 참가', exact: true }).click();
-  await host.getByRole('button', { name: /친선 배틀 시작/ }).click();
+  await host.getByRole('button', { name: /팀 프리뷰 시작/ }).click();
+  for(const page of [host,guest]){
+    await page.getByRole('main',{name:'팀 프리뷰와 선출'}).waitFor();
+    for(let index=0;index<3;index++)await page.locator('.team-preview-roster').first().getByRole('button').nth(index).click();
+    await page.getByRole('button',{name:/3마리 선출 완료/}).click();
+  }
   await host.locator('.battle-scene').waitFor(); await guest.locator('.battle-scene').waitFor();
   await chooseMove(guest, /10만볼트/); await chooseMove(host, /화염방사/);
   for (const page of [host, guest]) await page.waitForFunction(() => document.querySelector('.scene-mode')?.textContent.includes('TURN 02') && document.querySelector('.battle-scene')?.getAttribute('aria-busy') === 'false', null, { timeout: 30000 });

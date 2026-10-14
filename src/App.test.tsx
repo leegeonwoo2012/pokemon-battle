@@ -23,6 +23,12 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
+function completePreview(count:3|4){
+  const roster=within(screen.getByRole('region',{name:'내 파티'}));
+  for(let index=0;index<count;index++)fireEvent.click(roster.getAllByRole('button')[index]);
+  fireEvent.click(screen.getByRole('button',{name:`${count}마리 선출 완료`}));
+}
+
 describe('playable UI flows', () => {
   it('keeps a configured Pokémon selected and intact while moving it in the party', () => {
     render(<App />);
@@ -56,6 +62,7 @@ describe('playable UI flows', () => {
     for(let index=0;index<3;index++)fireEvent.click(screen.getByRole('button',{name:'리자몽 위로 이동'}));
     fireEvent.click(screen.getByRole('button',{name:'ARENA 홈'}));
     fireEvent.click(screen.getByRole('button',{name:/싱글 배틀 시작/}));
+    completePreview(3);
     expect(screen.getByRole('main',{name:'배틀 시작 연출'})).toBeTruthy();
     fireEvent.click(screen.getByRole('button',{name:'배틀 시작'}));
     expect(document.querySelector('[data-gimmick="mega"]')?.hasAttribute('disabled')).toBe(false);
@@ -86,6 +93,7 @@ describe('playable UI flows', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'ARENA 홈' }));
     fireEvent.click(screen.getByRole('button', { name: /싱글 배틀 시작/ }));
+    completePreview(3);
     fireEvent.click(screen.getByRole('button',{name:'배틀 시작'}));
     expect(document.querySelector('.scene-mode')?.textContent).toContain('TURN 01');
     fireEvent.click(screen.getByRole('button', { name: /싸운다/ }));
@@ -100,6 +108,7 @@ describe('playable UI flows', () => {
   it('selects two actions and distinct targets in a doubles turn', async () => {
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: '더블 배틀' }));
+    completePreview(4);
     fireEvent.click(screen.getByRole('button',{name:'배틀 시작'}));
     expect(document.querySelector('.scene-mode')?.textContent).toContain('TURN 01');
     expect(document.querySelectorAll('.formation-player .scene-actor')).toHaveLength(2);
@@ -128,6 +137,7 @@ describe('playable UI flows', () => {
     render(<App />);
     expect(await screen.findByText('이미지 라이브러리 미완성')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: /싱글 배틀 시작/ }));
+    completePreview(3);
     const player=await screen.findByRole('img', { name:'로토무 (워시) 후면 이미지 미완성' });
     expect(player.querySelector('img.sprite-fallback')?.getAttribute('src')).toBe('/sprites/unavailable.svg');
     expect(player.querySelector('img.pokemon-sprite')).toBeNull();

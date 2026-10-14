@@ -3,8 +3,8 @@ import { ArrowLeft, Check, Copy, Link2, Radio, Swords, Users, Wifi } from 'lucid
 import { species } from '../data';
 import type { TeamSet } from '../engine/types';
 import type { Format } from '../engine/types';
+import type { FriendProfile } from '../network/friendBattle';
 
-export interface FriendProfile { name: string; team: TeamSet[] }
 export interface FriendRoomView {
   role: 'host' | 'guest';
   code: string;
@@ -30,7 +30,7 @@ export function FriendlyLobby({ room, status, connecting, team, format, onFormat
   const [name, setName] = useState(localStorage.getItem('arena-trainer-name') ?? '트레이너');
   const [code, setCode] = useState(new URLSearchParams(location.search).get('friendCode') ?? '');
   const [copied, setCopied] = useState(false);
-  const canStart=!!room?.peer&&(format==='singles'||team.length>=2&&room.peer.team.length>=2);
+  const canStart=!!room?.peer&&team.length===6&&room.peer.team.length===6;
   function updateName(value: string) { setName(value); localStorage.setItem('arena-trainer-name', value); }
   async function copyInvite() {
     const url = `${location.origin}/?friendCode=${room?.code ?? code}#friend`;
@@ -47,8 +47,8 @@ export function FriendlyLobby({ room, status, connecting, team, format, onFormat
         <div className="friendly-board-top"><span><Wifi size={16} /> 연결 상태</span><strong className={room?.peer ? 'connected' : ''}>{room?.peer ? '상대 연결됨' : room ? '친구를 기다리는 중' : '준비 완료'}</strong></div>
         <div className="friendly-vs"><div className="friendly-trainer"><span className="trainer-emblem">A</span><strong>{room?.name ?? (name || '트레이너')}</strong><small>내 팀 · {team.length}마리</small></div><div className="friendly-versus-mark">VS</div><div className="friendly-trainer"><span className="trainer-emblem trainer-emblem-guest">{room?.peer ? 'B' : <Users size={25} />}</span><strong>{room?.peer?.name ?? '친구 대기 중'}</strong><small>{room?.peer ? `상대 팀 · ${room.peer.team.length}마리` : '초대 코드로 연결'}</small></div></div>
         {room && <div className="friend-code-panel"><span>친선 대전 코드</span><strong aria-label="친선 대전 코드">{room.code}</strong><button onClick={copyInvite}><Copy size={15} /> {copied ? '복사 완료' : '초대 링크 복사'}</button><small>코드 또는 초대 링크를 친구에게 보내세요.</small></div>}
-        <div className="friendly-status" role="status"><i />{format==='doubles'&&(team.length<2||room?.peer&&room.peer.team.length<2)?'더블 배틀은 양쪽 모두 팀에 포켓몬 2마리 이상이 필요합니다. 팀 편성에서 추가하세요.':status || (room?.peer ? '양쪽 모두 연결됐습니다. 호스트가 대전을 시작합니다.' : room ? '친구가 방 코드로 참가하면 팀이 자동으로 연결됩니다.' : '방을 만들거나 친구의 코드를 입력하세요.')}</div>
-        {room?.role === 'host' && room.peer && <button className="friendly-start" disabled={!canStart} onClick={onStart}><Swords size={19} /> 친선 배틀 시작 <span>{format==='singles'?'싱글 · 각 1마리 출전':'더블 · 각 2마리 출전'}</span></button>}
+        <div className="friendly-status" role="status"><i />{room?.peer&&!canStart?'팀 프리뷰에는 두 플레이어 모두 6마리 팀이 필요합니다. 팀 편성에서 완성하세요.':status || (room?.peer ? '양쪽 모두 연결됐습니다. 호스트가 대전을 시작합니다.' : room ? '친구가 방 코드로 참가하면 팀이 자동으로 연결됩니다.' : '방을 만들거나 친구의 코드를 입력하세요.')}</div>
+        {room?.role === 'host' && room.peer && <button className="friendly-start" disabled={!canStart} onClick={onStart}><Swords size={19} /> 팀 프리뷰 시작 <span>{format==='singles'?'싱글 · 3마리 선출':'더블 · 4마리 선출'}</span></button>}
         {room?.role === 'guest' && room.peer && <div className="friendly-wait"><Check size={17} /> 팀이 준비됐어요. 호스트가 {format==='doubles'?'더블':'싱글'} 대전을 시작합니다.</div>}
       </section>
       {!room && <section className="friendly-controls">

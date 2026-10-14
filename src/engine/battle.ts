@@ -569,7 +569,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
         const remainingSubstitute=target.substituteHp??0;
         const hitDamage=intercepted
           ?Math.min(remainingSubstitute,rawDamage)
-          :applyDamage(state,target,rawDamage,move.name,true,move.ignoreAbility);
+          :applyDamage(state,target,rawDamage,move.name,true,move.ignoreAbility,{critical:result.critical,effectiveness:result.effectiveness});
         if(intercepted){
           target.substituteHp=remainingSubstitute-hitDamage;hitSubstitute=true;
           addLog(state,`${displayName(target)}의 대타출동이 ${hitDamage} 피해를 받았다!`,'damage',{targetUid:target.uid});
@@ -786,7 +786,7 @@ function resolveDelayedAttacks(state:BattleState):void {
         const dealt=Math.min(target.substituteHp,result.damage);target.substituteHp-=dealt;
         addLog(state,`${displayName(target)}의 대타출동이 ${dealt} 피해를 받았다!`,'damage',{targetUid:target.uid});
         if(!target.substituteHp){target.substituteHp=undefined;addLog(state,`${displayName(target)}의 대타출동이 사라졌다!`,'status',{targetUid:target.uid});}
-      }else applyDamage(state,target,result.damage,move.name,true);
+      }else applyDamage(state,target,result.damage,move.name,true,false,{critical:result.critical,effectiveness:result.effectiveness});
     });
   }
 }

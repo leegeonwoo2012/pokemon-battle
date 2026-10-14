@@ -2,6 +2,7 @@ import { createServer } from 'vite';
 import { chromium } from 'playwright-core';
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import {selectTeamPreview} from './browser-preview.mjs';
 const executablePath = process.env.CHROME_PATH || [
  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
  'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
@@ -29,6 +30,7 @@ try {
  for (const [i,ev] of [252,0,0,0,4,252].entries()) await page.locator('.stat-editor').nth(i).getByRole('spinbutton').first().fill(String(ev));
  await page.getByRole('button',{name:'팀 저장',exact:true}).click();
  await page.getByRole('button',{name:'싱글 출전',exact:true}).click();
+ await selectTeamPreview(page);
  await page.getByRole('button',{name:'싸운다',exact:true}).click();
  await page.locator('.move-actions').getByRole('button',{name:/이상한빛/}).click();
  await page.getByRole('button',{name:'행동 결정',exact:true}).click();

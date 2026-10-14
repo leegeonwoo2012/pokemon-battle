@@ -321,6 +321,7 @@ export interface BattleEvent {
   sourceId?: string;
   sourceKind?: 'ability' | 'item';
   effectiveness?: number;
+  critical?: boolean;
   side?: Side;
   slot?: number;
   snapshot: BattleState;

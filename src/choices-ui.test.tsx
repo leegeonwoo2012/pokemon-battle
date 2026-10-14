@@ -24,6 +24,9 @@ it('shows the engine Choice lock after a real turn and prevents selecting other 
   saveTeam(team);
   render(<App />);
   fireEvent.click(screen.getByRole('button', { name: /싱글 배틀 시작/ }));
+  const roster=screen.getByRole('region',{name:'내 파티'});
+  for(let index=0;index<3;index++)fireEvent.click(roster.querySelectorAll('button')[index]);
+  fireEvent.click(screen.getByRole('button',{name:'3마리 선출 완료'}));
   fireEvent.click(screen.getByRole('button', { name: '배틀 시작' }));
   fireEvent.click(screen.getByRole('button', { name: /싸운다/ }));
   fireEvent.click(screen.getByRole('button', { name: /방어/ }));

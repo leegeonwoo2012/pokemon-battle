@@ -2,6 +2,7 @@ import { preview } from 'vite';
 import { chromium } from 'playwright-core';
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import {selectTeamPreview} from './browser-preview.mjs';
 const executablePath=process.env.CHROME_PATH||['C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','/usr/bin/chromium','/usr/bin/google-chrome'].find(existsSync);
 const server=await preview({preview:{host:'127.0.0.1',port:5185,strictPort:true},logLevel:'error'});let browser;
 try{
@@ -18,6 +19,7 @@ try{
  await page.locator('.team-slot').nth(1).click();await page.getByTitle('팀에서 제외').click();
  await page.getByRole('button',{name:'팀 저장',exact:true}).click();
  await page.getByRole('button',{name:'싱글 출전',exact:true}).click();
+ await selectTeamPreview(page);
  const charizard=page.locator('.formation-player .scene-actor[data-species="charizard"] .pokemon-sprite');
  await charizard.waitFor();assert.equal(await charizard.getAttribute('src'),'/sprites/back/6.png');
  await page.waitForFunction(()=>[...document.querySelectorAll('.scene-actor .pokemon-sprite')].every(image=>image.complete&&image.naturalWidth>0));
@@ -30,6 +32,7 @@ try{
  assert.equal(switchedSpecies,'venusaur',`Actual switched Pokémon: ${switchedSpecies}`);
  assert.equal(await page.locator('.formation-player .pokemon-sprite').getAttribute('src'),'/sprites/back/3.png');
  await page.getByRole('button',{name:'나가기',exact:true}).click();await page.getByRole('button',{name:'더블 배틀',exact:true}).first().click();
+ await selectTeamPreview(page);
  await page.waitForFunction(()=>[...document.querySelectorAll('.scene-actor img')].every(image=>image.complete&&image.naturalWidth>0));
  assert.equal(await page.locator('.formation-player .pokemon-sprite').count(),2);
  assert.equal(await page.locator('.formation-player .scene-actor[data-species="charizard"] .sprite-art').getAttribute('data-sprite-facing'),'back');

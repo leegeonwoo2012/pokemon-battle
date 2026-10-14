@@ -16,6 +16,7 @@ export const typeSoundProfiles:Record<string,TypeSound>={
 };
 export function eventSoundKeys(event:BattleEvent,localSide='player'):string[] {
   if(event.kind==='move')return ['move-'+event.moveId,'type-'+(event.type??'normal')];
+  if(event.kind==='damage')return [...(event.critical?['critical-hit']:[]),...(event.effectiveness!==undefined&&event.effectiveness>1?['super-effective']:event.effectiveness!==undefined&&event.effectiveness<1?['resisted-hit']:[]),'damage'];
   if(event.kind==='gimmick-transform')return ['gimmick-'+event.gimmick];
   if(event.kind==='status'&&event.status)return ['status-'+event.status];
   if(event.condition==='confusion')return ['status-confusion'];
@@ -98,7 +99,12 @@ class BattleAudio {
     const custom=this.sample(eventSoundKeys(event,localSide));
     if(!custom){
       if(event.kind==='move')this.typeCue(event.type??'normal',event.moveId);
-      else if(event.kind==='damage'){this.noise(.12,950,.18);this.tone(120,35,.16,0,'triangle',.1);}
+      else if(event.kind==='damage'){
+        const critical=event.critical===true,superHit=(event.effectiveness??1)>1,resisted=(event.effectiveness??1)<1;
+        this.noise(critical?0.24:superHit?0.2:0.12,critical?2800:superHit?1700:resisted?480:950,critical?0.28:superHit?0.24:0.12);
+        this.tone(critical?920:superHit?180:resisted?90:120,critical?210:superHit?38:45,critical?0.32:0.16,0,critical?'sawtooth':'triangle',critical?0.1:0.07);
+        if(critical)this.tone(1450,620,.22,.065,'triangle',.07);
+      }
       else if(event.kind==='switch-out')this.tone(1100,100,.4,0,'sine',.055);
       else if(event.kind==='switch-in'){this.noise(.14,4200,.1);[440,660,880].forEach((pitch,i)=>this.tone(pitch,pitch,.2,i*.09));}
       else if(event.kind==='heal')[660,880,1100].forEach((pitch,i)=>this.tone(pitch,pitch,.18,i*.1));

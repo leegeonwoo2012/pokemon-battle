@@ -23,6 +23,7 @@ describe('expanded roster battle mechanics', () => {
     const result = runTurnWithEvents(state, [{ kind: 'move', slot: 0, moveId: 'flowertrick' }], [{ kind: 'move', slot: 0, moveId: 'waterpulse' }]);
     expect(moves.flowertrick.critStage).toBe(3);
     expect(result.events.some(event => event.kind === 'critical')).toBe(true);
+    expect(result.events.some(event => event.kind === 'damage' && event.critical === true && event.effectiveness === 2)).toBe(true);
     expect(result.state.sides.cpu.team[0].hp).toBeLessThan(state.sides.cpu.team[0].hp);
   });
 

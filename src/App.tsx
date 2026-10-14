@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { PokemonArtwork, SpeciesMark } from './components/PokemonArtwork';
 import { FriendlyLobby } from './components/FriendlyLobby';
+import { TeamPreviewModal } from './components/TeamPreviewModal';
 import { BattleIntro } from './components/BattleIntro';
 import { BattleStatusPlate, HpBar, SceneActor } from './components/BattleVisuals';
 import { BattleTargetOverlay, MoveChoice } from './components/BattleCommands';
@@ -11,7 +12,7 @@ import { useBattleControls } from './presentation/battle-controls';
 import { effectivenessLabel, moveHelp } from './presentation/move-help';
 import { hazardNames, screenNames } from './engine/tactics';
 import type { Hazard, ScreenCondition } from './engine/types';
-import type { FriendMessage, FriendOutgoing } from './network/friendBattle';
+import type { FriendMessage, FriendOutgoing, TeamPreviewEntry, TeamPreviewState, TeamSelectionPayload } from './network/friendBattle';
 import { friendSocketUrl, swapBattleEvent, swapBattleSides, swapTargetSides } from './network/friendBattle';
 import { animateBattleEvent,resetBattleVisuals } from './presentation/animate';
 import { playEvents, playbackDuration } from './presentation/queue';
@@ -32,7 +33,7 @@ import type { Gimmick } from './engine/types';
 import type { BattleAction, BattleEvent, BattleState, Format, Stat, TeamSet, TargetRef } from './engine/types';
 import { alphabetizeMoves, calculateStats, createDefaultTeam, createSet, loadTeam, reorderTeam, saveTeam, validateTeam } from './team';
 
-type Screen = 'home' | 'team' | 'dex' | 'settings' | 'friendly' | 'intro' | 'battle';
+type Screen = 'home' | 'team' | 'dex' | 'settings' | 'friendly' | 'preview' | 'intro' | 'battle';
 const statKeys: Stat[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
 const statNames: Record<Stat, string> = { hp: 'HP', atk: '공격', def: '방어', spa: '특공', spd: '특방', spe: '스피드' };
 const weatherNames: Record<string, string> = { sun: '쾌청', rain: '비', sand: '모래바람', snow: '눈' };
@@ -41,6 +42,10 @@ const cpuSpecies = ['tyranitar', 'gyarados', 'lucario', 'arcanine', 'milotic', '
 const rosterSize = Object.keys(regulationSpecies).length;
 const spriteCount = rosterSize * 2;
 const representativeCount = (type: string) => Object.values(regulationSpecies).filter(mon => mon.representativeType === type).length;
+function previewRoster(roster: TeamSet[]): TeamPreviewEntry[] {
+  return roster.map(set => ({speciesId:set.speciesId,speciesName:species[set.speciesId]?.name??set.speciesId,level:50,
+    gender:set.gender??null,form:set.speciesId,itemRevealed:false,abilityRevealed:false}));
+}
 
 function TypeBadge({ type }: { type: string }) {
   return <span className={`type-badge type-${type}`}>{typeNames[type] ?? type}</span>;
@@ -422,6 +427,8 @@ export default function App() {
   const [friendConnecting, setFriendConnecting] = useState(false);
   const [friendWaiting, setFriendWaiting] = useState(false);
   const [friendOnline, setFriendOnline] = useState(false);
+  const [friendPreview,setFriendPreview] = useState<TeamPreviewState|null>(null);
+  const [cpuPreview,setCpuPreview] = useState<{format:Format;own:TeamSet[];opponent:TeamSet[];endsAt:number}|null>(null);
   const [format, setFormat] = useState<Format>('singles');
   const [message, setMessage] = useState('');
   const [animating, setAnimating] = useState(false);
@@ -451,11 +458,21 @@ export default function App() {
     if (issues.length) { setMessage(issues[0]); setScreen('team'); return; }
     try {
       const cpuTeam = cpuSpecies.map(id => ({...createSet(id),itemId:id==='tyranitar'?'tyranitarite':id==='lucario'?'fightiniumz':'none',teraType:id==='tyranitar'?'flying':species[id].types[0]}));
-      const initial = createBattle({ format: nextFormat, playerTeam: team, cpuTeam, manualReplacementSides: ['player'] });
-      battleRef.current = initial; setBattle(initial);
+      setCpuPreview({format:nextFormat,own:structuredClone(team),opponent:cpuTeam,endsAt:Date.now()+90_000});
+      setFriendPreview(null);
       setFriendOnline(false);
-      setPlaybackEvent(null); setFormat(nextFormat); setMessage(''); setScreen('intro');
+      setPlaybackEvent(null); setFormat(nextFormat); setMessage(''); setScreen('preview');
     } catch (error) { setMessage(error instanceof Error ? error.message : '배틀을 시작하지 못했습니다.'); }
+  }
+  function submitCpuPreview(selection:TeamSelectionPayload){
+    if(!cpuPreview)return;
+    const required=Math.min(cpuPreview.format==='doubles'?4:3,cpuPreview.own.length);
+    if(selection.indices.length!==required||new Set(selection.indices).size!==required||selection.indices.some(index=>!Number.isInteger(index)||index<0||index>=cpuPreview.own.length))return;
+    try{
+      const initial=createBattle({format:cpuPreview.format,playerTeam:selection.indices.map(index=>cpuPreview.own[index]),
+        cpuTeam:cpuPreview.opponent.slice(0,required),manualReplacementSides:['player']});
+      battleRef.current=initial;setBattle(initial);setCpuPreview(null);setScreen('intro');
+    }catch(error){setMessage(error instanceof Error?error.message:'배틀을 시작하지 못했습니다.');}
   }
   async function runBattleTurn(actions: BattleAction[]) {
     const current = battleRef.current ?? battle;
@@ -513,8 +530,9 @@ export default function App() {
     clearTimeout(reconnectTimer.current);sessionStorage.removeItem('arena-friend-session');connectionDeadline.current=0;
     sendFriend({ type: 'leave-room' });
     friendSocket.current?.close(); friendSocket.current = null;
-    friendRoomRef.current = null; setFriendRoom(null); setFriendStatus(''); setFriendConnecting(false); setFriendWaiting(false); setFriendOnline(false);
+    friendRoomRef.current = null; setFriendRoom(null); setFriendStatus(''); setFriendConnecting(false); setFriendWaiting(false); setFriendOnline(false);setFriendPreview(null);
     if (battleRef.current) { setBattle(null); battleRef.current = null; setPlaybackEvent(null); setAnimating(false); setScreen('home'); }
+    else setScreen('home');
   }
   function beginFriendConnection(mode: 'create' | 'join' | 'resume', name: string, roomCode?: string) {
     const saved=JSON.parse(sessionStorage.getItem('arena-friend-session')??'null') as {role:'host'|'guest';name:string;code:string;token:string}|null;
@@ -542,15 +560,21 @@ export default function App() {
         if(message.profile)friendLocalTeam.current=message.profile.team;
         else socket.send(JSON.stringify({type:'ready',name:friendIdentity.current.name,team:friendLocalTeam.current,format}));
         setFriendConnecting(false);setFriendWaiting(message.waiting);setFriendStatus(message.peerConnected?'친선전 연결을 복구했습니다.':'친구의 재접속을 기다립니다. 최대 2분 동안 방을 유지합니다.');
-        if(message.state){battleRef.current=message.state;setBattle(message.state);setFriendOnline(true);setFormat(message.state.format);setScreen('battle');}else setScreen('friendly');
+        if(message.state){battleRef.current=message.state;setBattle(message.state);setFriendPreview(null);setFriendOnline(true);setFormat(message.state.format);setScreen('battle');}
+        else if(message.preview){setFriendPreview(message.preview);setScreen('preview');}
+        else setScreen('friendly');
       } else if (message.type === 'peer-joined') setFriendStatus('친구가 방에 들어왔어요. 팀을 연결하고 있습니다…');
       else if(message.type==='format-selected')setFormat(message.format);
       else if (message.type === 'peer-ready') {
         const next = { ...friendRoomRef.current!, peer: message.peer };
         friendRoomRef.current = next; setFriendRoom(next); setFriendStatus(`${message.peer.name}과 연결됐습니다. ${format==='doubles'?'더블':'싱글'} 친선전을 시작할 수 있어요.`);
+      } else if(message.type==='team-preview-started'){
+        setFriendPreview(message);setCpuPreview(null);setFormat(message.format);setFriendWaiting(false);setScreen('preview');
+      } else if(message.type==='team-selection-status'){
+        setFriendPreview(current=>current?{...current,...(message.role===friendIdentity.current.role?{submitted:message.submitted}:{opponentSubmitted:message.submitted})}:current);
       } else if (message.type === 'battle-started') {
         cancelPlayback();friendRevision.current=message.revision;
-        battleRef.current=message.state;setBattle(message.state);setFormat(message.state.format);setFriendOnline(true);setFriendWaiting(false);setScreen('intro');
+        battleRef.current=message.state;setBattle(message.state);setFormat(message.state.format);setFriendPreview(null);setFriendOnline(true);setFriendWaiting(false);setScreen('intro');
         setFriendStatus('서버 판정 친선 배틀을 시작했습니다.');
       } else if(message.type==='turn-resolved') {void playFriendTurn(message);}
       else if(message.type==='actions-accepted'){setFriendWaiting(true);}
@@ -575,9 +599,9 @@ export default function App() {
   }
   function startFriendBattle(nextFormat:Format) {
     battleAudio.unlock();const room=friendRoomRef.current;if(!room?.peer||room.role!=='host')return;
-    const localIssues=validateTeam(team,nextFormat),remoteIssues=validateTeam(room.peer.team,nextFormat);
-    if(localIssues.length||remoteIssues.length){setFriendStatus(localIssues[0]??`${room.peer.name}: ${remoteIssues[0]}`);return;}
-    setFormat(nextFormat);sendFriend({type:'playback-rate',rate:playbackRate});sendFriend({type:'start-battle',format:nextFormat});
+    const localIssues=validateTeam(team,nextFormat);
+    if(localIssues.length||team.length!==6||room.peer.team.length!==6){setFriendStatus(localIssues[0]??'양쪽 모두 6마리 팀이 필요합니다.');return;}
+    setFormat(nextFormat);sendFriend({type:'playback-rate',rate:playbackRate});sendFriend({type:'start_team_preview',format:nextFormat});
   }
   function chooseFriendFormat(nextFormat:Format){
     setFormat(nextFormat);
@@ -621,15 +645,17 @@ export default function App() {
   const displayNames = friendIdentity.current.role === 'guest'
     ? { player: friendRoom?.name ?? '나', opponent: friendRoom?.peer?.name ?? '친구' }
     : { player: friendRoom?.name ?? '나', opponent: friendRoom?.peer?.name ?? '친구' };
-  return <div className={`app-shell ${reducedMotion ? 'reduced-motion' : ''} ${screen === 'battle' ? 'app-shell-battle' : ''} ${screen === 'intro' ? 'app-shell-intro' : ''}`}>{screen !== 'battle'&&screen!=='intro' && <Header screen={screen} onNavigate={setScreen} />}{message && <div className="global-message" role="alert">{message}<button onClick={() => setMessage('')} aria-label="알림 닫기"><X size={16} /></button></div>}
-    {screen !== 'battle'&&screen!=='intro' && spriteDiagnostics.phase==='ready' && frontCount < Object.keys(regulationSpecies).length && <div className="artwork-notice"><span><strong>이미지 라이브러리 미완성</strong> · 정면 {frontCount}/{Object.keys(regulationSpecies).length}종. 누락된 이미지는 종 이름과 대체 그림으로 표시합니다.</span><button onClick={() => setScreen('settings')}>이미지 가져오기</button></div>}
+  return <div className={`app-shell ${reducedMotion ? 'reduced-motion' : ''} ${screen === 'battle' ? 'app-shell-battle' : ''} ${screen === 'intro' ? 'app-shell-intro' : ''}`}>{screen !== 'battle'&&screen!=='intro'&&screen!=='preview' && <Header screen={screen} onNavigate={setScreen} />}{message && <div className="global-message" role="alert">{message}<button onClick={() => setMessage('')} aria-label="알림 닫기"><X size={16} /></button></div>}
+    {screen !== 'battle'&&screen!=='intro'&&screen!=='preview' && spriteDiagnostics.phase==='ready' && frontCount < Object.keys(regulationSpecies).length && <div className="artwork-notice"><span><strong>이미지 라이브러리 미완성</strong> · 정면 {frontCount}/{Object.keys(regulationSpecies).length}종. 누락된 이미지는 종 이름과 대체 그림으로 표시합니다.</span><button onClick={() => setScreen('settings')}>이미지 가져오기</button></div>}
     {screen === 'home' && <Home team={team} onStart={startBattle} onNavigate={setScreen} onFriend={() => setScreen('friendly')} />}
     {screen === 'team' && <TeamBuilder team={team} setTeam={setTeam} onStart={startBattle} />}
     {screen === 'friendly' && <FriendlyLobby room={friendRoom} status={friendStatus} connecting={friendConnecting} team={team} format={format} onFormat={chooseFriendFormat} onCreate={name => beginFriendConnection('create', name)} onJoin={(name, code) => beginFriendConnection('join', name, code)} onStart={()=>startFriendBattle(format)} onLeave={closeFriendRoom} onHome={() => setScreen('home')} />}
+    {screen === 'preview' && friendPreview && <TeamPreviewModal format={friendPreview.format} own={friendPreview.own} opponent={friendPreview.opponent} endsAt={friendPreview.endsAt} submitted={friendPreview.submitted} opponentSubmitted={friendPreview.opponentSubmitted} opponentName={friendRoom?.peer?.name??'상대'} onSubmit={selection=>sendFriend({type:'submit_team_selection',...selection})} onExit={closeFriendRoom}/>}
+    {screen === 'preview' && !friendPreview && cpuPreview && <TeamPreviewModal format={cpuPreview.format} own={previewRoster(cpuPreview.own)} opponent={previewRoster(cpuPreview.opponent)} endsAt={cpuPreview.endsAt} submitted={false} opponentSubmitted={true} opponentName="CPU 라이벌" onSubmit={submitCpuPreview} onExit={()=>{setCpuPreview(null);setScreen('home');}} onTimeout={()=>submitCpuPreview({indices:Array.from({length:Math.min(cpuPreview.format==='doubles'?4:3,cpuPreview.own.length)},(_,index)=>index)})}/>}
     {screen === 'dex' && <Dex onAdd={addFromDex} team={team} onRemove={id => { if (team.length > 1) setTeam(team.filter(set => set.speciesId !== id)); else setMessage('팀에 최소 한 마리는 남겨야 합니다.'); }} />}
     {screen === 'settings' && <Settings reducedMotion={reducedMotion} setReducedMotion={setReducedMotion} compactLog={compactLog} setCompactLog={setCompactLog} />}
     {screen === 'intro'&&battle&&<BattleIntro state={friendOnline&&guestView?swapBattleSides(battle):battle} names={friendOnline?displayNames:{player:'나',opponent:'CPU 라이벌'}} friend={friendOnline} reducedMotion={reducedMotion} onStart={()=>setScreen('battle')}/>}
     {screen === 'battle' && displayedBattle && <Battle state={displayedBattle} onTurn={submitBattleActions} onRematch={requestRematch} onExit={exitCurrentBattle} compactLog={compactLog} animating={animating} playbackEvent={displayedEvent} friendMode={friendOnline} friendRole={friendOnline ? friendIdentity.current.role : null} friendNames={displayNames} waitingOpponent={friendWaiting} reducedMotion={reducedMotion} playbackRate={playbackRate} setPlaybackRate={setPlaybackRate} sound={sound} setSound={setSound} onSkip={skipPlayback} />}
-    {screen !== 'battle'&&screen!=='intro' && <footer className="site-footer"><span>ARENA / BATTLE LAB</span><span>비공식 팬 제작 배틀 · 사용자 이미지 라이브러리</span><span>© {new Date().getFullYear()} ARENA</span></footer>}
+    {screen !== 'battle'&&screen!=='intro'&&screen!=='preview' && <footer className="site-footer"><span>ARENA / BATTLE LAB</span><span>비공식 팬 제작 배틀 · 사용자 이미지 라이브러리</span><span>© {new Date().getFullYear()} ARENA</span></footer>}
   </div>;
 }

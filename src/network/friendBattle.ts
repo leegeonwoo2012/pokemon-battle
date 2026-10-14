@@ -1,12 +1,36 @@
 import type { BattleAction, BattleEvent, BattleState, TeamSet } from '../engine/types';
-import type { FriendProfile } from '../components/FriendlyLobby';
+
+export type BattlePhase = 'LOBBY' | 'TEAM_PREVIEW' | 'BATTLE_START';
+export interface TeamPreviewEntry {
+  speciesId: string;
+  speciesName: string;
+  level: number;
+  gender: 'M' | 'F' | 'N' | null;
+  form: string;
+  itemRevealed: boolean;
+  abilityRevealed: boolean;
+}
+export interface FriendProfile { name: string; team: TeamPreviewEntry[] }
+export interface TeamSelectionPayload { indices: number[] }
+export interface TeamPreviewState {
+  type: 'team-preview-started';
+  format: 'singles' | 'doubles';
+  endsAt: number;
+  durationMs: number;
+  own: TeamPreviewEntry[];
+  opponent: TeamPreviewEntry[];
+  submitted: boolean;
+  opponentSubmitted: boolean;
+}
 
 export type FriendMessage =
   | { type: 'room-created' | 'room-joined'; code: string; role: 'host' | 'guest'; token:string }
-  | { type:'room-resumed';code:string;role:'host'|'guest';token:string;peer?:FriendProfile;profile?:FriendProfile;state:BattleState|null;format?:'singles'|'doubles';revision:number;waiting:boolean;peerConnected:boolean }
+  | { type:'room-resumed';code:string;role:'host'|'guest';token:string;peer?:FriendProfile;profile?:{name:string;team:TeamSet[]};state:BattleState|null;format?:'singles'|'doubles';revision:number;waiting:boolean;peerConnected:boolean;preview?:TeamPreviewState|null }
   | { type:'format-selected';format:'singles'|'doubles' }
   | { type: 'peer-joined' }
   | { type: 'peer-ready'; peer: FriendProfile }
+  | TeamPreviewState
+  | { type:'team-selection-status';role:'host'|'guest';submitted:boolean;automatic?:boolean }
   | { type: 'battle-started'; state: BattleState; hostName: string; guestName: string;revision:number }
   | { type:'turn-resolved';state:BattleState;events:BattleEvent[];revision:number;rate:number }
   | { type:'actions-accepted';revision:number }
@@ -24,6 +48,8 @@ export type FriendOutgoing =
   | { type:'resume-room';code:string;token:string }
   | { type: 'ready'; name: string; team: TeamSet[]; format?:'singles'|'doubles' }
   | { type: 'start-battle'; format?:'singles'|'doubles' }
+  | { type: 'start_team_preview'; format:'singles'|'doubles' }
+  | ({ type: 'submit_team_selection' } & TeamSelectionPayload)
   | { type:'select-format';format:'singles'|'doubles' }
   | { type: 'actions'; actions: BattleAction[];revision:number }
   | { type:'playback-ready';revision:number }

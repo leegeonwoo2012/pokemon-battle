@@ -41,6 +41,9 @@ try {
  assert.equal(await page.locator('.move-select-list select').first().inputValue(),'swordsdance');
  await page.screenshot({path:'work/team.png',fullPage:true});
  await page.getByRole('button',{name:'싱글 출전'}).click();
+ await page.getByRole('main',{name:'팀 프리뷰와 선출'}).waitFor();
+ for(const index of [0,1,5])await page.locator('.team-preview-roster').first().getByRole('button').nth(index).click();
+ await page.getByRole('button',{name:/3마리 선출 완료/}).click();
  await page.locator('.scene-actor[data-species="garchomp"]').waitFor();
  assert.equal(await page.locator('.sprite-placeholder-grid').count(),0);
  assert.equal(await page.getByText('스프라이트 미제공').count(),0);
@@ -70,11 +73,14 @@ try {
  }
  const outgoing=await page.locator('.formation-player .scene-actor').getAttribute('data-uid');
  await observe();await page.getByRole('button',{name:'포켓몬',exact:true}).click();await page.locator('.party-actions').getByRole('button',{name:/로토무 \(워시\)/}).click();frames=await confirm(5);
- const out=frames.findIndex(frame=>frame.kind==='switch-out'&&frame.actor===outgoing);const enter=frames.findIndex(frame=>frame.kind==='switch-in'&&frame.actor==='player-5');assert(out>=0&&enter>out);assert(frames[out].active.includes(outgoing));assert(frames[enter].active.includes('player-5'));
+ const out=frames.findIndex(frame=>frame.kind==='switch-out'&&frame.actor===outgoing);const enter=frames.findIndex(frame=>frame.kind==='switch-in'&&frame.actor==='player-2');assert(out>=0&&enter>out);assert(frames[out].active.includes(outgoing));assert(frames[enter].active.includes('player-2'));
  await observe();await move(/하이드로펌프/);await confirm(6);assert((await page.evaluate(()=>window.vfxKinds)).some(kind=>kind.includes('vfx-move-')));
  await page.screenshot({path:'work/single.png',fullPage:true});
  await page.getByRole('button',{name:'기록',exact:true}).click();await page.getByText('전투 기록',{exact:true}).waitFor();await page.getByRole('button',{name:'기록 닫기'}).click();
  await page.getByRole('button',{name:'나가기',exact:true}).click();await page.getByRole('button',{name:'더블 배틀',exact:true}).first().click();
+ for(let index=0;index<4;index++)await page.locator('.team-preview-roster').first().getByRole('button').nth(index).click();
+ await page.getByRole('button',{name:/4마리 선출 완료/}).click();
+ await page.locator('.scene-actor').first().waitFor();
  assert.equal(await page.locator('.scene-actor').count(),4);
  await observe();await move(/드래곤클로/,/상대 · 갸라도스/);await move(/소울크래시/,/상대 · 마기라스/);frames=await confirm(2);assert(frames.filter(frame=>frame.kind==='move').length>=3);
  await page.screenshot({path:'work/double.png',fullPage:true});

@@ -2,6 +2,7 @@ import { createServer } from 'vite';
 import { chromium } from 'playwright-core';
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import {selectTeamPreview} from './browser-preview.mjs';
 const executablePath=process.env.CHROME_PATH||['C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','/usr/bin/chromium','/usr/bin/google-chrome'].find(existsSync);
 const server=await createServer({base:'/arena/',server:{host:'127.0.0.1',port:5184,strictPort:true},logLevel:'error'});let browser;
 const png=readFileSync('public/sprites/front/6.png');
@@ -23,6 +24,7 @@ try{
  assert.equal(requests.filter(request=>request.path.endsWith('/front/6.png')&&request.type==='fetch').length,1,'Wrong Dex mapping must not issue a second validation request');
  assert(requests.every(request=>request.path.startsWith('/arena/sprites/')));
  await page.getByRole('button',{name:'더블 배틀',exact:true}).first().click();
+ await selectTeamPreview(page);
  const charizard=page.locator('.formation-player .scene-actor[data-species="charizard"] .sprite-art');
  await charizard.waitFor();assert.equal(await charizard.getAttribute('data-sprite-facing'),'front');
  await charizard.locator('.pokemon-sprite').dispatchEvent('error',{bubbles:false});await charizard.locator('.sprite-fallback').waitFor();

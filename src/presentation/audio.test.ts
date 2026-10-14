@@ -19,6 +19,7 @@ describe('battle sound routing',()=>{
     expect(soundFileKey('MOVE-Steelbeam.WAV')).toBe('move-steelbeam');
     expect(soundFileKey('pack/type-water.ogg')).toBe('type-water');
     expect(soundFileKey('low-hp.mp3')).toBe('low-hp');
+    expect(soundFileKey('critical-hit.wav')).toBe('critical-hit');
     expect(soundFileKey('type-invalid.wav')).toBeUndefined();
     expect(soundFileKey('move-surf.png')).toBeUndefined();
     expect(soundFileKey('random.mp3')).toBeUndefined();
