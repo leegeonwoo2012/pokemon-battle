@@ -311,6 +311,7 @@ export function estimateDamage(state: BattleState, attacker: Combatant, defender
 
 /** Resolve power at the moment the move hits, after speed-ordered prior damage. */
 export function dynamicMovePower(state:BattleState,attacker:Combatant,base:number,move:Move):number {
+  if(move.id==='expandingforce'&&state.field?.id==='psychic'&&isGrounded(attacker,state))return Math.floor(base*1.5);
   if(move.dynamicPower==='positiveBoosts')return base+20*Object.values(attacker.stages).reduce((total,stage)=>total+Math.max(0,stage),0);
   if(move.dynamicPower==='remainingHp')return Math.max(1,Math.floor(base*attacker.hp/attacker.maxHp));
   if(move.dynamicPower==='lowHp'){

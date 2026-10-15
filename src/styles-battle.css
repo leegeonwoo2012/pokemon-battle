@@ -206,11 +206,39 @@ button:focus-visible,select:focus-visible { outline:3px solid #9ac5fa; outline-o
 @media(prefers-reduced-motion:reduce) { .battle-message-content>p,.playback-pulse,.passive-notice,.battle-result-overlay { animation:none; } }
 
 /* Layered, scene-aware weather: haze sits behind the actors; particles cross the foreground. */
-.scene-atmosphere { overflow:hidden;isolation:isolate;background-size:cover; }
+.scene-atmosphere { overflow:hidden;isolation:isolate;background-size:cover;animation:none!important; }
 .scene-atmosphere::before,.scene-atmosphere::after { content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.2s ease; }
 .weather-particles { position:absolute;inset:0;width:100%;height:100%;pointer-events:none; }
 .weather-depth-back { z-index:3; }
 .weather-depth-front { z-index:7; }
+.weather-lighting { position:absolute;inset:0;z-index:6;overflow:hidden;pointer-events:none;animation:weather-arrives 1.5s ease-out both; }
+.weather-lighting i { position:absolute;display:block;pointer-events:none; }
+.weather-lighting-sand { background:linear-gradient(180deg,#85603555,#c2985d32 45%,#b58b4d65);box-shadow:inset 0 0 150px 35px #7b552e5c; }
+.weather-lighting-sand .weather-ground-haze { inset:30% -30% 0;background:radial-gradient(ellipse at 15% 65%,#e4bb7b80,transparent 48%),radial-gradient(ellipse at 80% 45%,#c29a6270,transparent 54%);filter:blur(20px);animation:storm-bank 4s ease-in-out infinite alternate; }
+.weather-lighting-rain { background:linear-gradient(180deg,#07132677,#102a3d30 45%,#1c3f4d20);box-shadow:inset 0 0 150px #07152480; }
+.weather-lighting-rain .weather-ground-haze { inset:36% -25% 8%;background:radial-gradient(ellipse at 30% 55%,#b6d6e84a,transparent 48%),radial-gradient(ellipse at 80% 60%,#b6d6e833,transparent 55%);filter:blur(18px);animation:rain-mist-bank 14s ease-in-out infinite alternate; }
+.weather-lighting-snow { background:linear-gradient(180deg,#7facc426,#9bcfe534 60%,#e4f8ff45);box-shadow:inset 0 0 100px 24px #d6f4ff70; }
+.weather-lighting-snow .weather-ground-haze { inset:35% -25% 0;background:radial-gradient(ellipse at 20% 75%,#edfaff88,transparent 55%),radial-gradient(ellipse at 85% 60%,#d5f2ff60,transparent 50%);filter:blur(16px);animation:storm-bank 9s ease-in-out infinite alternate; }
+.weather-lighting-snow::after { content:'';position:absolute;inset:0;border:1px solid #e2f7ff66;background:radial-gradient(ellipse at 0 0,#effcff80,transparent 26%),radial-gradient(ellipse at 100% 0,#d9f7ff65,transparent 23%); }
+.weather-lighting-sun { background:linear-gradient(155deg,#fff0bb50,transparent 55%,#ffc05a20);mix-blend-mode:screen; }
+.weather-lighting-sun .weather-glare { width:65%;aspect-ratio:1;right:4%;top:0;translate:40% -58%;border-radius:50%;background:radial-gradient(circle,#fffef4 0 7%,#fffbdadb 11%,#ffde8a88 22%,#ffcd6240 39%,transparent 66%); }
+.weather-lighting-sun .weather-rays { inset:-40%;background:conic-gradient(from 90deg at 76% 12%,transparent 0deg 13deg,#fff5c842 15deg 21deg,transparent 24deg 34deg,#fff8d550 38deg 43deg,transparent 47deg 60deg,#ffeca735 64deg 71deg,transparent 75deg 360deg);filter:blur(5px);animation:daylight-rays 16s ease-in-out infinite alternate; }
+.weather-lighting-sun .weather-ground-haze { inset:48% -5% 12%;background:repeating-linear-gradient(178deg,transparent 0 15px,#ffecb512 18px,transparent 23px 38px);filter:blur(3px);animation:heated-air 2.5s ease-in-out infinite alternate; }
+.battle-scene[data-weather=sand] .stadium-stands { filter:sepia(.65) saturate(.55) brightness(.72) blur(2px); }
+.battle-scene[data-weather=rain] .stadium-stands { filter:saturate(.35) brightness(.55) blur(1px); }
+.battle-scene[data-weather=snow] .stadium-stands { filter:saturate(.25) brightness(1.1) blur(1.5px); }
+.battle-scene[data-weather=snow] .stadium-floor { filter:saturate(.2) brightness(1.4); }
+.battle-scene[data-weather=snow] .battlefield-platform { background:radial-gradient(ellipse,#eefcff60,#d1eaf32a 45%,transparent 70%);box-shadow:0 0 35px #e4f8ff40; }
+.battle-scene[data-weather=sun] .stadium-floor { filter:brightness(1.55) saturate(.8); }
+.battle-scene[data-weather=sun] .stadium-stands { filter:brightness(1.4) saturate(.75); }
+.battle-scene[data-weather=sun] .actor-shadow { opacity:.95;filter:blur(1px);background:#0c172e95; }
+@keyframes weather-arrives { from { opacity:0; } to { opacity:1; } }
+@keyframes storm-bank { from { transform:translateX(10%) skewX(-4deg);opacity:.65; } to { transform:translateX(-12%) skewX(3deg);opacity:1; } }
+@keyframes rain-mist-bank { from { transform:translateX(-8%);opacity:.7; } to { transform:translateX(8%);opacity:1; } }
+@keyframes daylight-rays { from { transform:rotate(-3deg);opacity:.8; } to { transform:rotate(3deg);opacity:1; } }
+@keyframes heated-air { from { transform:translateY(2px) skewX(-1deg); } to { transform:translateY(-7px) skewX(1deg); } }
+.weather-still,.weather-still i,.reduced-motion .weather-lighting,.reduced-motion .weather-lighting i { animation:none!important; }
+@media(prefers-reduced-motion:reduce) { .weather-lighting,.weather-lighting i { animation:none!important; } }
 .battle-scene[data-weather=sun] .scene-atmosphere { background:linear-gradient(180deg,#f6c56b0d 0%,#ffd98a12 45%,#e9a94c19 100%); }
 .battle-scene[data-weather=sun] .scene-atmosphere::before { opacity:1;background:repeating-conic-gradient(from 196deg at 82% 5%,transparent 0deg 8deg,#ffe4a20d 8.5deg 9.4deg,transparent 10deg 18deg);mask-image:linear-gradient(180deg,#000 0%,#0009 34%,transparent 82%);animation:sun-rays-drift 22s ease-in-out infinite alternate; }
 .battle-scene[data-weather=sun] .scene-atmosphere::after { opacity:1;top:auto;height:38%;background:radial-gradient(ellipse at 45% 100%,#ffc56b1f,transparent 70%);filter:blur(12px);animation:heat-shimmer 5s ease-in-out infinite alternate; }
@@ -229,7 +257,7 @@ button:focus-visible,select:focus-visible { outline:3px solid #9ac5fa; outline-o
 .battle-scene[data-weather=sand] .scene-atmosphere::before { opacity:1;background:linear-gradient(90deg,#e6be7724 0%,transparent 25%,#edc77d12 68%,#d5a65a24 100%);animation:sand-haze-sweep 10s ease-in-out infinite alternate; }
 .battle-scene[data-weather=sand] .scene-atmosphere::after { opacity:.8;top:auto;height:45%;background:radial-gradient(ellipse at 35% 100%,#d9ad6a22,transparent 67%);filter:blur(18px); }
 .battle-scene[data-weather=sand] .stadium-floor { filter:sepia(.15) saturate(.78) brightness(.84); }
-.battle-scene[data-weather=sand] .stadium-stands { filter:sepia(.12) saturate(.82); }
+.battle-scene[data-weather=sand] .stadium-stands { filter:sepia(.65) saturate(.55) brightness(.72) blur(2px); }
 .battle-scene[data-weather=sand] .battlefield-platform { border-color:#d8bd8650;box-shadow:0 0 35px #c5985140,inset 0 0 18px #e8cf9c10; }
 @keyframes sun-rays-drift { from { transform:translateX(-1.5%) rotate(-1deg); } to { transform:translateX(1.5%) rotate(1deg); } }
 @keyframes heat-shimmer { from { transform:translateY(0) scaleX(1);opacity:.55; } to { transform:translateY(-5px) scaleX(1.035);opacity:1; } }

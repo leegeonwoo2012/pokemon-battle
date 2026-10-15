@@ -1,7 +1,7 @@
 import {describe,expect,it} from 'vitest';
 import {createSet} from '../team';
 import {createBattle,runTurn,validateTeam} from './battle';
-import {effectiveMovePower,stabMultiplier} from './calculations';
+import {effectiveMovePower,estimateDamage,stabMultiplier} from './calculations';
 import {activateGimmick,previewMove} from './gimmicks';
 import {moves} from '../data';
 import type {TeamSet} from './types';
@@ -10,6 +10,31 @@ const set=(id:string,extra:Partial<TeamSet>={})=>({...createSet(id),...extra});
 const use=(moveId:string)=>[{kind:'move' as const,slot:0,moveId}];
 
 describe('advanced battle rules',()=>{
+  it('boosts Expanding Force and spreads it to both foes only for a grounded user in Psychic Terrain',()=>{
+    const attacker=set('alakazam',{moves:['expandingforce','psychic','recover','protect']});
+    const make=()=>createBattle({format:'doubles',playerTeam:[attacker,set('snorlax')],cpuTeam:[
+      set('blastoise',{moves:['raindance','protect','icebeam','surf']}),
+      set('venusaur',{moves:['swordsdance','protect','gigadrain','sludgebomb']}),
+    ],seed:31});
+    const plain=make();
+    const psychic=make();
+    psychic.field={id:'psychic',turns:5};
+    const user=psychic.sides.player.team[0];
+    const target=psychic.sides.cpu.team[0];
+    expect(estimateDamage(plain,user,plain.sides.cpu.team[0],moves.expandingforce,true))
+      .toBeLessThan(estimateDamage(psychic,user,target,moves.expandingforce,true));
+
+    const cpuActions=[{kind:'move' as const,slot:0,moveId:'raindance'},{kind:'move' as const,slot:1,moveId:'swordsdance'}];
+    const playerActions=[...use('expandingforce'),{kind:'move' as const,slot:1,moveId:'protect'}];
+    const regular=runTurn(plain,playerActions,cpuActions);
+    expect(regular.sides.cpu.team[0].hp).toBeLessThan(plain.sides.cpu.team[0].hp);
+    expect(regular.sides.cpu.team[1].hp).toBe(plain.sides.cpu.team[1].hp);
+
+    const boosted=runTurn(psychic,playerActions,cpuActions);
+    expect(boosted.sides.cpu.team[0].hp).toBeLessThan(psychic.sides.cpu.team[0].hp);
+    expect(boosted.sides.cpu.team[1].hp).toBeLessThan(psychic.sides.cpu.team[1].hp);
+  });
+
   it('creates a substitute at quarter HP cost, blocks ordinary damage and status, and clears on switch',()=>{
     const player=set('clefable',{moves:['substitute','moonblast','protect','gravity']});
     const foe=set('blastoise',{moves:['waterpulse','surf','protect','icebeam']});

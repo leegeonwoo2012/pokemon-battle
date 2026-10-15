@@ -421,6 +421,9 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
   const stopRampage=()=>{if(continuingRampage&&!user.fainted){user.rampage=undefined;addLog(state,`${displayName(user)}의 ${baseMove.name} 연속 사용이 끊겼다!`,'status',{kind:'message',targetUid:user.uid});}};
   if(continuingCharge)user.charging=undefined;
   const move = {...weatherBallMove(state,user,previewMove(user,baseMove,action.gimmick==='z'?'z':undefined))};
+  // Expanding Force changes from a single-target move to a spread move only
+  // while its grounded user is standing in Psychic Terrain.
+  if(move.id==='expandingforce'&&state.field?.id==='psychic'&&isGrounded(user,state))move.target='allEnemies';
   if(user.set.abilityId==='longreach')move.contact=false;
   if(move.id==='aurawheel'&&user.set.speciesId==='morpeko'&&user.morpekoHangry)move.type='dark';
   if(user.disabledMove?.turns&&user.disabledMove.moveId===move.id){addLog(state,`${displayName(user)}은(는) ${move.name}을(를) 봉인당해 사용할 수 없다!`,'status',{kind:'blocked',targetUid:user.uid});stopRampage();return;}
