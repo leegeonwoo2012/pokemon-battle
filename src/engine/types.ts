@@ -120,7 +120,7 @@ export interface Move {
   charge?: 'always' | 'sun' | 'rain';
   semiInvulnerable?: 'underground' | 'underwater' | 'airborne' | 'vanished';
   fixedDamage?: 'counter' | 'mirrorcoat' | 'endeavor';
-  dynamicPower?: 'remainingHp' | 'faintedAllies' | 'positiveBoosts' | 'friendship' | 'lowFriendship';
+  dynamicPower?: 'remainingHp' | 'lowHp' | 'faintedAllies' | 'positiveBoosts' | 'friendship' | 'lowFriendship';
   pivot?: boolean;
   selfCostFraction?: number;
   selfDestruct?: boolean;

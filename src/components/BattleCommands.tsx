@@ -13,7 +13,7 @@ export function MoveChoice({move,baseId,pp,unavailable,effectiveness,onChoose,on
     <span className="move-choice-cursor" aria-hidden="true">▶</span>
     <span className="move-name">{move.powered==='z'?'Z · ':''}{move.name}</span>
     <span className={`type-badge type-${move.type}`}>{typeNames[move.type]}</span>
-    <span className="move-power"><Icon size={11}/>{move.category==='status'?'변화':move.ohko?'일격':`위력 ${move.power}`}<span>명중 {move.accuracy??'필중'}</span>{spread?<span className="move-spread"><Crosshair size={10}/>범위</span>:<span><Target size={10}/>단일</span>}{effectiveness&&move.category!=='status'&&<span>{effectiveness}</span>}</span>
+    <span className="move-power"><Icon size={11}/>{move.category==='status'?'변화':move.ohko?'일격':move.fixedHpFraction!==undefined?`현재 HP ${Math.round(move.fixedHpFraction*100)}% 피해`:`위력 ${move.power}`}<span>명중 {move.accuracy??'필중'}</span>{spread?<span className="move-spread"><Crosshair size={10}/>범위</span>:<span><Target size={10}/>단일</span>}{effectiveness&&move.category!=='status'&&<span>{effectiveness}</span>}</span>
     <small className={pp===0?'pp-empty':''}>PP <b>{pp}</b> / {move.pp}{unavailable&&pp>0?' · 제한':''}</small>
   </button>;
 }

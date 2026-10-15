@@ -268,9 +268,17 @@ export function estimateDamage(state: BattleState, attacker: Combatant, defender
     if(move.fixedDamage==='endeavor')return Math.max(0,defender.hp-attacker.hp);
     return hit?.turn===state.turn&&hit.category===(move.fixedDamage==='counter'?'physical':'special')&&hit.sourceUid===defender.uid?hit.damage*2:0;
   }
-  if (move.category === 'status' || move.power <= 0 || isTypeImmune(defender, move,state)) return 0;
+  if (move.category === 'status' || move.power <= 0 && move.fixedHpFraction===undefined || isTypeImmune(defender, move,state)) return 0;
   const type = battleTypeMultiplier(state,move,defender);
   if (type === 0) return 0;
+  if(move.fixedHpFraction!==undefined){
+    if(defender.maxGuard&&move.powered||defender.protected&&!move.powered&&!move.bypassProtect)return 0;
+    const baseMaxHp=defender.transformation?.kind==='dynamax'?(defender.original?.maxHp??defender.maxHp):defender.maxHp;
+    const currentHp=defender.transformation?.kind==='dynamax'?Math.floor(defender.hp*baseMaxHp/defender.maxHp):defender.hp;
+    const hp=move.fixedHpBasis==='current'?currentHp:baseMaxHp;
+    const damage=Math.max(1,Math.floor(hp*move.fixedHpFraction));
+    return defender.protected&&!move.bypassProtect?move.fixedHpBasis==='current'?Math.max(1,Math.ceil(damage/4-.5)):Math.max(1,Math.floor(damage/4)):damage;
+  }
   if(move.ohko)return passiveEffects(defender).some(effect=>effect.trigger==='onOHKO')||move.id==='sheercold'&&defender.types.includes('ice')?0:defender.hp;
   const offenseStat=move.category==='physical'?'atk':'spa';
   const offense = getModifiedStat(attacker, offenseStat)*ruinStatMultiplier(state,attacker,offenseStat)
@@ -305,6 +313,10 @@ export function estimateDamage(state: BattleState, attacker: Combatant, defender
 export function dynamicMovePower(state:BattleState,attacker:Combatant,base:number,move:Move):number {
   if(move.dynamicPower==='positiveBoosts')return base+20*Object.values(attacker.stages).reduce((total,stage)=>total+Math.max(0,stage),0);
   if(move.dynamicPower==='remainingHp')return Math.max(1,Math.floor(base*attacker.hp/attacker.maxHp));
+  if(move.dynamicPower==='lowHp'){
+    const ratio=Math.max(Math.floor(attacker.hp*48/attacker.maxHp),1);
+    return ratio<2?200:ratio<5?150:ratio<10?100:ratio<17?80:ratio<33?40:20;
+  }
   if(move.dynamicPower==='faintedAllies'){
     const side=state.sides.player.team.includes(attacker)?'player':'cpu';
     return base+50*state.sides[side].team.filter(pokemon=>pokemon!==attacker&&pokemon.fainted).length;

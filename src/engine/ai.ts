@@ -59,14 +59,14 @@ function benchChoice(state: BattleState, side: Side, slot: number, foe: Combatan
     }, 0);
     const threat = foe.set.moves.reduce((best, id) => {
       const move = moves[id];
-      return move&&(move.power||move.ohko||move.fixedDamage) ? Math.max(best, estimateDamage(state,foe,pokemon,move)) : best;
+      return move&&(move.power||move.ohko||move.fixedDamage||move.fixedHpFraction!==undefined) ? Math.max(best, estimateDamage(state,foe,pokemon,move)) : best;
     }, 0);
     return [{ index, score: offense - threat * 0.6 + pokemon.hp / pokemon.maxHp * 20 }];
   }).sort((a, b) => b.score - a.score);
   if (!candidates.length || state.turn < 2 || state.turn - (state.switchTurns?.[side]?.[slot] ?? -100) < 3) return null;
   const currentThreat = foe.set.moves.reduce((best, id) => {
     const move = moves[id];
-      return move&&(move.power||move.ohko||move.fixedDamage) ? Math.max(best, estimateDamage(state,foe,current,move)) : best;
+      return move&&(move.power||move.ohko||move.fixedDamage||move.fixedHpFraction!==undefined) ? Math.max(best, estimateDamage(state,foe,current,move)) : best;
   }, 0);
   if (current.hp / current.maxHp < 0.27 && candidates[0].score > -30) return candidates[0].index;
   const currentOffense = usableMoves(current).reduce((best, move) => {

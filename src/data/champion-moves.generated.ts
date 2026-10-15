@@ -2830,7 +2830,8 @@ export const championMoves: Record<string,Move> = {
     "slicing": false,
     "pulse": false,
     "punch": false,
-    "bullet": false
+    "bullet": false,
+    "dynamicPower": "lowHp"
   },
   "flashcannon": {
     "id": "flashcannon",
@@ -5231,7 +5232,8 @@ export const championMoves: Record<string,Move> = {
     "slicing": false,
     "pulse": false,
     "punch": false,
-    "bullet": false
+    "bullet": false,
+    "dynamicPower": "lowHp"
   },
   "risingvoltage": {
     "id": "risingvoltage",
@@ -14865,7 +14867,9 @@ export const championMoves: Record<string,Move> = {
     "slicing": false,
     "pulse": false,
     "punch": false,
-    "bullet": false
+    "bullet": false,
+    "fixedHpFraction": 0.5,
+    "fixedHpBasis": "current"
   },
   "withdraw": {
     "id": "withdraw",
@@ -15451,7 +15455,9 @@ export const championMoves: Record<string,Move> = {
     "slicing": false,
     "pulse": false,
     "punch": false,
-    "bullet": false
+    "bullet": false,
+    "fixedHpFraction": 0.5,
+    "fixedHpBasis": "current"
   },
   "collisioncourse": {
     "id": "collisioncourse",

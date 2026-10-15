@@ -17,6 +17,44 @@ function setWith(moveId:string):TeamSet {
 const action=(moveId:string,slot=0,target?:{side:'player'|'cpu';slot:number}):BattleAction=>({kind:'move',moveId,slot,target});
 
 describe('requested move and item mechanics',()=>{
+  it('Reversal and Flail scale to the canonical low-HP power brackets at use time',()=>{
+    const state=createBattle({format:'singles',playerTeam:[setWith('reversal')],cpuTeam:[setWith('swordsdance')],seed:18});
+    const attacker=state.sides.player.team[0];
+    attacker.maxHp=480;
+    expect(moves.reversal.dynamicPower).toBe('lowHp');
+    expect(moves.flail.dynamicPower).toBe('lowHp');
+    for(const [ratio,power] of [[1,200],[2,150],[5,100],[10,80],[17,40],[33,20]] as const){
+      attacker.hp=ratio*10;
+      expect(dynamicMovePower(state,attacker,moves.reversal.power,moves.reversal),`Reversal at HP ratio ${ratio}/48`).toBe(power);
+      expect(dynamicMovePower(state,attacker,moves.flail.power,moves.flail),`Flail at HP ratio ${ratio}/48`).toBe(power);
+    }
+    attacker.hp=10;
+    const lowHpDamage=estimateDamage(state,attacker,state.sides.cpu.team[0],moves.reversal);
+    attacker.hp=240;
+    const halfHpDamage=estimateDamage(state,attacker,state.sides.cpu.team[0],moves.reversal);
+    expect(lowHpDamage).toBeGreaterThan(halfHpDamage);
+    const used=runTurn(state,[action('reversal')],[action('swordsdance')]);
+    expect(used.sides.cpu.team[0].hp).toBeLessThan(state.sides.cpu.team[0].hp);
+  });
+
+  it('Nature\'s Madness and Ruination remove half of the target current HP',()=>{
+    for(const moveId of ['naturesmadness','ruination']){
+      const state=createBattle({format:'singles',playerTeam:[setWith(moveId)],cpuTeam:[setWith('swordsdance')],seed:27});
+      const target=state.sides.cpu.team[0];target.hp=121;
+      expect(moves[moveId].fixedHpFraction).toBe(.5);
+      expect(moves[moveId].fixedHpBasis).toBe('current');
+      expect(estimateDamage(state,state.sides.player.team[0],target,moves[moveId])).toBe(60);
+      const next=runTurn(state,[action(moveId)],[action('swordsdance')]);
+      expect(next.sides.cpu.team[0].hp,moveId).toBe(61);
+      expect(next.log.some(entry=>entry.text.includes(moves[moveId].name)&&entry.text.includes('사용')),moveId).toBe(true);
+    }
+    const guarded=createBattle({format:'singles',playerTeam:[setWith('naturesmadness')],cpuTeam:[setWith('protect')],seed:27});
+    guarded.sides.cpu.team[0].hp=121;
+    expect(estimateDamage(guarded,guarded.sides.player.team[0],guarded.sides.cpu.team[0],moves.naturesmadness)).toBe(60);
+    const protectedHit=runTurn(guarded,[action('naturesmadness')],[action('protect')]);
+    expect(protectedHit.sides.cpu.team[0].hp).toBe(121);
+  });
+
   it('Stored Power gains 20 power for each positive stage, including accuracy and evasion',()=>{
     const state=createBattle({format:'singles',playerTeam:[setWith('storedpower')],cpuTeam:[setWith('protect')],seed:4});
     const attacker=state.sides.player.team[0];
