@@ -132,6 +132,7 @@ export function validateTeam(team: TeamSet[], format: Format = 'singles'): strin
       errors.push(`${label}: 선택할 수 없는 특성입니다.`);
     }
     if (!items[set.itemId]) errors.push(`${label}: 등록되지 않은 지닌 도구입니다.`);
+    else if(items[set.itemId].supported===false) errors.push(`${label}: 이 도구의 배틀 효과는 아직 지원하지 않습니다.`);
     if (!natures[set.natureId]) errors.push(`${label}: 등록되지 않은 성격입니다.`);
     let totalEvs = 0;
     for (const stat of statKeys) {

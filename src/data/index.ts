@@ -2,6 +2,9 @@ import { roster, importedAbilities } from './roster.generated';
 import { legendaryRoster, legendaryAbilities, restrictedNationalDex } from './legendary-roster.generated';
 import { legacyRoster } from './legacy-roster.generated';
 import { signatureRoster } from './signature-roster.generated';
+import { expansionRoster } from './expansion-roster.generated';
+import { svItemCatalog } from './sv-items.generated';
+import { svBattleItemOverrides } from './sv-items';
 import { gimmickItems } from './gimmicks';
 import { championMoves } from './champion-moves.generated';
 import type { Ability, Item, Move, Nature, Species, TeamSet } from '../engine/types';
@@ -345,6 +348,9 @@ export const items: Record<string, Item> = Object.fromEntries(([
   item('mysticWater', '신비의물방울', '물 기술 위력이 1.2배가 됩니다.', [{ trigger: 'onAttack', kind: 'damageMultiplier', type: 'water', multiplier: 1.2 }]),
   item('magnet', '자석', '전기 기술 위력이 1.2배가 됩니다.', [{ trigger: 'onAttack', kind: 'damageMultiplier', type: 'electric', multiplier: 1.2 }]),
   item('miracleSeed', '기적의씨', '풀 기술 위력이 1.2배가 됩니다.', [{ trigger: 'onAttack', kind: 'damageMultiplier', type: 'grass', multiplier: 1.2 }]),
+  item('dynamaxband','다이맥스밴드','이 게임의 규칙: 지니면 배틀에서 다이맥스 또는 거다이맥스를 한 번 사용할 수 있습니다.',[]),
+  item('rustedsword','녹슨검','자시안이 지니고 등장하면 왕관폼으로 변하며 아이언헤드가 거수참으로 바뀝니다.',[]),
+  item('rustedshield','녹슨방패','자마젠타가 지니고 등장하면 왕관폼으로 변하며 아이언헤드가 거수탄으로 바뀝니다.',[]),
 ] as Item[]).map(entry => [entry.id, entry]));
 
 const nature = (id: string, name: string, up?: Nature['up'], down?: Nature['down']): Nature => ({ id, name, up, down });
@@ -362,9 +368,9 @@ export const natures: Record<string, Nature> = Object.fromEntries(([
 ] as Nature[]).map(entry => [entry.id, entry]));
 
 export const restrictedDexNumbers=new Set(restrictedNationalDex);
-export const regulationSpecies:Record<string,Species>=Object.fromEntries([...roster,...legendaryRoster,...signatureRoster].map(entry=>[entry.id,entry]));
+export const regulationSpecies:Record<string,Species>=Object.fromEntries([...roster,...legendaryRoster,...signatureRoster,...expansionRoster].map(entry=>[entry.id,entry]));
 const historical:Record<string,Species>=Object.fromEntries(legacyRoster.map(entry=>[entry.id,entry]));
-export const species: Record<string, Species> = {...historical,...Object.fromEntries([...roster,...legendaryRoster,...signatureRoster].map(entry=>{
+export const species: Record<string, Species> = {...historical,...Object.fromEntries([...roster,...legendaryRoster,...signatureRoster,...expansionRoster].map(entry=>{
   const prior=historical[entry.id];
   return [entry.id,prior?{...entry,abilities:[...new Set([...entry.abilities,...prior.abilities])],learnset:[...new Set([...entry.learnset,...prior.learnset])]}:entry];
 }))};
@@ -387,6 +393,15 @@ abilities.toxicchain=ability('toxicchain','독사슬','상대에게 피해를 �
 abilities.slowstart=ability('slowstart','슬로스타트','출전 후 5턴 동안 공격과 스피드가 절반이 됩니다. 교체하면 다시 5턴부터 시작합니다.',[]);
 abilities.turboblaze=ability('turboblaze','터보블레이즈','공격할 때 상대의 방어 특성을 무시합니다.',[{trigger:'onAttack',kind:'ignoreTargetAbility'}]);
 abilities.teravolt=ability('teravolt','테라볼티지','공격할 때 상대의 방어 특성을 무시합니다.',[{trigger:'onAttack',kind:'ignoreTargetAbility'}]);
+abilities.asoneglastrier=ability('asoneglastrier','혼연일체 (백마)','상대의 열매 사용을 막고 상대를 쓰러뜨리면 공격이 1단계 오릅니다.',[{trigger:'onKO',kind:'stat',stat:'atk',stages:1}]);
+abilities.asonespectrier=ability('asonespectrier','혼연일체 (흑마)','상대의 열매 사용을 막고 상대를 쓰러뜨리면 특수공격이 1단계 오릅니다.',[{trigger:'onKO',kind:'stat',stat:'spa',stages:1}]);
+abilities.swiftswim=ability('swiftswim','쓱쓱','비가 오면 스피드가 2배가 됩니다.',[{trigger:'onSpeed',kind:'speedMultiplier',weather:'rain',multiplier:2}]);
+abilities.steamengine=ability('steamengine','증기기관','물 또는 불꽃 타입 공격을 받으면 스피드가 6단계 오릅니다.',[
+  {trigger:'onAfterHit',kind:'stat',stat:'spe',stages:6,type:'water'},
+  {trigger:'onAfterHit',kind:'stat',stat:'spe',stages:6,type:'fire'},
+]);
+abilities.tintedlens=ability('tintedlens','색안경','효과가 별로인 공격의 피해를 2배로 높입니다.',[]);
+abilities.flashfire={...abilities.flashFire,id:'flashfire'};
 abilities.shadowshield=ability('shadowshield','스펙터가드','HP가 가득 찼을 때 받는 피해를 절반으로 줄입니다.',[{trigger:'onDamage',kind:'damageMultiplier',condition:'fullHp',multiplier:.5}]);
 abilities.prismarmor=ability('prismarmor','프리즘아머','약점 공격으로 받는 피해를 줄입니다.',[{trigger:'onSuperEffectiveDamage',kind:'damageMultiplier',multiplier:.75}]);
 abilities.transistor=ability('transistor','트랜지스터','전기 타입 공격의 위력을 1.3배 높입니다.',[{trigger:'onAttack',kind:'damageMultiplier',type:'electric',multiplier:1.3}]);
@@ -610,6 +625,9 @@ items.spelltag=item('spelltag','저주의부적','고스트 타입 기술의 위
 
 const silvallyMemoryNames:Record<string,string>={bugmemory:'벌레메모리',darkmemory:'악메모리',dragonmemory:'드래곤메모리',electricmemory:'전기메모리',fairymemory:'페어리메모리',fightingmemory:'격투메모리',firememory:'불꽃메모리',flyingmemory:'비행메모리',ghostmemory:'고스트메모리',grassmemory:'풀메모리',groundmemory:'땅메모리',icememory:'얼음메모리',poisonmemory:'독메모리',psychicmemory:'에스퍼메모리',rockmemory:'바위메모리',steelmemory:'강철메모리',watermemory:'물메모리'};
 for(const [id,name] of Object.entries(silvallyMemoryNames))items[id]=item(id,name,'실바디의 타입을 해당 메모리 타입으로 바꾸며, 다른 포켓몬이 빼앗거나 지울 수 없습니다.',[]);
+const existingItemIds=new Set(Object.keys(items).map(id=>id.toLowerCase()));
+for(const [id,entry] of Object.entries(svItemCatalog))if(!existingItemIds.has(id.toLowerCase()))items[id]=entry;
+Object.assign(items,svBattleItemOverrides);
 
 export const starterTeam: TeamSet[] = [
   { speciesId: 'rotomwash', moves: ['hydropump', 'voltswitch', 'willowisp', 'protect'], abilityId: 'levitate', itemId: 'leftovers', natureId: 'modest', evs: { spa: 252, spe: 252, hp: 4 } },

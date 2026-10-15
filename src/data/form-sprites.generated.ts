@@ -128,6 +128,8 @@ export const availableFormSprites = [
   "zygardecomplete",
   "terapagosterastal",
   "terapagosstellar",
+  "zaciancrowned",
+  "zamazentacrowned",
   "necrozmaultra"
 ] as const;
 export const formSpriteFormats: Record<string,'png'|'webp'> = {
@@ -259,5 +261,7 @@ export const formSpriteFormats: Record<string,'png'|'webp'> = {
   "zygardecomplete": "png",
   "terapagosterastal": "png",
   "terapagosstellar": "png",
+  "zaciancrowned": "png",
+  "zamazentacrowned": "png",
   "necrozmaultra": "png"
 };

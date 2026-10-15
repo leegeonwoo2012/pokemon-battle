@@ -15,7 +15,7 @@ const selected=new Set(roster.map(p=>p.id));
 const ids=Object.entries(Pokedex).filter(([id,p])=>p.forme?.includes('Mega')&&p.requiredItem&&p.baseSpecies&&selected.has(normalize(Array.isArray(p.battleOnly)?p.baseSpecies:p.battleOnly??p.baseSpecies))&&(legendaryRoster.some(mon=>mon.id===normalize(p.baseSpecies))||FormatsData[id]&&!FormatsData[id].isNonstandard&&FormatsData[id].tier!=='Illegal')).map(([id])=>id);
 if(selected.has('rayquaza'))ids.push('rayquazamega');
 const primalIds=['kyogreprimal','groudonprimal'].filter(id=>selected.has(normalize(Pokedex[id].baseSpecies)));
-const abilityFormIds=['zygardecomplete','terapagosterastal','terapagosstellar'];
+const abilityFormIds=['zygardecomplete','terapagosterastal','terapagosstellar','zaciancrowned','zamazentacrowned'];
 const gmaxSupported=new Set([...fs.readFileSync('src/data/gimmicks.ts','utf8').matchAll(/^  ([a-z]+):\{id:'gmax/gm)].map(match=>match[1]));
 const gmaxIds=Object.entries(Pokedex).filter(([id,p])=>/gmax$/i.test(p.forme??'')&&p.baseSpecies&&gmaxSupported.has(normalize(p.baseSpecies))).map(([id])=>id);
 const forms=ids.map(id=>{const p=Pokedex[id],base=roster.find(x=>x.id===normalize(Array.isArray(p.battleOnly)?p.baseSpecies:p.battleOnly??p.baseSpecies))??roster.find(x=>x.id===normalize(p.baseSpecies));if(!base)throw Error(id); const ability=normalize(p.abilities[0]); return {id,speciesId:base.id,name:'메가'+base.name+(p.forme.endsWith('X')?' X':p.forme.endsWith('Y')?' Y':''),types:p.types.map(x=>x.toLowerCase()),baseStats:p.baseStats,abilityId:aliases[ability]??ability,stoneId:normalize(p.requiredItem??'dragonascent'),stoneName:p.requiredItem??'화룡점정'};});

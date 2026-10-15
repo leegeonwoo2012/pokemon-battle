@@ -137,8 +137,8 @@ export type PassiveEffect =
   | { trigger:'onStatChange';kind:'invertStages' }
   | { trigger:'onKO';kind:'stat';stat:BoostStat;stages:number }
   | { trigger:'onKO';kind:'bestStat' }
-  | { trigger:'onAfterDamage';kind:'stat';stat:BoostStat;stages:number;threshold:number }
-    | { trigger:'onAfterHit';kind:'stat';stat:BoostStat;stages:number;type?:string;category?:'physical'|'special';contact?:boolean }
+  | { trigger:'onAfterDamage';kind:'stat';stat:BoostStat;stages:number;threshold:number;consume?:boolean }
+  | { trigger:'onAfterHit';kind:'stat';stat:BoostStat;stages:number;type?:string;category?:'physical'|'special';contact?:boolean;consume?:boolean }
   | { trigger:'onWeatherDamage';kind:'immunity';weather:Weather }
   | { trigger:'onPowder';kind:'immunity' }
   | { trigger:'onRecoil';kind:'immunity' }
@@ -167,9 +167,9 @@ export type PassiveEffect =
   | { trigger: 'onAttack' | 'onDamage'; kind: 'ignoreFoeStages' }
   | { trigger: 'onDamage'; kind: 'typeImmunity'; type: string; healFraction?: number; activateBoost?: boolean; boostStat?:BoostStat }
   | { trigger: 'onDamage'; kind: 'damageMultiplier'; type?: string; category?: 'physical' | 'special'; multiplier: number; condition?: 'fullHp' | 'lowHp' | 'lowPower' | 'contact' | 'sound' | 'always' }
-  | { trigger: 'onAttack'; kind: 'damageMultiplier'; type?: string; category?: 'physical' | 'special'; multiplier: number; condition?: 'fullHp' | 'lowHp' | 'lowPower' | 'contact' | 'secondary' | 'recoil' | 'pulse' | 'bite' | 'slicing' | 'punch' | 'sound' | 'always' }
+  | { trigger: 'onAttack'; kind: 'damageMultiplier'; type?: string; category?: 'physical' | 'special'; multiplier: number; condition?: 'fullHp' | 'lowHp' | 'lowPower' | 'contact' | 'secondary' | 'recoil' | 'pulse' | 'bite' | 'slicing' | 'punch' | 'sound' | 'always'; speciesIds?:string[] }
   | { trigger: 'onAttack'; kind: 'stabMultiplier'; multiplier: number }
-  | { trigger: 'onStat'; kind: 'statMultiplier'; stat: Exclude<Stat, 'hp'>; multiplier: number; condition?: 'status'|'sun'; ignoreBurn?: boolean }
+  | { trigger: 'onStat'; kind: 'statMultiplier'; stat: Exclude<Stat, 'hp'>; multiplier: number; condition?: 'status'|'sun'|'canEvolve'; ignoreBurn?: boolean; speciesIds?:string[] }
   | { trigger: 'onAccuracy'; kind: 'accuracyMultiplier'; target: 'self' | 'attacker'; multiplier: number; weather?: Weather }
   | { trigger: 'onAccuracy'; kind: 'accuracyAlwaysHits' }
   | { trigger: 'onAccuracy'; kind: 'ignoreEvasion' }
@@ -183,7 +183,7 @@ export type PassiveEffect =
   | { trigger: 'onCritical'; kind: 'criticalImmunity' }
   | { trigger: 'onCritical'; kind: 'criticalBoost'; stages: number; speciesIds?:string[] }
   | { trigger: 'onChoice'; kind: 'choiceLock' }
-  | { trigger: 'onDirectDamage'; kind: 'survive'; consume: boolean }
+  | { trigger: 'onDirectDamage'; kind: 'survive'; consume: boolean; chance?:number; requiresFullHp?:boolean }
   | { trigger: 'onAfterDamage'; kind: 'heal'; fraction: number; threshold: number; consume: boolean }
   | { trigger: 'onAfterMove'; kind: 'recoil'; fraction: number }
   | { trigger: 'onSpeed'; kind: 'speedMultiplier'; weather?: Weather; field?:Field; multiplier: number }
@@ -196,7 +196,7 @@ export type PassiveEffect =
   | { trigger: 'onStatus'; kind: 'statusImmunity'; status: Status };
 
 export interface Ability { id: string; name: string; description: string; effects: PassiveEffect[] }
-export interface Item { id: string; name: string; description: string; effects: PassiveEffect[] }
+export interface Item { id: string; name: string; description: string; effects: PassiveEffect[]; supported?: boolean }
 
 export interface TeamSet {
   speciesId: string;

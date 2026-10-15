@@ -1,0 +1,1980 @@
+{
+  "showdownCommit": "942cda71d14bf0618bd57991708a2e2734b6daba",
+  "nameSource": "https://github.com/PokeAPI/pokeapi/tree/master/data/v2/csv",
+  "selection": "Generation 9 standard held items with battle callbacks or battle-relevant marker",
+  "items": [
+    {
+      "id": "abilityshield",
+      "name": "특성가드",
+      "englishName": "Ability Shield",
+      "callbacks": [
+        "onSetAbility"
+      ],
+      "berry": false,
+      "gen": 9
+    },
+    {
+      "id": "absorbbulb",
+      "name": "구근",
+      "englishName": "Absorb Bulb",
+      "callbacks": [
+        "onDamagingHit"
+      ],
+      "berry": false,
+      "gen": 5
+    },
+    {
+      "id": "adamantcrystal",
+      "name": "큰금강옥",
+      "englishName": "Adamant Crystal",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 8
+    },
+    {
+      "id": "adamantorb",
+      "name": "금강옥",
+      "englishName": "Adamant Orb",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "adrenalineorb",
+      "name": "주눅구슬",
+      "englishName": "Adrenaline Orb",
+      "callbacks": [
+        "onAfterBoost"
+      ],
+      "berry": false,
+      "gen": 7
+    },
+    {
+      "id": "aguavberry",
+      "name": "아바열매",
+      "englishName": "Aguav Berry",
+      "callbacks": [
+        "onUpdate",
+        "onTryEatItem",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "airballoon",
+      "name": "풍선",
+      "englishName": "Air Balloon",
+      "callbacks": [
+        "onStart",
+        "onDamagingHit",
+        "onAfterSubDamage"
+      ],
+      "berry": false,
+      "gen": 5
+    },
+    {
+      "id": "apicotberry",
+      "name": "규살열매",
+      "englishName": "Apicot Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "aspearberry",
+      "name": "배리열매",
+      "englishName": "Aspear Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "assaultvest",
+      "name": "돌격조끼",
+      "englishName": "Assault Vest",
+      "callbacks": [
+        "onModifySpDPriority",
+        "onModifySpD",
+        "onDisableMove"
+      ],
+      "berry": false,
+      "gen": 6
+    },
+    {
+      "id": "babiriberry",
+      "name": "바리비열매",
+      "englishName": "Babiri Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "bigroot",
+      "name": "큰뿌리",
+      "englishName": "Big Root",
+      "callbacks": [
+        "onTryHealPriority",
+        "onTryHeal"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "bindingband",
+      "name": "조임밴드",
+      "englishName": "Binding Band",
+      "callbacks": [],
+      "berry": false,
+      "gen": 5
+    },
+    {
+      "id": "blackbelt",
+      "name": "검은띠",
+      "englishName": "Black Belt",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "blackglasses",
+      "name": "검은안경",
+      "englishName": "Black Glasses",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "blacksludge",
+      "name": "검은오물",
+      "englishName": "Black Sludge",
+      "callbacks": [
+        "onResidualOrder",
+        "onResidualSubOrder",
+        "onResidual"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "blunderpolicy",
+      "name": "허탕보험",
+      "englishName": "Blunder Policy",
+      "callbacks": [],
+      "berry": false,
+      "gen": 8
+    },
+    {
+      "id": "boosterenergy",
+      "name": "부스트에너지",
+      "englishName": "Booster Energy",
+      "callbacks": [
+        "onSwitchInPriority",
+        "onStart",
+        "onUpdate",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 9
+    },
+    {
+      "id": "brightpowder",
+      "name": "반짝가루",
+      "englishName": "Bright Powder",
+      "callbacks": [
+        "onModifyAccuracyPriority",
+        "onModifyAccuracy"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "cellbattery",
+      "name": "충전지",
+      "englishName": "Cell Battery",
+      "callbacks": [
+        "onDamagingHit"
+      ],
+      "berry": false,
+      "gen": 5
+    },
+    {
+      "id": "charcoal",
+      "name": "목탄",
+      "englishName": "Charcoal",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "chartiberry",
+      "name": "루미열매",
+      "englishName": "Charti Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "cheriberry",
+      "name": "버치열매",
+      "englishName": "Cheri Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "chestoberry",
+      "name": "유루열매",
+      "englishName": "Chesto Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "chilanberry",
+      "name": "카리열매",
+      "englishName": "Chilan Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "choiceband",
+      "name": "구애머리띠",
+      "englishName": "Choice Band",
+      "callbacks": [
+        "onStart",
+        "onModifyMove",
+        "onModifyAtkPriority",
+        "onModifyAtk"
+      ],
+      "berry": false,
+      "gen": 3
+    },
+    {
+      "id": "choicescarf",
+      "name": "구애스카프",
+      "englishName": "Choice Scarf",
+      "callbacks": [
+        "onStart",
+        "onModifyMove",
+        "onModifySpe"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "choicespecs",
+      "name": "구애안경",
+      "englishName": "Choice Specs",
+      "callbacks": [
+        "onStart",
+        "onModifyMove",
+        "onModifySpAPriority",
+        "onModifySpA"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "chopleberry",
+      "name": "로플열매",
+      "englishName": "Chople Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "clearamulet",
+      "name": "클리어참",
+      "englishName": "Clear Amulet",
+      "callbacks": [
+        "onTryBoostPriority",
+        "onTryBoost"
+      ],
+      "berry": false,
+      "gen": 9
+    },
+    {
+      "id": "cobaberry",
+      "name": "바코열매",
+      "englishName": "Coba Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "colburberry",
+      "name": "마코열매",
+      "englishName": "Colbur Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "cornerstonemask",
+      "name": "주춧돌의가면",
+      "englishName": "Cornerstone Mask",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 9
+    },
+    {
+      "id": "covertcloak",
+      "name": "은밀망토",
+      "englishName": "Covert Cloak",
+      "callbacks": [
+        "onModifySecondaries"
+      ],
+      "berry": false,
+      "gen": 9
+    },
+    {
+      "id": "custapberry",
+      "name": "애슈열매",
+      "englishName": "Custap Berry",
+      "callbacks": [
+        "onFractionalPriorityPriority",
+        "onFractionalPriority",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "damprock",
+      "name": "축축한바위",
+      "englishName": "Damp Rock",
+      "callbacks": [],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "destinyknot",
+      "name": "빨간실",
+      "englishName": "Destiny Knot",
+      "callbacks": [
+        "onAttractPriority",
+        "onAttract"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "dracoplate",
+      "name": "용의플레이트",
+      "englishName": "Draco Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "dragonfang",
+      "name": "용의이빨",
+      "englishName": "Dragon Fang",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "dreadplate",
+      "name": "공포플레이트",
+      "englishName": "Dread Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "earthplate",
+      "name": "대지플레이트",
+      "englishName": "Earth Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "ejectbutton",
+      "name": "탈출버튼",
+      "englishName": "Eject Button",
+      "callbacks": [
+        "onAfterMoveSecondaryPriority",
+        "onAfterMoveSecondary"
+      ],
+      "berry": false,
+      "gen": 5
+    },
+    {
+      "id": "ejectpack",
+      "name": "탈출팩",
+      "englishName": "Eject Pack",
+      "callbacks": [
+        "onAfterBoost",
+        "onAnySwitchInPriority",
+        "onAnySwitchIn",
+        "onAnyAfterMega",
+        "onAnyAfterMove",
+        "onResidualOrder",
+        "onResidual",
+        "onUseItem",
+        "onUse",
+        "onEnd"
+      ],
+      "berry": false,
+      "gen": 8
+    },
+    {
+      "id": "electricseed",
+      "name": "일렉트릭시드",
+      "englishName": "Electric Seed",
+      "callbacks": [
+        "onSwitchInPriority",
+        "onStart",
+        "onTerrainChange"
+      ],
+      "berry": false,
+      "gen": 7
+    },
+    {
+      "id": "enigmaberry",
+      "name": "의문열매",
+      "englishName": "Enigma Berry",
+      "callbacks": [
+        "onHit",
+        "onTryEatItem",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "eviolite",
+      "name": "진화의휘석",
+      "englishName": "Eviolite",
+      "callbacks": [
+        "onModifyDefPriority",
+        "onModifyDef",
+        "onModifySpDPriority",
+        "onModifySpD"
+      ],
+      "berry": false,
+      "gen": 5
+    },
+    {
+      "id": "expertbelt",
+      "name": "달인의띠",
+      "englishName": "Expert Belt",
+      "callbacks": [
+        "onModifyDamage"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "fairyfeather",
+      "name": "요정의깃털",
+      "englishName": "Fairy Feather",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 9
+    },
+    {
+      "id": "figyberry",
+      "name": "무화열매",
+      "englishName": "Figy Berry",
+      "callbacks": [
+        "onUpdate",
+        "onTryEatItem",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "fistplate",
+      "name": "주먹플레이트",
+      "englishName": "Fist Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "flameorb",
+      "name": "화염구슬",
+      "englishName": "Flame Orb",
+      "callbacks": [
+        "onResidualOrder",
+        "onResidualSubOrder",
+        "onResidual"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "flameplate",
+      "name": "불구슬플레이트",
+      "englishName": "Flame Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "floatstone",
+      "name": "가벼운돌",
+      "englishName": "Float Stone",
+      "callbacks": [
+        "onModifyWeight"
+      ],
+      "berry": false,
+      "gen": 5
+    },
+    {
+      "id": "focusband",
+      "name": "기합의머리띠",
+      "englishName": "Focus Band",
+      "callbacks": [
+        "onDamagePriority",
+        "onDamage"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "focussash",
+      "name": "기합의띠",
+      "englishName": "Focus Sash",
+      "callbacks": [
+        "onDamagePriority",
+        "onDamage"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "ganlonberry",
+      "name": "용아열매",
+      "englishName": "Ganlon Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "grassyseed",
+      "name": "그래스시드",
+      "englishName": "Grassy Seed",
+      "callbacks": [
+        "onSwitchInPriority",
+        "onStart",
+        "onTerrainChange"
+      ],
+      "berry": false,
+      "gen": 7
+    },
+    {
+      "id": "gripclaw",
+      "name": "끈기갈고리손톱",
+      "englishName": "Grip Claw",
+      "callbacks": [],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "griseouscore",
+      "name": "큰백금옥",
+      "englishName": "Griseous Core",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 8
+    },
+    {
+      "id": "griseousorb",
+      "name": "백금옥",
+      "englishName": "Griseous Orb",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "habanberry",
+      "name": "하반열매",
+      "englishName": "Haban Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "hardstone",
+      "name": "딱딱한돌",
+      "englishName": "Hard Stone",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "hearthflamemask",
+      "name": "화덕의가면",
+      "englishName": "Hearthflame Mask",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 9
+    },
+    {
+      "id": "heatrock",
+      "name": "뜨거운바위",
+      "englishName": "Heat Rock",
+      "callbacks": [],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "heavydutyboots",
+      "name": "통굽부츠",
+      "englishName": "Heavy-Duty Boots",
+      "callbacks": [],
+      "berry": false,
+      "gen": 8
+    },
+    {
+      "id": "iapapaberry",
+      "name": "파야열매",
+      "englishName": "Iapapa Berry",
+      "callbacks": [
+        "onUpdate",
+        "onTryEatItem",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "icicleplate",
+      "name": "고드름플레이트",
+      "englishName": "Icicle Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "icyrock",
+      "name": "차가운바위",
+      "englishName": "Icy Rock",
+      "callbacks": [],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "insectplate",
+      "name": "비단벌레플레이트",
+      "englishName": "Insect Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "ironball",
+      "name": "검은철구",
+      "englishName": "Iron Ball",
+      "callbacks": [
+        "onEffectiveness",
+        "onModifySpe"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "ironplate",
+      "name": "강철플레이트",
+      "englishName": "Iron Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "jabocaberry",
+      "name": "자보열매",
+      "englishName": "Jaboca Berry",
+      "callbacks": [
+        "onDamagingHit",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "kasibberry",
+      "name": "수불열매",
+      "englishName": "Kasib Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "kebiaberry",
+      "name": "으름열매",
+      "englishName": "Kebia Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "keeberry",
+      "name": "악키열매",
+      "englishName": "Kee Berry",
+      "callbacks": [
+        "onAfterMoveSecondary",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 6
+    },
+    {
+      "id": "kingsrock",
+      "name": "왕의징표석",
+      "englishName": "King's Rock",
+      "callbacks": [
+        "onModifyMovePriority",
+        "onModifyMove"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "laggingtail",
+      "name": "느림보꼬리",
+      "englishName": "Lagging Tail",
+      "callbacks": [
+        "onFractionalPriority"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "lansatberry",
+      "name": "랑사열매",
+      "englishName": "Lansat Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "leftovers",
+      "name": "먹다남은음식",
+      "englishName": "Leftovers",
+      "callbacks": [
+        "onResidualOrder",
+        "onResidualSubOrder",
+        "onResidual"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "leppaberry",
+      "name": "과사열매",
+      "englishName": "Leppa Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "liechiberry",
+      "name": "치리열매",
+      "englishName": "Liechi Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "lifeorb",
+      "name": "생명의구슬",
+      "englishName": "Life Orb",
+      "callbacks": [
+        "onModifyDamage",
+        "onAfterMoveSecondarySelf"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "lightball",
+      "name": "전기구슬",
+      "englishName": "Light Ball",
+      "callbacks": [
+        "onModifyAtkPriority",
+        "onModifyAtk",
+        "onModifySpAPriority",
+        "onModifySpA"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "lightclay",
+      "name": "빛의점토",
+      "englishName": "Light Clay",
+      "callbacks": [],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "loadeddice",
+      "name": "속임수주사위",
+      "englishName": "Loaded Dice",
+      "callbacks": [
+        "onModifyMove"
+      ],
+      "berry": false,
+      "gen": 9
+    },
+    {
+      "id": "lumberry",
+      "name": "리샘열매",
+      "englishName": "Lum Berry",
+      "callbacks": [
+        "onAfterSetStatusPriority",
+        "onAfterSetStatus",
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "luminousmoss",
+      "name": "빛이끼",
+      "englishName": "Luminous Moss",
+      "callbacks": [
+        "onDamagingHit"
+      ],
+      "berry": false,
+      "gen": 6
+    },
+    {
+      "id": "lustrousglobe",
+      "name": "큰백옥",
+      "englishName": "Lustrous Globe",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 8
+    },
+    {
+      "id": "lustrousorb",
+      "name": "백옥",
+      "englishName": "Lustrous Orb",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "magnet",
+      "name": "자석",
+      "englishName": "Magnet",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "magoberry",
+      "name": "마고열매",
+      "englishName": "Mago Berry",
+      "callbacks": [
+        "onUpdate",
+        "onTryEatItem",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "marangaberry",
+      "name": "타라프열매",
+      "englishName": "Maranga Berry",
+      "callbacks": [
+        "onAfterMoveSecondary",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 6
+    },
+    {
+      "id": "meadowplate",
+      "name": "초록플레이트",
+      "englishName": "Meadow Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "mentalherb",
+      "name": "멘탈허브",
+      "englishName": "Mental Herb",
+      "callbacks": [
+        "onUpdate"
+      ],
+      "berry": false,
+      "gen": 3
+    },
+    {
+      "id": "metalcoat",
+      "name": "금속코트",
+      "englishName": "Metal Coat",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "metronome",
+      "name": "메트로놈",
+      "englishName": "Metronome",
+      "callbacks": [
+        "onStart"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "micleberry",
+      "name": "미클열매",
+      "englishName": "Micle Berry",
+      "callbacks": [
+        "onResidual",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "mindplate",
+      "name": "이상한플레이트",
+      "englishName": "Mind Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "miracleseed",
+      "name": "기적의씨",
+      "englishName": "Miracle Seed",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "mirrorherb",
+      "name": "흉내허브",
+      "englishName": "Mirror Herb",
+      "callbacks": [
+        "onFoeAfterBoost",
+        "onAnySwitchInPriority",
+        "onAnySwitchIn",
+        "onAnyAfterMega",
+        "onAnyAfterTerastallization",
+        "onAnyAfterMove",
+        "onResidualOrder",
+        "onResidual",
+        "onUse",
+        "onEnd"
+      ],
+      "berry": false,
+      "gen": 9
+    },
+    {
+      "id": "mistyseed",
+      "name": "미스트시드",
+      "englishName": "Misty Seed",
+      "callbacks": [
+        "onSwitchInPriority",
+        "onStart",
+        "onTerrainChange"
+      ],
+      "berry": false,
+      "gen": 7
+    },
+    {
+      "id": "muscleband",
+      "name": "힘의머리띠",
+      "englishName": "Muscle Band",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "mysticwater",
+      "name": "신비의물방울",
+      "englishName": "Mystic Water",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "nevermeltice",
+      "name": "녹지않는얼음",
+      "englishName": "Never-Melt Ice",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "normalgem",
+      "name": "노말주얼",
+      "englishName": "Normal Gem",
+      "callbacks": [
+        "onSourceTryPrimaryHit"
+      ],
+      "berry": false,
+      "gen": 5
+    },
+    {
+      "id": "occaberry",
+      "name": "오카열매",
+      "englishName": "Occa Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "oranberry",
+      "name": "오랭열매",
+      "englishName": "Oran Berry",
+      "callbacks": [
+        "onUpdate",
+        "onTryEatItem",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "passhoberry",
+      "name": "꼬시개열매",
+      "englishName": "Passho Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "payapaberry",
+      "name": "야파열매",
+      "englishName": "Payapa Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "pechaberry",
+      "name": "복슝열매",
+      "englishName": "Pecha Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "persimberry",
+      "name": "시몬열매",
+      "englishName": "Persim Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "petayaberry",
+      "name": "야타비열매",
+      "englishName": "Petaya Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "pixieplate",
+      "name": "정령플레이트",
+      "englishName": "Pixie Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 6
+    },
+    {
+      "id": "poisonbarb",
+      "name": "독바늘",
+      "englishName": "Poison Barb",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "poweranklet",
+      "name": "파워앵클릿",
+      "englishName": "Power Anklet",
+      "callbacks": [
+        "onModifySpe"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "powerband",
+      "name": "파워밴드",
+      "englishName": "Power Band",
+      "callbacks": [
+        "onModifySpe"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "powerbelt",
+      "name": "파워벨트",
+      "englishName": "Power Belt",
+      "callbacks": [
+        "onModifySpe"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "powerbracer",
+      "name": "파워리스트",
+      "englishName": "Power Bracer",
+      "callbacks": [
+        "onModifySpe"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "powerherb",
+      "name": "파워풀허브",
+      "englishName": "Power Herb",
+      "callbacks": [
+        "onChargeMove"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "powerlens",
+      "name": "파워렌즈",
+      "englishName": "Power Lens",
+      "callbacks": [
+        "onModifySpe"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "powerweight",
+      "name": "파워웨이트",
+      "englishName": "Power Weight",
+      "callbacks": [
+        "onModifySpe"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "protectivepads",
+      "name": "방호패드",
+      "englishName": "Protective Pads",
+      "callbacks": [],
+      "berry": false,
+      "gen": 7
+    },
+    {
+      "id": "psychicseed",
+      "name": "사이코시드",
+      "englishName": "Psychic Seed",
+      "callbacks": [
+        "onSwitchInPriority",
+        "onStart",
+        "onTerrainChange"
+      ],
+      "berry": false,
+      "gen": 7
+    },
+    {
+      "id": "punchingglove",
+      "name": "펀치글러브",
+      "englishName": "Punching Glove",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower",
+        "onModifyMovePriority",
+        "onModifyMove"
+      ],
+      "berry": false,
+      "gen": 9
+    },
+    {
+      "id": "quickclaw",
+      "name": "선제공격손톱",
+      "englishName": "Quick Claw",
+      "callbacks": [
+        "onFractionalPriorityPriority",
+        "onFractionalPriority"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "rarebone",
+      "name": "귀중한뼈",
+      "englishName": "Rare Bone",
+      "callbacks": [],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "rawstberry",
+      "name": "복분열매",
+      "englishName": "Rawst Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "razorclaw",
+      "name": "예리한손톱",
+      "englishName": "Razor Claw",
+      "callbacks": [
+        "onModifyCritRatio"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "razorfang",
+      "name": "예리한이빨",
+      "englishName": "Razor Fang",
+      "callbacks": [
+        "onModifyMovePriority",
+        "onModifyMove"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "redcard",
+      "name": "레드카드",
+      "englishName": "Red Card",
+      "callbacks": [
+        "onAfterMoveSecondary"
+      ],
+      "berry": false,
+      "gen": 5
+    },
+    {
+      "id": "rindoberry",
+      "name": "린드열매",
+      "englishName": "Rindo Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "ringtarget",
+      "name": "겨냥표적",
+      "englishName": "Ring Target",
+      "callbacks": [
+        "onNegateImmunity"
+      ],
+      "berry": false,
+      "gen": 5
+    },
+    {
+      "id": "rockyhelmet",
+      "name": "울퉁불퉁멧",
+      "englishName": "Rocky Helmet",
+      "callbacks": [
+        "onDamagingHitOrder",
+        "onDamagingHit"
+      ],
+      "berry": false,
+      "gen": 5
+    },
+    {
+      "id": "roomservice",
+      "name": "룸서비스",
+      "englishName": "Room Service",
+      "callbacks": [
+        "onSwitchInPriority",
+        "onStart",
+        "onAnyPseudoWeatherChange"
+      ],
+      "berry": false,
+      "gen": 8
+    },
+    {
+      "id": "roseliberry",
+      "name": "Roseli Berry",
+      "englishName": "Roseli Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 6
+    },
+    {
+      "id": "rowapberry",
+      "name": "애터열매",
+      "englishName": "Rowap Berry",
+      "callbacks": [
+        "onDamagingHit",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "rustedshield",
+      "name": "녹슨방패",
+      "englishName": "Rusted Shield",
+      "callbacks": [
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 8
+    },
+    {
+      "id": "rustedsword",
+      "name": "녹슨검",
+      "englishName": "Rusted Sword",
+      "callbacks": [
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 8
+    },
+    {
+      "id": "safetygoggles",
+      "name": "방진고글",
+      "englishName": "Safety Goggles",
+      "callbacks": [
+        "onImmunity",
+        "onTryHit"
+      ],
+      "berry": false,
+      "gen": 6
+    },
+    {
+      "id": "salacberry",
+      "name": "캄라열매",
+      "englishName": "Salac Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "scopelens",
+      "name": "초점렌즈",
+      "englishName": "Scope Lens",
+      "callbacks": [
+        "onModifyCritRatio"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "sharpbeak",
+      "name": "예리한부리",
+      "englishName": "Sharp Beak",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "shedshell",
+      "name": "아름다운허물",
+      "englishName": "Shed Shell",
+      "callbacks": [
+        "onTrapPokemonPriority",
+        "onTrapPokemon",
+        "onMaybeTrapPokemonPriority",
+        "onMaybeTrapPokemon"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "shellbell",
+      "name": "조개껍질방울",
+      "englishName": "Shell Bell",
+      "callbacks": [
+        "onAfterMoveSecondarySelfPriority",
+        "onAfterMoveSecondarySelf"
+      ],
+      "berry": false,
+      "gen": 3
+    },
+    {
+      "id": "shucaberry",
+      "name": "슈캐열매",
+      "englishName": "Shuca Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "silkscarf",
+      "name": "실크스카프",
+      "englishName": "Silk Scarf",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 3
+    },
+    {
+      "id": "silverpowder",
+      "name": "은빛가루",
+      "englishName": "Silver Powder",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "sitrusberry",
+      "name": "자뭉열매",
+      "englishName": "Sitrus Berry",
+      "callbacks": [
+        "onUpdate",
+        "onTryEatItem",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "skyplate",
+      "name": "푸른하늘플레이트",
+      "englishName": "Sky Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "smoothrock",
+      "name": "보송보송바위",
+      "englishName": "Smooth Rock",
+      "callbacks": [],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "snowball",
+      "name": "눈덩이",
+      "englishName": "Snowball",
+      "callbacks": [
+        "onDamagingHit"
+      ],
+      "berry": false,
+      "gen": 6
+    },
+    {
+      "id": "softsand",
+      "name": "부드러운모래",
+      "englishName": "Soft Sand",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "souldew",
+      "name": "마음의물방울",
+      "englishName": "Soul Dew",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 3
+    },
+    {
+      "id": "spelltag",
+      "name": "저주의부적",
+      "englishName": "Spell Tag",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "splashplate",
+      "name": "물방울플레이트",
+      "englishName": "Splash Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "spookyplate",
+      "name": "원령플레이트",
+      "englishName": "Spooky Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "starfberry",
+      "name": "스타열매",
+      "englishName": "Starf Berry",
+      "callbacks": [
+        "onUpdate",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "stickybarb",
+      "name": "끈적끈적바늘",
+      "englishName": "Sticky Barb",
+      "callbacks": [
+        "onResidualOrder",
+        "onResidualSubOrder",
+        "onResidual",
+        "onHit"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "stoneplate",
+      "name": "암석플레이트",
+      "englishName": "Stone Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "tangaberry",
+      "name": "리체열매",
+      "englishName": "Tanga Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "terrainextender",
+      "name": "그라운드코트",
+      "englishName": "Terrain Extender",
+      "callbacks": [],
+      "berry": false,
+      "gen": 7
+    },
+    {
+      "id": "throatspray",
+      "name": "목스프레이",
+      "englishName": "Throat Spray",
+      "callbacks": [
+        "onAfterMoveSecondarySelf"
+      ],
+      "berry": false,
+      "gen": 8
+    },
+    {
+      "id": "toxicorb",
+      "name": "맹독구슬",
+      "englishName": "Toxic Orb",
+      "callbacks": [
+        "onResidualOrder",
+        "onResidualSubOrder",
+        "onResidual"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "toxicplate",
+      "name": "맹독플레이트",
+      "englishName": "Toxic Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "twistedspoon",
+      "name": "휘어진스푼",
+      "englishName": "Twisted Spoon",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 2
+    },
+    {
+      "id": "utilityumbrella",
+      "name": "만능우산",
+      "englishName": "Utility Umbrella",
+      "callbacks": [
+        "onStart",
+        "onUpdate",
+        "onEnd"
+      ],
+      "berry": false,
+      "gen": 8
+    },
+    {
+      "id": "wacanberry",
+      "name": "초나열매",
+      "englishName": "Wacan Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "weaknesspolicy",
+      "name": "약점보험",
+      "englishName": "Weakness Policy",
+      "callbacks": [
+        "onDamagingHit"
+      ],
+      "berry": false,
+      "gen": 6
+    },
+    {
+      "id": "wellspringmask",
+      "name": "우물의가면",
+      "englishName": "Wellspring Mask",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 9
+    },
+    {
+      "id": "whiteherb",
+      "name": "하양허브",
+      "englishName": "White Herb",
+      "callbacks": [
+        "onStart",
+        "onAnySwitchInPriority",
+        "onAnySwitchIn",
+        "onAnyAfterMega",
+        "onAnyAfterMove",
+        "onResidualOrder",
+        "onResidual",
+        "onUse"
+      ],
+      "berry": false,
+      "gen": 3
+    },
+    {
+      "id": "widelens",
+      "name": "광각렌즈",
+      "englishName": "Wide Lens",
+      "callbacks": [
+        "onSourceModifyAccuracyPriority",
+        "onSourceModifyAccuracy"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "wikiberry",
+      "name": "위키열매",
+      "englishName": "Wiki Berry",
+      "callbacks": [
+        "onUpdate",
+        "onTryEatItem",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 3
+    },
+    {
+      "id": "wiseglasses",
+      "name": "박식안경",
+      "englishName": "Wise Glasses",
+      "callbacks": [
+        "onBasePowerPriority",
+        "onBasePower"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "yacheberry",
+      "name": "플카열매",
+      "englishName": "Yache Berry",
+      "callbacks": [
+        "onSourceModifyDamage",
+        "onEat"
+      ],
+      "berry": true,
+      "gen": 4
+    },
+    {
+      "id": "zapplate",
+      "name": "우레플레이트",
+      "englishName": "Zap Plate",
+      "callbacks": [
+        "onPlate",
+        "onBasePowerPriority",
+        "onBasePower",
+        "onTakeItem"
+      ],
+      "berry": false,
+      "gen": 4
+    },
+    {
+      "id": "zoomlens",
+      "name": "포커스렌즈",
+      "englishName": "Zoom Lens",
+      "callbacks": [
+        "onSourceModifyAccuracyPriority",
+        "onSourceModifyAccuracy"
+      ],
+      "berry": false,
+      "gen": 4
+    }
+  ]
+}

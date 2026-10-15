@@ -4,7 +4,7 @@ import ts from 'typescript';
 import vm from 'node:vm';
 import { chromium } from 'playwright-core';
 function loadRoster(file,key){const sandbox={exports:{}};vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,sandbox);return sandbox.exports[key];}
-const roster=[...loadRoster('src/data/roster.generated.ts','roster'),...loadRoster('src/data/legendary-roster.generated.ts','legendaryRoster'),...loadRoster('src/data/signature-roster.generated.ts','signatureRoster')];
+const roster=[...loadRoster('src/data/roster.generated.ts','roster'),...loadRoster('src/data/legendary-roster.generated.ts','legendaryRoster'),...loadRoster('src/data/signature-roster.generated.ts','signatureRoster'),...loadRoster('src/data/expansion-roster.generated.ts','expansionRoster')];
 const executablePath=process.env.CHROME_PATH||['C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','/usr/bin/chromium','/usr/bin/google-chrome'].find(fs.existsSync);
 if(!executablePath)throw Error('Actual image decoding requires Chrome. Set CHROME_PATH.');
 const images={},missing=[],invalid=[];

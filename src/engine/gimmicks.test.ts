@@ -11,7 +11,7 @@ import { moveUnavailableReason,usableMoves } from './choices';
 import { applyVolatile } from './conditions';
 import { playEvents } from '../presentation/queue';
 import type { BattleAction,Format,Gimmick,TeamSet } from './types';
-const set=(id:string,extra:Partial<TeamSet>={}):TeamSet=>({...createSet(id),...extra});
+const set=(id:string,extra:Partial<TeamSet>={}):TeamSet=>({...createSet(id),itemId:'dynamaxband',...extra});
 const attack=(moveId:string,gimmick?:Gimmick,slot=0):BattleAction=>({kind:'move',slot,moveId,gimmick});
 const protect=(slot=0)=>attack('protect',undefined,slot);
 const battle=(player:TeamSet[],format:Format='singles')=>createBattle({format,playerTeam:player,cpuTeam:[set('blissey'),set('snorlax'),set('ursaluna')],seed:5});
@@ -41,7 +41,7 @@ describe('shared gimmick resource and ordered transformation events',()=>{
     expect(next.log.some(entry=>entry.text.includes(`${z.name} 사용!`))).toBe(true);
   });
   for(const format of ['singles','doubles'] as const) for(const kind of ['mega','tera','z','dynamax'] as const) it(`${format}: ${kind} uses one trainer resource and executes real damage`,()=>{
-    const p=set('charizard',{itemId:kind==='mega'?'charizarditex':kind==='z'?'firiumz':kind==='tera'?'tera-fire':'none',teraType:'fire',moves:['flamethrower','airslash','roost','protect']});
+    const p=set('charizard',{itemId:kind==='mega'?'charizarditex':kind==='z'?'firiumz':kind==='tera'?'tera-fire':'dynamaxband',teraType:'fire',moves:['flamethrower','airslash','roost','protect']});
     const initial=battle([p,set('raichu')],format);
     const result=runTurnWithEvents(initial,[attack('flamethrower',kind),...(format==='doubles'?[protect(1)]:[])],[protect(),...(format==='doubles'?[protect(1)]:[])]);
     expect(result.state.sides.player.gimmick).toMatchObject({used:true,kind});
@@ -274,15 +274,16 @@ describe('Z and Max moves',()=>{
     state=battle([set('raichu'),set('charizard')]);activateGimmick(state,'player',0,'dynamax','protect');state=runTurn(state,[{kind:'switch',slot:0,to:1}],[protect()]);expect(state.sides.player.team[0].transformation).toBeUndefined();
     const faint=battle([set('raichu')]);activateGimmick(faint,'player',0,'dynamax','protect');applyDamage(faint,faint.sides.player.team[0],9999,'test');const next=runTurn(faint,[],[protect()]);expect(next.winner).toBe('cpu');expect(next.sides.player.team[0].hp).toBe(0);expect(next.sides.player.team[0].transformation).toBeUndefined();
   });
-  it('uses base HP for burn and recovery; suppresses Choice lock and flinch while Maxed',()=>{
-    const state=battle([set('raichu',{itemId:'choiceBand'})]);const p=state.sides.player.team[0],hp=p.maxHp;p.choiceLock=p.set.moves[0];activateGimmick(state,'player',0,'dynamax','protect');
+  it('uses base HP for burn and recovery; suppresses a previous Choice lock and flinch while Maxed',()=>{
+    const state=battle([set('raichu',{itemId:'dynamaxband'})]);const p=state.sides.player.team[0],hp=p.maxHp;p.choiceLock=p.set.moves[0];activateGimmick(state,'player',0,'dynamax','protect');
     expect(usableMoves(p)).toHaveLength(4);expect(applyVolatile(state,p,'flinch')).toBe(false);
     p.status='burn';processEndTurn(state);expect(p.hp).toBe(hp*2-Math.floor(hp/16));p.hp=10;applyHeal(state,p,.5,'test');expect(p.hp).toBe(10+Math.floor(hp/2));
   });
-  it('permits a different move on Choice-locked Dynamax activation and restores the lock afterward',()=>{
+  it('requires the Dynamax Band even when another held item is equipped',()=>{
     const state=battle([set('raichu',{itemId:'choiceBand',moves:['thunderbolt','quickattack','thunderwave','protect']})]);state.sides.player.team[0].choiceLock='quickattack';
-    const next=runTurn(state,[attack('thunderbolt','dynamax')],[protect()]);expect(next.sides.player.gimmick?.used).toBe(true);expect(next.sides.player.team[0].pp.thunderbolt).toBe(14);
-    endDynamax(next,next.sides.player.team[0]);expect(usableMoves(next.sides.player.team[0]).map(m=>m.id)).toEqual(['quickattack']);
+    expect(gimmickReason(state,'player',state.sides.player.team[0],'dynamax')).toBeTruthy();
+    const next=runTurn(state,[attack('thunderbolt','dynamax')],[protect()]);expect(next.sides.player.gimmick?.used).toBe(false);
+    expect(usableMoves(next.sides.player.team[0]).map(m=>m.id)).toEqual(['quickattack']);
   });
   it('Max attacks chip Protect, Max Guard fully blocks them and normal attacks',()=>{
     const state=battle([set('charizard',{moves:['flamethrower','airslash','roost','protect']})]);

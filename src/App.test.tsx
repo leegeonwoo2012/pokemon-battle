@@ -148,9 +148,9 @@ describe('playable UI flows', () => {
   it('searches the M-C roster and filters fire representatives while keeping dual types', () => {
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: '포켓몬 목록' }));
-    expect(document.querySelectorAll('.dex-card')).toHaveLength(344);
+    expect(document.querySelectorAll('.dex-card')).toHaveLength(366);
     fireEvent.change(screen.getByLabelText('도감 대표 타입'), {target:{value:'fire'}});
-    expect(document.querySelectorAll('.dex-card')).toHaveLength(25);
+    expect(document.querySelectorAll('.dex-card')).toHaveLength(26);
     fireEvent.change(screen.getByPlaceholderText('포켓몬 검색'), {target:{value:'리자몽'}});
     expect(document.querySelectorAll('.dex-card')).toHaveLength(1);
     expect(document.querySelector('.dex-card .type-flying')).toBeTruthy();

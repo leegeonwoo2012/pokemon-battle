@@ -25,6 +25,14 @@ export function applyVolatile(state: BattleState, pokemon: Combatant, condition:
   else pokemon.confusionTurns = randomInt(state, 2, 5);
   addLog(state, `${displayName(pokemon)}${condition === 'confusion' ? '이(가) 혼란에 빠졌다!' : '이(가) 풀죽었다!'}`, 'status',
     {targetUid:pokemon.uid, condition, conditionActive:true});
+  if(condition==='confusion'&&pokemon.set.itemId==='persimberry'&&!pokemon.itemConsumed){
+    const foe=state.sides.player.team.includes(pokemon)?state.sides.cpu:state.sides.player;
+    const suppressed=foe.active.some(index=>['unnerve','asoneglastrier','asonespectrier'].includes(foe.team[index]?.set.abilityId));
+    if(!suppressed){
+      pokemon.confusionTurns=0;pokemon.itemConsumed=true;pokemon.consumedItemTurn=state.turn;
+      addLog(state,`${displayName(pokemon)}의 시몬열매로 혼란이 나았다!`,'status',{kind:'item',actorUid:pokemon.uid,sourceId:'persimberry',sourceKind:'item',condition:'confusion',conditionActive:false});
+    }
+  }
   return true;
 }
 

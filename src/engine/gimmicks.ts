@@ -46,7 +46,11 @@ export function gimmickReason(state:BattleState,side:Side,pokemon:Combatant,kind
     if(teraType&&teraType!==equipped)return '지닌 테라크리스탈과 다른 타입은 사용할 수 없습니다.';
     if(pokemon.set.speciesId==='terapagos'&&equipped!=='stellar')return '테라파고스는 스텔라 타입으로만 테라스탈할 수 있습니다.';
   }
-  if(kind==='dynamax'&&pokemon.set.gigantamax&&!gmaxForms[pokemon.set.speciesId]) return '거다이맥스 폼 데이터가 없습니다.';
+  if(kind==='dynamax'){
+    if(pokemon.set.itemId!=='dynamaxband'||pokemon.itemConsumed)return '팀 편성에서 다이맥스밴드를 지니게 하세요.';
+    if(['zacian','zamazenta','eternatus'].includes(pokemon.set.speciesId))return '이 포켓몬은 다이맥스할 수 없습니다.';
+    if(pokemon.set.gigantamax&&!gmaxForms[pokemon.set.speciesId]) return '거다이맥스 폼 데이터가 없습니다.';
+  }
   if(kind==='z') {
     const compatible=(id:string)=>{
       const m=moves[id];
@@ -107,6 +111,8 @@ export function activateGimmick(state:BattleState,side:Side,slot:number,kind:Gim
 }
 export function previewMove(p:Combatant,base:Move,kind?:Gimmick,teraType?:string):Move {
   if(base.id==='struggle') return base;
+  if(base.id==='ironhead'&&p.battleFormId==='zaciancrowned')return {...moves.behemothblade,pp:base.pp};
+  if(base.id==='ironhead'&&p.battleFormId==='zamazentacrowned')return {...moves.behemothbash,pp:base.pp};
   if(base.id==='photongeyser')base={...base,category:p.stats.atk>p.stats.spa?'physical':'special'};
   if(base.id==='terablast'&&(p.transformation?.kind==='tera'||kind==='tera')&&kind!=='z'&&kind!=='dynamax'){
     const chosen=p.transformation?.teraType??teraTypeFromItem(p.set.itemId)??teraType??p.set.teraType??p.types[0];

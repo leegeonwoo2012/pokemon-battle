@@ -1,4 +1,5 @@
 import { abilities, items, natures, species, typeChart } from '../data';
+import { evolvableSpeciesIds } from '../data/sv-items.generated';
 import type { BattleState, BoostStat, Combatant, Move, PassiveEffect, Species, Stat, Stats, TeamSet, Weather } from './types';
 
 export const LEVEL = 50;
@@ -64,7 +65,7 @@ export function getTypeMultiplier(attackType: string, defenderTypes: string[]): 
 
 export function battleTypeMultiplier(state:BattleState,move:Move,defender:Combatant,attacker?:Combatant):number {
   if(move.type==='stellar')return defender.transformation?.kind==='tera'?2:1;
-  let types=(state.gravity||defender.groundedByMove)&&move.type==='ground'?defender.types.filter(type=>type!=='flying'):defender.types;
+  let types=(state.gravity||defender.groundedByMove||defender.set.itemId==='ironball'&&!defender.itemConsumed)&&move.type==='ground'?defender.types.filter(type=>type!=='flying'):defender.types;
   if(attacker?.set.abilityId==='scrappy'&&['normal','fighting'].includes(move.type))types=types.filter(type=>type!=='ghost');
   const winds=strongWindsTypeMultiplier(state,move,defender,attacker);
   if(winds!==undefined)return winds;
@@ -73,7 +74,9 @@ export function battleTypeMultiplier(state:BattleState,move:Move,defender:Combat
     const immunityIgnored=types.reduce((value,type)=>value*((chart[type]??1)===0?1:(chart[type]??1)),1);
     return !move.ignoreAbility&&defender.set.abilityId==='terashell'&&defender.hp===defender.maxHp&&immunityIgnored>0?.5:immunityIgnored;
   }
-  const multiplier=getTypeMultiplier(move.type,types);
+  const multiplier=defender.set.itemId==='ringtarget'&&!defender.itemConsumed
+    ?types.reduce((value,type)=>{const match=typeChart[move.type]?.[type]??1;return value*(match===0?1:match);},1)
+    :getTypeMultiplier(move.type,types);
   return !move.ignoreAbility&&defender.set.abilityId==='terashell'&&defender.hp===defender.maxHp&&multiplier>0?.5:multiplier;
 }
 
@@ -114,6 +117,7 @@ export function matchingDamageEffects(pokemon: Combatant, move: Move, trigger: '
     effect.kind === 'damageMultiplier' && effect.trigger === trigger
     && !(trigger==='onDamage'&&move.ignoreAbility&&abilities[pokemon.set.abilityId]?.effects.includes(effect))
     && (!effect.type || effect.type === move.type) && (!effect.category || effect.category === move.category)
+    && (!('speciesIds' in effect) || !effect.speciesIds || effect.speciesIds.includes(pokemon.set.speciesId))
     && conditionMatches(effect, pokemon, move));
 }
 
@@ -124,7 +128,7 @@ export function isTypeImmune(pokemon: Combatant, move: Move, state?:BattleState)
     if(active.some(mon=>mon&&!mon.fainted&&mon.set.abilityId==='desolateland')&&move.type==='water')return true;
   }
   return passiveEffects(pokemon).some(effect => effect.trigger === 'onDamage' && effect.kind === 'typeImmunity' && effect.type === move.type
-    && !((state?.gravity||pokemon.groundedByMove)&&move.type==='ground'&&pokemon.set.abilityId==='levitate'&&abilities.levitate?.effects.includes(effect))
+    && !((state?.gravity||pokemon.groundedByMove||pokemon.set.itemId==='ironball'&&!pokemon.itemConsumed)&&move.type==='ground'&&pokemon.set.abilityId==='levitate'&&abilities.levitate?.effects.includes(effect))
     && !(move.ignoreAbility&&abilities[pokemon.set.abilityId]?.effects.includes(effect)));
 }
 
@@ -157,7 +161,9 @@ export function getModifiedStat(pokemon: Combatant, stat: Exclude<Stat, 'hp'>, c
   else if (critIgnore === 'negative') stage = Math.max(0, stage);
   if (critIgnore === 'positive') stage = Math.min(0, stage);
   const multiplier = passiveEffects(pokemon).reduce((value, effect) => effect.trigger === 'onStat'
-    && effect.stat === stat && (!effect.condition || effect.condition==='status'&&!!pokemon.status) ? value * effect.multiplier : value, 1);
+    && effect.stat === stat && (!effect.speciesIds || effect.speciesIds.includes(pokemon.set.speciesId))
+    && (!effect.condition || effect.condition==='status'&&!!pokemon.status
+      || effect.condition==='canEvolve'&&evolvableSpeciesIds.has(pokemon.set.speciesId)) ? value * effect.multiplier : value, 1);
   const abilityMultiplier=(pokemon.set.abilityId==='hustle'&&stat==='atk'?1.5:1)
     *(pokemon.set.abilityId==='slowstart'&&stat==='atk'&&(pokemon.slowStartTurns??0)>0?.5:1);
   return Math.max(1, Math.floor(pokemon.stats[stat] * stageMultiplier(stage) * multiplier*abilityMultiplier));
@@ -182,6 +188,7 @@ export function moveAccuracy(state: BattleState, user: Combatant, target: Combat
     }
   }
   if(user.set.abilityId==='hustle'&&move.category==='physical')result*=0.8;
+  if(user.set.itemId==='zoomlens'&&!user.itemConsumed&&target.actedTurn===state.turn)result*=1.2;
   if(state.gravity)result*=5/3;
   return Math.min(100, result);
 }
@@ -194,7 +201,7 @@ export function alwaysHits(state: BattleState, move: Move, user?: Combatant, tar
 }
 
 export function isGrounded(pokemon: Combatant,state?:BattleState): boolean {
-  if(state?.gravity||pokemon.groundedByMove)return true;
+  if(state?.gravity||pokemon.groundedByMove||pokemon.set.itemId==='ironball'&&!pokemon.itemConsumed)return true;
   return !pokemon.types.includes('flying') && !passiveEffects(pokemon).some(effect =>
     effect.trigger === 'onDamage' && effect.kind === 'typeImmunity' && effect.type === 'ground');
 }
@@ -271,7 +278,7 @@ export function estimateDamage(state: BattleState, attacker: Combatant, defender
   const defenseStat=move.category === 'physical'||['psystrike','psyshock','secretsword'].includes(move.id)?'def':'spd';
   const defense = defensiveStat(state, defender, defenseStat)*ruinStatMultiplier(state,defender,defenseStat);
   let multiplier = stabMultiplier(attacker,move);
-  multiplier *= type * weatherMultiplier(state, move,attacker) * fieldMultiplier(state, attacker, move, defender)*genderAbilityMultiplier(attacker,defender)*partnerAbilityMultiplier(state,attacker,move);
+  multiplier *= type * (type<1&&attacker.set.abilityId==='tintedlens'?2:1) * weatherMultiplier(state, move,attacker) * fieldMultiplier(state, attacker, move, defender)*genderAbilityMultiplier(attacker,defender)*partnerAbilityMultiplier(state,attacker,move);
   multiplier *= damagePassiveMultiplier(attacker, move, 'onAttack') * damagePassiveMultiplier(defender, move, 'onDamage');
   if(attacker.set.abilityId==='sandforce'&&effectiveWeather(state,attacker)==='sand'&&['rock','ground','steel'].includes(move.type))multiplier*=1.3;
   multiplier*=auraPowerMultiplier(state,move);
@@ -329,7 +336,8 @@ export function effectiveMovePower(p:Combatant,move:Move):number {
 
 function effectiveWeightKg(p:Combatant):number {
   const base=Math.max(.1,species[p.set.speciesId]?.weightKg??1);
-  return p.set.abilityId==='heavymetal'?base*2:p.set.abilityId==='lightmetal'?base/2:base;
+  const abilityWeight=p.set.abilityId==='heavymetal'?base*2:p.set.abilityId==='lightmetal'?base/2:base;
+  return p.set.itemId==='floatstone'&&!p.itemConsumed?abilityWeight/2:abilityWeight;
 }
 
 /** Weight-based move power including Heavy Metal and Light Metal. */

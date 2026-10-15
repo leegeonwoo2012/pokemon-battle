@@ -8,13 +8,21 @@ const csv=fs.readFileSync(`${root}/move_names.csv`,'utf8').trim().split(/\r?\n/)
 const koreanNames=new Map(csv);
 const rosterIds=JSON.parse(fs.readFileSync('docs/regulation-m-c.json','utf8')).ids;
 const legendaryIds=JSON.parse(fs.readFileSync('docs/legendary-roster.json','utf8')).addedIds;
+const expansionIds=JSON.parse(fs.readFileSync('docs/expansion-roster.json','utf8')).addedIds;
 const {Learnsets:baseLearnsets}=read(`${root}/data/learnsets.ts`);
 const wanted=new Set();
 for(const id of rosterIds){const entry=Pokedex[id], known=Learnsets[id]?.learnset??Learnsets[normalize(entry?.baseSpecies??'')]?.learnset??{};for(const move of Object.keys(known))wanted.add(move);}
 const legendaryWanted=new Set();
 for(const id of legendaryIds){for(const move of Object.keys(baseLearnsets[id]?.learnset??baseLearnsets[normalize(Pokedex[id]?.baseSpecies??'')]?.learnset??{})){wanted.add(move);legendaryWanted.add(move);}}
+for(const id of expansionIds){
+  const source=Pokedex[id];
+  for(const move of new Set([...Object.keys(baseLearnsets[normalize(source?.baseSpecies??'')]?.learnset??{}),...Object.keys(baseLearnsets[id]?.learnset??{})])){
+    wanted.add(move);legendaryWanted.add(move);
+  }
+}
 // Mega Zygarde's Z-A signature move is a supported, explicit form-only transfer rule.
 wanted.add('nihillight');legendaryWanted.add('nihillight');
+for(const id of ['behemothblade','behemothbash']){wanted.add(id);legendaryWanted.add(id);}
 const statusMap={brn:'burn',par:'paralysis',psn:'poison',tox:'poison',slp:'sleep',frz:'freeze'};
 const weatherMap={sunnyday:'sun',desolateland:'sun',raindance:'rain',primordialsea:'rain',sandstorm:'sand',snowscape:'snow',hail:'snow'};
 const fieldMap={electricterrain:'electric',grassyterrain:'grassy',mistyterrain:'misty',psychicterrain:'psychic'};

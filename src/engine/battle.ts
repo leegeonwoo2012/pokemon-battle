@@ -119,7 +119,7 @@ function normalizeActions(state: BattleState, side: Side, submitted: BattleActio
     const action = submitted.find(candidate => candidate.slot === slot);
     if (action?.kind === 'switch') {
       const replacement = state.sides[side].team[action.to];
-      if (!actor.trapped && replacement && !replacement.fainted && !occupied.has(action.to) && !reserved.has(action.to)) {
+      if ((!actor.trapped||actor.set.itemId==='shedshell'&&!actor.itemConsumed) && replacement && !replacement.fainted && !occupied.has(action.to) && !reserved.has(action.to)) {
         reserved.add(action.to);
         return [action];
       }
@@ -199,7 +199,7 @@ function moveDamage(state: BattleState, attacker: Combatant, defender: Combatant
   const powerMove={...move,power:attacker.helpingHandTurn===state.turn?Math.floor(basePower*1.5):basePower};
   const base = Math.floor(Math.floor(((2 * LEVEL / 5 + 2) * effectiveMovePower(attacker,powerMove) * attack) / defense) / 50) + 2;
   const stab = stabMultiplier(attacker,move);
-  let modifier = stab * effectiveness * weatherMultiplier(state, move,attacker) * fieldMultiplier(state, attacker, move, defender);
+  let modifier = stab * effectiveness * (effectiveness<1&&attacker.set.abilityId==='tintedlens'?2:1) * weatherMultiplier(state, move,attacker) * fieldMultiplier(state, attacker, move, defender);
   modifier *= damagePassiveMultiplier(attacker, move, 'onAttack') * damagePassiveMultiplier(defender, move, 'onDamage')*genderAbilityMultiplier(attacker,defender)*partnerAbilityMultiplier(state,attacker,move);
   if(move.id==='knockoff'&&defender.set.itemId!=='none'&&!defender.itemConsumed)modifier*=1.5;
   if(attacker.set.abilityId==='analytic'&&defender.movedTurn===state.turn)modifier*=1.3;
@@ -234,11 +234,11 @@ function setAegislashStance(state:BattleState,pokemon:Combatant,form:'shield'|'b
 
 function canTransferHeldItem(pokemon:Combatant):boolean {
   const id=pokemon.set.itemId;
-  return id!=='none'&&!pokemon.itemConsumed&&(id==='eviolite'||!/(?:ite(?:x|y)?|iumz|niumz|orbs?|memory)$/.test(id));
+  return id!=='none'&&!pokemon.itemConsumed&&!['rustedsword','rustedshield','dynamaxband'].includes(id)&&(id==='eviolite'||!/(?:ite(?:x|y)?|iumz|niumz|orbs?|memory)$/.test(id));
 }
 function canRemoveHeldItem(pokemon:Combatant):boolean {
   const id=pokemon.set.itemId;
-  return id!=='none'&&!pokemon.itemConsumed&&(id==='eviolite'||!/(?:ite(?:x|y)?|iumz|niumz|orbs?|memory)$/.test(id));
+  return id!=='none'&&!pokemon.itemConsumed&&!['rustedsword','rustedshield','dynamaxband'].includes(id)&&(id==='eviolite'||!/(?:ite(?:x|y)?|iumz|niumz|orbs?|memory)$/.test(id));
 }
 
 function applyMoveEffect(state: BattleState, effect: MoveEffect, user: Combatant, target: Combatant, damageDealt: number, moveName: string): void {
@@ -278,16 +278,18 @@ function applyMoveEffect(state: BattleState, effect: MoveEffect, user: Combatant
       addLog(state,`${displayName(ally)}의 상태 이상이 나았다!`,'status',{targetUid:ally.uid,status:null});}
   }
   else if (effect.kind === 'weather') {
-    if(setBattleWeather(state,effect.weather,effect.turns??5))addLog(state, `${weatherLabel[effect.weather]} 시작!`, 'status', { kind: 'weather' });
+    const weatherRock:Record<string,string>={rain:'damprock',sun:'heatrock',snow:'icyrock',sand:'smoothrock'};
+    const turns=user.set.itemId===weatherRock[effect.weather]&&!user.itemConsumed?8:effect.turns??5;
+    if(setBattleWeather(state,effect.weather,turns))addLog(state, `${weatherLabel[effect.weather]} 시작!`, 'status', { kind: 'weather' });
     else addLog(state,'강한 날씨가 다른 날씨를 밀어냈다!','status',{kind:'blocked'});
   } else if (effect.kind === 'field') {
-    state.field = { id: effect.field, turns: effect.turns ?? 5 };
+    state.field = { id: effect.field, turns: user.set.itemId==='terrainextender'&&!user.itemConsumed?8:effect.turns ?? 5 };
     addLog(state, `${fieldLabel[effect.field]} 전개!`, 'status', { kind: 'field' });
     refreshAbilityTypes(state);
   } else if (effect.kind === 'drain' && damageDealt) {
     const amount=Math.max(1,Math.floor(damageDealt*effect.fraction));
     if(target.set.abilityId==='liquidooze')applyDamage(state,user,amount,'액체괴물');
-    else applyHeal(state,user,(damageDealt*effect.fraction)/(user.original?.maxHp??user.maxHp),'drain');
+    else applyHeal(state,user,(damageDealt*effect.fraction*(user.set.itemId==='bigroot'&&!user.itemConsumed?1.3:1))/(user.original?.maxHp??user.maxHp),'drain');
   }
   else if (effect.kind === 'recoil' && damageDealt && user.set.abilityId!=='magicguard' && (effect.basis==='maxHp'||!passiveEffects(user).some(passive=>passive.trigger==='onRecoil'&&passive.kind==='immunity')))
     withEventContext(state, { targetUid: user.uid, moveId: undefined, category: undefined }, () =>
@@ -305,7 +307,12 @@ function applyMoveEffect(state: BattleState, effect: MoveEffect, user: Combatant
   else if(effect.kind==='attract'){
     if(!user.gender||!target.gender||user.gender==='N'||target.gender==='N'||user.gender===target.gender||target.set.abilityId==='oblivious')
       addLog(state,`${displayName(target)}에게 헤롱헤롱이 통하지 않았다!`,'status',{kind:'blocked',targetUid:target.uid});
-    else {target.infatuatedBy=user.uid;addLog(state,`${displayName(target)}이(가) ${displayName(user)}에게 반했다!`,'status',{targetUid:target.uid});}
+    else {target.infatuatedBy=user.uid;addLog(state,`${displayName(target)}이(가) ${displayName(user)}에게 반했다!`,'status',{targetUid:target.uid});
+      if(target.set.itemId==='destinyknot'&&!target.itemConsumed&&user.set.abilityId!=='oblivious'){
+        user.infatuatedBy=target.uid;
+        addLog(state,`${displayName(target)}의 빨간실이 헤롱헤롱을 되돌렸다!`,'status',{kind:'item',actorUid:target.uid,targetUid:user.uid,sourceId:'destinyknot',sourceKind:'item'});
+      }
+    }
   }
   else if(effect.kind==='entrainment'){
     const unchangeable=new Set(['multitype','stancechange','schooling','disguise','battlebond','comatose','protosynthesis','quarkdrive','zenmode','hunger','iceface','gulping','gorging']);
@@ -384,6 +391,8 @@ function priorityEffect(user: Combatant, move: Move) {
 
 function effectivePriority(state:BattleState,user: Combatant, move: Move): number {
   let value=move.priority+(priorityEffect(user, move)?.stages ?? 0);
+  if(!user.itemConsumed&&user.set.itemId==='quickclaw'&&chance(state,20))value+=.1;
+  if(!user.itemConsumed&&user.set.itemId==='laggingtail')value-=.1;
   if(user.set.abilityId==='galewings'&&move.type==='flying'&&user.hp===user.maxHp)value++;
   if(user.set.abilityId==='quickdraw'){
     if(user.quickDrawCheckedTurn!==state.turn){user.quickDrawCheckedTurn=state.turn;user.quickDrawTurn=chance(state,30)?state.turn:-1;}
@@ -391,6 +400,13 @@ function effectivePriority(state:BattleState,user: Combatant, move: Move): numbe
   }
   if(user.set.abilityId==='stall')value-=.1;
   return value;
+}
+
+function triggerBlunderPolicy(state:BattleState,user:Combatant):void{
+  if(user.set.itemId!=='blunderpolicy'||user.itemConsumed)return;
+  user.itemConsumed=true;user.consumedItemTurn=state.turn;
+  addLog(state,`${displayName(user)}의 ${items.blunderpolicy.name}이(가) 발동했다!`,'status',{kind:'item',actorUid:user.uid,sourceId:'blunderpolicy',sourceKind:'item'});
+  applyStatChange(state,user,'spe',2,user,'blunderpolicy');
 }
 
 function executeMove(state: BattleState, side: Side, action: Extract<BattleAction, { kind: 'move' }>): void {
@@ -441,6 +457,14 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
   if (user.status === 'paralysis' && chance(state, 25)) { addLog(state, `${displayName(user)} 마비로 움직일 수 없다!`, 'status', { kind: 'blocked', targetUid: user.uid }); stopRampage(); return; }
   if(user.tauntTurns&&move.category==='status'&&move.powered!=='z'&&move.powered!=='max') {addLog(state,`${displayName(user)}은 도발 때문에 변화 기술을 사용할 수 없다!`,'status',{kind:'blocked',targetUid:user.uid});return;}
   if (baseMove.id !== 'struggle'&&!continuingCharge&&!continuingRampage) user.pp[baseMove.id] = Math.max(0, user.pp[baseMove.id] - 1);
+  if(baseMove.id!=='struggle'&&user.pp[baseMove.id]===0&&user.set.itemId==='leppaberry'&&!user.itemConsumed){
+    const foe=state.sides[side==='player'?'cpu':'player'];
+    if(!foe.active.some(index=>['unnerve','asoneglastrier','asonespectrier'].includes(foe.team[index]?.set.abilityId))){
+      user.pp[baseMove.id]=Math.min(baseMove.pp,user.pp[baseMove.id]+(user.set.abilityId==='ripen'?20:10));
+      user.itemConsumed=true;user.consumedItemTurn=state.turn;
+      addLog(state,`${displayName(user)}의 과사열매가 ${baseMove.name}의 PP를 회복했다!`,'status',{kind:'item',actorUid:user.uid,sourceId:'leppaberry',sourceKind:'item'});
+    }
+  }
   if(baseMove.id!=='struggle'&&!user.usedMoveIds.includes(baseMove.id))user.usedMoveIds.push(baseMove.id);
   user.lastMove=baseMove.id;
   user.movedTurn=state.turn;
@@ -574,7 +598,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
         return;
       }
       if (move.id !== 'struggle' && target !== user && absorbMove(state, target, move)) return;
-      if (!move.multiaccuracy&&!accuracyHits(state, user, target, move)) { addLog(state, `${move.name}: ${displayName(target)}에게 빗나갔다!`, 'move', { kind: 'miss' }); return; }
+      if (!move.multiaccuracy&&!accuracyHits(state, user, target, move)) { addLog(state, `${move.name}: ${displayName(target)}에게 빗나갔다!`, 'move', { kind: 'miss' }); triggerBlunderPolicy(state,user);return; }
       const bypassSub=move.sound||move.bypassSubstitute||passiveEffects(user).some(effect=>effect.trigger==='onAttack'&&effect.kind==='bypassSubstitute');
       if(target!==user&&target.substituteHp&&!bypassSub&&move.category==='status'){
         addLog(state,`${displayName(target)}의 대타출동이 ${move.name}을 막았다!`,'move',{kind:'blocked',targetUid:target.uid});return;
@@ -602,12 +626,13 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
         const link=passiveEffects(user).find(effect=>effect.trigger==='onMultiHit');
         const secondStrike=!move.multihit&&!spread&&!move.powered&&!move.ohko&&move.id!=='struggle'
           ?passiveEffects(user).find(effect=>effect.trigger==='onMultiHit'&&effect.kind==='secondStrike'):undefined;
-        const hits=move.id==='dragondarts'&&refs.length>1?1:typeof move.multihit==='number'?move.multihit:move.multihit?(link?move.multihit[1]:[2,2,2,3,3,3,4,5][randomInt(state,0,7)]):secondStrike?2:1;
+        const loadedDice=!user.itemConsumed&&user.set.itemId==='loadeddice';
+        const hits=move.id==='dragondarts'&&refs.length>1?1:typeof move.multihit==='number'?move.multihit:move.multihit?(link?move.multihit[1]:loadedDice?randomInt(state,4,5):[2,2,2,3,3,3,4,5][randomInt(state,0,7)]):secondStrike?2:1;
         if(move.multihit&&link)announcePassive(state,user,link);
         let actualHits=0;
         for(let hit=0;hit<hits&&!target.fainted&&!user.fainted;hit++) {
         if(move.multiaccuracy&&!accuracyHits(state,user,target,move)){
-          addLog(state,`${move.name}: ${hit+1}번째 공격이 빗나갔다!`,'move',{kind:'miss',targetUid:target.uid});break;
+          addLog(state,`${move.name}: ${hit+1}번째 공격이 빗나갔다!`,'move',{kind:'miss',targetUid:target.uid});triggerBlunderPolicy(state,user);break;
         }
         if(move.ohko){
           const immune=passiveEffects(target).find(effect=>effect.trigger==='onOHKO');
@@ -700,15 +725,31 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
         if (result.effectiveness > 1) addLog(state, '효과가 굉장했다!', 'move', { kind: 'effectiveness', effectiveness: result.effectiveness });
         if (result.effectiveness < 1) addLog(state, '효과가 별로였다.', 'move', { kind: 'effectiveness', effectiveness: result.effectiveness });
         if(result.effectiveness>1&&hitDamage&&!intercepted)triggerSuperEffectiveHit(state,target,user);
-        if (move.contact && hitDamage&&!intercepted) triggerContact(state, target, user);
+        if (move.contact && hitDamage&&!intercepted&&!(['protectivepads','punchingglove'].includes(user.set.itemId)&&!user.itemConsumed)) triggerContact(state, target, user);
         if(hitDamage&&!intercepted&&!target.fainted&&user.set.abilityId==='stench'&&target.set.abilityId!=='shielddust'&&(target.set.itemId!=='covertcloak'||target.itemConsumed)&&chance(state,10))applyVolatile(state,target,'flinch');
+        if(hitDamage&&!intercepted&&!target.fainted&&!user.itemConsumed&&['kingsrock','razorfang'].includes(user.set.itemId)
+          &&!move.effects?.some(effect=>effect.kind==='volatile'&&effect.condition==='flinch')
+          &&target.set.abilityId!=='shielddust'&&(target.set.itemId!=='covertcloak'||target.itemConsumed)&&chance(state,10))
+          applyVolatile(state,target,'flinch');
         if(hitDamage&&!intercepted&&!target.fainted)for(const effect of passiveEffects(target))
           if(effect.trigger==='onAfterHit'&&effect.kind==='stat'&&(!effect.type||effect.type===move.type)
             &&(!effect.category||effect.category===move.category)
             &&(!effect.contact||move.contact)
             &&!(move.ignoreAbility&&abilities[target.set.abilityId]?.effects.includes(effect))){
             announcePassive(state,target,effect);applyStatChange(state,target,effect.stat,effect.stages,target);
+            if(effect.consume){target.itemConsumed=true;target.consumedItemTurn=state.turn;}
           }
+        if(hitDamage&&!intercepted&&target.set.itemId==='airballoon'&&!target.itemConsumed){
+          target.itemConsumed=true;target.consumedItemTurn=state.turn;
+          addLog(state,`${displayName(target)}의 풍선이 터졌다!`,'status',{kind:'item',actorUid:target.uid,sourceId:'airballoon',sourceKind:'item'});
+        }
+        const recoilBerry=move.category==='physical'?'jabocaberry':'rowapberry';
+        if(hitDamage&&!intercepted&&!target.fainted&&!user.fainted&&target.set.itemId===recoilBerry&&!target.itemConsumed
+          &&!activePokemon(state,side).some(foe=>['unnerve','asoneglastrier','asonespectrier'].includes(foe.set.abilityId))){
+          target.itemConsumed=true;target.consumedItemTurn=state.turn;
+          addLog(state,`${displayName(target)}의 ${items[recoilBerry].name}이(가) 발동했다!`,'status',{kind:'item',actorUid:target.uid,targetUid:user.uid,sourceId:recoilBerry,sourceKind:'item'});
+          applyDamage(state,user,Math.max(1,Math.floor((user.original?.maxHp??user.maxHp)*(target.set.abilityId==='ripen'?.25:.125))),items[recoilBerry].name);
+        }
         if(target.fainted&&!intercepted&&ref.side!==side){
           for(const effect of passiveEffects(user))if(effect.trigger==='onKO'){
             if(effect.kind==='stat'){announcePassive(state,user,effect);applyStatChange(state,user,effect.stat,effect.stages,user);}
@@ -767,6 +808,11 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
   }
   if(move.powered==='max'&&move.category!=='status'&&maxConnected) applyMaxEffect(state,side,user,move);
   if(move.powered==='z'&&totalDamage>0)applyExclusiveZEffect(state,move);
+  if(totalDamage>0&&!user.fainted&&!user.itemConsumed&&user.set.itemId==='shellbell')applyHeal(state,user,totalDamage/(8*(user.original?.maxHp??user.maxHp)),'조개껍질방울');
+  if(totalDamage>0&&move.type==='normal'&&user.set.itemId==='normalgem'&&!user.itemConsumed){user.itemConsumed=true;user.consumedItemTurn=state.turn;}
+  if(move.sound&&user.set.itemId==='throatspray'&&!user.itemConsumed&&!user.fainted){
+    applyStatChange(state,user,'spa',1,user);user.itemConsumed=true;user.consumedItemTurn=state.turn;
+  }
   if(user.transformation?.kind==='tera'&&user.transformation.teraType==='stellar'&&totalDamage>0&&!user.stellarBoostedTypes?.includes(move.type)){
     user.stellarBoostedTypes??=[];user.stellarBoostedTypes.push(move.type);
   }
@@ -813,7 +859,7 @@ function executeSwitch(state: BattleState, side: Side, action: Extract<BattleAct
   applyExitEffects(state, oldPokemon);
   restoreTransform(oldPokemon);
   if(oldPokemon.transformation?.kind!=='tera'&&oldPokemon.abilityFormOriginal){
-    const formName=oldPokemon.battleFormId==='zygardecomplete'?'스웜체인지':'테라체인지';
+    const formName=oldPokemon.battleFormId==='zygardecomplete'?'스웜체인지':oldPokemon.battleFormId?.endsWith('crowned')?'왕관':'테라체인지';
     restoreAbilityBattleForm(state,oldPokemon,formName);
   }
   for(const foe of state.sides[side==='player'?'cpu':'player'].team)if(foe.trappedBy===oldPokemon.uid){foe.trapped=false;foe.trappedBy=undefined;}

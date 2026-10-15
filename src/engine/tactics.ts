@@ -34,6 +34,12 @@ export function applyHazards(state: BattleState, side: Side, pokemon: Combatant)
   });
 }
 
+function consumeMentalHerb(state:BattleState,target:Combatant):void{
+  if(target.set.itemId!=='mentalherb'||target.itemConsumed)return;
+  target.tauntTurns=0;target.encore=undefined;target.itemConsumed=true;target.consumedItemTurn=state.turn;
+  addLog(state,`${displayName(target)}의 멘탈허브가 행동 제한을 풀었다!`,'status',{kind:'item',actorUid:target.uid,sourceId:'mentalherb',sourceKind:'item'});
+}
+
 export function applyTacticalEffect(state: BattleState, effect: MoveEffect, user: Combatant, target: Combatant): boolean {
   const side=sideOf(state,user),own=state.sides[side],foe=state.sides[side==='player'?'cpu':'player'];
   const ownLabel=side==='player'?'아군':'상대',foeLabel=side==='player'?'상대':'아군';
@@ -62,14 +68,20 @@ export function applyTacticalEffect(state: BattleState, effect: MoveEffect, user
     case 'tailwind':
       if(own.tailwind)fail('순풍은 이미 불고 있다!');else {own.tailwind=4;addLog(state,`${ownLabel} 진영에 순풍이 불기 시작했다!`,'status');}return true;
     case 'trickroom':
-      state.trickRoom=state.trickRoom?0:5;addLog(state,state.trickRoom?'트릭룸! 느린 포켓몬부터 움직인다.':'트릭룸이 해제되었다!','status');return true;
+      state.trickRoom=state.trickRoom?0:5;addLog(state,state.trickRoom?'트릭룸! 느린 포켓몬부터 움직인다.':'트릭룸이 해제되었다!','status');
+      if(state.trickRoom)for(const active of [...activePokemon(state,'player'),...activePokemon(state,'cpu')])
+        if(active.set.itemId==='roomservice'&&!active.itemConsumed){
+          applyStatChange(state,active,'spe',-1,active,'roomservice');active.itemConsumed=true;active.consumedItemTurn=state.turn;
+          addLog(state,`${displayName(active)}의 룸서비스가 발동했다!`,'status',{kind:'item',actorUid:active.uid,sourceId:'roomservice',sourceKind:'item'});
+        }
+      return true;
     case 'gravity':
       if(state.gravity)fail('이미 중력이 강해져 있다!');else{state.gravity=5;addLog(state,'중력이 강해졌다! 모든 포켓몬이 지면에 내려왔다.','status',{kind:'field'});}return true;
     case 'taunt':
-      if(target.tauntTurns)fail('이미 도발 상태다!');else {target.tauntTurns=target.actedTurn===state.turn?4:3;addLog(state,`${displayName(target)}이 도발에 넘어갔다!`,'status',{targetUid:target.uid});}return true;
+      if(target.tauntTurns)fail('이미 도발 상태다!');else {target.tauntTurns=target.actedTurn===state.turn?4:3;addLog(state,`${displayName(target)}이 도발에 넘어갔다!`,'status',{targetUid:target.uid});consumeMentalHerb(state,target);}return true;
     case 'encore':
       if(target.encore||!target.lastMove||['struggle','encore'].includes(target.lastMove)||!moves[target.lastMove]||(target.pp[target.lastMove]??0)<=0)fail('앵콜이 실패했다!');
-      else {target.encore={moveId:target.lastMove,turns:3};addLog(state,`${displayName(target)}에게 앵콜! ${moves[target.lastMove].name}을 반복한다.`,'status',{targetUid:target.uid});}return true;
+      else {target.encore={moveId:target.lastMove,turns:3};addLog(state,`${displayName(target)}에게 앵콜! ${moves[target.lastMove].name}을 반복한다.`,'status',{targetUid:target.uid});consumeMentalHerb(state,target);}return true;
     case 'clearHazards': {
       own.hazards={};if(effect.bothSides)foe.hazards={};if(effect.screens)foe.screens={};
       if(effect.bothSides)state.field=null;

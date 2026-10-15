@@ -1,6 +1,7 @@
-import { abilities, items, moves, species } from '../data';
+import { abilities, items, moves, natures, species } from '../data';
 import { primalForms } from '../data/gimmicks.generated';
 import { abilityBattleForms, silvallyMemoryTypes } from '../data/ability-battle-forms';
+import { plateTypes } from '../data/sv-items';
 import { adjustStage, passiveEffects, isGrounded, effectiveWeather, getTypeMultiplier, calculateStats } from './calculations';
 import { fieldLabel, sourceLabel, statLabel, statusLabel, weatherLabel } from './labels';
 import { chance, randomInt } from './rng';
@@ -100,8 +101,11 @@ export function applyDamage(state: BattleState, pokemon: Combatant, amount: numb
     pokemon.disguiseBroken=true;dealt=Math.min(pokemon.hp,Math.max(1,Math.floor(pokemon.maxHp/8)));
     addLog(state,`${displayName(pokemon)}의 탈이 공격을 막았다!`,'status',{kind:'ability',actorUid:pokemon.uid,targetUid:pokemon.uid,sourceId:'disguise',sourceKind:'ability'});
   }
-  const survival = directAttack && pokemon.hp === pokemon.maxHp && dealt >= pokemon.hp
-    ? passiveEffects(pokemon).find(effect => effect.trigger === 'onDirectDamage'&&!(ignoreAbility&&abilities[pokemon.set.abilityId]?.effects.includes(effect))) : undefined;
+  const survival = directAttack && dealt >= pokemon.hp
+    ? passiveEffects(pokemon).find(effect => effect.trigger === 'onDirectDamage'
+      &&(effect.requiresFullHp===false||pokemon.hp===pokemon.maxHp)
+      &&(!effect.chance||chance(state,effect.chance))
+      &&!(ignoreAbility&&abilities[pokemon.set.abilityId]?.effects.includes(effect))) : undefined;
   if (survival?.trigger === 'onDirectDamage') {
     dealt = pokemon.hp - 1;
     if (survival.consume) {pokemon.itemConsumed = true;pokemon.consumedItemTurn=state.turn;if(passiveSource(pokemon,survival).sourceKind==='item')handleConsumedItem(state,pokemon);}
@@ -124,9 +128,13 @@ export function applyDamage(state: BattleState, pokemon: Combatant, amount: numb
       addLog(state,`${displayName(ally)}의 리시버가 ${pokemon.speciesName}의 ${abilities[pokemon.set.abilityId]?.name??pokemon.set.abilityId}을 이어받았다!`,'status',{kind:'ability',actorUid:ally.uid,targetUid:pokemon.uid,sourceId:'receiver',sourceKind:'ability'});
     }
   }
-  if(pokemon.hp>0&&beforeHp>pokemon.maxHp*.5&&pokemon.hp<=pokemon.maxHp*.5){
-    for(const effect of passiveEffects(pokemon))if(effect.trigger==='onAfterDamage'&&effect.kind==='stat'&&effect.threshold===.5){
-      announcePassive(state,pokemon,effect);applyStatChange(state,pokemon,effect.stat,effect.stages,pokemon);
+  if(pokemon.hp>0)for(const effect of passiveEffects(pokemon))if(effect.trigger==='onAfterDamage'&&effect.kind==='stat'){
+    const berry=items[pokemon.set.itemId]?.effects.includes(effect)&&isBerryItem(pokemon);
+    const threshold=berry&&pokemon.set.abilityId==='gluttony'?Math.max(.5,effect.threshold):effect.threshold;
+    if(beforeHp>pokemon.maxHp*threshold&&pokemon.hp<=pokemon.maxHp*threshold&&!(berry&&berrySuppressed(state,pokemon))){
+      announcePassive(state,pokemon,effect);
+      applyStatChange(state,pokemon,effect.stat,effect.stages*(berry&&pokemon.set.abilityId==='ripen'?2:1),pokemon);
+      if(effect.consume){pokemon.itemConsumed=true;handleConsumedItem(state,pokemon);}
     }
   }
   if (!pokemon.fainted) {
@@ -144,6 +152,21 @@ export function applyDamage(state: BattleState, pokemon: Combatant, amount: numb
         applyHeal(state, pokemon, effect.fraction*(berry&&pokemon.set.abilityId==='ripen'?2:1), passiveSource(pokemon, effect).name));
     }
     if(consumedItem)handleConsumedItem(state,pokemon);
+    const berryId=pokemon.set.itemId;
+    const dislikedStat:Record<string,string>={figyberry:'atk',iapapaberry:'def',magoberry:'spe',aguavberry:'spd',wikiberry:'spa'};
+    const pinch=berryId in dislikedStat;
+    const berryThreshold=pinch?(pokemon.set.abilityId==='gluttony'?.5:.25):.5;
+    if(!pokemon.itemConsumed&&!berrySuppressed(state,pokemon)&&pokemon.hp<=pokemon.maxHp*berryThreshold
+      &&(berryId==='oranberry'||pinch)){
+      pokemon.itemConsumed=true;handleConsumedItem(state,pokemon);
+      const baseHp=pokemon.original?.maxHp??pokemon.maxHp;
+      const fraction=berryId==='oranberry'?10/baseHp:1/3;
+      applyHeal(state,pokemon,fraction*(pokemon.set.abilityId==='ripen'?2:1),items[berryId].name);
+      if(pinch&&natures[pokemon.set.natureId]?.down===dislikedStat[berryId]&&!pokemon.confusionTurns){
+        pokemon.confusionTurns=randomInt(state,2,5);
+        addLog(state,`${displayName(pokemon)}은(는) 열매의 맛이 싫어서 혼란에 빠졌다!`,'status',{targetUid:pokemon.uid,condition:'confusion',conditionActive:true});
+      }
+    }
   }
   return dealt;
 }
@@ -161,7 +184,7 @@ export function applyHeal(state: BattleState, pokemon: Combatant, fraction: numb
 function isBerryItem(pokemon:Combatant):boolean{return pokemon.set.itemId.toLowerCase().includes('berry');}
 function berrySuppressed(state:BattleState,pokemon:Combatant):boolean{
   const side:Side=state.sides.player.team.includes(pokemon)?'player':'cpu';
-  return activePokemon(state,side==='player'?'cpu':'player').some(foe=>foe.set.abilityId==='unnerve');
+  return activePokemon(state,side==='player'?'cpu':'player').some(foe=>['unnerve','asoneglastrier','asonespectrier'].includes(foe.set.abilityId));
 }
 function handleConsumedItem(state:BattleState,pokemon:Combatant):void{
   pokemon.consumedItemTurn=state.turn;
@@ -247,15 +270,36 @@ export function applyStatChange(state: BattleState, pokemon: Combatant, stat: Bo
   if (actual) addLog(state, `${displayName(pokemon)}: ${statLabel[stat]} ${Math.abs(actual)}단계 ${actual > 0 ? '상승' : '하락'}!`, 'status',
     { kind: 'stat', actorUid: source.uid, targetUid: pokemon.uid, stat, stages: actual, beforeStage, afterStage: pokemon.stages[stat] });
   else addLog(state, `${displayName(pokemon)}의 ${statLabel[stat]}은 더 이상 ${stages > 0 ? '올라가지' : '내려가지'} 않는다.`, 'status', { kind: 'blocked', targetUid: pokemon.uid });
+  if(actual<0&&pokemon.set.itemId==='whiteherb'&&!pokemon.itemConsumed){
+    pokemon.itemConsumed=true;pokemon.consumedItemTurn=state.turn;
+    addLog(state,`${displayName(pokemon)}의 하양허브가 낮아진 능력치를 되돌렸다!`,'status',{kind:'item',actorUid:pokemon.uid,sourceId:'whiteherb',sourceKind:'item'});
+    for(const lowered of Object.keys(pokemon.stages) as BoostStat[])if(pokemon.stages[lowered]<0)
+      applyStatChange(state,pokemon,lowered,-pokemon.stages[lowered],pokemon,'whiteherb');
+  }
+  if(actual<0&&sourceId==='intimidate'&&pokemon.set.itemId==='adrenalineorb'&&!pokemon.itemConsumed){
+    pokemon.itemConsumed=true;pokemon.consumedItemTurn=state.turn;
+    addLog(state,`${displayName(pokemon)}의 ${items.adrenalineorb.name}이(가) 발동했다!`,'status',{kind:'item',actorUid:pokemon.uid,sourceId:'adrenalineorb',sourceKind:'item'});
+    applyStatChange(state,pokemon,'spe',1,pokemon,'adrenalineorb');
+  }
   if (actual < 0 && opposing) for (const effect of passiveEffects(pokemon)) {
     if (effect.trigger !== 'onStatDrop' || effect.kind !== 'stat' || effect.sourceId && effect.sourceId !== sourceId) continue;
     announcePassive(state, pokemon, effect);
     withEventContext(state, { actorUid: pokemon.uid, moveId: undefined, category: undefined }, () =>
       applyStatChange(state, pokemon, effect.stat, effect.stages, pokemon));
   }
-  if(actual>0&&opposing&&sourceId!=='opportunist')for(const copy of activePokemon(state,state.sides.player.team.includes(source)?'player':'cpu'))if(copy.set.abilityId==='opportunist'&&!copy.fainted){
-    addLog(state,`${displayName(copy)}의 기회주의가 능력치 상승을 복사했다!`,'status',{kind:'ability',actorUid:copy.uid,sourceId:'opportunist',sourceKind:'ability'});
-    applyStatChange(state,copy,stat,actual,source,'opportunist');
+  if(actual>0&&sourceId!=='opportunist'&&sourceId!=='mirrorherb'){
+    const opposingSide:Side=state.sides.player.team.includes(pokemon)?'cpu':'player';
+    for(const copy of activePokemon(state,opposingSide)){
+      if(copy.set.abilityId==='opportunist'){
+        addLog(state,`${displayName(copy)}의 기회주의가 능력치 상승을 복사했다!`,'status',{kind:'ability',actorUid:copy.uid,sourceId:'opportunist',sourceKind:'ability'});
+        applyStatChange(state,copy,stat,actual,copy,'opportunist');
+      }
+      if(copy.set.itemId==='mirrorherb'&&!copy.itemConsumed){
+        copy.itemConsumed=true;copy.consumedItemTurn=state.turn;
+        addLog(state,`${displayName(copy)}의 ${items.mirrorherb.name}가 능력 상승을 복사했다!`,'status',{kind:'item',actorUid:copy.uid,sourceId:'mirrorherb',sourceKind:'item'});
+        applyStatChange(state,copy,stat,actual,copy,'mirrorherb');
+      }
+    }
   }
   return actual;
 }
@@ -330,6 +374,10 @@ export function absorbMove(state: BattleState, pokemon: Combatant, move: Move): 
 }
 
 export function applyEntryEffects(state: BattleState, side: Side, pokemon: Combatant): void {
+  const crowned=pokemon.set.speciesId==='zacian'&&pokemon.set.itemId==='rustedsword'?'zaciancrowned'
+    :pokemon.set.speciesId==='zamazenta'&&pokemon.set.itemId==='rustedshield'?'zamazentacrowned':undefined;
+  if(crowned&&!pokemon.itemConsumed&&pokemon.battleFormId!==crowned&&changeAbilityBattleForm(pokemon,crowned))
+    addLog(state,`${displayName(pokemon)}이(가) 녹슨 도구의 힘으로 왕관폼이 되었다!`,'status',{kind:'form-change',formId:crowned,actorUid:pokemon.uid,sourceId:pokemon.set.itemId,sourceKind:'item'});
   const primal=primalForms.find(form=>form.speciesId===pokemon.set.speciesId&&form.orbId===pokemon.set.itemId);
   if(primal&&!pokemon.itemConsumed&&!pokemon.transformation){
     pokemon.original={name:pokemon.speciesName,types:[...pokemon.types],stats:{...pokemon.stats},abilityId:pokemon.set.abilityId,maxHp:pokemon.maxHp};
@@ -398,10 +446,12 @@ export function applyEntryEffects(state: BattleState, side: Side, pokemon: Comba
     const source = passiveSource(pokemon, effect).name;
     announcePassive(state, pokemon, effect);
     if (effect.kind === 'weather') {
-      if(setBattleWeather(state,effect.weather,effect.turns??5))addLog(state, `${displayName(pokemon)}의 ${source}: ${weatherLabel[effect.weather]} 시작!`, 'status', { kind: 'weather', actorUid: pokemon.uid });
+      const weatherRock:Record<string,string>={rain:'damprock',sun:'heatrock',snow:'icyrock',sand:'smoothrock'};
+      const turns=pokemon.set.itemId===weatherRock[effect.weather]&&!pokemon.itemConsumed?8:effect.turns??5;
+      if(setBattleWeather(state,effect.weather,turns))addLog(state, `${displayName(pokemon)}의 ${source}: ${weatherLabel[effect.weather]} 시작!`, 'status', { kind: 'weather', actorUid: pokemon.uid });
       else addLog(state,'강한 날씨가 다른 날씨를 밀어냈다!','status',{kind:'blocked',actorUid:pokemon.uid});
     } else if (effect.kind === 'field') {
-      state.field = { id: effect.field, turns: effect.turns ?? 5 };
+      state.field = { id: effect.field, turns: pokemon.set.itemId==='terrainextender'&&!pokemon.itemConsumed?8:effect.turns ?? 5 };
       addLog(state, `${displayName(pokemon)}의 ${source}: ${fieldLabel[effect.field]} 전개!`, 'status', { kind: 'field', actorUid: pokemon.uid });
       refreshAbilityTypes(state);
     } else if (effect.kind === 'stat') {
@@ -409,18 +459,27 @@ export function applyEntryEffects(state: BattleState, side: Side, pokemon: Comba
       for (const target of targets) applyStatChange(state, target, effect.stat, effect.stages, pokemon, passiveSource(pokemon, effect).sourceId);
     }
   }
+  const seedStat:Record<string,{field:string;stat:BoostStat}>={electricseed:{field:'electric',stat:'def'},grassyseed:{field:'grassy',stat:'def'},mistyseed:{field:'misty',stat:'spd'},psychicseed:{field:'psychic',stat:'spd'}};
+  const seed=!pokemon.itemConsumed&&seedStat[pokemon.set.itemId];
+  if(seed&&state.field?.id===seed.field&&isGrounded(pokemon,state)){
+    applyStatChange(state,pokemon,seed.stat,1,pokemon);
+    pokemon.itemConsumed=true;pokemon.consumedItemTurn=state.turn;
+    addLog(state,`${displayName(pokemon)}의 ${items[pokemon.set.itemId].name}이(가) 발동했다!`,'status',{kind:'item',actorUid:pokemon.uid,sourceId:pokemon.set.itemId,sourceKind:'item'});
+  }
   refreshAbilityTypes(state);
 }
 
 /** Reactive typing from Forecast and Mimicry follows the current field state. */
 export function refreshAbilityTypes(state:BattleState):void {
   for(const side of ['player','cpu'] as const)for(const pokemon of activePokemon(state,side)){
-    if(pokemon.transformation?.kind==='tera'||pokemon.transformation?.kind==='mega'||pokemon.transformation?.kind==='primal'||pokemon.transformedOriginal)continue;
+    if(pokemon.transformation?.kind==='tera'||pokemon.transformation?.kind==='mega'||pokemon.transformation?.kind==='primal'||pokemon.transformedOriginal||pokemon.battleFormId?.endsWith('crowned'))continue;
     const base=species[pokemon.set.speciesId]?.types.map(type=>type.toLowerCase());
     if(!base)continue;
     let next=base;
     if(pokemon.set.abilityId==='rkssystem'&&pokemon.set.speciesId==='silvally'){
       next=[silvallyMemoryTypes[pokemon.set.itemId]??'normal'];
+    }else if(pokemon.set.abilityId==='multitype'&&pokemon.set.speciesId==='arceus'&&plateTypes[pokemon.set.itemId]){
+      next=[plateTypes[pokemon.set.itemId]];
     }else if(pokemon.set.abilityId==='forecast'&&pokemon.set.speciesId==='castform'){
       const weather=effectiveWeather(state,pokemon);
       next=weather==='sun'?['fire']:weather==='rain'?['water']:weather==='snow'?['ice']:base;
@@ -437,6 +496,10 @@ export function refreshAbilityTypes(state:BattleState):void {
 
 export function triggerSuperEffectiveHit(state:BattleState,pokemon:Combatant,source:Combatant):void {
   if(pokemon.fainted)return;
+  if(pokemon.set.itemId==='enigmaberry'&&!pokemon.itemConsumed&&!berrySuppressed(state,pokemon)){
+    pokemon.itemConsumed=true;handleConsumedItem(state,pokemon);
+    applyHeal(state,pokemon,pokemon.set.abilityId==='ripen'?.5:.25,items.enigmaberry.name);
+  }
   const effects=passiveEffects(pokemon).filter(effect=>effect.trigger==='onSuperEffectiveHit'&&effect.kind==='stat');
   if(!effects.length)return;
   announcePassive(state,pokemon,effects[0]);
@@ -469,6 +532,10 @@ export function triggerContact(state: BattleState, defender: Combatant, attacker
   if(attacker.set.abilityId==='poisontouch'&&!blocksDefenderSecondary&&!defender.fainted&&chance(state,30))applyStatus(state,defender,'poison','독수',attacker);
   if(defender.set.abilityId==='cutecharm'&&attacker.gender&&defender.gender&&attacker.gender!=='N'&&defender.gender!=='N'&&attacker.gender!==defender.gender&&!attacker.status&&!attacker.infatuatedBy&&chance(state,30)){
     attacker.infatuatedBy=defender.uid;addLog(state,`${attacker.speciesName}은(는) ${defender.speciesName}에게 반했다!`,'status',{kind:'ability',actorUid:defender.uid,targetUid:attacker.uid,sourceId:'cutecharm',sourceKind:'ability'});
+    if(attacker.set.itemId==='destinyknot'&&!attacker.itemConsumed){
+      defender.infatuatedBy=attacker.uid;
+      addLog(state,`${displayName(attacker)}의 빨간실이 헤롱헤롱을 되돌렸다!`,'status',{kind:'item',actorUid:attacker.uid,targetUid:defender.uid,sourceId:'destinyknot',sourceKind:'item'});
+    }
   }
   if(defender.set.abilityId==='effectspore'&&!attacker.fainted&&!blocksAttackerSecondary&&chance(state,30)&&!attacker.status){
     const statuses=['sleep','paralysis','poison'] as const;applyStatus(state,attacker,statuses[randomInt(state,0,2)],'포자',defender);
@@ -478,6 +545,10 @@ export function triggerContact(state: BattleState, defender: Combatant, attacker
     applyDamage(state,attacker,Math.max(1,Math.floor((attacker.original?.maxHp??attacker.maxHp)/4)),'애프터매스');
   }
   const transferable=(mon:Combatant)=>mon.set.itemId!=='none'&&!mon.itemConsumed&&(mon.set.itemId==='eviolite'||!/(?:ite(?:x|y)?|iumz|niumz|orbs?|memory)$/.test(mon.set.itemId));
+  if(defender.set.itemId==='stickybarb'&&!defender.itemConsumed&&attacker.set.itemId==='none'){
+    defender.set.itemId='none';attacker.set.itemId='stickybarb';
+    addLog(state,`${displayName(attacker)}에게 끈적끈적바늘이 달라붙었다!`,'status',{kind:'item',actorUid:defender.uid,targetUid:attacker.uid,sourceId:'stickybarb',sourceKind:'item'});
+  }
   if(defender.set.abilityId==='mummy'&&!defender.fainted&&!['mummy','multitype','stancechange','schooling','disguise','battlebond'].includes(attacker.set.abilityId)){
     attacker.set.abilityId='mummy';addLog(state,`${attacker.speciesName}의 특성이 미라로 바뀌었다!`,'status',{kind:'ability',actorUid:defender.uid,targetUid:attacker.uid,sourceId:'mummy',sourceKind:'ability'});
   }else if(defender.set.abilityId==='wanderingspirit'&&!defender.fainted&&!['wanderingspirit','multitype','stancechange','schooling','disguise','battlebond'].includes(attacker.set.abilityId)){
@@ -569,6 +640,17 @@ export function processEndTurn(state: BattleState): void {
       if(pokemon.hp>0&&effectiveWeather(state,pokemon)==='rain'&&pokemon.set.abilityId==='dryskin')applyHeal(state,pokemon,1/8,'dry skin');
       if(pokemon.hp>0&&effectiveWeather(state,pokemon)==='sun'&&pokemon.set.abilityId==='dryskin')applyDamage(state,pokemon,Math.max(1,Math.floor(baseHp/8)),'dry skin');
       if(pokemon.yawnTurns&&--pokemon.yawnTurns===0&&!pokemon.status)applyStatus(state,pokemon,'sleep','하품');
+      if(!pokemon.itemConsumed&&pokemon.set.abilityId!=='klutz'){
+        if(pokemon.set.itemId==='blacksludge'){
+          if(pokemon.types.includes('poison'))applyHeal(state,pokemon,1/16,'검은진흙');
+          else if(pokemon.set.abilityId!=='magicguard')applyDamage(state,pokemon,Math.max(1,Math.floor(baseHp/8)),'검은진흙');
+        }
+        if(pokemon.set.itemId==='flameorb'&&!pokemon.status)applyStatus(state,pokemon,'burn','화염구슬');
+        if(pokemon.set.itemId==='toxicorb'&&!pokemon.status){
+          if(applyStatus(state,pokemon,'poison','맹독구슬'))pokemon.toxicCounter=1;
+        }
+        if(pokemon.set.itemId==='stickybarb'&&pokemon.set.abilityId!=='magicguard')applyDamage(state,pokemon,Math.max(1,Math.floor(baseHp/8)),'끈적끈적바늘');
+      }
       for (const effect of passiveEffects(pokemon)) {
         if (effect.trigger === 'onEndTurn' && effect.kind === 'heal' && pokemon.hp < pokemon.maxHp && (!effect.weather||effect.weather===effectiveWeather(state,pokemon))) {
           announcePassive(state, pokemon, effect);

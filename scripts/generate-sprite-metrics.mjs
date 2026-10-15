@@ -49,9 +49,11 @@ try {
   vm.runInNewContext(ts.transpileModule(readFileSync('src/data/legendary-roster.generated.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,legendarySandbox);
   const signatureSandbox={exports:{}};
   vm.runInNewContext(ts.transpileModule(readFileSync('src/data/signature-roster.generated.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,signatureSandbox);
+  const expansionSandbox={exports:{}};
+  vm.runInNewContext(ts.transpileModule(readFileSync('src/data/expansion-roster.generated.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,expansionSandbox);
   const legacySandbox={exports:{}};
   vm.runInNewContext(ts.transpileModule(readFileSync('src/data/legacy-roster.generated.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,legacySandbox);
-  const used=new Set([...rosterSandbox.exports.roster.map(mon=>mon.id),...legendarySandbox.exports.legendaryRoster.map(mon=>mon.id),...signatureSandbox.exports.signatureRoster.map(mon=>mon.id),...legacySandbox.exports.legacyRoster.map(mon=>mon.id),...paths.filter(path=>path.includes('/forms/')).map(path=>path.split('/').at(-1).replace(/-(front|back)\.png$/,''))]);
+  const used=new Set([...rosterSandbox.exports.roster.map(mon=>mon.id),...legendarySandbox.exports.legendaryRoster.map(mon=>mon.id),...signatureSandbox.exports.signatureRoster.map(mon=>mon.id),...expansionSandbox.exports.expansionRoster.map(mon=>mon.id),...legacySandbox.exports.legacyRoster.map(mon=>mon.id),...paths.filter(path=>path.includes('/forms/')).map(path=>path.split('/').at(-1).replace(/-(front|back)\.png$/,''))]);
   const selectedDimensions=Object.fromEntries(Object.entries(dimensions).filter(([id])=>used.has(id)));
   writeFileSync('src/presentation/sprite-metrics.generated.json', JSON.stringify({ source: 'Local PNG alpha bounds; heights/weights: cached Pokémon Showdown Pokedex, see THIRD_PARTY_NOTICES.md', dimensions:selectedDimensions, images: metrics }));
   console.log(JSON.stringify({ decoded: paths.length, measured: Object.keys(metrics).length, empty: 0 }));

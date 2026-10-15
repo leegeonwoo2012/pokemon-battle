@@ -1,59 +1,251 @@
 {
   "showdownCommit": "942cda71d14bf0618bd57991708a2e2734b6daba",
   "pokeapiSpriteCommit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
-  "expected": 3,
-  "imported": 3,
-  "front": 3,
-  "back": 3,
+  "expected": 15,
+  "imported": 15,
+  "front": 15,
+  "back": 15,
   "failures": [],
   "requests": [
     {
-      "speciesId": "necrozmaduskmane",
+      "speciesId": "kyuremwhite",
       "facing": "front",
-      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10155.png",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10023.png",
       "status": 200,
       "contentType": "image/png",
-      "bytes": 1802
+      "bytes": 1866
     },
     {
-      "speciesId": "necrozmadawnwings",
+      "speciesId": "calyrexshadow",
       "facing": "front",
-      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10156.png",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10194.png",
       "status": 200,
       "contentType": "image/png",
-      "bytes": 1813
+      "bytes": 1360
     },
     {
-      "speciesId": "marshadow",
+      "speciesId": "beautifly",
       "facing": "front",
-      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/802.png",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/267.png",
       "status": 200,
       "contentType": "image/png",
-      "bytes": 497
+      "bytes": 878
     },
     {
-      "speciesId": "necrozmaduskmane",
-      "facing": "back",
-      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10155.png",
+      "speciesId": "dustox",
+      "facing": "front",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/269.png",
       "status": 200,
       "contentType": "image/png",
-      "bytes": 1668
+      "bytes": 818
     },
     {
-      "speciesId": "necrozmadawnwings",
-      "facing": "back",
-      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10156.png",
+      "speciesId": "calyrexice",
+      "facing": "front",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10193.png",
       "status": 200,
       "contentType": "image/png",
-      "bytes": 1595
+      "bytes": 1231
     },
     {
-      "speciesId": "marshadow",
-      "facing": "back",
-      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/802.png",
+      "speciesId": "kyuremblack",
+      "facing": "front",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10022.png",
       "status": 200,
       "contentType": "image/png",
-      "bytes": 421
+      "bytes": 1848
+    },
+    {
+      "speciesId": "calyrexshadow",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10194.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1192
+    },
+    {
+      "speciesId": "beautifly",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/267.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 853
+    },
+    {
+      "speciesId": "kyuremwhite",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10023.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1836
+    },
+    {
+      "speciesId": "dustox",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/269.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 783
+    },
+    {
+      "speciesId": "kingler",
+      "facing": "front",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/99.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1099
+    },
+    {
+      "speciesId": "kyuremblack",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10022.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1836
+    },
+    {
+      "speciesId": "calyrexice",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10193.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1102
+    },
+    {
+      "speciesId": "orbeetle",
+      "facing": "front",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/826.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 885
+    },
+    {
+      "speciesId": "meowth",
+      "facing": "front",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/52.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 722
+    },
+    {
+      "speciesId": "kingler",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/99.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 948
+    },
+    {
+      "speciesId": "coalossal",
+      "facing": "front",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/839.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1481
+    },
+    {
+      "speciesId": "melmetal",
+      "facing": "front",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/809.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1451
+    },
+    {
+      "speciesId": "drednaw",
+      "facing": "front",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/834.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 892
+    },
+    {
+      "speciesId": "coalossal",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/839.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1217
+    },
+    {
+      "speciesId": "orbeetle",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/826.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 723
+    },
+    {
+      "speciesId": "meowth",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/52.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 596
+    },
+    {
+      "speciesId": "centiskorch",
+      "facing": "front",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/851.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1187
+    },
+    {
+      "speciesId": "melmetal",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/809.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1292
+    },
+    {
+      "speciesId": "drednaw",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/834.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 866
+    },
+    {
+      "speciesId": "duraludon",
+      "facing": "front",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/884.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 930
+    },
+    {
+      "speciesId": "copperajah",
+      "facing": "front",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/879.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1206
+    },
+    {
+      "speciesId": "centiskorch",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/851.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1161
+    },
+    {
+      "speciesId": "duraludon",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/884.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 766
+    },
+    {
+      "speciesId": "copperajah",
+      "facing": "back",
+      "url": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/879.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 891
     }
   ]
 }

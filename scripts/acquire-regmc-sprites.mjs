@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import { chromium } from 'playwright-core';
 
 function loadRoster(file,key){const sandbox={exports:{}};vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,sandbox);return sandbox.exports[key];}
-const roster=[...loadRoster('src/data/roster.generated.ts','roster'),...loadRoster('src/data/legendary-roster.generated.ts','legendaryRoster'),...loadRoster('src/data/signature-roster.generated.ts','signatureRoster')];
+const roster=[...loadRoster('src/data/roster.generated.ts','roster'),...loadRoster('src/data/legendary-roster.generated.ts','legendaryRoster'),...loadRoster('src/data/signature-roster.generated.ts','signatureRoster'),...loadRoster('src/data/expansion-roster.generated.ts','expansionRoster')];
 const catalog=new Map(fs.readFileSync('work/regmc/pokemon.csv','utf8').trim().split(/\r?\n/).slice(1).map(line=>{const [id,name,speciesId]=line.split(',');return [Number(id),{name,speciesId:Number(speciesId)}];}));
 const old=JSON.parse(fs.readFileSync('public/sprites/attribution.json','utf8'));
 const commit=old.sources?.pokeapiCommit??(await (await fetch('https://api.github.com/repos/PokeAPI/sprites/commits/master',{headers:{'User-Agent':'ArenaSpriteAudit'}})).json()).sha;

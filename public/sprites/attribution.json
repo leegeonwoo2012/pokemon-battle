@@ -1050,6 +1050,46 @@
       }
     },
     {
+      "speciesId": "meowth",
+      "nationalDex": 52,
+      "spriteId": 52,
+      "name": "나옹",
+      "englishName": "Meowth",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "meowth",
+        "speciesId": 52,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/52.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/52.png",
+          "sha256": "66f194ccca113647d606bc3a601958979a7220ad033c6db79ab0da18de37c93c",
+          "width": 96,
+          "height": 96,
+          "opaque": 1144
+        },
+        "back": {
+          "path": "back/52.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/52.png",
+          "sha256": "887d603fb8448c778b10963aafb751015ae7d2eb648f25b5e8795c5571d29d09",
+          "width": 96,
+          "height": 96,
+          "opaque": 1106
+        }
+      }
+    },
+    {
       "speciesId": "persianalola",
       "nationalDex": 53,
       "spriteId": 10108,
@@ -2005,6 +2045,46 @@
             "contentType": "image/png",
             "bytes": 837
           }
+        }
+      }
+    },
+    {
+      "speciesId": "kingler",
+      "nationalDex": 99,
+      "spriteId": 99,
+      "name": "킹크랩",
+      "englishName": "Kingler",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "kingler",
+        "speciesId": 99,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/99.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/99.png",
+          "sha256": "4a85b15721776767b4fea5b495d9bb74214cb8589615b9bc4cb866812f0b1107",
+          "width": 96,
+          "height": 96,
+          "opaque": 2252
+        },
+        "back": {
+          "path": "back/99.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/99.png",
+          "sha256": "1f2c3339367b13afa0d9c51a7e7d818752ba98d718590ee219c2904b121cec7a",
+          "width": 96,
+          "height": 96,
+          "opaque": 2424
         }
       }
     },
@@ -5836,6 +5916,86 @@
             "contentType": "image/png",
             "bytes": 928
           }
+        }
+      }
+    },
+    {
+      "speciesId": "beautifly",
+      "nationalDex": 267,
+      "spriteId": 267,
+      "name": "뷰티플라이",
+      "englishName": "Beautifly",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "beautifly",
+        "speciesId": 267,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/267.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/267.png",
+          "sha256": "5ba58d0c9a8c24c49663c59cbcfc6574257667930734480ea4093545282919c2",
+          "width": 96,
+          "height": 96,
+          "opaque": 1514
+        },
+        "back": {
+          "path": "back/267.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/267.png",
+          "sha256": "459b9c4bb9aa05cab8d728a9e0ead28e819a5a086ed524c11f8694d88ccdb749",
+          "width": 96,
+          "height": 96,
+          "opaque": 1573
+        }
+      }
+    },
+    {
+      "speciesId": "dustox",
+      "nationalDex": 269,
+      "spriteId": 269,
+      "name": "독케일",
+      "englishName": "Dustox",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "dustox",
+        "speciesId": 269,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/269.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/269.png",
+          "sha256": "8b4b28f49d9e7de414bb19bf131935d074881546bb04f4eb5738954584b6c453",
+          "width": 96,
+          "height": 96,
+          "opaque": 1486
+        },
+        "back": {
+          "path": "back/269.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/269.png",
+          "sha256": "93bf89c0b833c3c9dbdf4c90d41551b7b22f97fab0d14b2a48a643c3e28487ca",
+          "width": 96,
+          "height": 96,
+          "opaque": 1908
         }
       }
     },
@@ -13013,6 +13173,86 @@
       }
     },
     {
+      "speciesId": "kyuremwhite",
+      "nationalDex": 646,
+      "spriteId": 10023,
+      "name": "큐레무 (화이트)",
+      "englishName": "Kyurem-White",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "kyurem-white",
+        "speciesId": 646,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/10023.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10023.png",
+          "sha256": "c96d70cc588709811d3e50426ae93e312c66442a9287024e3c808780849a79c0",
+          "width": 96,
+          "height": 96,
+          "opaque": 4524
+        },
+        "back": {
+          "path": "back/10023.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10023.png",
+          "sha256": "b2520d19ca1b6f33a26e9eef8f4bb3ece7df654dbc551d6521f776d26ed44b4a",
+          "width": 96,
+          "height": 96,
+          "opaque": 4329
+        }
+      }
+    },
+    {
+      "speciesId": "kyuremblack",
+      "nationalDex": 646,
+      "spriteId": 10022,
+      "name": "큐레무 (블랙)",
+      "englishName": "Kyurem-Black",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "kyurem-black",
+        "speciesId": 646,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/10022.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10022.png",
+          "sha256": "b604f99e858ba5d34926915ba281c628aaa89d8275fb23007ad1c402929cdad9",
+          "width": 96,
+          "height": 96,
+          "opaque": 4654
+        },
+        "back": {
+          "path": "back/10022.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10022.png",
+          "sha256": "1807c9fee846fa093fa80eee7be74f7d945d12a9e12ad75ea2997fa07d8a0da5",
+          "width": 96,
+          "height": 96,
+          "opaque": 4289
+        }
+      }
+    },
+    {
       "speciesId": "meloetta",
       "nationalDex": 648,
       "name": "메로엣타",
@@ -16640,6 +16880,46 @@
       }
     },
     {
+      "speciesId": "melmetal",
+      "nationalDex": 809,
+      "spriteId": 809,
+      "name": "멜메탈",
+      "englishName": "Melmetal",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "melmetal",
+        "speciesId": 809,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/809.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/809.png",
+          "sha256": "fe14c6ec56a61616fb2f59c0c495398f3e8b8596b74d2b5f0f52be0dcb875161",
+          "width": 96,
+          "height": 96,
+          "opaque": 4823
+        },
+        "back": {
+          "path": "back/809.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/809.png",
+          "sha256": "f7fab246bed19ceb921d80d932dd5c6bdebd25c607029868e23bb74e45db496f",
+          "width": 96,
+          "height": 96,
+          "opaque": 4433
+        }
+      }
+    },
+    {
       "speciesId": "rillaboom",
       "nationalDex": 812,
       "name": "고릴타",
@@ -16851,6 +17131,46 @@
       }
     },
     {
+      "speciesId": "orbeetle",
+      "nationalDex": 826,
+      "spriteId": 826,
+      "name": "이올브",
+      "englishName": "Orbeetle",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "orbeetle",
+        "speciesId": 826,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/826.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/826.png",
+          "sha256": "be872795fd91f10e30f93d88b4c646604c3b0c88cc8a8877bdfddefe47bd8f78",
+          "width": 96,
+          "height": 96,
+          "opaque": 2295
+        },
+        "back": {
+          "path": "back/826.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/826.png",
+          "sha256": "43071b49cdfe5f13e05b9f300d5f56460d4f21d97eb1b15ac69e320e0a149407",
+          "width": 96,
+          "height": 96,
+          "opaque": 2300
+        }
+      }
+    },
+    {
       "speciesId": "thievul",
       "nationalDex": 828,
       "spriteId": 828,
@@ -16887,6 +17207,86 @@
           "width": 96,
           "height": 96,
           "opaque": 2382
+        }
+      }
+    },
+    {
+      "speciesId": "drednaw",
+      "nationalDex": 834,
+      "spriteId": 834,
+      "name": "갈가부기",
+      "englishName": "Drednaw",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "drednaw",
+        "speciesId": 834,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/834.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/834.png",
+          "sha256": "c390917dc17e310fdfe7c4f25383ce6136325232ef35d60764ff8b377b822c37",
+          "width": 96,
+          "height": 96,
+          "opaque": 2237
+        },
+        "back": {
+          "path": "back/834.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/834.png",
+          "sha256": "c88ee8d09c1afee5b963dedd33f5c64fad9afcd03d0c8c847289b73ec6bc9ab1",
+          "width": 96,
+          "height": 96,
+          "opaque": 2185
+        }
+      }
+    },
+    {
+      "speciesId": "coalossal",
+      "nationalDex": 839,
+      "spriteId": 839,
+      "name": "석탄산",
+      "englishName": "Coalossal",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "coalossal",
+        "speciesId": 839,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/839.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/839.png",
+          "sha256": "86cd64e37a708268b07b72179e55ec5ea90b8d5f756935b6daf4340c70374550",
+          "width": 96,
+          "height": 96,
+          "opaque": 3457
+        },
+        "back": {
+          "path": "back/839.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/839.png",
+          "sha256": "0e805e9a3ca884dbf4a2886712964e032a559b0e3f1f9e4ccab616c00fe2d094",
+          "width": 96,
+          "height": 96,
+          "opaque": 3336
         }
       }
     },
@@ -17104,6 +17504,46 @@
           "width": 96,
           "height": 96,
           "opaque": 2030
+        }
+      }
+    },
+    {
+      "speciesId": "centiskorch",
+      "nationalDex": 851,
+      "spriteId": 851,
+      "name": "다태우지네",
+      "englishName": "Centiskorch",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "centiskorch",
+        "speciesId": 851,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/851.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/851.png",
+          "sha256": "86be36d99b473bd40bcc0153a9f3ca1496de9f5cbf660eb9423aed19cb8a50a2",
+          "width": 96,
+          "height": 96,
+          "opaque": 2425
+        },
+        "back": {
+          "path": "back/851.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/851.png",
+          "sha256": "24a14c60d70839ed5d259cc7398628ac12408d5f0a5c8ad3ab12df7360441d6c",
+          "width": 96,
+          "height": 96,
+          "opaque": 2465
         }
       }
     },
@@ -17793,6 +18233,86 @@
       }
     },
     {
+      "speciesId": "copperajah",
+      "nationalDex": 879,
+      "spriteId": 879,
+      "name": "대왕끼리동",
+      "englishName": "Copperajah",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "copperajah",
+        "speciesId": 879,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/879.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/879.png",
+          "sha256": "655fa621b0138d6897a47bf00227bba589903526f4e69dc90dc8baa8ef80da64",
+          "width": 96,
+          "height": 96,
+          "opaque": 3959
+        },
+        "back": {
+          "path": "back/879.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/879.png",
+          "sha256": "c4fe60e5bb00d49cbbc1193f88e9dab33d0d71552abeb2c3ffae94106b902fab",
+          "width": 96,
+          "height": 96,
+          "opaque": 3674
+        }
+      }
+    },
+    {
+      "speciesId": "duraludon",
+      "nationalDex": 884,
+      "spriteId": 884,
+      "name": "두랄루돈",
+      "englishName": "Duraludon",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "duraludon",
+        "speciesId": 884,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/884.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/884.png",
+          "sha256": "88eb249c1875a03f5fc06aaf23f2f462d09315badf5b14a3a4147a8295ad3a39",
+          "width": 96,
+          "height": 96,
+          "opaque": 2375
+        },
+        "back": {
+          "path": "back/884.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/884.png",
+          "sha256": "4b17e6908d3e8f2661b16e5b71fad9439217f888a3cfcfc37282ed847bd77be8",
+          "width": 96,
+          "height": 96,
+          "opaque": 2457
+        }
+      }
+    },
+    {
       "speciesId": "dragapult",
       "nationalDex": 887,
       "name": "드래펄트",
@@ -18428,6 +18948,86 @@
           "width": 96,
           "height": 96,
           "opaque": 2453
+        }
+      }
+    },
+    {
+      "speciesId": "calyrexshadow",
+      "nationalDex": 898,
+      "spriteId": 10194,
+      "name": "버드렉스 (흑마)",
+      "englishName": "Calyrex-Shadow",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "calyrex-shadow",
+        "speciesId": 898,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/10194.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10194.png",
+          "sha256": "641a97863b7b380b027bcfedee406f98c3c5d5fa067f126bf105ff923c845b58",
+          "width": 96,
+          "height": 96,
+          "opaque": 3353
+        },
+        "back": {
+          "path": "back/10194.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10194.png",
+          "sha256": "70e092327eadab021d241e102328b9eddc84a53da57cf3e6747369f75cc2ba54",
+          "width": 96,
+          "height": 96,
+          "opaque": 3442
+        }
+      }
+    },
+    {
+      "speciesId": "calyrexice",
+      "nationalDex": 898,
+      "spriteId": 10193,
+      "name": "버드렉스 (백마)",
+      "englishName": "Calyrex-Ice",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon",
+      "commit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "identity": {
+        "identifier": "calyrex-ice",
+        "speciesId": 898,
+        "source": "PokeAPI pokemon.csv"
+      },
+      "extraction": "Unmodified PNG, separately decoded and checked front/back.",
+      "images": {
+        "front": {
+          "path": "front/10193.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/10193.png",
+          "sha256": "ce74277bf6f41e0d4fbb3a0bdbb2fce8d09871d542319e7ad5c3157a307f6681",
+          "width": 96,
+          "height": 96,
+          "opaque": 3068
+        },
+        "back": {
+          "path": "back/10193.png",
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/35fdbe9bdec8f519f882c3edc3c0185f08af4d86/sprites/pokemon/back/10193.png",
+          "sha256": "9f8650a0dbd3f1b1cb1595449dc8820eb8843dfb12b088451111fd17e658fd96",
+          "width": 96,
+          "height": 96,
+          "opaque": 3179
         }
       }
     },

@@ -2064,6 +2064,44 @@
     },
     "format": "png"
   },
+  "zaciancrowned": {
+    "id": 10188,
+    "slug": "zacian-crowned",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10188.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1527,
+      "contentType": "image/png"
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10188.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1383,
+      "contentType": "image/png"
+    },
+    "format": "png"
+  },
+  "zamazentacrowned": {
+    "id": 10189,
+    "slug": "zamazenta-crowned",
+    "front": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10189.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1588,
+      "contentType": "image/png"
+    },
+    "back": {
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10189.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 1334,
+      "contentType": "image/png"
+    },
+    "format": "png"
+  },
   "necrozmaultra": {
     "id": 10157,
     "slug": "necrozma-ultra",
