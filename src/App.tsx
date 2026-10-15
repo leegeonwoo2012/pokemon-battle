@@ -5,6 +5,7 @@ import { FriendlyLobby } from './components/FriendlyLobby';
 import { TeamPreviewModal } from './components/TeamPreviewModal';
 import { BattleIntro } from './components/BattleIntro';
 import { BattleStatusPlate, HpBar, SceneActor } from './components/BattleVisuals';
+import { WeatherEffects } from './components/WeatherEffects';
 import { BattleTargetOverlay, MoveChoice } from './components/BattleCommands';
 import { BattleSoundSettings } from './components/BattleSoundSettings';
 import { battleAudio } from './presentation/audio';
@@ -382,7 +383,7 @@ function Battle({ state, onTurn, onRematch, onExit, compactLog, animating, playb
       <div className="team-counter player-counter" aria-label={`내 생존 ${player.team.filter(pokemon => !pokemon.fainted).length}마리`}>{player.team.map((pokemon, index) => <i key={index} className={pokemon.fainted ? 'fainted' : ''} />)}</div>
       <div className="battle-camera">
         <div className="stadium-roof"/><div className="stadium-stands" aria-hidden="true"/><div className="stadium-ribbon" aria-hidden="true"><span>ARENA LEAGUE</span><span>◉</span><span>ARENA LEAGUE</span><span>◉</span><span>ARENA LEAGUE</span></div>
-        <div className="stadium-floor" aria-hidden="true"/><div className="stadium-spotlight spotlight-left" aria-hidden="true"/><div className="stadium-spotlight spotlight-right" aria-hidden="true"/><div className="scene-atmosphere" aria-hidden="true"/>
+        <div className="stadium-floor" aria-hidden="true"/><div className="stadium-spotlight spotlight-left" aria-hidden="true"/><div className="stadium-spotlight spotlight-right" aria-hidden="true"/><div className="scene-atmosphere" aria-hidden="true"/><WeatherEffects weather={state.weather?.id} reducedMotion={reducedMotion}/>
         <div className="battlefield-platform platform-foe"><span /></div><div className="battlefield-platform platform-player"><span /></div>
         <div className="scene-formation formation-foe">{cpu.active.map((index, activeSlot) => <SceneActor key={cpu.team[index].uid} pokemon={cpu.team[index]} side="cpu" slot={activeSlot} event={playbackEvent} onTarget={sceneTarget('cpu', activeSlot)} targetPreview={previewFor(cpu.team[index].uid)} />)}</div>
         <div className="scene-formation formation-player">{player.active.map((index, activeSlot) => <SceneActor key={player.team[index].uid} pokemon={player.team[index]} side="player" slot={activeSlot} event={playbackEvent} commanding={!animating && !waitingOpponent && activeSlot === slot} onTarget={sceneTarget('player', activeSlot)} targetPreview={previewFor(player.team[index].uid)} />)}</div>

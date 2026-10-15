@@ -205,6 +205,38 @@ button:focus-visible,select:focus-visible { outline:3px solid #9ac5fa; outline-o
 }
 @media(prefers-reduced-motion:reduce) { .battle-message-content>p,.playback-pulse,.passive-notice,.battle-result-overlay { animation:none; } }
 
+/* Layered, scene-aware weather: haze sits behind the actors; particles cross the foreground. */
+.scene-atmosphere { overflow:hidden;isolation:isolate;background-size:cover; }
+.scene-atmosphere::before,.scene-atmosphere::after { content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.2s ease; }
+.weather-particles { position:absolute;inset:0;width:100%;height:100%;pointer-events:none; }
+.weather-depth-back { z-index:3; }
+.weather-depth-front { z-index:7; }
+.battle-scene[data-weather=sun] .scene-atmosphere { background:linear-gradient(180deg,#f6c56b0d 0%,#ffd98a12 45%,#e9a94c19 100%); }
+.battle-scene[data-weather=sun] .scene-atmosphere::before { opacity:1;background:repeating-conic-gradient(from 196deg at 82% 5%,transparent 0deg 8deg,#ffe4a20d 8.5deg 9.4deg,transparent 10deg 18deg);mask-image:linear-gradient(180deg,#000 0%,#0009 34%,transparent 82%);animation:sun-rays-drift 22s ease-in-out infinite alternate; }
+.battle-scene[data-weather=sun] .scene-atmosphere::after { opacity:1;top:auto;height:38%;background:radial-gradient(ellipse at 45% 100%,#ffc56b1f,transparent 70%);filter:blur(12px);animation:heat-shimmer 5s ease-in-out infinite alternate; }
+.battle-scene[data-weather=sun] .scene-sun,.battle-scene[data-weather=sun] .stadium-spotlight { filter:brightness(1.45) saturate(1.1); }
+.battle-scene[data-weather=rain] .scene-atmosphere { background:linear-gradient(180deg,#0b1b341c 0%,#27456318 47%,#07142645 100%); }
+.battle-scene[data-weather=rain] .scene-atmosphere::before { opacity:1;background:linear-gradient(180deg,#172a4520 0%,transparent 38%,#8db9d20c 70%,#18304a30 100%); }
+.battle-scene[data-weather=rain] .scene-atmosphere::after { opacity:.75;top:auto;height:26%;background:radial-gradient(ellipse at 40% 0%,#b7d8ed20,transparent 70%);filter:blur(16px); }
+.battle-scene[data-weather=rain] .stadium-floor { filter:saturate(.78) brightness(.76); }
+.battle-scene[data-weather=rain] .stadium-floor::before { content:"";position:absolute;inset:0;background:repeating-linear-gradient(177deg,transparent 0 34px,#bfdcf51a 35px,#b8d9f408 37px,transparent 40px 76px);opacity:.62;mix-blend-mode:screen;pointer-events:none; }
+.battle-scene[data-weather=rain] .battlefield-platform { border-color:#add9f15c;box-shadow:0 0 48px #4a85d366,inset 0 0 24px #d2edff20; }
+.battle-scene[data-weather=snow] .scene-atmosphere { background:linear-gradient(180deg,#8dc9e30c 0%,#83b8d51a 58%,#d9f4ff24 100%); }
+.battle-scene[data-weather=snow] .scene-atmosphere::before { opacity:1;background:radial-gradient(ellipse at 50% 90%,#dff7ff1e,transparent 58%),linear-gradient(180deg,#b8e9ff08,transparent 52%,#b8e9ff19); }
+.battle-scene[data-weather=snow] .scene-atmosphere::after { opacity:.7;top:auto;height:28%;background:linear-gradient(0deg,#d9f4ff22,transparent);filter:blur(9px); }
+.battle-scene[data-weather=snow] .stadium-floor::before { content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 54%,#d7f4ff16 92%,#e7f7ff28);pointer-events:none; }
+.battle-scene[data-weather=sand] .scene-atmosphere { background:linear-gradient(180deg,#bd8f4920 0%,#b98d4a13 42%,#d5a55231 100%); }
+.battle-scene[data-weather=sand] .scene-atmosphere::before { opacity:1;background:linear-gradient(90deg,#e6be7724 0%,transparent 25%,#edc77d12 68%,#d5a65a24 100%);animation:sand-haze-sweep 10s ease-in-out infinite alternate; }
+.battle-scene[data-weather=sand] .scene-atmosphere::after { opacity:.8;top:auto;height:45%;background:radial-gradient(ellipse at 35% 100%,#d9ad6a22,transparent 67%);filter:blur(18px); }
+.battle-scene[data-weather=sand] .stadium-floor { filter:sepia(.15) saturate(.78) brightness(.84); }
+.battle-scene[data-weather=sand] .stadium-stands { filter:sepia(.12) saturate(.82); }
+.battle-scene[data-weather=sand] .battlefield-platform { border-color:#d8bd8650;box-shadow:0 0 35px #c5985140,inset 0 0 18px #e8cf9c10; }
+@keyframes sun-rays-drift { from { transform:translateX(-1.5%) rotate(-1deg); } to { transform:translateX(1.5%) rotate(1deg); } }
+@keyframes heat-shimmer { from { transform:translateY(0) scaleX(1);opacity:.55; } to { transform:translateY(-5px) scaleX(1.035);opacity:1; } }
+@keyframes sand-haze-sweep { from { transform:translateX(-2%); } to { transform:translateX(2%); } }
+.reduced-motion .scene-atmosphere::before,.reduced-motion .scene-atmosphere::after { animation:none!important; }
+@media(prefers-reduced-motion:reduce) { .scene-atmosphere::before,.scene-atmosphere::after { animation:none!important; } }
+
 /* All sprites share a ground anchor. Transparent source canvases never determine body size. */
 .sprite-uncropped { width:100%;height:100%;display:grid;place-items:center; }
 .scene-actor { height:100%;container-type:size;--body-unit:245px; }
