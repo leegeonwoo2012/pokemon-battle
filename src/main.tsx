@@ -11,6 +11,7 @@ import './styles-team-order.css';
 import './styles-cinematic.css';
 import './styles-team-preview.css';
 import './styles-hit-effects.css';
+import './styles-battle-feedback.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode><App /></React.StrictMode>,

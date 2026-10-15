@@ -3,6 +3,7 @@ import { moveMotion } from './move-motions';
 import { battleAudio } from './audio';
 import { describeHit, playHitEffect } from './hit-effects';
 import { animationPause, battleTiming } from './timing';
+import { playElementalImpact, playMissEffect } from './elemental-effects';
 
 const colors: Record<string, string> = { fire:'#ff8550',water:'#77d5ff',electric:'#fff473',grass:'#93ee86',ice:'#c0f7ff',fighting:'#ffc18d',poison:'#d3a1ff',ground:'#e4c994',flying:'#d9f2ff',psychic:'#ffa4d4',bug:'#c6ec89',rock:'#ddcb9c',ghost:'#b99cff',dragon:'#b4b8ff',dark:'#8d99b9',steel:'#d4eaff',fairy:'#ffc6ed',normal:'#fff9d6' };
 
@@ -15,6 +16,7 @@ export function resetBattleVisuals(root:HTMLElement|null):void {
   }
   root.querySelectorAll('.battle-vfx').forEach(node=>node.remove());
   delete root.dataset.moveId;delete root.dataset.motionPhase;
+  delete root.dataset.criticalImpact;
 }
 
 async function tween(element: Element | null, frames: Keyframe[], duration: number, signal: AbortSignal, fill: FillMode = 'none'): Promise<void> {
@@ -505,7 +507,7 @@ export async function animateBattleEvent(root: HTMLElement | null, event: Battle
   // Friend snapshots are already swapped into the viewer's player/cpu perspective.
   const localSide='player';
   battleAudio.stopEffects();
-  if(reducedMotion){battleAudio.play(event,localSide);return;}
+  if(reducedMotion||window.matchMedia?.('(prefers-reduced-motion: reduce)').matches){battleAudio.play(event,localSide);return;}
   if(event.kind!=='move')battleAudio.play(event,localSide);
   root.dataset.motionPhase=event.kind==='damage'?'impact':'result';
   const actor = (uid?:string) => uid ? root.querySelector<HTMLElement>(`.scene-actor[data-uid="${uid}"] .sprite-art`) : null;
@@ -544,11 +546,17 @@ export async function animateBattleEvent(root: HTMLElement | null, event: Battle
       break;
     }
     case 'damage': {
-      const tasks=[tween(target,[{transform:'translateX(0)',filter:'brightness(1)'},{transform:'translateX(-12px)',filter:'brightness(2)'},{transform:'translateX(10px)',opacity:.45},{transform:'translateX(-6px)',opacity:1},{transform:'translateX(0)',filter:'brightness(1)'}],battleTiming.impact,signal)];
+      const ambient=event.critical?(root.querySelector('.battle-camera')?.getAnimations?.({subtree:true})??[]).filter(animation=>typeof CSSAnimation!=='undefined'&&animation instanceof CSSAnimation):[];
+      const rates=ambient.map(animation=>animation.playbackRate);
+      ambient.forEach(animation=>animation.updatePlaybackRate(.24));
+      if(event.critical)root.dataset.criticalImpact='true';
+      const tasks=[tween(target,[{transform:'translateX(0)',filter:'brightness(1)'},{transform:'translateX(-12px)',filter:'brightness(2)'},{transform:'translateX(10px)',opacity:.45},{transform:'translateX(-6px)',opacity:1},{transform:'translateX(0)',filter:'brightness(1)'}],battleTiming.impact*(event.critical?1.7:1),signal),playElementalImpact(root,target,event,signal)];
       if (event.moveId) tasks.push(effect(root,target,'impact',color,signal,undefined,battleTiming.impact));
       const hit=describeHit(event);if(hit)tasks.push(playHitEffect(root,target,hit,signal));
-      await Promise.all(tasks);root.dataset.motionPhase='hp';await scaledPause(root,battleTiming.hpDuration,signal);break;
+      try{await Promise.all(tasks);}finally{ambient.forEach((animation,index)=>animation.updatePlaybackRate(rates[index]));delete root.dataset.criticalImpact;}
+      root.dataset.motionPhase='hp';await scaledPause(root,battleTiming.hpDuration,signal);break;
     }
+    case 'miss': await playMissEffect(root,target??actor(event.targetUids?.[0]),signal);break;
     case 'switch-out': await recallPokemon(root,user,signal); break;
     case 'switch-in': await sendOutPokemon(root,user,signal); break;
     case 'faint': await tween(target,[{transform:'translateY(0)',opacity:1,filter:'brightness(1)'},{transform:'translateY(15px)',filter:'brightness(.6)',opacity:.7,offset:.5},{transform:'translateY(85px) scaleY(.4)',opacity:0}],battleTiming.faint,signal,'forwards'); break;

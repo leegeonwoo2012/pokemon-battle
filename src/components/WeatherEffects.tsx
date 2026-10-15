@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import type { BattleEvent } from '../engine/types';
 
 type Weather = 'rain' | 'sand' | 'snow' | 'sun';
 type Particle = {
@@ -16,6 +17,7 @@ type Splash = { x: number; y: number; age: number; size: number; seed: number };
 interface Props {
   weather?: string;
   reducedMotion: boolean;
+  event?: BattleEvent | null;
 }
 
 const PARTICLE_COUNTS: Record<Weather, [number, number]> = {
@@ -26,9 +28,16 @@ const PARTICLE_COUNTS: Record<Weather, [number, number]> = {
 };
 
 /** Layered atmospheric particles add depth while leaving battle state and sprites untouched. */
-export function WeatherEffects({ weather, reducedMotion }: Props) {
+export function WeatherEffects({ weather, reducedMotion, event }: Props) {
   const backRef = useRef<HTMLCanvasElement>(null);
   const frontRef = useRef<HTMLCanvasElement>(null);
+  const emphasis = useRef({slowUntil:0,gustUntil:0});
+  useEffect(()=>{
+    if(event?.kind!=='damage'||!event.moveId||event.beforeHp===undefined||event.afterHp===undefined||event.beforeHp<=event.afterHp)return;
+    const now=performance.now();
+    if(event.critical)emphasis.current.slowUntil=now+650;
+    if(weather==='snow'&&event.type==='ice')emphasis.current.gustUntil=now+1100;
+  },[event?.id,weather]);
 
   useEffect(() => {
     if (!weather || !(['rain', 'sand', 'snow', 'sun'] as string[]).includes(weather)) return;
@@ -120,7 +129,9 @@ export function WeatherEffects({ weather, reducedMotion }: Props) {
     };
 
     const draw = (time: number) => {
-      const dt = last && animate ? Math.min(.04, (time - last) / 1000) : 0;
+      const slow=time<emphasis.current.slowUntil ? .24 : 1;
+      const snowGust=kind==='snow'&&time<emphasis.current.gustUntil;
+      const dt = last && animate ? Math.min(.04, (time - last) / 1000)*slow : 0;
       last = time;
       elapsed += dt;
       ctxs.forEach(context => context.clearRect(0, 0, width, height));
@@ -162,9 +173,9 @@ export function WeatherEffects({ weather, reducedMotion }: Props) {
         layer.forEach(particle => {
           const depth = particle.size;
           if (animate) {
-            const gust=kind==='sand' ? 1+Math.sin(elapsed*1.5)*.3+Math.sin(elapsed*.53)*.2 : 1;
+            const gust=kind==='sand' ? 1+Math.sin(elapsed*1.5)*.3+Math.sin(elapsed*.53)*.2 : snowGust ? 4 : 1;
             particle.x += particle.vx * dt * gust;
-            particle.y += particle.vy * dt;
+            particle.y += particle.vy * dt * (snowGust?1.7:1);
             if (kind === 'snow') particle.x += Math.sin(elapsed * (1.2 + depth) + particle.phase) * 20 * dt;
             if (kind === 'sand') particle.y += Math.sin(elapsed * 3 + particle.phase) * 45 * depth * dt;
           }

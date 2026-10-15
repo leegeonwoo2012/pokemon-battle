@@ -44,7 +44,22 @@ it('uses the visible transformation’s physical size and keeps status icons tie
   expect(Number(view.container.querySelector('.scene-actor')?.getAttribute('data-height-m'))).toBe(physicalDimensions('dondozo')?.height);
   expect(view.getByRole('img',{name:'화상'})).toBeTruthy();expect(view.getByRole('img',{name:'혼란'})).toBeTruthy();
   expect(view.container.querySelector('[data-target-preview="spread"]')).toBeTruthy();
+  expect(view.container.querySelector('[data-status="burn"] .actor-status-effects')).toBeTruthy();
   pokemon.status=null;pokemon.confusionTurns=0;
   view.rerender(<SceneActor pokemon={pokemon} side="player" slot={0} event={null}/>);
   expect(view.queryByRole('img',{name:'화상'})).toBeNull();expect(view.queryByRole('img',{name:'혼란'})).toBeNull();
+  expect(view.container.querySelector('[data-status="burn"]')).toBeNull();
+});
+
+it('clears low HP warnings and status effects after healing or fainting',()=>{
+  const pokemon=state().sides.player.team[0];pokemon.hp=1;pokemon.status='paralysis';pokemon.types=['rock'];
+  const view=render(<SceneActor pokemon={pokemon} side="player" slot={0} event={null}/>);
+  expect(view.container.querySelector('[data-low-hp="true"][data-rock-type="true"][data-status="paralysis"]')).toBeTruthy();
+  pokemon.hp=pokemon.maxHp;pokemon.status=null;
+  view.rerender(<SceneActor pokemon={pokemon} side="player" slot={0} event={null}/>);
+  expect(view.container.querySelector('[data-low-hp]')).toBeNull();
+  pokemon.hp=0;pokemon.fainted=true;pokemon.status='poison';
+  view.rerender(<SceneActor pokemon={pokemon} side="player" slot={0} event={null}/>);
+  expect(view.container.querySelector('.actor-status-effects')).toBeNull();
+  expect(view.container.querySelector('[data-status]')).toBeNull();
 });

@@ -116,6 +116,7 @@ class BattleAudio {
         if(critical)this.tone(1450,620,.22,.065,'triangle',.07);
       }
       else if(event.kind==='switch-out')this.tone(1100,100,.4,0,'sine',.055);
+      else if(event.kind==='miss'){this.noise(.2,2600,.07);this.tone(520,180,.17,0,'sine',.025);}
       else if(event.kind==='switch-in'){this.noise(.14,4200,.1);[440,660,880].forEach((pitch,i)=>this.tone(pitch,pitch,.2,i*.09));}
       else if(event.kind==='heal')[660,880,1100].forEach((pitch,i)=>this.tone(pitch,pitch,.18,i*.1));
       else if(event.kind==='faint'){this.tone(260,45,.6,0,'triangle',.07);this.noise(.3,350,.08,.2);}
