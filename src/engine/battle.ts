@@ -535,8 +535,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
       addLog(state,`${move.name}이(가) 실패했다!`,'move',{kind:'blocked',actorUid:user.uid,targetUid:target?.uid});return;
     }
   }
-  const effectful=move.category==='status'||move.id==='pollenpuff'&&refs.some(ref=>ref.side===side)||refs.some(ref=>{const target=getPokemonAt(state,ref);return target&&target!==user&&battleTypeMultiplier(state,move,target,user)>0&&!isTypeImmune(target,move,state);});
-  addLog(state, `${displayName(user)}: ${move.name} 사용!`, 'move', { kind:effectful?'move':'message',moveId:move.id,category:move.category,type:move.type,targetUid: targetUids[0], targetUids });
+  addLog(state, `${displayName(user)}: ${move.name} 사용!`, 'move', { kind:'move',moveId:move.id,category:move.category,type:move.type,targetUid: targetUids[0], targetUids });
   if(move.id==='followme'||move.id==='ragepowder'){
     user.redirectTurn=state.turn;user.redirectPowder=move.id==='ragepowder';
     addLog(state,`${displayName(user)}이(가) 공격을 끌어당긴다!`,'status',{kind:'ability',actorUid:user.uid});
@@ -991,9 +990,6 @@ function advanceTurn(state: BattleState, playerActions: BattleAction[], cpuActio
     cpu: normalizeActions(state, 'cpu', cpuActions ?? chooseCpuActions(state)),
   };
   const queue: QueuedAction[] = [];
-  for(const side of ['player','cpu'] as const) for(const action of selected[side]) {
-    if(action.kind==='move'&&action.gimmick&&!activateGimmick(state,side,action.slot,action.gimmick,action.moveId,action.teraType)) action.gimmick=undefined;
-  }
   for (const side of ['player', 'cpu'] as const) {
     for (const action of selected[side]) {
       const actor = getPokemonAt(state, { side, slot: action.slot });
@@ -1015,6 +1011,10 @@ function advanceTurn(state: BattleState, playerActions: BattleAction[], cpuActio
     actor.actedTurn = state.turn;
     if (queued.action.kind === 'switch') executeSwitch(state, queued.side, queued.action);
     else {
+      // A transformation is part of this Pokémon's chosen action. Present and
+      // resolve it here so its announcement follows switch/move priority order,
+      // and a Pokémon knocked out earlier in the turn cannot transform first.
+      if(queued.action.gimmick&&!activateGimmick(state,queued.side,queued.action.slot,queued.action.gimmick,queued.action.moveId,queued.action.teraType)) queued.action.gimmick=undefined;
       const move = weatherBallMove(state,actor,previewMove(actor,moves[queued.action.moveId] ?? STRUGGLE,queued.action.gimmick));
       withEventContext(state, { actorUid: actor.uid, moveId: move.id, category: move.category, powered:move.powered, type: move.type, side: queued.side, slot: queued.action.slot },
         () => executeMove(state, queued.side, queued.action as Extract<BattleAction, { kind: 'move' }>));

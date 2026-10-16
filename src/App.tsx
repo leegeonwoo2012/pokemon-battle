@@ -314,7 +314,14 @@ function Battle({ state, onTurn, onRematch, onExit, compactLog, animating, playb
   const eventCue = isMoveEvent ? moveMotion({ id: playbackEvent.moveId ?? '', type: eventType, category: eventCategory ?? 'physical' }).cue : '';
   const choiceMove = active && lockedMove(active);
   const movePrompt = choiceMove ? `${items[active.set.itemId].name}: 교체 전까지 ${moves[choiceMove]?.name}만 사용할 수 있습니다.${active.pp[choiceMove] <= 0 ? ' PP가 없어 발버둥을 사용합니다.' : ''}` : '어떤 기술을 사용할까요?';
-  const prompt = animating && playbackEvent ? playbackEvent.text : waitingOpponent ? '친구의 행동을 기다리는 중입니다…' : state.winner ? latestLog : replacing ? (replacementKey ? '다음으로 출전할 포켓몬을 선택하세요!' : '상대가 다음 포켓몬을 고르고 있습니다…') : eventMessage ?? (forcedMoveId ? `${active.speciesName}은(는) ${moves[forcedMoveId]?.name??forcedMoveId}을(를) 계속 사용합니다.` : menu === 'moves' ? movePrompt : menu === 'party' ? '교체할 포켓몬을 고르세요.' : menu === 'bag' ? '현재 지닌 도구와 발동 조건을 확인하세요.' : menu === 'targets' ? '기술 대상을 선택하세요.' : allReady ? '행동을 결정하고 턴을 진행하세요.' : `${active?.speciesName ?? ''}은(는) 무엇을 할까요?`);
+  const playbackLine = playbackEvent && eventActor
+    ? playbackEvent.kind === 'move' && namedEvent ? `${eventActorSide} ${eventActor.speciesName} · ${moveEventLabel} 사용!`
+      : playbackEvent.kind === 'protect' ? `${eventActorSide} ${eventActor.speciesName} · 방어 성공!`
+      : playbackEvent.kind === 'switch-out' ? `${eventActorSide} ${eventActor.speciesName} 교체!`
+      : playbackEvent.kind === 'switch-in' ? `${eventActorSide} ${eventActor.speciesName} 출전!`
+      : playbackEvent.text
+    : playbackEvent?.text;
+  const prompt = animating && playbackEvent ? playbackLine : waitingOpponent ? '친구의 행동을 기다리는 중입니다…' : state.winner ? latestLog : replacing ? (replacementKey ? '다음으로 출전할 포켓몬을 선택하세요!' : '상대가 다음 포켓몬을 고르고 있습니다…') : eventMessage ?? (forcedMoveId ? `${active.speciesName}은(는) ${moves[forcedMoveId]?.name??forcedMoveId}을(를) 계속 사용합니다.` : menu === 'moves' ? movePrompt : menu === 'party' ? '교체할 포켓몬을 고르세요.' : menu === 'bag' ? '현재 지닌 도구와 발동 조건을 확인하세요.' : menu === 'targets' ? '기술 대상을 선택하세요.' : allReady ? '행동을 결정하고 턴을 진행하세요.' : `${active?.speciesName ?? ''}은(는) 무엇을 할까요?`);
 
   function battleMovePreview(move: Move): Move {
     return move.id==='expandingforce'&&state.field?.id==='psychic'&&active&&isGrounded(active,state)
