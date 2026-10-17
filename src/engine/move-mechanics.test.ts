@@ -35,7 +35,7 @@ describe('move mechanics regressions', () => {
     mon(interrupted, 'player').stats.spe = 1;
     mon(interrupted, 'cpu').stats.spe = 300;
     const failed = runTurnWithEvents(interrupted, action('focuspunch'), action('tackle'));
-    const preparing = failed.events.findIndex(event => event.text.includes('힘껏펀치의 기를 모으고 있다'));
+    const preparing = failed.events.findIndex(event => event.kind === 'focus-prepare');
     const interruptedAt = failed.events.findIndex(event => event.kind === 'blocked' && event.moveId === 'focuspunch');
     expect(preparing).toBeGreaterThanOrEqual(0);
     expect(interruptedAt).toBeGreaterThan(preparing);
@@ -47,7 +47,7 @@ describe('move mechanics regressions', () => {
     mon(ready, 'player').stats.spe = 1;
     mon(ready, 'cpu').stats.spe = 300;
     const hit = runTurnWithEvents(ready, action('focuspunch'), action('swordsdance'));
-    expect(hit.events.some(event => event.text.includes('힘껏펀치의 기를 모으고 있다'))).toBe(true);
+    expect(hit.events.some(event => event.kind === 'focus-prepare')).toBe(true);
     expect(hit.events.some(event => event.text.includes('힘껏펀치 사용!'))).toBe(true);
     expect(mon(hit.state, 'cpu').hp).toBeLessThan(mon(ready, 'cpu').hp);
   });
@@ -56,8 +56,40 @@ describe('move mechanics regressions', () => {
     const state = battle(fixture('focuspunch'), fixture('tackle'));
     const alternative = mon(state, 'player').set.moves.find(id => id !== 'focuspunch')!;
     const result = runTurnWithEvents(state, action(alternative), action('tackle'));
-    expect(result.events.some(event => event.text.includes('힘껏펀치의 기를 모으고 있다'))).toBe(false);
+    expect(result.events.some(event => event.kind === 'focus-prepare')).toBe(false);
     expect(result.events.some(event => event.moveId === 'focuspunch' && event.kind === 'blocked')).toBe(false);
+  });
+
+  it('prepares again on every consecutive Focus Punch turn', () => {
+    const initial = battle(fixture('focuspunch'), fixture('swordsdance'));
+    mon(initial, 'cpu').maxHp = 9999;
+    mon(initial, 'cpu').hp = 9999;
+    const first = runTurnWithEvents(initial, action('focuspunch'), action('swordsdance'));
+    const second = runTurnWithEvents(first.state, action('focuspunch'), action('swordsdance'));
+    for (const turn of [first, second]) {
+      const prepare = turn.events.findIndex(event => event.kind === 'focus-prepare');
+      const attack = turn.events.findIndex(event => event.kind === 'move' && event.moveId === 'focuspunch');
+      expect(prepare).toBeGreaterThanOrEqual(0);
+      expect(attack).toBeGreaterThan(prepare);
+    }
+    expect(mon(second.state, 'cpu').hp).toBeLessThan(mon(first.state, 'cpu').hp);
+  });
+
+  it('prepares again after an interrupted Focus Punch', () => {
+    const defenderId = Object.keys(species).find(id => species[id].learnset.includes('tackle') && species[id].learnset.includes('swordsdance'))!;
+    const defender = createSet(defenderId);
+    defender.moves = ['tackle', 'swordsdance', ...defender.moves.filter(id => id !== 'tackle' && id !== 'swordsdance')].slice(0, 4);
+    const initial = battle(fixture('focuspunch'), defender);
+    mon(initial, 'player').maxHp = 9999;
+    mon(initial, 'player').hp = 9999;
+    mon(initial, 'cpu').maxHp = 9999;
+    mon(initial, 'cpu').hp = 9999;
+    const first = runTurnWithEvents(initial, action('focuspunch'), action('tackle'));
+    expect(first.events.some(event => event.kind === 'blocked' && event.moveId === 'focuspunch')).toBe(true);
+    const second = runTurnWithEvents(first.state, action('focuspunch'), action('swordsdance'));
+    expect(second.events[0].kind).toBe('focus-prepare');
+    expect(second.events.some(event => event.kind === 'move' && event.moveId === 'focuspunch')).toBe(true);
+    expect(second.events.some(event => event.kind === 'blocked' && event.moveId === 'focuspunch')).toBe(false);
   });
 
   it('allows Mega Evolution with Focus Punch and keeps the move usable', () => {

@@ -599,6 +599,12 @@ export async function animateBattleEvent(root: HTMLElement | null, event: Battle
   const color=colors[event.type ?? 'normal'] ?? colors.normal;
   const message=root.querySelector('.battle-message-box');
   switch(event.kind) {
+    case 'focus-prepare':
+      await Promise.all([
+        effect(root,user,'aura',colors.fighting,signal),
+        tween(user,[{filter:'brightness(1)',transform:'scale(1)'},{filter:'brightness(1.7)',transform:'scale(1.08)',offset:.55},{filter:'brightness(1)',transform:'scale(1)'}],650,signal),
+      ]);
+      break;
     case 'gimmick-start':
       await effect(root,user,event.gimmick==='mega'?'mega-prism':event.gimmick==='dynamax'?'max-cloud':event.gimmick==='tera'?'tera-prism':'aura',event.gimmick==='dynamax'?'#ff478b':color,signal);
       await tween(user,[{filter:'brightness(1)'},{filter:'brightness(3) saturate(0)',transform:'scale(.85)'},{filter:'brightness(0)',transform:'scale(.9)'}],570,signal);

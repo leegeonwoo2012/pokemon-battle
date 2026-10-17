@@ -10,6 +10,7 @@ export interface PlaybackHooks {
 export function readableFrameDuration(event: BattleEvent): number {
   switch (event.kind) {
     case 'move': return 2000;
+    case 'focus-prepare': return 1450;
     case 'damage': case 'heal': return 1400;
     case 'gimmick-transform': return 2100;
     case 'gimmick-start': return 1000;

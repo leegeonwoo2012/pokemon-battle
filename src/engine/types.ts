@@ -334,7 +334,7 @@ export interface BattleEvent {
   id: number;
   kind: 'move' | 'damage' | 'heal' | 'stat' | 'status' | 'protect' | 'blocked' | 'miss'
     | 'effectiveness' | 'critical' | 'ability' | 'item' | 'switch-out' | 'switch-in'
-    | 'faint' | 'weather' | 'field' | 'turn-end' | 'result' | 'message' | 'form-change' | 'gimmick-start' | 'gimmick-transform' | 'gimmick-end';
+    | 'faint' | 'weather' | 'field' | 'turn-end' | 'result' | 'message' | 'focus-prepare' | 'form-change' | 'gimmick-start' | 'gimmick-transform' | 'gimmick-end';
   gimmick?: Gimmick;
   formId?:string;
   text: string;

@@ -522,7 +522,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
   }
   // Z and Max conversions replace Focus Punch with their own powered move;
   // only the ordinary Focus Punch keeps the focus interruption rule.
-  if(baseMove.focus && !move.powered && user.focusInterruptedTurn===state.turn){
+  if(baseMove.focus && !move.powered && user.focusPreparingTurn===state.turn && user.focusInterruptedTurn===state.turn){
     addLog(state,`${displayName(user)}은(는) 힘껏펀치에 집중하지 못했다!`,'move',{kind:'blocked',actorUid:user.uid,moveId:baseMove.id,targetUid:targetUids[0]});
     return;
   }
@@ -1002,7 +1002,7 @@ function advanceTurn(state: BattleState, playerActions: BattleAction[], cpuActio
     const actor = getPokemonAt(state, { side, slot: action.slot });
     if (!actor || previewMove(actor, moves[action.moveId], action.gimmick).powered) continue;
     actor.focusPreparingTurn = state.turn;
-    addLog(state, `${displayName(actor)}은(는) 힘껏펀치의 기를 모으고 있다!`, 'status', { kind: 'message', actorUid: actor.uid });
+    addLog(state, `${displayName(actor)}은(는) 힘껏펀치의 기를 모으고 있다!`, 'status', { kind: 'focus-prepare', actorUid: actor.uid });
   }
   const queue: QueuedAction[] = [];
   for (const side of ['player', 'cpu'] as const) {
