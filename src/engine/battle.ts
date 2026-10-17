@@ -104,7 +104,8 @@ export function createBattle(options: BattleOptions): BattleState {
 
 function fallbackAction(state: BattleState, side: Side, slot: number): BattleAction {
   const pokemon = getPokemonAt(state, { side, slot });
-  const move = pokemon && usableMoves(pokemon)[0];
+  const available = pokemon ? usableMoves(pokemon) : [];
+  const move = available.find(candidate => !candidate.focus) ?? available[0];
   return { kind: 'move', slot, moveId: move?.id ?? 'struggle' };
 }
 
@@ -678,7 +679,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
           if(target.substituteHp<=0){target.substituteHp=undefined;addLog(state,`${displayName(target)}의 대타출동이 사라졌다!`,'status',{targetUid:target.uid});}
         }
         else hitBody=true;
-        if(hitDamage&&!target.fainted&&target!==user)target.focusInterruptedTurn=state.turn;
+        if(hitDamage&&!intercepted&&target!==user&&target.focusPreparingTurn===state.turn&&target.actedTurn!==state.turn)target.focusInterruptedTurn=state.turn;
         if(move.groundsTarget&&hitDamage&&!intercepted){target.groundedByMove=true;addLog(state,`${displayName(target)}이 지면으로 끌려 내려왔다!`,'status',{targetUid:target.uid,kind:'field'});}
         if(hitDamage&&!intercepted&&target.set.abilityId==='spicyspray')applyStatus(state,user,'burn',displayName(target),target);
         if(hitDamage&&!intercepted&&!target.fainted&&user.set.abilityId==='toxicchain'&&target.set.abilityId!=='shielddust'
@@ -996,6 +997,13 @@ function advanceTurn(state: BattleState, playerActions: BattleAction[], cpuActio
     player: normalizeActions(state, 'player', playerActions),
     cpu: normalizeActions(state, 'cpu', cpuActions ?? chooseCpuActions(state)),
   };
+  for (const side of ['player', 'cpu'] as const) for (const action of selected[side]) {
+    if (action.kind !== 'move' || !moves[action.moveId]?.focus) continue;
+    const actor = getPokemonAt(state, { side, slot: action.slot });
+    if (!actor || previewMove(actor, moves[action.moveId], action.gimmick).powered) continue;
+    actor.focusPreparingTurn = state.turn;
+    addLog(state, `${displayName(actor)}은(는) 힘껏펀치의 기를 모으고 있다!`, 'status', { kind: 'message', actorUid: actor.uid });
+  }
   const queue: QueuedAction[] = [];
   for (const side of ['player', 'cpu'] as const) {
     for (const action of selected[side]) {

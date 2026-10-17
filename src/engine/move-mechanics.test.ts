@@ -35,6 +35,10 @@ describe('move mechanics regressions', () => {
     mon(interrupted, 'player').stats.spe = 1;
     mon(interrupted, 'cpu').stats.spe = 300;
     const failed = runTurnWithEvents(interrupted, action('focuspunch'), action('tackle'));
+    const preparing = failed.events.findIndex(event => event.text.includes('힘껏펀치의 기를 모으고 있다'));
+    const interruptedAt = failed.events.findIndex(event => event.kind === 'blocked' && event.moveId === 'focuspunch');
+    expect(preparing).toBeGreaterThanOrEqual(0);
+    expect(interruptedAt).toBeGreaterThan(preparing);
     expect(mon(failed.state, 'cpu').hp).toBe(mon(interrupted, 'cpu').hp);
     expect(failed.state.log.some(entry => entry.text.includes('힘껏펀치에 집중하지 못했다'))).toBe(true);
     expect(failed.events.some(event => event.kind === 'blocked' && event.moveId === 'focuspunch')).toBe(true);
@@ -42,8 +46,18 @@ describe('move mechanics regressions', () => {
     const ready = battle(fixture('focuspunch'), fixture('swordsdance'));
     mon(ready, 'player').stats.spe = 1;
     mon(ready, 'cpu').stats.spe = 300;
-    const hit = runTurn(ready, action('focuspunch'), action('swordsdance'));
-    expect(mon(hit, 'cpu').hp).toBeLessThan(mon(ready, 'cpu').hp);
+    const hit = runTurnWithEvents(ready, action('focuspunch'), action('swordsdance'));
+    expect(hit.events.some(event => event.text.includes('힘껏펀치의 기를 모으고 있다'))).toBe(true);
+    expect(hit.events.some(event => event.text.includes('힘껏펀치 사용!'))).toBe(true);
+    expect(mon(hit.state, 'cpu').hp).toBeLessThan(mon(ready, 'cpu').hp);
+  });
+
+  it('does not report Focus Punch failure when a different move was chosen', () => {
+    const state = battle(fixture('focuspunch'), fixture('tackle'));
+    const alternative = mon(state, 'player').set.moves.find(id => id !== 'focuspunch')!;
+    const result = runTurnWithEvents(state, action(alternative), action('tackle'));
+    expect(result.events.some(event => event.text.includes('힘껏펀치의 기를 모으고 있다'))).toBe(false);
+    expect(result.events.some(event => event.moveId === 'focuspunch' && event.kind === 'blocked')).toBe(false);
   });
 
   it('allows Mega Evolution with Focus Punch and keeps the move usable', () => {

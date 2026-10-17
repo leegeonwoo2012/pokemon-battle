@@ -275,6 +275,7 @@ export interface Combatant {
   lastMove?: string;
   lastReceivedHit?: { turn: number; damage: number; category: 'physical' | 'special'; sourceUid: string };
   focusInterruptedTurn?: number;
+  focusPreparingTurn?: number;
   charging?: { moveId: string; target?: TargetRef };
   rampage?: { moveId: string; remaining: number; target?: TargetRef };
   aquaRing?: boolean;
