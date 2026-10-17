@@ -19,6 +19,7 @@ export function resetBattleVisuals(root:HTMLElement|null):void {
   root.querySelectorAll('.battle-vfx').forEach(node=>node.remove());
   delete root.dataset.moveId;delete root.dataset.motionPhase;
   delete root.dataset.criticalImpact;
+  delete root.dataset.gimmick;
 }
 
 async function tween(element: Element | null, frames: Keyframe[], duration: number, signal: AbortSignal, fill: FillMode = 'none'): Promise<void> {
@@ -481,6 +482,10 @@ async function transformReveal(root:HTMLElement,event:BattleEvent,user:Element|n
   const transformed=event.snapshot.sides.player.team.concat(event.snapshot.sides.cpu.team).find(pokemon=>pokemon.uid===event.actorUid);
   const ultraBurst=transformed?.transformation?.formId==='necrozmaultra';
   const kind=ultraBurst?'ultra':event.gimmick??'mega',at=point(user,root),color=kind==='mega'?'#bca0ff':kind==='ultra'?'#fff29a':kind==='dynamax'?'#ff478b':colors[event.type??'normal']??'#dcf8ff';
+  if(kind==='mega'){
+    await megaReveal(root,user,at,signal);
+    return;
+  }
   const wash=moveParticle(root,'form-wash',color,{x:root.clientWidth/2,y:root.clientHeight/2},`wash-${kind}`);
   const rings=Array.from({length:kind==='tera'||kind==='ultra'?12:kind==='dynamax'?5:8},(_,index)=>{
     const node=moveParticle(root,kind==='tera'?'tera-shard':kind==='dynamax'?'max-cloud':kind==='ultra'?'ultra-orbit':'mega-orbit',color,at);node.style.setProperty('--particle-index',String(index));return node;
@@ -495,6 +500,37 @@ async function transformReveal(root:HTMLElement,event:BattleEvent,user:Element|n
       await tween(node,[{transform:`translate(-50%,-50%) rotate(${index*45}deg) scale(.1)`,opacity:0},{transform:`translate(calc(-50% + ${Math.cos(angle)*radius}px),calc(-50% + ${Math.sin(angle)*radius}px)) rotate(${index*45+150}deg) scale(1)`,opacity:1,offset:.6},{transform:`translate(calc(-50% + ${Math.cos(angle)*radius*1.7}px),calc(-50% + ${Math.sin(angle)*radius*1.7}px)) rotate(${index*45+230}deg) scale(.5)`,opacity:0}],1200+index*20,signal);
     }),
   ]);}finally{wash.remove();rings.forEach(node=>node.remove());delete root.dataset.gimmick;}
+}
+
+async function megaReveal(root:HTMLElement,user:Element,at:{x:number;y:number},signal:AbortSignal){
+  const color='#cda5ff',center={x:root.clientWidth/2,y:root.clientHeight/2};
+  const wash=moveParticle(root,'mega-wash',color,center);
+  const seal=moveParticle(root,'mega-seal',color,at);
+  const core=moveParticle(root,'mega-core',color,at);
+  const shockwave=moveParticle(root,'mega-shockwave',color,at);
+  const shards=Array.from({length:10},(_,index)=>{
+    const node=moveParticle(root,'mega-shard',index%2?'#fff4cf':color,at);
+    node.style.setProperty('--shard-angle',`${index*36}deg`);
+    return node;
+  });
+  root.dataset.gimmick='mega';
+  try{
+    await Promise.all([
+      tween(wash,[{opacity:0},{opacity:.68,offset:.32},{opacity:.48,offset:.65},{opacity:0}],1770,signal),
+      tween(seal,[{transform:'translate(-50%,-50%) rotate(-90deg) scale(.12)',opacity:0},{transform:'translate(-50%,-50%) rotate(0deg) scale(1)',opacity:1,offset:.38},{transform:'translate(-50%,-50%) rotate(105deg) scale(.82)',opacity:.95,offset:.68},{transform:'translate(-50%,-50%) rotate(145deg) scale(1.8)',opacity:0}],1750,signal),
+      tween(core,[{transform:'translate(-50%,-50%) scale(.12)',opacity:0},{transform:'translate(-50%,-50%) scale(.55)',opacity:.8,offset:.36},{transform:'translate(-50%,-50%) scale(1.2)',opacity:1,offset:.66},{transform:'translate(-50%,-50%) scale(2.4)',opacity:0}],1660,signal),
+      tween(user,[{filter:'brightness(0) drop-shadow(0 0 0 #fff)',transform:'scale(.82)'},{filter:'brightness(0) drop-shadow(0 0 24px #cda5ff)',transform:'scale(.9)',offset:.35},{filter:'brightness(4) drop-shadow(0 0 28px #fff)',transform:'scale(1.13)',offset:.72},{filter:'brightness(1)',transform:'scale(1)'}],1770,signal),
+      tween(camera(root),[{transform:'scale(1)'},{transform:'scale(1.05)',offset:.38},{transform:'scale(1.075)',offset:.7},{transform:'scale(1)'}],1770,signal),
+      ...shards.map((shard,index)=>{
+        const angle=index/10*Math.PI*2,radius=100+(index%2)*28,dx=Math.cos(angle)*radius,dy=Math.sin(angle)*radius;
+        return tween(shard,[{transform:`translate(calc(-50% + ${dx*1.5}px),calc(-50% + ${dy*1.5}px)) rotate(${index*36}deg) scale(.3)`,opacity:0},{transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px)) rotate(${index*36+90}deg) scale(1)`,opacity:1,offset:.42},{transform:'translate(-50%,-50%) rotate(540deg) scale(.25)',opacity:0}],1250+index*35,signal);
+      }),
+      (async()=>{await scaledPause(root,1050,signal);if(!signal.aborted)await tween(shockwave,[{transform:'translate(-50%,-50%) scale(.15)',opacity:0},{transform:'translate(-50%,-50%) scale(.65)',opacity:1,offset:.2},{transform:'translate(-50%,-50%) scale(2.2)',opacity:0}],650,signal);})(),
+    ]);
+  }finally{
+    wash.remove();seal.remove();core.remove();shockwave.remove();shards.forEach(shard=>shard.remove());
+    delete root.dataset.gimmick;
+  }
 }
 
 async function abilityFormReveal(root:HTMLElement,event:BattleEvent,user:Element|null,signal:AbortSignal){

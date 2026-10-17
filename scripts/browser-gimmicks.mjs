@@ -63,12 +63,21 @@ try {
     await page.waitForFunction(()=>document.querySelector('.battle-scene')?.getAttribute('aria-busy')==='true');
     if(kind==='mega'||kind==='dynamax') {
       await page.locator('.stadium-transform-spotlight').waitFor({timeout:30000});
+      if(kind==='mega'){
+        await page.locator('.vfx-move-mega-seal').waitFor({timeout:30000});
+        assert.equal(await page.locator('.vfx-move-mega-shard').count(),10);
+        assert.equal(await page.locator('.battle-scene').getAttribute('data-gimmick'),'mega');
+      }
       await page.screenshot({path:`work/gimmick-${kind}-reveal.png`,fullPage:true});
     }
     assert(await page.locator('.battle-action-box').evaluate(node=>node.disabled));
     assert(await page.locator('.game-choice-fight').isDisabled());
     assert.equal(await page.locator('.game-choice-fight').isVisible(),false);
     await page.waitForFunction(()=>document.querySelector('.battle-scene')?.getAttribute('aria-busy')==='false',{},{timeout:60000});
+    if(kind==='mega'){
+      assert.equal(await page.locator('.vfx-move-mega-seal,.vfx-move-mega-shard,.vfx-move-mega-shockwave').count(),0);
+      assert.equal(await page.locator('.battle-scene').getAttribute('data-gimmick'),null);
+    }
     await replacement();
     assert.match(await page.locator('.gimmick-controls').innerText(),/사용 완료/);
     assert.equal(await page.locator('.gimmick-controls button:not(:disabled)').count(),0);
