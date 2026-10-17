@@ -17,6 +17,7 @@
 .friendly-format button[aria-pressed=true] { border-color:#79dcae;color:#11251d;background:#83e4b4;box-shadow:0 0 22px #6ce0a42c; }
 .friendly-format-note { display:block;margin-top:15px;color:#b6c8bb;font-size:11px; }
 .restricted-rule{display:inline-flex;align-items:center;gap:10px;margin-top:18px;color:#b9e8d7;font-size:12px;font-weight:750;line-height:1.4;cursor:pointer}.restricted-rule input{width:18px;height:18px;accent-color:#79dcae;cursor:pointer}.restricted-rule input:disabled{cursor:default;opacity:.7}
+.restricted-rule select{min-height:35px;padding:4px 10px;border:1px solid #79dcae;border-radius:6px;background:#142a27;color:#e2ffe9;font:inherit;cursor:pointer}.restricted-rule select:disabled{opacity:.7;cursor:default}
 .friendly-back { display: flex; align-items: center; gap: 7px; padding: 7px 10px; border: 0; background: transparent; color: #d5e1c9; font-weight: 750; }
 .friendly-kicker { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 27px; color: #f2cf7d; font: 800 10px/1.2 ui-monospace, monospace; letter-spacing: .15em; }
 .friendly-layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr); gap: 18px; align-items: stretch; }

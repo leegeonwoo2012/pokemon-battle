@@ -12,6 +12,7 @@ import './styles-cinematic.css';
 import './styles-team-preview.css';
 import './styles-hit-effects.css';
 import './styles-battle-feedback.css';
+import './styles-signatures.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode><App /></React.StrictMode>,

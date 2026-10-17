@@ -11,6 +11,16 @@ const g=()=>build('garchomp',['dragonclaw','earthquake','swordsdance','protect']
 const mon=(event:BattleEvent,uid:string)=>Object.values(event.snapshot.sides).flatMap(s=>s.team).find(pokemon=>pokemon.uid===uid)!;
 const action=(moveId:string,slot=0)=>({kind:'move' as const,slot,moveId});
 describe('real ordered engine events',()=>{
+  it('keeps Shadow Force hidden for its charge turn, then strikes on the next turn',()=>{
+    const first=createBattle({format:'singles',playerTeam:[build('giratina',['shadowforce','dragonclaw','protect','rest'])],cpuTeam:[b()],seed:42});
+    const charge=runTurnWithEvents(first,[action('shadowforce')],[action('waterpulse')]);
+    expect(charge.events.some(event=>event.actorUid==='player-0'&&event.snapshot.sides.player.team[0].charging?.moveId==='shadowforce')).toBe(true);
+    expect(charge.state.sides.player.team[0].charging?.moveId).toBe('shadowforce');
+    expect(charge.events.some(event=>event.kind==='miss'&&event.actorUid==='cpu-0')).toBe(true);
+    const strike=runTurnWithEvents(charge.state,[action('shadowforce')],[action('protect')]);
+    expect(strike.events.some(event=>event.kind==='move'&&event.moveId==='shadowforce')).toBe(true);
+    expect(strike.state.sides.player.team[0].charging).toBeUndefined();
+  });
   it('matches the engine result exactly and records priority, PP and intermediate HP in order',()=>{
     const initial=createBattle({format:'singles',playerTeam:[p()],cpuTeam:[b()],seed:8});
     const player=[action('quickattack')], cpu=[action('waterpulse')];

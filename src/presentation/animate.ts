@@ -4,6 +4,8 @@ import { battleAudio } from './audio';
 import { describeHit, playHitEffect } from './hit-effects';
 import { animationPause, battleTiming } from './timing';
 import { playElementalImpact, playMissEffect } from './elemental-effects';
+import { moves } from '../data';
+import { signatureVisuals } from './signature-catalog';
 
 const colors: Record<string, string> = { fire:'#ff8550',water:'#77d5ff',electric:'#fff473',grass:'#93ee86',ice:'#c0f7ff',fighting:'#ffc18d',poison:'#d3a1ff',ground:'#e4c994',flying:'#d9f2ff',psychic:'#ffa4d4',bug:'#c6ec89',rock:'#ddcb9c',ghost:'#b99cff',dragon:'#b4b8ff',dark:'#8d99b9',steel:'#d4eaff',fairy:'#ffc6ed',normal:'#fff9d6' };
 
@@ -262,6 +264,51 @@ async function signatureMove(root: HTMLElement, event: BattleEvent, user: Elemen
   return true;
 }
 
+async function signatureShowcase(root:HTMLElement,event:BattleEvent,user:Element|null,victims:Element[],signal:AbortSignal):Promise<boolean>{
+  const id=event.moveId,profile=id&&signatureVisuals[id];
+  if(!id||!profile||!user)return false;
+  const origin=point(user,root),hit=victims.length?point(victims[0],root):origin;
+  const center={x:(origin.x+hit.x)/2,y:(origin.y+hit.y)/2};
+  const color=colors[event.type??'normal']??colors.normal;
+  const scene=document.createElement('div');
+  scene.className='battle-vfx signature-scene';
+  scene.dataset.motif=profile.motif;
+  scene.dataset.signatureId=id;
+  scene.style.setProperty('--sig-color',color);
+  scene.style.setProperty('--sig-x',center.x+'px');
+  scene.style.setProperty('--sig-y',center.y+'px');
+  const focus=document.createElement('span');focus.className='signature-focus';
+  const symbol=document.createElement('span');symbol.className='signature-symbol';symbol.textContent=profile.symbol;
+  focus.append(symbol);
+  const title=document.createElement('span');title.className='signature-title';title.textContent=moves[id]?.name??id;
+  scene.append(focus,title);
+  for(let index=0;index<8;index++){
+    const particle=document.createElement('i');particle.className='signature-particle';
+    particle.style.setProperty('--sig-angle',`${index*45}deg`);
+    particle.style.setProperty('--sig-delay',`${index*-90}ms`);
+    scene.append(particle);
+  }
+  const traces=victims.slice(0,2).map(victim=>{
+    const end=point(victim,root),dx=end.x-center.x,dy=end.y-center.y;
+    const trace=document.createElement('span');trace.className='signature-trace';
+    trace.style.setProperty('--trace-x',center.x+'px');
+    trace.style.setProperty('--trace-y',center.y+'px');
+    trace.style.setProperty('--trace-length',Math.max(75,Math.hypot(dx,dy))+'px');
+    trace.style.setProperty('--trace-angle',Math.atan2(dy,dx)+'rad');
+    scene.append(trace);return trace;
+  });
+  root.append(scene);root.dataset.signatureMove=id;
+  try{
+    await Promise.all([
+      tween(focus,[{transform:'scale(.08) rotate(-80deg)',opacity:0},{transform:'scale(1.18) rotate(12deg)',opacity:1,offset:.42},{transform:'scale(.92) rotate(0deg)',opacity:.95,offset:.73},{transform:'scale(1.55) rotate(55deg)',opacity:0}],940,signal),
+      tween(title,[{transform:'translateY(15px) scale(.75)',opacity:0},{transform:'translateY(0) scale(1)',opacity:1,offset:.28},{opacity:1,offset:.72},{transform:'translateY(-12px) scale(1.08)',opacity:0}],940,signal),
+      ...traces.map((trace,index)=>tween(trace,[{transform:'scaleX(.03)',opacity:0},{transform:'scaleX(1)',opacity:1,offset:.52+index*.07},{transform:'scaleX(1.2)',opacity:0}],820,signal)),
+      tween(camera(root),[{transform:'scale(1)'},{transform:'scale(1.025)',offset:.58},{transform:'scale(1)'}],940,signal),
+    ]);
+    return true;
+  }finally{scene.remove();delete root.dataset.signatureMove;}
+}
+
 const zMoveMotions:Record<string,string>={
   catastropika:'지그재그로 감기는 거대 전격 돌진',
   '10000000voltthunderbolt':'상공에 축전한 전류를 폭발시키는 초대형 낙뢰',
@@ -339,9 +386,10 @@ async function animateMove(root: HTMLElement, event: BattleEvent, user: Element 
   const victims = targets.filter((target): target is Element => !!target);
   const color = colors[move.type] ?? colors.normal;
   const hitPoints = victims.map(target => point(target, root));
-  if(await featuredMove(root,event,user,victims,signal))return;
   if(await signatureZMove(root,event,user,victims,signal))return;
   if (await signatureMove(root, event, user, victims, signal)) return;
+  if(await featuredMove(root,event,user,victims,signal))return;
+  if (await signatureShowcase(root,event,user,victims,signal)) return;
 
   if (family === 'heal' || family === 'dance' || family === 'barrier' || move.category === 'status' && !victims.length) {
     const self = moveParticle(root, family, color, origin);

@@ -4,6 +4,7 @@ import { species } from '../data';
 import type { TeamSet } from '../engine/types';
 import type { Format } from '../engine/types';
 import type { FriendProfile } from '../network/friendBattle';
+import type { RestrictedLimit } from '../team';
 
 export interface FriendRoomView {
   role: 'host' | 'guest';
@@ -18,9 +19,9 @@ interface Props {
   connecting: boolean;
   team: TeamSet[];
   format:Format;
-  allowRestricted:boolean;
+  restrictedLimit:RestrictedLimit;
   onFormat:(format:Format)=>void;
-  onRestricted:(enabled:boolean)=>void;
+  onRestricted:(limit:RestrictedLimit)=>void;
   onCreate: (name: string) => void;
   onJoin: (name: string, code: string) => void;
   onStart: () => void;
@@ -28,7 +29,7 @@ interface Props {
   onHome: () => void;
 }
 
-export function FriendlyLobby({ room, status, connecting, team, format, allowRestricted, onFormat, onRestricted, onCreate, onJoin, onStart, onLeave, onHome }: Props) {
+export function FriendlyLobby({ room, status, connecting, team, format, restrictedLimit, onFormat, onRestricted, onCreate, onJoin, onStart, onLeave, onHome }: Props) {
   const [name, setName] = useState(localStorage.getItem('arena-trainer-name') ?? '트레이너');
   const [code, setCode] = useState(new URLSearchParams(location.search).get('friendCode') ?? '');
   const [copied, setCopied] = useState(false);
@@ -43,7 +44,7 @@ export function FriendlyLobby({ room, status, connecting, team, format, allowRes
   return <main className="friendly-page page-enter" id="friend">
     <div className="friendly-heading"><button className="friendly-back" onClick={room ? onLeave : onHome}><ArrowLeft size={17} /> {room ? '방 나가기' : '메인 메뉴'}</button><div className="friendly-kicker"><Radio size={15} /> PRIVATE MATCH · {format.toUpperCase()}</div><h1>친구와 대전</h1><p>저장한 팀으로 싱글 또는 더블 친선전을 진행합니다. 호스트가 배틀 형식을 선택합니다.</p>
       {(!room||room.role==='host')?<div className="friendly-format" role="group" aria-label="친선 배틀 형식"><button aria-pressed={format==='singles'} onClick={()=>onFormat('singles')}>싱글 · 1대1</button><button aria-pressed={format==='doubles'} onClick={()=>onFormat('doubles')}>더블 · 2대2</button></div>:<span className="friendly-format-note">배틀 형식은 호스트가 선택합니다.</span>}
-      <label className="restricted-rule"><input type="checkbox" checked={allowRestricted} disabled={!!room&&room.role==='guest'} onChange={event=>onRestricted(event.target.checked)}/>초전설 허용 · 팀당 최대 1마리</label>
+      <label className="restricted-rule">초전설 제한 <select aria-label="친선전 초전설 제한" value={restrictedLimit} disabled={!!room&&room.role==='guest'} onChange={event=>onRestricted(Number(event.target.value) as RestrictedLimit)}><option value={0}>금지</option><option value={1}>최대 1마리</option><option value={2}>최대 2마리</option><option value={3}>최대 3마리</option><option value={4} disabled={format!=='doubles'}>최대 4마리 · 더블 전용</option></select></label>
     </div>
     <div className="friendly-layout">
       <section className="friendly-board">

@@ -236,6 +236,8 @@ moves.moongeistbeam={...moves.moongeistbeam,ignoreAbility:true};
 moves.coreenforcer={...moves.coreenforcer,effects:[{kind:'suppressAbility'}]};
 moves.thousandarrows={...moves.thousandarrows,ignoreImmunity:['ground'],groundsTarget:true};
 moves.thousandwaves={...moves.thousandwaves,effects:[{kind:'trap'}]};
+// The generated move cannot infer Shadow Force's semi-invulnerable turn.
+moves.shadowforce={...moves.shadowforce,semiInvulnerable:'vanished'};
 // These source moves use callbacks or targeting rules the generated data cannot infer.
 moves.storedpower.dynamicPower='positiveBoosts';
 moves.toxic.effects=[{kind:'status',status:'poison',badlyPoisoned:true}];

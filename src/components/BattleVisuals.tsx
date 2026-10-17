@@ -4,7 +4,7 @@ import { battleTiming } from '../presentation/timing';
 import { BATTLE_LEVEL } from '../team';
 import { Flame, Droplets, Zap, Moon, Snowflake, Orbit, Heart, Waves } from 'lucide-react';
 import { PokemonArtwork } from './PokemonArtwork';
-import { abilities, items, typeNames } from '../data';
+import { abilities, items, moves, typeNames } from '../data';
 import { gimmickNames } from '../data/gimmicks';
 import { hasFormSprite } from '../presentation/form-sprites';
 import type { BattleEvent, Combatant, Side } from '../engine/types';
@@ -77,10 +77,12 @@ export function SceneActor({ pokemon, side, slot, event, commanding, onTarget, t
   const fainting = event?.kind === 'faint' && event.targetUid === pokemon.uid;
   const performing = event?.kind === 'move' && event.actorUid === pokemon.uid;
   const formId=pokemon.battleFormId??pokemon.transformation?.formId;
+  const hidden=(!pokemon.fainted&&pokemon.charging&&moves[pokemon.charging.moveId]?.semiInvulnerable)||undefined;
   const dimensions=speciesVisualProfile(pokemon.appearanceSpeciesId??pokemon.set.speciesId,formId);
-  return <div data-uid={pokemon.uid} data-species={pokemon.set.speciesId} data-status={!pokemon.fainted?pokemon.status:undefined} data-low-hp={!pokemon.fainted&&pokemon.hp/pokemon.maxHp<=.2||undefined} data-rock-type={pokemon.types.includes('rock')||undefined} data-height-m={dimensions.height} data-weight-kg={dimensions.weight} data-visual-scale={dimensions.scale} data-target-preview={targetPreview} style={{'--species-scale':dimensions.scale,'--shadow-scale':dimensions.shadowScale} as CSSProperties} data-slot={slot} data-transformation={pokemon.transformation?.kind} className={`scene-actor actor-${side} actor-slot-${slot} ${pokemon.fainted && !fainting ? 'actor-fainted' : ''} ${commanding ? 'actor-commanding' : ''} ${performing ? 'actor-performing' : ''} ${onTarget ? 'actor-targetable' : ''} form-${pokemon.transformation?.kind ?? 'base'} ${pokemon.transformation?.formId==='necrozmaultra'?'form-ultra':''} ${pokemon.transformation?.kind === 'dynamax' && pokemon.transformation.formId ? 'form-gmax' : ''} tera-${pokemon.types[0]}`}>
+  return <div data-uid={pokemon.uid} data-species={pokemon.set.speciesId} data-hidden={hidden} data-status={!pokemon.fainted?pokemon.status:undefined} data-low-hp={!pokemon.fainted&&pokemon.hp/pokemon.maxHp<=.2||undefined} data-rock-type={pokemon.types.includes('rock')||undefined} data-height-m={dimensions.height} data-weight-kg={dimensions.weight} data-visual-scale={dimensions.scale} data-target-preview={targetPreview} style={{'--species-scale':dimensions.scale,'--shadow-scale':dimensions.shadowScale} as CSSProperties} data-slot={slot} data-transformation={pokemon.transformation?.kind} className={`scene-actor actor-${side} actor-slot-${slot} ${pokemon.fainted && !fainting ? 'actor-fainted' : ''} ${commanding ? 'actor-commanding' : ''} ${performing ? 'actor-performing' : ''} ${onTarget ? 'actor-targetable' : ''} form-${pokemon.transformation?.kind ?? 'base'} ${pokemon.transformation?.formId==='necrozmaultra'?'form-ultra':''} ${pokemon.transformation?.kind === 'dynamax' && pokemon.transformation.formId ? 'form-gmax' : ''} tera-${pokemon.types[0]}`}>
     <div className="actor-shadow" />
     <PokemonArtwork speciesId={pokemon.appearanceSpeciesId??pokemon.set.speciesId} formId={formId} displayName={pokemon.speciesName} facing={side === 'player' ? 'back' : 'front'} size="large" />
+    {hidden&&<span className={`actor-hide-marker marker-${hidden}`} aria-label={`${pokemon.speciesName} 잠복 중`}><i/><i/><i/></span>}
     <ActorConditions pokemon={pokemon} event={event}/>
     {!pokemon.fainted&&<div className="actor-status-effects" aria-hidden="true"><i/><i/><i/><i/><i/><span className="actor-health-warning"/></div>}
     {targetPreview&&!pokemon.fainted&&<span className={`actor-lock-on lock-on-${targetPreview}`} aria-label={targetPreview==='spread'?'범위 공격 대상':'단일 공격 대상'}><i/><i/><i/><i/><b>{targetPreview==='spread'?'범위':'대상'}</b></span>}

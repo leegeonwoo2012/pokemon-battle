@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { abilities, getStarterTeam, items, moves, natures, species, typeChart } from '../data';
-import { alphabetizeMoves, calculateStats, createSet, loadTeam, reorderTeam, saveTeam, TEAM_STORAGE_KEY, validateTeam } from './index';
+import { alphabetizeMoves, calculateStats, createSet, loadTeam, reorderTeam, saveTeam, TEAM_STORAGE_KEY, validateRestrictedTeam, validateTeam } from './index';
 
 function memoryStorage() {
   const data = new Map<string, string>();
@@ -34,6 +34,15 @@ describe('curated battle data', () => {
 });
 
 describe('team configuration', () => {
+  it('applies each restricted legend limit and reserves four for doubles',()=>{
+    const team=['kyogre','dialga','palkia','giratina'].map(createSet);
+    expect(validateRestrictedTeam(team,0,'doubles')).not.toEqual([]);
+    expect(validateRestrictedTeam(team.slice(0,2),1,'doubles')).not.toEqual([]);
+    expect(validateRestrictedTeam(team.slice(0,2),2,'singles')).toEqual([]);
+    expect(validateRestrictedTeam(team.slice(0,3),3,'singles')).toEqual([]);
+    expect(validateRestrictedTeam(team,4,'singles')).not.toEqual([]);
+    expect(validateRestrictedTeam(team,4,'doubles')).toEqual([]);
+  });
   it('calculates level-50 stats using EVs, IVs and nature', () => {
     const neutral = createSet('raichu');
     const baseline = calculateStats(neutral);

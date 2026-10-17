@@ -1,0 +1,43 @@
+.scene-actor[data-hidden] .sprite-art,.scene-actor[data-hidden] .actor-status-effects,.scene-actor[data-hidden] .actor-conditions,.scene-actor[data-hidden] .tera-crown,.scene-actor[data-hidden] .max-form-label{opacity:0!important;pointer-events:none;transition:opacity .32s ease,filter .32s ease;filter:blur(12px)}
+.scene-actor[data-hidden] .actor-shadow{opacity:.15}
+.actor-hide-marker{position:absolute;z-index:8;left:50%;bottom:5%;width:38%;height:18%;translate:-50% 0;pointer-events:none;opacity:.82}
+.actor-hide-marker i{position:absolute;inset:0;border:2px solid #d5ecffb9;border-radius:50%;box-shadow:0 0 18px #8bd5ff77;animation:hide-marker-pulse 1.5s ease-in-out infinite}
+.actor-hide-marker i:nth-child(2){animation-delay:.5s}.actor-hide-marker i:nth-child(3){animation-delay:1s}
+.marker-underground i{border-color:#caa276c7;box-shadow:0 0 20px #9b672cbb;background:#51382248}
+.marker-underwater i{border-color:#8ee3ffce;box-shadow:0 0 20px #3db8e2a0;background:#2d8ec343}
+.marker-airborne{bottom:42%;width:45%}.marker-airborne i{border-color:#eff9ffbb;box-shadow:0 0 26px #c9efffc4}
+.marker-vanished{bottom:19%;width:43%}.marker-vanished i{border-color:#ad78ffce;box-shadow:0 0 24px #7024dfad;background:#390a7469}
+@keyframes hide-marker-pulse{0%{scale:.35;opacity:0}45%{opacity:.8}100%{scale:1.5;opacity:0}}
+.battle-scene .signature-scene{position:absolute;inset:0;width:100%;height:100%;z-index:32;pointer-events:none;overflow:hidden;--sig-color:#eaf8ff}
+.signature-focus{position:absolute;left:var(--sig-x);top:var(--sig-y);width:clamp(110px,18vw,245px);aspect-ratio:1;translate:-50% -50%;display:grid;place-items:center;border:3px solid var(--sig-color);border-radius:50%;box-shadow:0 0 18px var(--sig-color),inset 0 0 34px var(--sig-color);background:radial-gradient(circle,#fff9,transparent 18%,#071d3f77 60%,transparent 80%)}
+.signature-focus::before,.signature-focus::after{content:'';position:absolute;inset:11%;border:2px dashed var(--sig-color);border-radius:inherit;opacity:.8}.signature-focus::after{inset:28%;border-style:solid;rotate:45deg}
+.signature-symbol{color:#fff;font-size:clamp(42px,8vw,105px);line-height:1;text-shadow:0 0 10px var(--sig-color),0 0 30px var(--sig-color);font-weight:900}
+.signature-title{position:absolute;top:calc(var(--sig-y) + 10%);left:50%;translate:-50% 0;min-width:min(78%,300px);padding:5px 20px;text-align:center;color:white;font-weight:950;font-size:clamp(17px,3vw,34px);letter-spacing:.05em;text-shadow:0 2px 4px #010817,0 0 20px var(--sig-color);border-block:2px solid var(--sig-color);background:linear-gradient(90deg,transparent,#081326dc 17%,#081326dc 83%,transparent)}
+.signature-trace{position:absolute;left:var(--trace-x);top:var(--trace-y);width:var(--trace-length);height:9px;transform-origin:left center;rotate:var(--trace-angle);border-radius:50%;background:linear-gradient(90deg,transparent,var(--sig-color),#fff,var(--sig-color),transparent);box-shadow:0 0 16px var(--sig-color)}
+.signature-particle{position:absolute;left:var(--sig-x);top:var(--sig-y);width:17px;height:17px;border:2px solid #fff;border-radius:50%;background:var(--sig-color);box-shadow:0 0 15px var(--sig-color);animation:signature-orbit 900ms ease-out var(--sig-delay) both}
+@keyframes signature-orbit{from{transform:rotate(var(--sig-angle)) translateX(8px) scale(.1);opacity:0}35%{opacity:1}to{transform:rotate(var(--sig-angle)) translateX(clamp(95px,14vw,190px)) scale(.6);opacity:0}}
+.signature-scene:is([data-motif=blade],[data-motif=hammer],[data-motif=earth]) .signature-particle{border-radius:2px;rotate:45deg;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.signature-scene:is([data-motif=star],[data-motif=prism],[data-motif=storm]) .signature-particle{border-radius:1px;rotate:45deg}
+.signature-scene:is([data-motif=ghost],[data-motif=moon]) .signature-particle{background:#130b27;box-shadow:0 0 22px var(--sig-color),inset 0 0 10px var(--sig-color)}
+.signature-scene[data-motif=flora] .signature-particle{border-radius:90% 0 90% 0;background:#dfffac}
+.signature-scene[data-motif=sound] .signature-particle{border-radius:50% 50% 10% 50%;width:12px;height:21px}
+.signature-scene[data-motif=lightning] .signature-particle{clip-path:polygon(55% 0,18% 56%,54% 52%,32% 100%,88% 39%,52% 43%,75% 0);width:22px;height:25px;border:0}
+.signature-scene[data-motif=flame] .signature-particle{border-radius:75% 5% 60% 15%;background:#fff5a7;rotate:35deg}
+.signature-scene[data-signature-id=gigatonhammer] .signature-particle{width:25px;height:25px;border:4px solid #f4f8ff;background:#9da8bd;box-shadow:0 0 10px #fff,0 0 24px #9da8bd}
+.signature-scene[data-signature-id=glaciallance] .signature-particle{clip-path:polygon(50% 0,90% 67%,50% 100%,10% 67%);width:22px;height:38px;background:#c7faff}
+.signature-scene[data-signature-id=astralbarrage] .signature-particle{border-radius:50%;background:#2d0a55;box-shadow:0 0 16px #e8baff,0 0 34px #7b3bc1}
+.signature-scene[data-signature-id=flowertrick] .signature-particle{border-radius:70% 5% 70% 5%;background:#ffcff5;box-shadow:0 0 16px #ff72d3}
+.signature-scene[data-signature-id=torchsong] .signature-particle{background:#ff7d39;box-shadow:0 0 17px #ffe67d,0 0 30px #ff5929}
+.signature-scene[data-signature-id=electrodrift] .signature-particle{background:#e9fbff;box-shadow:0 0 15px #9fffff,0 0 30px #67e9ff}
+.signature-scene[data-motif=moon] .signature-focus,.signature-scene[data-motif=ghost] .signature-focus{border-radius:38% 62% 45% 55%;background:radial-gradient(circle,#160438ad,#40187366,transparent 73%)}
+.signature-scene[data-motif=blade] .signature-focus,.signature-scene[data-motif=hammer] .signature-focus{border-radius:16%;rotate:45deg}.signature-scene[data-motif=blade] .signature-focus::before{border-style:solid;transform:scaleX(.3)}
+.signature-scene[data-motif=star] .signature-focus,.signature-scene[data-motif=prism] .signature-focus{border-radius:20%;rotate:45deg;background:conic-gradient(from 40deg,transparent,var(--sig-color),transparent 36%,#fff8,transparent 68%,var(--sig-color),transparent)}
+.signature-scene[data-motif=wave] .signature-focus,.signature-scene[data-motif=storm] .signature-focus{border-width:6px 2px;border-radius:48% 52% 36% 64%;background:radial-gradient(circle,#f8ffffa1,transparent 22%,#255db466 70%,transparent)}
+.signature-scene[data-motif=flora] .signature-focus{border-radius:8% 72% 8% 72%;background:radial-gradient(circle,#f6ffdcaf,#33732d91 58%,transparent 76%)}
+.signature-scene[data-motif=sound] .signature-focus::before{border-width:6px;border-style:double}.signature-scene[data-motif=time] .signature-focus::after{border-left-width:10px;border-right-width:10px}
+.signature-scene[data-motif=earth] .signature-focus{border-radius:12% 30%;background:linear-gradient(140deg,#fff4b57a,#47230ea6)}
+.signature-scene[data-motif=flame] .signature-focus{border-radius:68% 14% 60% 16%;background:radial-gradient(circle,#fff9a4,#f447265e 45%,transparent)}
+.signature-scene[data-motif=lightning] .signature-focus{border-radius:20% 70%;background:linear-gradient(130deg,transparent 30%,#fffebdaa 48%,transparent 54%)}
+@media(max-width:680px){.signature-title{top:calc(var(--sig-y) + 12%);max-width:65%;min-width:150px}.signature-focus{width:110px}.signature-trace{height:5px}}
+.reduced-motion .actor-hide-marker i{animation:none;opacity:.5}.reduced-motion .signature-scene,.reduced-motion .signature-particle{animation:none}
+@media(prefers-reduced-motion:reduce){.actor-hide-marker i{animation:none;opacity:.5}.signature-particle{animation:none}}

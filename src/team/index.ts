@@ -148,10 +148,13 @@ export function validateTeam(team: TeamSet[], format: Format = 'singles'): strin
 }
 
 /** Restricted legends are judged by national number so alternate forms count together. */
-export function validateRestrictedTeam(team:TeamSet[],allowRestricted:boolean):string[] {
+export type RestrictedLimit = 0 | 1 | 2 | 3 | 4;
+export function validateRestrictedTeam(team:TeamSet[],selectedLimit:RestrictedLimit | boolean,format:Format='singles'):string[] {
+  const limit=typeof selectedLimit==='boolean'?(selectedLimit?1:0):selectedLimit;
   const restricted=team.filter(set=>restrictedDexNumbers.has(species[set.speciesId]?.nationalDex));
-  if(!allowRestricted&&restricted.length)return ['이 배틀은 초전설을 허용하지 않습니다. 팀에서 초전설을 빼거나 허용을 켜세요.'];
-  if(restricted.length>1)return ['초전설은 팀에 최대 1마리만 넣을 수 있습니다.'];
+  if(limit===4&&format!=='doubles')return ['초전설 4마리 룰은 더블 배틀에서만 선택할 수 있습니다.'];
+  if(limit===0&&restricted.length)return ['이 배틀은 초전설을 허용하지 않습니다. 초전설 룰을 변경하거나 팀에서 제외하세요.'];
+  if(restricted.length>limit)return [`초전설은 팀에 최대 ${limit}마리만 넣을 수 있습니다.`];
   return [];
 }
 

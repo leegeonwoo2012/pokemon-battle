@@ -85,6 +85,28 @@ test('host rule is broadcast and server refuses restricted legends when disabled
   }finally{for(const socket of sockets)socket.close();await relay.close();}
 });
 
+test('server accepts four restricted legends only in doubles',async()=>{
+  const relay=startFriendServer(0,'127.0.0.1');await new Promise(resolve=>relay.http.once('listening',resolve));
+  const sockets=[];
+  try{
+    const port=relay.http.address().port,host=await client(port),guest=await client(port);sockets.push(host,guest);
+    host.send({type:'create-room'});const {code}=await host.wait('room-created');
+    guest.send({type:'join-room',code});await guest.wait('room-joined');
+    const data=runtime.loadData().species;
+    const team=['kyogre','dialga','palkia','giratina','raichu','blastoise'].map(id=>({speciesId:id,moves:data[id].learnset.slice(0,4),abilityId:data[id].abilities[0],itemId:'none',natureId:'hardy'}));
+    host.send({type:'ready',name:'A',team});guest.send({type:'ready',name:'B',team});
+    await Promise.all([host.wait('peer-ready'),guest.wait('peer-ready')]);
+    await Promise.all([host.wait('format-selected'),guest.wait('format-selected')]);
+    host.send({type:'select-format',format:'singles',allowRestricted:true,restrictedLimit:4});
+    assert.match((await host.wait('error')).message,/더블/);
+    host.send({type:'start_team_preview',format:'doubles',allowRestricted:true,restrictedLimit:3});
+    assert.match((await host.wait('error')).message,/3마리/);
+    host.send({type:'start_team_preview',format:'doubles',allowRestricted:true,restrictedLimit:4});
+    const [a,b]=await Promise.all([host.wait('team-preview-started'),guest.wait('team-preview-started')]);
+    assert.equal(a.restrictedLimit,4);assert.equal(b.restrictedLimit,4);
+  }finally{for(const socket of sockets)socket.close();await relay.close();}
+});
+
 test('double preview preserves submitted order and refuses duplicate or short selections',async()=>{
   const relay=startFriendServer(0,'127.0.0.1');await new Promise(resolve=>relay.http.once('listening',resolve));
   const sockets=[];

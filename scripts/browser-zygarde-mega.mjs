@@ -20,7 +20,7 @@ try{
     localStorage.setItem('arena-reduced-motion','false');
   });
   await page.reload({waitUntil:'networkidle'});
-  await page.getByRole('checkbox',{name:/초전설 허용/}).check();
+  await page.getByRole('combobox',{name:'CPU 배틀 초전설 제한'}).selectOption('1');
   await page.getByRole('button',{name:'싱글 배틀 시작',exact:true}).click();
   await selectTeamPreview(page);
   await page.locator('.battle-scene').waitFor();

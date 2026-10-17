@@ -31,7 +31,7 @@ try{
       localStorage.setItem('arena-reduced-motion','false');localStorage.setItem('arena-playback-rate','1.5');localStorage.setItem('arena-sound','true');
     },{id,moveId,gear});
     await page.reload({waitUntil:'networkidle'});
-    if(allowRestricted)await page.getByRole('checkbox',{name:/초전설 허용/}).check();
+    if(allowRestricted)await page.getByRole('combobox',{name:'CPU 배틀 초전설 제한'}).selectOption('1');
     await page.getByRole('button',{name:format==='singles'?'싱글 배틀 시작':'더블 배틀',exact:true}).click();
     await selectTeamPreview(page);
     await page.waitForFunction(()=>document.querySelector('.battle-scene')&&[...document.querySelectorAll('.scene-actor .pokemon-sprite')].every(image=>image.complete&&image.naturalWidth>0));

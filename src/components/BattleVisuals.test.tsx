@@ -38,6 +38,19 @@ it('keeps a fainting sprite available for its exit animation, then hides it', ()
   expect(view.container.querySelector('.actor-fainted')).not.toBeNull();
 });
 
+it('marks a charging Pokémon with the matching hiding effect until it resurfaces',()=>{
+  const pokemon=state().sides.player.team[0];
+  pokemon.charging={moveId:'fly'};
+  const view=render(<SceneActor pokemon={pokemon} side="player" slot={0} event={null}/>);
+  expect(view.container.querySelector('[data-hidden="airborne"] .marker-airborne')).toBeTruthy();
+  pokemon.charging={moveId:'dig'};
+  view.rerender(<SceneActor pokemon={pokemon} side="player" slot={0} event={null}/>);
+  expect(view.container.querySelector('[data-hidden="underground"] .marker-underground')).toBeTruthy();
+  pokemon.charging=undefined;
+  view.rerender(<SceneActor pokemon={pokemon} side="player" slot={0} event={null}/>);
+  expect(view.container.querySelector('[data-hidden]')).toBeNull();
+});
+
 it('uses the visible transformation’s physical size and keeps status icons tied to the snapshot',()=>{
   const pokemon=state().sides.player.team[0];pokemon.appearanceSpeciesId='dondozo';pokemon.status='burn';pokemon.confusionTurns=2;
   const view=render(<SceneActor pokemon={pokemon} side="player" slot={0} event={null} targetPreview="spread"/>);
