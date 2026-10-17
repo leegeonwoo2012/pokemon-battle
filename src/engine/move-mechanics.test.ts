@@ -30,6 +30,34 @@ describe('move mechanics regressions', () => {
     expect(second.log.some(entry => entry.text.includes(`${moves[moveId].name} 사용!`))).toBe(true);
   });
 
+  it('Focus Punch loses focus when the user takes damage, but works when it is not interrupted', () => {
+    const interrupted = battle(fixture('focuspunch'), fixture('tackle'));
+    mon(interrupted, 'player').stats.spe = 1;
+    mon(interrupted, 'cpu').stats.spe = 300;
+    const failed = runTurnWithEvents(interrupted, action('focuspunch'), action('tackle'));
+    expect(mon(failed.state, 'cpu').hp).toBe(mon(interrupted, 'cpu').hp);
+    expect(failed.state.log.some(entry => entry.text.includes('힘껏펀치에 집중하지 못했다'))).toBe(true);
+    expect(failed.events.some(event => event.kind === 'blocked' && event.moveId === 'focuspunch')).toBe(true);
+
+    const ready = battle(fixture('focuspunch'), fixture('swordsdance'));
+    mon(ready, 'player').stats.spe = 1;
+    mon(ready, 'cpu').stats.spe = 300;
+    const hit = runTurn(ready, action('focuspunch'), action('swordsdance'));
+    expect(mon(hit, 'cpu').hp).toBeLessThan(mon(ready, 'cpu').hp);
+  });
+
+  it('allows Mega Evolution with Focus Punch and keeps the move usable', () => {
+    const lucario = { ...createSet('lucario'), moves: ['focuspunch', 'protect', 'swordsdance', 'closecombat'], itemId: 'lucarionite' };
+    const state = battle(lucario, fixture('swordsdance'));
+    mon(state, 'cpu').maxHp = 9999;
+    mon(state, 'cpu').hp = 9999;
+    mon(state, 'player').stats.spe = 1;
+    mon(state, 'cpu').stats.spe = 300;
+    const result = runTurn(state, [{ kind: 'move', slot: 0, moveId: 'focuspunch', gimmick: 'mega' }], action('swordsdance'));
+    expect(mon(result, 'player').transformation?.formId).toBe('lucariomega');
+    expect(mon(result, 'cpu').hp).toBeLessThan(mon(state, 'cpu').hp);
+  });
+
   it('boosts Electro Shot on charge and fires immediately in rain', () => {
     const set = fixture('electroshot');
     const first = runTurn(battle(set), action('electroshot'), action('swordsdance'));

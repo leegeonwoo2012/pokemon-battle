@@ -2099,7 +2099,8 @@ export const championMoves: Record<string,Move> = {
     "slicing": false,
     "pulse": false,
     "punch": true,
-    "bullet": false
+    "bullet": false,
+    "focus": true
   },
   "heatcrash": {
     "id": "heatcrash",

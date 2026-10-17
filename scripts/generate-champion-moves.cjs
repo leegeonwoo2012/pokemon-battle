@@ -66,6 +66,7 @@ for(const id of wanted){const original=base[id];if(!original)throw Error(`M-C le
   const target=targets[m.target]??'enemy';
   const entry={id,name:koreanNames.get(Number(m.num))??m.name,type:String(m.type).toLowerCase(),category,power,accuracy:m.accuracy===true||m.accuracy===null?null:Number(m.accuracy),pp:Number(m.pp)||5,priority:Number(m.priority)||0,target,effects:makeEffects(m),contact:!!flags.contact,sound:!!flags.sound,powder:!!flags.powder,bite:!!flags.bite,slicing:!!flags.slicing,pulse:!!flags.pulse,punch:!!flags.punch,bullet:!!flags.bullet};
   if(flags.charge)entry.charge=['solarbeam','solarblade'].includes(id)?'sun':id==='electroshot'?'rain':'always';
+  if(id==='focuspunch')entry.focus=true;
   if(['dig','dive','fly','bounce','phantomforce'].includes(id))entry.semiInvulnerable=id==='dig'?'underground':id==='dive'?'underwater':id==='phantomforce'?'vanished':'airborne';
   if(['counter','mirrorcoat','endeavor'].includes(id))entry.fixedDamage=id;
   if(['naturesmadness','ruination'].includes(id)){entry.fixedHpFraction=.5;entry.fixedHpBasis='current';}

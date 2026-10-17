@@ -519,6 +519,12 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
       announcePassive(state,target,effect);
     }
   }
+  // Z and Max conversions replace Focus Punch with their own powered move;
+  // only the ordinary Focus Punch keeps the focus interruption rule.
+  if(baseMove.focus && !move.powered && user.focusInterruptedTurn===state.turn){
+    addLog(state,`${displayName(user)}은(는) 힘껏펀치에 집중하지 못했다!`,'move',{kind:'blocked',actorUid:user.uid,moveId:baseMove.id,targetUid:targetUids[0]});
+    return;
+  }
   if(move.charge&&!continuingCharge&&move.powered!=='z'&&move.powered!=='max'){
     if(move.id==='electroshot'||move.id==='meteorbeam')applyStatChange(state,user,'spa',1,user);
     const weather=effectiveWeather(state,user);
@@ -672,6 +678,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
           if(target.substituteHp<=0){target.substituteHp=undefined;addLog(state,`${displayName(target)}의 대타출동이 사라졌다!`,'status',{targetUid:target.uid});}
         }
         else hitBody=true;
+        if(hitDamage&&!target.fainted&&target!==user)target.focusInterruptedTurn=state.turn;
         if(move.groundsTarget&&hitDamage&&!intercepted){target.groundedByMove=true;addLog(state,`${displayName(target)}이 지면으로 끌려 내려왔다!`,'status',{targetUid:target.uid,kind:'field'});}
         if(hitDamage&&!intercepted&&target.set.abilityId==='spicyspray')applyStatus(state,user,'burn',displayName(target),target);
         if(hitDamage&&!intercepted&&!target.fainted&&user.set.abilityId==='toxicchain'&&target.set.abilityId!=='shielddust'

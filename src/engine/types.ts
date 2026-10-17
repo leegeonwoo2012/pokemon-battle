@@ -118,6 +118,8 @@ export interface Move {
   punch?:boolean;
   /** A first-turn preparation, except in the specified weather. */
   charge?: 'always' | 'sun' | 'rain';
+  /** The user loses focus if it takes damage before this move resolves. */
+  focus?: boolean;
   semiInvulnerable?: 'underground' | 'underwater' | 'airborne' | 'vanished';
   fixedDamage?: 'counter' | 'mirrorcoat' | 'endeavor';
   dynamicPower?: 'remainingHp' | 'lowHp' | 'faintedAllies' | 'positiveBoosts' | 'friendship' | 'lowFriendship';
@@ -272,6 +274,7 @@ export interface Combatant {
   slowStartTurns?: number;
   lastMove?: string;
   lastReceivedHit?: { turn: number; damage: number; category: 'physical' | 'special'; sourceUid: string };
+  focusInterruptedTurn?: number;
   charging?: { moveId: string; target?: TargetRef };
   rampage?: { moveId: string; remaining: number; target?: TargetRef };
   aquaRing?: boolean;
