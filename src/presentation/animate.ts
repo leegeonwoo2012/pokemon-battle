@@ -69,11 +69,30 @@ function scaledPause(root:HTMLElement,ms:number,signal:AbortSignal){return anima
 
 async function featuredMove(root:HTMLElement,event:BattleEvent,user:Element|null,victims:Element[],signal:AbortSignal):Promise<boolean> {
   const id=event.moveId;
-  if(!user||!['earthquake','outrage','steelbeam','surf','makeitrain','lastrespects'].includes(id??''))return false;
+  if(!user||!['earthquake','outrage','steelbeam','surf','makeitrain','lastrespects','geomancy'].includes(id??''))return false;
   const origin=point(user,root),color=colors[event.type??'normal']??colors.normal;
   const nodes:HTMLElement[]=[];
   const spawn=(family:string,at=origin)=>{const node=moveParticle(root,family,color,at);nodes.push(node);return node;};
   try{
+    if(id==='geomancy'){
+      const hues=['#f5c7ff','#a9f5ff','#ffe9a1'];
+      const rays=hues.map((hue,index)=>{
+        const ray=spawn('geomancy-ray',{x:origin.x+(index-1)*55,y:origin.y+95});
+        ray.style.background=`linear-gradient(0deg,transparent,${hue},#ffffff)`;
+        ray.style.boxShadow=`0 0 25px ${hue}`;
+        ray.style.width='15px';ray.style.height='145px';ray.style.borderRadius='50%';
+        return ray;
+      });
+      const halo=spawn('geomancy-halo');
+      halo.style.width='190px';halo.style.height='190px';halo.style.border='5px solid #fff1bb';
+      halo.style.borderRadius='50%';halo.style.boxShadow='0 0 35px #f5c7ff, inset 0 0 28px #a9f5ff';
+      await Promise.all([
+        ...rays.map((ray,index)=>tween(ray,[{transform:`translate(-50%,-50%) translateY(45px) rotate(${(index-1)*13}deg) scaleY(.2)`,opacity:0},{transform:`translate(-50%,-50%) translateY(-35px) rotate(${(index-1)*13}deg) scaleY(1.2)`,opacity:.9,offset:.48},{transform:`translate(-50%,-50%) translateY(-95px) rotate(${(index-1)*13}deg) scaleY(.5)`,opacity:0}],1000,signal)),
+        tween(halo,[{transform:'translate(-50%,-50%) scale(.15) rotate(-40deg)',opacity:0},{transform:'translate(-50%,-50%) scale(1) rotate(30deg)',opacity:1,offset:.55},{transform:'translate(-50%,-50%) scale(1.45) rotate(100deg)',opacity:0}],1100,signal),
+        tween(user,[{filter:'brightness(1) saturate(1)',transform:'scale(1)'},{filter:'brightness(2.3) saturate(1.6)',transform:'scale(1.1)',offset:.58},{filter:'brightness(1) saturate(1)',transform:'scale(1)'}],1100,signal),
+      ]);
+      return true;
+    }
     if(id==='earthquake'){
       await tween(user,[{transform:'translateY(0)'},{transform:'translateY(-12px)',offset:.45},{transform:'translateY(3px)',offset:.7},{transform:'translateY(0)'}],280,signal);
       await Promise.all([

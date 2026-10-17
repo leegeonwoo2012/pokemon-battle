@@ -9,6 +9,7 @@ export function effectivenessLabel(move:Move,target:Combatant):string {
   return value===0?'효과 없음':value>1?`약점 ×${value}`:value<1?`반감 ×${value}`:'보통 ×1';
 }
 export function moveHelp(move:Move):string {
+  if(move.id==='geomancy')return '페어리 · 변화 / 1턴 동안 힘을 모은 뒤 특수공격·특수방어·스피드 각각 +2 / 파워풀허브를 지니면 즉시 발동 / 직접 공격하지 않음';
   const effects=(move.effects??[]).map(effect=>{
     switch(effect.kind) {
       case 'hazard':return `상대 진영에 ${hazardNames[effect.hazard]} 설치`;

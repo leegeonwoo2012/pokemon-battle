@@ -3,6 +3,7 @@ import { moves, species } from '../data';
 import { createSet } from '../team';
 import { createBattle, runTurn, runTurnWithEvents } from './battle';
 import { activateGimmick } from './gimmicks';
+import { auraPowerMultiplier, estimateDamage } from './calculations';
 import type { BattleAction, BattleState, TeamSet } from './types';
 
 const action = (moveId: string): BattleAction[] => [{ kind: 'move', slot: 0, moveId }];
@@ -102,6 +103,39 @@ describe('move mechanics regressions', () => {
     const result = runTurn(state, [{ kind: 'move', slot: 0, moveId: 'focuspunch', gimmick: 'mega' }], action('swordsdance'));
     expect(mon(result, 'player').transformation?.formId).toBe('lucariomega');
     expect(mon(result, 'cpu').hp).toBeLessThan(mon(state, 'cpu').hp);
+  });
+
+  it('gives Xerneas Geomancy and applies its two-turn boosts and Fairy Aura power', () => {
+    const xerneas = createSet('xerneas');
+    expect(xerneas.moves).toContain('geomancy');
+    expect(xerneas.itemId).toBe('powerherb');
+    expect(moves.geomancy.power).toBe(0);
+    const initial = battle({ ...xerneas, itemId: 'none' }, fixture('swordsdance'));
+    const user = mon(initial, 'player');
+    const target = mon(initial, 'cpu');
+    const before = estimateDamage(initial, user, target, moves.moonblast);
+    expect(auraPowerMultiplier(initial, moves.moonblast)).toBeGreaterThan(1);
+    const charging = runTurn(initial, action('geomancy'), action('swordsdance'));
+    expect(mon(charging, 'player').charging?.moveId).toBe('geomancy');
+    expect(mon(charging, 'player').stages).toMatchObject({ spa: 0, spd: 0, spe: 0 });
+    const resolved = runTurnWithEvents(charging, action('moonblast'), action('swordsdance'));
+    expect(mon(resolved.state, 'player').charging).toBeUndefined();
+    expect(mon(resolved.state, 'player').stages).toMatchObject({ spa: 2, spd: 2, spe: 2 });
+    expect(mon(resolved.state, 'player').pp.geomancy).toBe(moves.geomancy.pp - 1);
+    expect(resolved.events.some(event => event.kind === 'move' && event.moveId === 'geomancy')).toBe(true);
+    expect(estimateDamage(resolved.state, mon(resolved.state, 'player'), mon(resolved.state, 'cpu'), moves.moonblast)).toBeGreaterThan(before);
+  });
+
+  it('lets Power Herb resolve Geomancy immediately and consumes it once', () => {
+    const initial = battle(createSet('xerneas'), fixture('swordsdance'));
+    const result = runTurnWithEvents(initial, action('geomancy'), action('swordsdance'));
+    expect(mon(result.state, 'player').charging).toBeUndefined();
+    expect(mon(result.state, 'player').itemConsumed).toBe(true);
+    expect(mon(result.state, 'player').stages).toMatchObject({ spa: 2, spd: 2, spe: 2 });
+    expect(result.events.some(event => event.kind === 'item' && event.sourceId === 'powerherb')).toBe(true);
+    const next = runTurn(result.state, action('geomancy'), action('swordsdance'));
+    expect(mon(next, 'player').charging?.moveId).toBe('geomancy');
+    expect(mon(next, 'player').stages).toMatchObject({ spa: 2, spd: 2, spe: 2 });
   });
 
   it('boosts Electro Shot on charge and fires immediately in rain', () => {

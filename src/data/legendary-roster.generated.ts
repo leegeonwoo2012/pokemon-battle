@@ -4084,6 +4084,7 @@ export const legendaryRoster:Species[]=[
       "facade",
       "flashcannon",
       "focusblast",
+      "geomancy",
       "gigaimpact",
       "grassknot",
       "gravity",

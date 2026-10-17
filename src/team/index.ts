@@ -33,9 +33,9 @@ export function createSet(speciesId: string): TeamSet {
   return {
     speciesId,
     friendship: 255,
-    moves: [...new Set([...coverage.slice(0, 3), ...supportMoves, ...attackingMoves])].slice(0, 4),
+    moves: [...new Set([...coverage.slice(0, 3), ...(speciesId === 'xerneas' ? ['geomancy'] : []), ...supportMoves, ...attackingMoves])].slice(0, 4),
     abilityId: entry.abilities[0],
-    itemId: 'none',
+    itemId: speciesId === 'xerneas' ? 'powerherb' : 'none',
     teraType:entry.types[0],gigantamax:false,
     natureId: 'hardy',
     ivs: { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 },
