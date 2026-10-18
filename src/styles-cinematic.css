@@ -68,14 +68,14 @@
 .battle-scene[data-weather] .battlefield-platform { border:0;box-shadow:none; }
 .battle-scene[data-weather=snow] .battlefield-platform { background:radial-gradient(ellipse at 50% 58%,#e9f8e688 0%,#d0e9dd45 43%,transparent 76%); }
 @media(min-width:681px) {
-  .battle-format-singles .formation-foe { top:17%;height:33%; }
+  .battle-format-singles .formation-foe { top:27%;height:34%; }
   .battle-format-singles .formation-foe .scene-actor { --body-unit:190px; }
-  .battle-format-singles .platform-foe { top:48%;height:7%;background:radial-gradient(ellipse at 50% 30%,#29451e70 0%,#315c2b32 43%,transparent 76%); }
+  .battle-format-singles .platform-foe { top:59%;height:7%;background:radial-gradient(ellipse at 50% 30%,#29451e70 0%,#315c2b32 43%,transparent 76%); }
   .battle-format-singles .formation-player { bottom:clamp(180px,20vh,205px); }
   .battle-format-singles .platform-player { bottom:clamp(145px,16vh,175px);height:7%;background:radial-gradient(ellipse at 50% 42%,#29451e70 0%,#315c2b32 43%,transparent 76%); }
-  .battle-format-doubles .formation-foe { top:19%;height:31%; }
+  .battle-format-doubles .formation-foe { top:29%;height:31%; }
   .battle-format-doubles .formation-foe .scene-actor { --body-unit:160px; }
-  .battle-format-doubles .platform-foe { top:48%;height:7%;background:radial-gradient(ellipse at 50% 30%,#29451e70 0%,#315c2b32 43%,transparent 76%); }
+  .battle-format-doubles .platform-foe { top:58%;height:7%;background:radial-gradient(ellipse at 50% 30%,#29451e70 0%,#315c2b32 43%,transparent 76%); }
   .battle-format-doubles .formation-player { bottom:clamp(195px,22vh,225px); }
   .battle-format-doubles .platform-player { bottom:clamp(165px,19vh,195px);height:7%;background:radial-gradient(ellipse at 50% 42%,#29451e70 0%,#315c2b32 43%,transparent 76%); }
   .battle-format-doubles .actor-slot-1 { translate:0 -12px; }
