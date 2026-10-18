@@ -1,6 +1,7 @@
 import { abilities, getStarterTeam, items, moves, natures, regulationSpecies, restrictedDexNumbers, species } from '../data';
 import type { Format, Stat, Stats, TeamSet } from '../engine/types';
 import { gimmickSetErrors } from '../engine/gimmicks';
+import { exclusiveZMoves } from '../data/gimmicks';
 
 export const TEAM_STORAGE_KEY = 'battle-circuit-team-v1';
 export const BATTLE_LEVEL = 50;
@@ -30,12 +31,13 @@ export function createSet(speciesId: string): TeamSet {
   const attackingMoves = entry.learnset.filter(id => moves[id]?.category !== 'status').sort((a,b) => score(b)-score(a));
   const coverage = attackingMoves.filter((id,index) => !attackingMoves.slice(0,index).some(other => moves[other].type === moves[id].type));
   const supportMoves = entry.learnset.filter(id => moves[id]?.category === 'status').sort((a,b) => Number(b === 'protect') - Number(a === 'protect'));
+  const exclusiveZ=exclusiveZMoves.find(z=>z.speciesId===speciesId&&entry.learnset.includes(z.baseMove));
   return {
     speciesId,
     friendship: 255,
-    moves: [...new Set([...coverage.slice(0, 3), ...(speciesId === 'xerneas' ? ['geomancy'] : []), ...supportMoves, ...attackingMoves])].slice(0, 4),
+    moves: [...new Set([...coverage.slice(0, 3), ...(exclusiveZ?[exclusiveZ.baseMove]:[]), ...(speciesId === 'xerneas' ? ['geomancy'] : []), ...supportMoves, ...attackingMoves])].slice(0, 4),
     abilityId: entry.abilities[0],
-    itemId: speciesId === 'xerneas' ? 'powerherb' : 'none',
+    itemId: speciesId === 'xerneas' ? 'powerherb' : exclusiveZ?.crystal ?? 'none',
     teraType:entry.types[0],gigantamax:false,
     natureId: 'hardy',
     ivs: { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 },
