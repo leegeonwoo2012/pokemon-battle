@@ -113,6 +113,14 @@ export function previewMove(p:Combatant,base:Move,kind?:Gimmick,teraType?:string
   if(base.id==='struggle') return base;
   if(base.id==='ironhead'&&p.battleFormId==='zaciancrowned')return {...moves.behemothblade,pp:base.pp};
   if(base.id==='ironhead'&&p.battleFormId==='zamazentacrowned')return {...moves.behemothbash,pp:base.pp};
+  if(base.id==='judgment'&&p.set.speciesId==='arceus'){
+    const plateType=({dracoplate:'dragon',dreadplate:'dark',earthplate:'ground',fistplate:'fighting',flameplate:'fire',icicleplate:'ice',insectplate:'bug',ironplate:'steel',meadowplate:'grass',mindplate:'psychic',pixieplate:'fairy',skyplate:'flying',splashplate:'water',spookyplate:'ghost',stoneplate:'rock',toxicplate:'poison',zapplate:'electric'} as Record<string,string>)[p.set.itemId];
+    if(plateType)base={...base,type:plateType};
+  }
+  if(base.id==='technoblast'&&p.set.speciesId==='genesect'){
+    const driveType=({burndrive:'fire',chilldrive:'ice',dousedrive:'water',shockdrive:'electric'} as Record<string,string>)[p.set.itemId];
+    if(driveType)base={...base,type:driveType};
+  }
   if(base.id==='photongeyser')base={...base,category:p.stats.atk>p.stats.spa?'physical':'special'};
   if(base.id==='terablast'&&(p.transformation?.kind==='tera'||kind==='tera')&&kind!=='z'&&kind!=='dynamax'){
     const chosen=p.transformation?.teraType??teraTypeFromItem(p.set.itemId)??teraType??p.set.teraType??p.types[0];

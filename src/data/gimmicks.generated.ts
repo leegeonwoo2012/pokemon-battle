@@ -653,7 +653,7 @@ export const megaForms: MegaForm[] = [
       "spd": 110,
       "spe": 70
     },
-    "abilityId": "swiftSwim",
+    "abilityId": "swiftswim",
     "stoneId": "swampertite",
     "stoneName": "Swampertite"
   },
@@ -896,7 +896,7 @@ export const megaForms: MegaForm[] = [
   {
     "id": "absolmegaz",
     "speciesId": "absol",
-    "name": "메가앱솔",
+    "name": "메가앱솔 Z",
     "types": [
       "dark",
       "ghost"
@@ -1075,7 +1075,7 @@ export const megaForms: MegaForm[] = [
   {
     "id": "garchompmegaz",
     "speciesId": "garchomp",
-    "name": "메가한카리아스",
+    "name": "메가한카리아스 Z",
     "types": [
       "dragon"
     ],
@@ -1114,7 +1114,7 @@ export const megaForms: MegaForm[] = [
   {
     "id": "lucariomegaz",
     "speciesId": "lucario",
-    "name": "메가루카리오",
+    "name": "메가루카리오 Z",
     "types": [
       "fighting",
       "steel"
@@ -1207,7 +1207,7 @@ export const megaForms: MegaForm[] = [
       "spd": 141,
       "spe": 67
     },
-    "abilityId": "flashFire",
+    "abilityId": "flashfire",
     "stoneId": "heatranite",
     "stoneName": "Heatranite"
   },

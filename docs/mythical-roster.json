@@ -1,0 +1,146 @@
+{
+  "sourceCommit": "942cda71d14bf0618bd57991708a2e2734b6daba",
+  "classification": "Showdown Mythical tag",
+  "allBaseSpecies": [
+    "mew",
+    "celebi",
+    "jirachi",
+    "deoxys",
+    "phione",
+    "manaphy",
+    "darkrai",
+    "shaymin",
+    "arceus",
+    "victini",
+    "keldeo",
+    "meloetta",
+    "genesect",
+    "diancie",
+    "hoopa",
+    "volcanion",
+    "magearna",
+    "marshadow",
+    "zeraora",
+    "meltan",
+    "melmetal",
+    "zarude",
+    "pecharunt"
+  ],
+  "addedIds": [
+    "mew",
+    "celebi",
+    "jirachi",
+    "deoxys",
+    "phione",
+    "manaphy",
+    "darkrai",
+    "shaymin",
+    "arceus",
+    "victini",
+    "keldeo",
+    "meloetta",
+    "genesect",
+    "diancie",
+    "hoopa",
+    "volcanion",
+    "magearna",
+    "zeraora",
+    "meltan",
+    "zarude",
+    "pecharunt"
+  ],
+  "dimensions": {
+    "mew": {
+      "height": 0.4,
+      "weight": 4
+    },
+    "celebi": {
+      "height": 0.6,
+      "weight": 5
+    },
+    "jirachi": {
+      "height": 0.3,
+      "weight": 1.1
+    },
+    "deoxys": {
+      "height": 1.7,
+      "weight": 60.8
+    },
+    "phione": {
+      "height": 0.4,
+      "weight": 3.1
+    },
+    "manaphy": {
+      "height": 0.3,
+      "weight": 1.4
+    },
+    "darkrai": {
+      "height": 1.5,
+      "weight": 50.5
+    },
+    "shaymin": {
+      "height": 0.2,
+      "weight": 2.1
+    },
+    "arceus": {
+      "height": 3.2,
+      "weight": 320
+    },
+    "victini": {
+      "height": 0.4,
+      "weight": 4
+    },
+    "keldeo": {
+      "height": 1.4,
+      "weight": 48.5
+    },
+    "meloetta": {
+      "height": 0.6,
+      "weight": 6.5
+    },
+    "genesect": {
+      "height": 1.5,
+      "weight": 82.5
+    },
+    "diancie": {
+      "height": 0.7,
+      "weight": 8.8
+    },
+    "hoopa": {
+      "height": 0.5,
+      "weight": 9
+    },
+    "volcanion": {
+      "height": 1.7,
+      "weight": 195
+    },
+    "magearna": {
+      "height": 1,
+      "weight": 80.5
+    },
+    "marshadow": {
+      "height": 0.7,
+      "weight": 22.2
+    },
+    "zeraora": {
+      "height": 1.5,
+      "weight": 44.5
+    },
+    "meltan": {
+      "height": 0.2,
+      "weight": 8
+    },
+    "melmetal": {
+      "height": 2.5,
+      "weight": 800
+    },
+    "zarude": {
+      "height": 1.8,
+      "weight": 70
+    },
+    "pecharunt": {
+      "height": 0.3,
+      "weight": 0.3
+    }
+  }
+}

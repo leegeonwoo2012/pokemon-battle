@@ -3,6 +3,9 @@ import { abilities, regulationSpecies as species, typeNames } from './index';
 import sourceEvidence from '../../docs/roster-evidence.json';
 import { createSet, validateTeam } from '../team';
 import regulation from '../../docs/regulation-m-c.json';
+import mythicalEvidence from '../../docs/mythical-roster.json';
+import { mythicalRoster } from './mythical-roster.generated';
+import spriteManifest from '../../public/sprites/manifest.json';
 
 const evidence = sourceEvidence as Record<string,{nationalDex:number;spriteId:number;types:string[];stats:Record<string,number>;abilities:string[];learnsetSources:Record<string,string[]>}>;
 const normalize = (value:string) => value.toLowerCase().replace(/[^a-z0-9]/g,'');
@@ -21,6 +24,18 @@ describe('source-verified roster',()=>{
   it('includes all eight Eevee evolutions',()=>{
     expect(species.eevee).toBeDefined();
     for(const id of ['vaporeon','jolteon','flareon','espeon','umbreon','leafeon','glaceon','sylveon'])expect(species[id],id).toBeDefined();
+  });
+  it('makes every pinned mythical species selectable with a usable set and both battle sprites',()=>{
+    expect(mythicalEvidence.allBaseSpecies).toHaveLength(23);
+    expect(mythicalRoster).toHaveLength(21);
+    for(const id of mythicalEvidence.allBaseSpecies){
+      const mon=species[id];
+      expect(mon,id).toBeDefined();
+      expect(validateTeam([createSet(id)]),id).toEqual([]);
+      expect(spriteManifest.images[`front/${mon.spriteId}` as keyof typeof spriteManifest.images],id).toBe(`/sprites/front/${mon.spriteId}.png`);
+      expect(spriteManifest.images[`back/${mon.spriteId}` as keyof typeof spriteManifest.images],id).toBe(`/sprites/back/${mon.spriteId}.png`);
+      for(const ability of mon.abilities)expect(abilities[ability],`${id}: ${ability}`).toBeDefined();
+    }
   });
   it('matches recorded upstream stats, dual types, abilities and learnset evidence for every species',()=>{
     for(const mon of regulation.ids.map(id=>species[id])){
@@ -43,7 +58,7 @@ describe('source-verified roster',()=>{
     expect(species.meowsticf.spriteId).not.toBe(species.meowstic.spriteId);
     expect(species.gourgeistsmall.baseStats.spe).not.toBe(species.gourgeistsuper.baseStats.spe);
     expect(species.squawkabillyyellow.abilities).not.toEqual(species.squawkabilly.abilities);
-    expect(species.arceus).toBeUndefined();
+    expect(species.arceus).toBeDefined();
     for(const id of ['sylveon','raichu','annihilape','rhyperior','kingambit','clefable'])expect(species[id]).toBeDefined();
     expect(species.annihilape.baseStats).toMatchObject({atk:115,spe:90});
     expect(species.kingambit.baseStats).toMatchObject({atk:135,def:120});

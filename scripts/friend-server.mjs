@@ -30,9 +30,9 @@ export function startFriendServer(port = PORT, host = '0.0.0.0', { previewMs = T
   const restrictedNumbers=new Set(data.restrictedDexNumbers);
   function selectedRestrictedLimit(message){return Number.isInteger(message.restrictedLimit)?message.restrictedLimit:message.allowRestricted===true?1:0;}
   function restrictedIssue(team,limit,format){
-    if(limit<0||limit>4||limit===4&&format!=='doubles')return '초전설 4마리 룰은 더블 배틀에서만 선택할 수 있습니다.';
+    if(limit<0||limit>4)return '초전설·환상 제한은 0~4마리까지 설정할 수 있습니다.';
     const count=team.filter(set=>restrictedNumbers.has(species[set.speciesId]?.nationalDex)).length;
-    return count>limit?limit===0?'이 배틀은 초전설을 허용하지 않습니다.':`초전설은 팀에 최대 ${limit}마리만 넣을 수 있습니다.`:null;
+    return count>limit?limit===0?'이 배틀은 초전설·환상 포켓몬을 허용하지 않습니다.':`초전설·환상 포켓몬은 팀에 최대 ${limit}마리만 넣을 수 있습니다.`:null;
   }
   const rooms = new Map();
   const clients = new Set();
@@ -178,7 +178,7 @@ export function startFriendServer(port = PORT, host = '0.0.0.0', { previewMs = T
       return;
     }
     if(message.type==='leave-room'){if(room.preview?.timer)clearTimeout(room.preview.timer);broadcast(room,{type:'room-left'});rooms.delete(client.code);client.code=undefined;client.role=undefined;return;}
-    if(message.type==='select-format'&&client.role==='host'&&room.phase==='LOBBY'&&(message.format==='singles'||message.format==='doubles')){const limit=selectedRestrictedLimit(message);if(limit<0||limit>4||limit===4&&message.format!=='doubles')return fail(client,'초전설 4마리 룰은 더블 배틀에서만 선택할 수 있습니다.');room.format=message.format;room.restrictedLimit=limit;broadcast(room,{type:'format-selected',format:room.format,allowRestricted:limit>0,restrictedLimit:limit});return;}
+    if(message.type==='select-format'&&client.role==='host'&&room.phase==='LOBBY'&&(message.format==='singles'||message.format==='doubles')){const limit=selectedRestrictedLimit(message);if(limit<0||limit>4)return fail(client,'초전설·환상 제한은 0~4마리까지 설정할 수 있습니다.');room.format=message.format;room.restrictedLimit=limit;broadcast(room,{type:'format-selected',format:room.format,allowRestricted:limit>0,restrictedLimit:limit});return;}
     if (!peer) return fail(client, '상대와 연결이 끊겼습니다.');
     if ((message.type === 'start_team_preview'||message.type==='start-battle') && client.role === 'host') {
       if(room.phase!=='LOBBY')return fail(client,'이미 시작된 배틀입니다.');

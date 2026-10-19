@@ -149,14 +149,13 @@ export function validateTeam(team: TeamSet[], format: Format = 'singles'): strin
   return errors;
 }
 
-/** Restricted legends are judged by national number so alternate forms count together. */
+/** Restricted legends and mythicals are judged by national number so alternate forms count together. */
 export type RestrictedLimit = 0 | 1 | 2 | 3 | 4;
-export function validateRestrictedTeam(team:TeamSet[],selectedLimit:RestrictedLimit | boolean,format:Format='singles'):string[] {
+export function validateRestrictedTeam(team:TeamSet[],selectedLimit:RestrictedLimit | boolean,_format:Format='singles'):string[] {
   const limit=typeof selectedLimit==='boolean'?(selectedLimit?1:0):selectedLimit;
   const restricted=team.filter(set=>restrictedDexNumbers.has(species[set.speciesId]?.nationalDex));
-  if(limit===4&&format!=='doubles')return ['초전설 4마리 룰은 더블 배틀에서만 선택할 수 있습니다.'];
-  if(limit===0&&restricted.length)return ['이 배틀은 초전설을 허용하지 않습니다. 초전설 룰을 변경하거나 팀에서 제외하세요.'];
-  if(restricted.length>limit)return [`초전설은 팀에 최대 ${limit}마리만 넣을 수 있습니다.`];
+  if(limit===0&&restricted.length)return ['이 배틀은 초전설·환상 포켓몬을 허용하지 않습니다. 제한을 변경하거나 팀에서 제외하세요.'];
+  if(restricted.length>limit)return [`초전설·환상 포켓몬은 팀에 최대 ${limit}마리만 넣을 수 있습니다.`];
   return [];
 }
 
@@ -176,7 +175,18 @@ export function loadTeam(storage?: TeamStorage): TeamSet[] | null {
     if (!value || typeof value !== 'object') return null;
     const record = value as { version?: unknown; team?: unknown };
     if (record.version !== 1 || validateTeam(record.team as TeamSet[]).length) return null;
-    return structuredClone(record.team as TeamSet[]);
+    const saved=record.team as TeamSet[];
+    const previousDefaults:[string,string,string][]=[
+      ['rotomwash','leftovers','hydropump,voltswitch,willowisp,protect'],
+      ['grimmsnarl','lightclay','spiritbreak,reflect,lightscreen,taunt'],
+      ['garchomp','muscleBand','outrage,earthquake,rockslide,protect'],
+      ['charizard','charizarditey','flamethrower,airslash,roost,protect'],
+      ['gholdengo','wiseGlasses','makeitrain,shadowball,steelbeam,recover'],
+      ['basculegion','mysticWater','lastrespects,wavecrash,aquajet,protect'],
+    ];
+    if(saved.length===previousDefaults.length&&saved.every((set,index)=>set.speciesId===previousDefaults[index][0]&&set.itemId===previousDefaults[index][1]&&set.moves.join(',')===previousDefaults[index][2]))
+      return getStarterTeam();
+    return structuredClone(saved);
   } catch {
     return null;
   }

@@ -22577,6 +22577,391 @@
           }
         }
       }
+    },
+    {
+      "speciesId": "celebi",
+      "nationalDex": 251,
+      "name": "세레비",
+      "englishName": "Celebi",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/251.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/251.png",
+          "sha256": "004fce671894609bdbb92df123e9c3aa87b4a7f0e3e0eefddde264e1d7488202",
+          "sourceSha256": "004fce671894609bdbb92df123e9c3aa87b4a7f0e3e0eefddde264e1d7488202",
+          "width": 96,
+          "height": 96,
+          "opaque": 601
+        },
+        "back": {
+          "path": "back/251.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/back/251.png",
+          "sha256": "c1713cd9a280b73108aa3c4bb1153d3a3d87c5a8f67ce5ccc36bb8221aec6dc0",
+          "sourceSha256": "c1713cd9a280b73108aa3c4bb1153d3a3d87c5a8f67ce5ccc36bb8221aec6dc0",
+          "width": 96,
+          "height": 96,
+          "opaque": 651
+        }
+      }
+    },
+    {
+      "speciesId": "deoxys",
+      "nationalDex": 386,
+      "name": "테오키스",
+      "englishName": "Deoxys",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/386.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/386.png",
+          "sha256": "cd194f62c702a3f7914069334a1e8cd99f39235b04ea989801ff5b6aaa4468e3",
+          "sourceSha256": "cd194f62c702a3f7914069334a1e8cd99f39235b04ea989801ff5b6aaa4468e3",
+          "width": 96,
+          "height": 96,
+          "opaque": 2063
+        },
+        "back": {
+          "path": "back/386.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/back/386.png",
+          "sha256": "6b6709488fe04742ea0574f483591f465c24d5d55419d309c3406a02d5913308",
+          "sourceSha256": "6b6709488fe04742ea0574f483591f465c24d5d55419d309c3406a02d5913308",
+          "width": 96,
+          "height": 96,
+          "opaque": 2108
+        }
+      }
+    },
+    {
+      "speciesId": "phione",
+      "nationalDex": 489,
+      "name": "피오네",
+      "englishName": "Phione",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/489.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/489.png",
+          "sha256": "45fedf60683618ee9b54498886f1209d807fb8ddbda301632f4c1dfd9c3a29a7",
+          "sourceSha256": "45fedf60683618ee9b54498886f1209d807fb8ddbda301632f4c1dfd9c3a29a7",
+          "width": 96,
+          "height": 96,
+          "opaque": 841
+        },
+        "back": {
+          "path": "back/489.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/back/489.png",
+          "sha256": "e1019cd1b0464644611649af8847bcfedd19b30936a065b0da6fbc681c75fee4",
+          "sourceSha256": "e1019cd1b0464644611649af8847bcfedd19b30936a065b0da6fbc681c75fee4",
+          "width": 96,
+          "height": 96,
+          "opaque": 802
+        }
+      }
+    },
+    {
+      "speciesId": "manaphy",
+      "nationalDex": 490,
+      "name": "마나피",
+      "englishName": "Manaphy",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/490.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/490.png",
+          "sha256": "16091bb12aa1b0564175df8301f76b85c83da89dd48a34a8b55dab539d24379b",
+          "sourceSha256": "16091bb12aa1b0564175df8301f76b85c83da89dd48a34a8b55dab539d24379b",
+          "width": 96,
+          "height": 96,
+          "opaque": 824
+        },
+        "back": {
+          "path": "back/490.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/back/490.png",
+          "sha256": "23c739f3fe235de79b1198a3cc51b99c2d7cea59d45d1875a70f6829cc6dc313",
+          "sourceSha256": "23c739f3fe235de79b1198a3cc51b99c2d7cea59d45d1875a70f6829cc6dc313",
+          "width": 96,
+          "height": 96,
+          "opaque": 821
+        }
+      }
+    },
+    {
+      "speciesId": "shaymin",
+      "nationalDex": 492,
+      "name": "쉐이미",
+      "englishName": "Shaymin",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/492.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/492.png",
+          "sha256": "053ac09877d4cf75e2e7bac22c7122b1f89bfac21f6854a519574849f969ff2c",
+          "sourceSha256": "053ac09877d4cf75e2e7bac22c7122b1f89bfac21f6854a519574849f969ff2c",
+          "width": 96,
+          "height": 96,
+          "opaque": 710
+        },
+        "back": {
+          "path": "back/492.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/back/492.png",
+          "sha256": "ebc30937c75755f026fa1de8f60e8e74e92e821ba3443b04ad391d1c990efba9",
+          "sourceSha256": "ebc30937c75755f026fa1de8f60e8e74e92e821ba3443b04ad391d1c990efba9",
+          "width": 96,
+          "height": 96,
+          "opaque": 736
+        }
+      }
+    },
+    {
+      "speciesId": "victini",
+      "nationalDex": 494,
+      "name": "비크티니",
+      "englishName": "Victini",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/494.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/494.png",
+          "sha256": "eecbeb34e9cf0a43efca8c6dcd66e6c140ba71606e8c10394008720b6a6bced0",
+          "sourceSha256": "eecbeb34e9cf0a43efca8c6dcd66e6c140ba71606e8c10394008720b6a6bced0",
+          "width": 96,
+          "height": 96,
+          "opaque": 1027
+        },
+        "back": {
+          "path": "back/494.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/back/494.png",
+          "sha256": "4041447a251f87208d2462a9a6119e26dfe26eb193bbc2abf8e91f0ee1905d19",
+          "sourceSha256": "4041447a251f87208d2462a9a6119e26dfe26eb193bbc2abf8e91f0ee1905d19",
+          "width": 96,
+          "height": 96,
+          "opaque": 935
+        }
+      }
+    },
+    {
+      "speciesId": "keldeo",
+      "nationalDex": 647,
+      "name": "케르디오",
+      "englishName": "Keldeo",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/647.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/647.png",
+          "sha256": "8b25f83661d114de0af7d7fb4e8adfe5bf57270b100e4208ee01cbdf95275474",
+          "sourceSha256": "8b25f83661d114de0af7d7fb4e8adfe5bf57270b100e4208ee01cbdf95275474",
+          "width": 96,
+          "height": 96,
+          "opaque": 1469
+        },
+        "back": {
+          "path": "back/647.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/back/647.png",
+          "sha256": "b06ef4048d092ffc5c8d2d93d341246ef8b87b0b2df52da4649a29bcf23b53d9",
+          "sourceSha256": "b06ef4048d092ffc5c8d2d93d341246ef8b87b0b2df52da4649a29bcf23b53d9",
+          "width": 96,
+          "height": 96,
+          "opaque": 1433
+        }
+      }
+    },
+    {
+      "speciesId": "genesect",
+      "nationalDex": 649,
+      "name": "게노세크트",
+      "englishName": "Genesect",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/649.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/649.png",
+          "sha256": "4b640c29b869797ec07c1fbf64256b08d405bfde33d411b8e39fca2a148e7a22",
+          "sourceSha256": "4b640c29b869797ec07c1fbf64256b08d405bfde33d411b8e39fca2a148e7a22",
+          "width": 96,
+          "height": 96,
+          "opaque": 2020
+        },
+        "back": {
+          "path": "back/649.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/back/649.png",
+          "sha256": "9ab7c98fd62b8176227eaf132b80fa047f727af8dad27edb32fb607cd4525775",
+          "sourceSha256": "9ab7c98fd62b8176227eaf132b80fa047f727af8dad27edb32fb607cd4525775",
+          "width": 96,
+          "height": 96,
+          "opaque": 1948
+        }
+      }
+    },
+    {
+      "speciesId": "hoopa",
+      "nationalDex": 720,
+      "name": "후파",
+      "englishName": "Hoopa",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/720.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/720.png",
+          "sha256": "26a05b49c9fa7c9cfb1f5fcbdf0380c5785e0ead44e36eb77063e959655b1ae3",
+          "sourceSha256": "26a05b49c9fa7c9cfb1f5fcbdf0380c5785e0ead44e36eb77063e959655b1ae3",
+          "width": 96,
+          "height": 96,
+          "opaque": 1267
+        },
+        "back": {
+          "path": "back/720.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/back/720.png",
+          "sha256": "35d9c29479c506794aaace43fb5ea94c0b41b35b9399857dcc7dc6363e24050c",
+          "sourceSha256": "35d9c29479c506794aaace43fb5ea94c0b41b35b9399857dcc7dc6363e24050c",
+          "width": 96,
+          "height": 96,
+          "opaque": 1238
+        }
+      }
+    },
+    {
+      "speciesId": "volcanion",
+      "nationalDex": 721,
+      "name": "볼케니온",
+      "englishName": "Volcanion",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/721.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/721.png",
+          "sha256": "435021c43e57edae7ed16dcee8d945d630d624eab6ad2422a52aab4d9f0e66f7",
+          "sourceSha256": "435021c43e57edae7ed16dcee8d945d630d624eab6ad2422a52aab4d9f0e66f7",
+          "width": 96,
+          "height": 96,
+          "opaque": 3549
+        },
+        "back": {
+          "path": "back/721.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/back/721.png",
+          "sha256": "ef30bb86ba92ab9b51115e51787517e8a09c332a6a3eb0dd4d3416116e8026c9",
+          "sourceSha256": "ef30bb86ba92ab9b51115e51787517e8a09c332a6a3eb0dd4d3416116e8026c9",
+          "width": 96,
+          "height": 96,
+          "opaque": 3656
+        }
+      }
+    },
+    {
+      "speciesId": "meltan",
+      "nationalDex": 808,
+      "name": "멜탄",
+      "englishName": "Meltan",
+      "sourceProvider": "PokeAPI/sprites",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon",
+      "license": "Repository CC0 1.0; image copyright The Pokémon Company. See PokeAPI-sprites-LICENCE.txt.",
+      "authors": [
+        {
+          "name": "The Pokémon Company"
+        }
+      ],
+      "extraction": "Unmodified default National Dex PNG, separately verified front and back.",
+      "images": {
+        "front": {
+          "path": "front/808.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/808.png",
+          "sha256": "badd978b48e025d7f29c94800125ea0e38bd500bf6c1809c367eeb4f2105a1cc",
+          "sourceSha256": "badd978b48e025d7f29c94800125ea0e38bd500bf6c1809c367eeb4f2105a1cc",
+          "width": 96,
+          "height": 96,
+          "opaque": 737
+        },
+        "back": {
+          "path": "back/808.png",
+          "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/back/808.png",
+          "sha256": "1d2af1c710cfb1b7c176b08eda52ad273fd3f9f3613d89c3eb82f9fbf8f3b19a",
+          "sourceSha256": "1d2af1c710cfb1b7c176b08eda52ad273fd3f9f3613d89c3eb82f9fbf8f3b19a",
+          "width": 96,
+          "height": 96,
+          "opaque": 723
+        }
+      }
     }
   ],
   "sources": {

@@ -11,6 +11,10 @@ export interface AbilityBattleForm {
 }
 
 export const abilityBattleForms: Record<string, AbilityBattleForm> = {
+  meloettapirouette: {
+    id:'meloettapirouette',speciesId:'meloetta',name:'메로엣타 스텝폼',types:['normal','fighting'],
+    baseStats:{hp:100,atk:128,def:90,spa:77,spd:77,spe:128},abilityId:'sereneGrace',
+  },
   zygardecomplete: {
     id: 'zygardecomplete', speciesId: 'zygarde', name: '지가르데 퍼펙트폼', types: ['dragon', 'ground'],
     baseStats: { hp: 216, atk: 100, def: 121, spa: 91, spd: 95, spe: 85 }, abilityId: 'powerconstruct',

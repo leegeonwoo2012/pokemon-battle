@@ -9,6 +9,7 @@ const koreanNames=new Map(csv);
 const rosterIds=JSON.parse(fs.readFileSync('docs/regulation-m-c.json','utf8')).ids;
 const legendaryIds=JSON.parse(fs.readFileSync('docs/legendary-roster.json','utf8')).addedIds;
 const expansionIds=JSON.parse(fs.readFileSync('docs/expansion-roster.json','utf8')).addedIds;
+const mythicalSignatures='doomdesire psychoboost heartswap darkvoid seedflare judgment vcreate searingshot secretsword relicsong technoblast diamondstorm hyperspacehole hyperspacefury steameruption fleurcannon spectralthief plasmafists doubleironbash junglehealing malignantchain'.split(' ');
 const {Learnsets:baseLearnsets}=read(`${root}/data/learnsets.ts`);
 const wanted=new Set();
 for(const id of rosterIds){const entry=Pokedex[id], known=Learnsets[id]?.learnset??Learnsets[normalize(entry?.baseSpecies??'')]?.learnset??{};for(const move of Object.keys(known))wanted.add(move);}
@@ -20,6 +21,7 @@ for(const id of expansionIds){
     wanted.add(move);legendaryWanted.add(move);
   }
 }
+for(const id of mythicalSignatures){wanted.add(id);legendaryWanted.add(id);}
 // Mega Zygarde's Z-A signature move is a supported, explicit form-only transfer rule.
 wanted.add('nihillight');legendaryWanted.add('nihillight');
 for(const id of ['behemothblade','behemothbash']){wanted.add(id);legendaryWanted.add(id);}
@@ -40,7 +42,7 @@ function makeEffects(m){const effects=[];const add=(data,target='target',chance)
   if(m.volatileStatus==='yawn')effects.push({kind:'yawn'});
   if(m.volatileStatus==='attract')effects.push({kind:'attract'});
   if(m.volatileStatus==='taunt'||m.volatileStatus==='encore')effects.push({kind:m.volatileStatus});
-  const addSecondary=s=>{if(s.status&&statusMap[s.status])effects.push({kind:'status',status:statusMap[s.status],chance:s.chance});if(s.volatileStatus==='confusion'||s.volatileStatus==='flinch')effects.push({kind:'volatile',condition:s.volatileStatus,chance:s.chance});if(s.boosts)add(s.boosts,s.self?'self':'target',s.chance);if(s.self?.boosts)add(s.self.boosts,'self',s.chance);};
+  const addSecondary=s=>{if(s.status&&statusMap[s.status])effects.push({kind:'status',status:statusMap[s.status],chance:s.chance,...(s.status==='tox'?{badlyPoisoned:true}:{})});if(s.volatileStatus==='confusion'||s.volatileStatus==='flinch')effects.push({kind:'volatile',condition:s.volatileStatus,chance:s.chance});if(s.boosts)add(s.boosts,s.self?'self':'target',s.chance);if(s.self?.boosts)add(s.self.boosts,'self',s.chance);};
   for(const secondary of [...(m.secondary?[m.secondary]:[]),...(m.secondaries??[])])if(secondary)addSecondary(secondary);
   const drain=fraction(m.drain);if(drain)effects.push({kind:'drain',fraction:drain});
   const recoil=fraction(m.recoil);if(recoil)effects.push({kind:'recoil',fraction:recoil});
@@ -57,7 +59,7 @@ function makeEffects(m){const effects=[];const add=(data,target='target',chance)
   if(m.thawsTarget)effects.push({kind:'cureBurn'});
   return effects.length?effects:undefined;
 }
-const targets={normal:'enemy',adjacentFoe:'enemy',any:'any',self:'self',ally:'ally',adjacentAlly:'ally',adjacentAllyOrSelf:'any',allAdjacentFoes:'allEnemies',allAdjacent:'allOthers',foeSide:'self',allySide:'self',allyTeam:'self',all:'allOthers'};
+const targets={normal:'enemy',adjacentFoe:'enemy',any:'any',self:'self',ally:'ally',allies:'allAllies',adjacentAlly:'ally',adjacentAllyOrSelf:'any',allAdjacentFoes:'allEnemies',allAdjacent:'allOthers',foeSide:'self',allySide:'self',allyTeam:'self',all:'allOthers'};
 const data=[];
 for(const id of wanted){const original=base[id];if(!original)throw Error(`M-C learnset move missing from pinned source: ${id}`);const override=mod[id]??{};const m={...original,...Object.fromEntries(Object.entries(override).filter(([key])=>key!=='inherit'))};
   if((m.isNonstandard==='Past'||m.isNonstandard==='Future')&&!legendaryWanted.has(id))continue;
@@ -85,6 +87,10 @@ for(const id of wanted){const original=base[id];if(!original)throw Error(`M-C le
   if(id==='attract')entry.effects=[{kind:'attract'}];
   if(id==='aquaring')entry.effects=[{kind:'aquaRing'}];
   if(['moonlight','morningsun','synthesis'].includes(id))entry.effects=[{kind:'heal',fraction:.5,target:'self',weatherAdjusted:'sun'}];
+  if(id==='junglehealing')entry.effects=[{kind:'heal',fraction:.25,target:'target'},{kind:'cureStatus'}];
+  if(id==='diamondstorm')entry.effects=[{kind:'stat',stat:'def',stages:2,target:'self',chance:50}];
+  if(id==='doomdesire')entry.delayedTurns=2;
+  if(id==='spectralthief'){entry.bypassSubstitute=true;entry.stealsBoosts=true;}
   if(id==='shoreup')entry.effects=[{kind:'heal',fraction:.5,target:'self',weatherAdjusted:'sand'}];
   if(typeof m.multihit==='number'||Array.isArray(m.multihit))entry.multihit=m.multihit;
   if(m.critRatio)entry.critStage=Math.max(0,Number(m.critRatio)-1);

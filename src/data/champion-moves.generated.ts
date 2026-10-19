@@ -3124,7 +3124,7 @@ export const championMoves: Record<string,Move> = {
     "accuracy": null,
     "pp": 10,
     "priority": 0,
-    "target": "enemy",
+    "target": "allAllies",
     "effects": [
       {
         "kind": "heal",
@@ -4593,7 +4593,8 @@ export const championMoves: Record<string,Move> = {
       {
         "kind": "status",
         "status": "poison",
-        "chance": 50
+        "chance": 50,
+        "badlyPoisoned": true
       }
     ],
     "contact": true,
@@ -6563,7 +6564,7 @@ export const championMoves: Record<string,Move> = {
     "accuracy": null,
     "pp": 40,
     "priority": 0,
-    "target": "enemy",
+    "target": "allAllies",
     "effects": [
       {
         "kind": "stat",
@@ -14194,7 +14195,7 @@ export const championMoves: Record<string,Move> = {
     "accuracy": null,
     "pp": 5,
     "priority": 0,
-    "target": "enemy",
+    "target": "allAllies",
     "contact": false,
     "sound": false,
     "powder": false,
@@ -16123,6 +16124,435 @@ export const championMoves: Record<string,Move> = {
         "stat": "spe",
         "stages": -1,
         "target": "target"
+      }
+    ],
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false
+  },
+  "doomdesire": {
+    "id": "doomdesire",
+    "name": "파멸의소원",
+    "type": "steel",
+    "category": "special",
+    "power": 140,
+    "accuracy": 100,
+    "pp": 5,
+    "priority": 0,
+    "target": "enemy",
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false,
+    "delayedTurns": 2
+  },
+  "heartswap": {
+    "id": "heartswap",
+    "name": "하트스왑",
+    "type": "psychic",
+    "category": "status",
+    "power": 0,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "enemy",
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false
+  },
+  "darkvoid": {
+    "id": "darkvoid",
+    "name": "다크홀",
+    "type": "dark",
+    "category": "status",
+    "power": 0,
+    "accuracy": 50,
+    "pp": 10,
+    "priority": 0,
+    "target": "allEnemies",
+    "effects": [
+      {
+        "kind": "status",
+        "status": "sleep"
+      }
+    ],
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false
+  },
+  "seedflare": {
+    "id": "seedflare",
+    "name": "시드플레어",
+    "type": "grass",
+    "category": "special",
+    "power": 120,
+    "accuracy": 85,
+    "pp": 5,
+    "priority": 0,
+    "target": "enemy",
+    "effects": [
+      {
+        "kind": "stat",
+        "stat": "spd",
+        "stages": -2,
+        "target": "target",
+        "chance": 40
+      }
+    ],
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false
+  },
+  "judgment": {
+    "id": "judgment",
+    "name": "심판의뭉치",
+    "type": "normal",
+    "category": "special",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "enemy",
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false
+  },
+  "searingshot": {
+    "id": "searingshot",
+    "name": "화염탄",
+    "type": "fire",
+    "category": "special",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 5,
+    "priority": 0,
+    "target": "allOthers",
+    "effects": [
+      {
+        "kind": "status",
+        "status": "burn",
+        "chance": 30
+      }
+    ],
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": true
+  },
+  "secretsword": {
+    "id": "secretsword",
+    "name": "신비의칼",
+    "type": "fighting",
+    "category": "special",
+    "power": 85,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "enemy",
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": true,
+    "pulse": false,
+    "punch": false,
+    "bullet": false
+  },
+  "relicsong": {
+    "id": "relicsong",
+    "name": "옛노래",
+    "type": "normal",
+    "category": "special",
+    "power": 75,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "allEnemies",
+    "effects": [
+      {
+        "kind": "status",
+        "status": "sleep",
+        "chance": 10
+      }
+    ],
+    "contact": false,
+    "sound": true,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false
+  },
+  "technoblast": {
+    "id": "technoblast",
+    "name": "테크노버스터",
+    "type": "normal",
+    "category": "special",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 5,
+    "priority": 0,
+    "target": "enemy",
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false
+  },
+  "diamondstorm": {
+    "id": "diamondstorm",
+    "name": "다이아스톰",
+    "type": "rock",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 95,
+    "pp": 5,
+    "priority": 0,
+    "target": "allEnemies",
+    "effects": [
+      {
+        "kind": "stat",
+        "stat": "def",
+        "stages": 2,
+        "target": "self",
+        "chance": 50
+      }
+    ],
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false
+  },
+  "hyperspacehole": {
+    "id": "hyperspacehole",
+    "name": "이차원홀",
+    "type": "psychic",
+    "category": "special",
+    "power": 80,
+    "accuracy": null,
+    "pp": 5,
+    "priority": 0,
+    "target": "enemy",
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false,
+    "bypassProtect": true
+  },
+  "hyperspacefury": {
+    "id": "hyperspacefury",
+    "name": "이차원러시",
+    "type": "dark",
+    "category": "physical",
+    "power": 100,
+    "accuracy": null,
+    "pp": 5,
+    "priority": 0,
+    "target": "enemy",
+    "effects": [
+      {
+        "kind": "stat",
+        "stat": "def",
+        "stages": -1,
+        "target": "self"
+      }
+    ],
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false,
+    "bypassProtect": true
+  },
+  "steameruption": {
+    "id": "steameruption",
+    "name": "스팀버스트",
+    "type": "water",
+    "category": "special",
+    "power": 110,
+    "accuracy": 95,
+    "pp": 5,
+    "priority": 0,
+    "target": "enemy",
+    "effects": [
+      {
+        "kind": "status",
+        "status": "burn",
+        "chance": 30
+      },
+      {
+        "kind": "cureBurn"
+      }
+    ],
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false
+  },
+  "fleurcannon": {
+    "id": "fleurcannon",
+    "name": "플뢰르캐논",
+    "type": "fairy",
+    "category": "special",
+    "power": 130,
+    "accuracy": 90,
+    "pp": 5,
+    "priority": 0,
+    "target": "enemy",
+    "effects": [
+      {
+        "kind": "stat",
+        "stat": "spa",
+        "stages": -2,
+        "target": "self"
+      }
+    ],
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false
+  },
+  "spectralthief": {
+    "id": "spectralthief",
+    "name": "섀도스틸",
+    "type": "ghost",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "enemy",
+    "contact": true,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false,
+    "bypassSubstitute": true,
+    "stealsBoosts": true
+  },
+  "plasmafists": {
+    "id": "plasmafists",
+    "name": "플라스마피스트",
+    "type": "electric",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "enemy",
+    "contact": true,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": true,
+    "bullet": false
+  },
+  "junglehealing": {
+    "id": "junglehealing",
+    "name": "정글힐",
+    "type": "grass",
+    "category": "status",
+    "power": 0,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "allAllies",
+    "effects": [
+      {
+        "kind": "heal",
+        "fraction": 0.25,
+        "target": "target"
+      },
+      {
+        "kind": "cureStatus"
+      }
+    ],
+    "contact": false,
+    "sound": false,
+    "powder": false,
+    "bite": false,
+    "slicing": false,
+    "pulse": false,
+    "punch": false,
+    "bullet": false
+  },
+  "malignantchain": {
+    "id": "malignantchain",
+    "name": "악독사슬",
+    "type": "poison",
+    "category": "special",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 5,
+    "priority": 0,
+    "target": "enemy",
+    "effects": [
+      {
+        "kind": "status",
+        "status": "poison",
+        "chance": 50,
+        "badlyPoisoned": true
       }
     ],
     "contact": false,

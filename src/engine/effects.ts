@@ -472,7 +472,7 @@ export function applyEntryEffects(state: BattleState, side: Side, pokemon: Comba
 /** Reactive typing from Forecast and Mimicry follows the current field state. */
 export function refreshAbilityTypes(state:BattleState):void {
   for(const side of ['player','cpu'] as const)for(const pokemon of activePokemon(state,side)){
-    if(pokemon.transformation?.kind==='tera'||pokemon.transformation?.kind==='mega'||pokemon.transformation?.kind==='primal'||pokemon.transformedOriginal||pokemon.battleFormId?.endsWith('crowned'))continue;
+    if(pokemon.transformation?.kind==='tera'||pokemon.transformation?.kind==='mega'||pokemon.transformation?.kind==='primal'||pokemon.transformedOriginal||pokemon.battleFormId?.endsWith('crowned')||pokemon.battleFormId==='meloettapirouette')continue;
     const base=species[pokemon.set.speciesId]?.types.map(type=>type.toLowerCase());
     if(!base)continue;
     let next=base;

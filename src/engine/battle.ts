@@ -12,7 +12,7 @@ import {
 import {
   activePokemon, addLog, applyDamage, applyEntryEffects, applyHeal, applyStatus,
   displayName, getPokemonAt, processEndTurn, triggerContact, triggerSuperEffectiveHit, resistBerryMultiplier,
-  announcePassive, absorbMove, applyExitEffects, applyStatChange, passiveSource, transformCombatant, restoreTransform, restoreAbilityBattleForm, refreshAbilityTypes, setBattleWeather,
+  announcePassive, absorbMove, applyExitEffects, applyStatChange, passiveSource, transformCombatant, restoreTransform, restoreAbilityBattleForm, changeAbilityBattleForm, refreshAbilityTypes, setBattleWeather,
 } from './effects';
 import { startRecording, stopRecording, withEventContext } from './events';
 import { chance, random, randomInt } from './rng';
@@ -277,6 +277,9 @@ function applyMoveEffect(state: BattleState, effect: MoveEffect, user: Combatant
     const side:Side=state.sides.player.team.includes(user)?'player':'cpu';
     for(const ally of state.sides[side].team)if(ally.status){ally.status=null;ally.sleepTurns=0;ally.toxicCounter=undefined;
       addLog(state,`${displayName(ally)}의 상태 이상이 나았다!`,'status',{targetUid:ally.uid,status:null});}
+  } else if(effect.kind==='cureStatus') {
+    if(target.status){target.status=null;target.sleepTurns=0;target.toxicCounter=undefined;
+      addLog(state,`${displayName(target)}의 상태 이상이 나았다!`,'status',{targetUid:target.uid,status:null});}
   }
   else if (effect.kind === 'weather') {
     const weatherRock:Record<string,string>={rain:'damprock',sun:'heatrock',snow:'icyrock',sand:'smoothrock'};
@@ -422,6 +425,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
   const stopRampage=()=>{if(continuingRampage&&!user.fainted){user.rampage=undefined;addLog(state,`${displayName(user)}의 ${baseMove.name} 연속 사용이 끊겼다!`,'status',{kind:'message',targetUid:user.uid});}};
   if(continuingCharge)user.charging=undefined;
   const move = {...weatherBallMove(state,user,previewMove(user,baseMove,action.gimmick==='z'?'z':undefined))};
+  if(state.plasmaFistsTurn===state.turn&&move.category!=='status'&&move.type==='normal'&&move.id!=='struggle')move.type='electric';
   // Expanding Force changes from a single-target move to a spread move only
   // while its grounded user is standing in Psychic Terrain.
   if(move.id==='expandingforce'&&state.field?.id==='psychic'&&isGrounded(user,state))move.target='allEnemies';
@@ -543,6 +547,7 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
     }
   }
   addLog(state, `${displayName(user)}: ${move.name} 사용!`, 'move', { kind:'move',moveId:move.id,category:move.category,type:move.type,targetUid: targetUids[0], targetUids });
+  if(move.id==='plasmafists')state.plasmaFistsTurn=state.turn;
   if(move.id==='followme'||move.id==='ragepowder'){
     user.redirectTurn=state.turn;user.redirectPowder=move.id==='ragepowder';
     addLog(state,`${displayName(user)}이(가) 공격을 끌어당긴다!`,'status',{kind:'ability',actorUid:user.uid});
@@ -611,6 +616,11 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
       const bypassSub=move.sound||move.bypassSubstitute||passiveEffects(user).some(effect=>effect.trigger==='onAttack'&&effect.kind==='bypassSubstitute');
       if(target!==user&&target.substituteHp&&!bypassSub&&move.category==='status'){
         addLog(state,`${displayName(target)}의 대타출동이 ${move.name}을 막았다!`,'move',{kind:'blocked',targetUid:target.uid});return;
+      }
+      if(move.id==='heartswap'&&target!==user){
+        for(const stat of BOOST_KEYS){const previous=user.stages[stat];user.stages[stat]=target.stages[stat];target.stages[stat]=previous;}
+        addLog(state,`${displayName(user)}과(와) ${displayName(target)}의 능력 변화가 바뀌었다!`,'status',{kind:'message',actorUid:user.uid,targetUid:target.uid});
+        return;
       }
       if(move.stealsBoosts&&target!==user&&battleTypeMultiplier(state,move,target,user)>0&&!isTypeImmune(target,move,state)){
         const stolen=BOOST_KEYS.filter(stat=>target.stages[stat]>0).map(stat=>[stat,target.stages[stat]] as const);
@@ -836,6 +846,11 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
   if(totalDamage&&user.electromorphosisCharged&&move.type==='electric')user.electromorphosisCharged=false;
   for(const exit of emergencyExits)executeSwitch(state,exit.side,{kind:'switch',slot:exit.slot,to:exit.to});
   if(move.id==='scaleshot'&&totalDamage&&!user.fainted){applyStatChange(state,user,'spe',1,user);applyStatChange(state,user,'def',-1,user);}
+  if(move.id==='relicsong'&&totalDamage&&!user.fainted&&user.set.speciesId==='meloetta'){
+    if(user.battleFormId==='meloettapirouette')restoreAbilityBattleForm(state,user);
+    else changeAbilityBattleForm(user,'meloettapirouette');
+    addLog(state,`${displayName(user)}이(가) 노래에 맞춰 폼을 바꿨다!`,'status',{kind:'form-change',actorUid:user.uid,formId:user.battleFormId??'meloetta'});
+  }
   applyMoveSelfCost(state,user,move);
   if(move.selfDestruct&&!user.fainted)applyDamage(state,user,user.hp,move.name);
   if(move.rampage&&!user.fainted){

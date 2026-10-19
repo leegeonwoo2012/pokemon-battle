@@ -130,7 +130,8 @@ export const availableFormSprites = [
   "terapagosstellar",
   "zaciancrowned",
   "zamazentacrowned",
-  "necrozmaultra"
+  "necrozmaultra",
+  "meloettapirouette"
 ] as const;
 export const formSpriteFormats: Record<string,'png'|'webp'> = {
   "venusaurmega": "png",
@@ -263,5 +264,6 @@ export const formSpriteFormats: Record<string,'png'|'webp'> = {
   "terapagosstellar": "png",
   "zaciancrowned": "png",
   "zamazentacrowned": "png",
-  "necrozmaultra": "png"
+  "necrozmaultra": "png",
+  "meloettapirouette": "png"
 };

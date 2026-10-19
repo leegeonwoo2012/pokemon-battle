@@ -7,10 +7,10 @@ import {activateGimmick} from './gimmicks';
 
 describe('generation 1–9 legendary expansion',()=>{
   it('contains every tagged base legendary and usable moves, abilities and stats',()=>{
-    expect(Object.keys(regulationSpecies)).toHaveLength(366);
+    expect(Object.keys(regulationSpecies)).toHaveLength(387);
     expect(regulationSpecies.eevee.learnset).toContain('lastresort');
     expect(regulationSpecies.marshadow.learnset).toContain('spectralthief');
-    expect(restrictedDexNumbers.size).toBe(27);
+    expect(restrictedDexNumbers.size).toBe(50);
     for(const mon of Object.values(regulationSpecies)){
       expect(mon.baseStats.hp).toBeGreaterThan(0);
       expect(mon.baseStats.spe).toBeGreaterThan(0);

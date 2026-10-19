@@ -91,7 +91,7 @@ function Home({ team, restrictedLimit, onRestricted, onStart, onNavigate, onFrie
           <button className="secondary-button" onClick={() => onStart('doubles')}><Users size={18} /> 더블 배틀</button>
           <button className="friend-home-button" onClick={onFriend}><Users size={18} /> 친구 친선전</button>
         </div>
-        <label className="restricted-rule">초전설 제한 <select aria-label="CPU 배틀 초전설 제한" value={restrictedLimit} onChange={event=>onRestricted(Number(event.target.value) as RestrictedLimit)}><option value={0}>금지</option><option value={1}>최대 1마리</option><option value={2}>최대 2마리</option><option value={3}>최대 3마리</option><option value={4}>최대 4마리 · 더블 전용</option></select></label>
+        <label className="restricted-rule">초전설·환상 제한 <select aria-label="CPU 배틀 초전설 제한" value={restrictedLimit} onChange={event=>onRestricted(Number(event.target.value) as RestrictedLimit)}><option value={0}>금지</option><option value={1}>최대 1마리</option><option value={2}>최대 2마리</option><option value={3}>최대 3마리</option><option value={4}>최대 4마리</option></select></label>
         <div className="hero-foot"><span><Check size={14} /> CPU 싱글·더블</span><span><Check size={14} /> 친구와 비공개 친선전</span></div>
       </div>
       <div className="hero-visual" aria-hidden="true">
@@ -254,7 +254,7 @@ function SpriteLibrarySettings() {
 }
 
 function Settings({ reducedMotion, setReducedMotion, compactLog, setCompactLog }: { reducedMotion: boolean; setReducedMotion: (value: boolean) => void; compactLog: boolean; setCompactLog: (value: boolean) => void }) {
-  return <main className="content-page settings-page page-enter"><div className="page-intro"><div><span className="section-kicker">PREFERENCES & RULES</span><h1>설정</h1><p>플레이 환경과 현재 버전의 배틀 규칙을 확인하세요.</p></div></div><div className="settings-grid"><section className="panel editor-panel"><div className="panel-heading"><span>화면 설정</span><Settings2 size={18} /></div><label className="toggle-row"><span><strong>움직임 줄이기</strong><small>등장 및 턴 애니메이션을 줄입니다.</small></span><input type="checkbox" checked={reducedMotion} onChange={event => setReducedMotion(event.target.checked)} /></label><label className="toggle-row"><span><strong>간결한 전투 로그</strong><small>전투 로그의 표시 높이를 줄입니다.</small></span><input type="checkbox" checked={compactLog} onChange={event => setCompactLog(event.target.checked)} /></label></section><SpriteLibrarySettings /><BattleSoundSettings /><section className="panel editor-panel"><div className="panel-heading"><span>현재 지원 규칙</span><BookOpen size={18} /></div><ul className="rules-list"><li>레벨 50, 1~6마리 팀, CPU 싱글·더블과 친구 친선 싱글·더블</li><li>타입 상성, 자속, 급소, 명중·회피, 기술 PP</li><li>성격·개체값·노력치, 상태 이상, 능력치 단계</li><li>로스터 적용 가능 특성 효과 230종 · 도구·날씨·필드 처리</li><li>설치기 4종·장막 3종·트릭룸·순풍·도발·앵콜·설치물 제거·연속 공격</li><li>배틀 로스터 {Object.keys(regulationSpecies).length}종·폼 · 메가진화 {megaForms.length}폼 · 원시회귀 2폼 · 테라스탈 19타입 · 일반 Z기술 · 다이맥스 · 거다이맥스 {Object.keys(gmaxForms).length}종</li><li>초전설은 0~3마리, 더블 배틀은 최대 4마리까지 설정 가능 · 트레이너당 배틀 전체에서 한 기믹만 사용</li><li>도주 특성은 트레이너전에서 발동하지 않습니다 · 공식 Showdown/본가 엔진의 모든 예외와 완전히 같지는 않습니다.</li></ul></section></div></main>;
+  return <main className="content-page settings-page page-enter"><div className="page-intro"><div><span className="section-kicker">PREFERENCES & RULES</span><h1>설정</h1><p>플레이 환경과 현재 버전의 배틀 규칙을 확인하세요.</p></div></div><div className="settings-grid"><section className="panel editor-panel"><div className="panel-heading"><span>화면 설정</span><Settings2 size={18} /></div><label className="toggle-row"><span><strong>움직임 줄이기</strong><small>등장 및 턴 애니메이션을 줄입니다.</small></span><input type="checkbox" checked={reducedMotion} onChange={event => setReducedMotion(event.target.checked)} /></label><label className="toggle-row"><span><strong>간결한 전투 로그</strong><small>전투 로그의 표시 높이를 줄입니다.</small></span><input type="checkbox" checked={compactLog} onChange={event => setCompactLog(event.target.checked)} /></label></section><SpriteLibrarySettings /><BattleSoundSettings /><section className="panel editor-panel"><div className="panel-heading"><span>현재 지원 규칙</span><BookOpen size={18} /></div><ul className="rules-list"><li>레벨 50, 1~6마리 팀, CPU 싱글·더블과 친구 친선 싱글·더블</li><li>타입 상성, 자속, 급소, 명중·회피, 기술 PP</li><li>성격·개체값·노력치, 상태 이상, 능력치 단계</li><li>로스터 적용 가능 특성 효과 230종 · 도구·날씨·필드 처리</li><li>설치기 4종·장막 3종·트릭룸·순풍·도발·앵콜·설치물 제거·연속 공격</li><li>배틀 로스터 {Object.keys(regulationSpecies).length}종·폼 · 메가진화 {megaForms.length}폼 · 원시회귀 2폼 · 테라스탈 19타입 · 일반 Z기술 · 다이맥스 · 거다이맥스 {Object.keys(gmaxForms).length}종</li><li>초전설·환상은 싱글·더블 모두 0~4마리까지 설정 가능 · 트레이너당 배틀 전체에서 한 기믹만 사용</li><li>도주 특성은 트레이너전에서 발동하지 않습니다 · 공식 Showdown/본가 엔진의 모든 예외와 완전히 같지는 않습니다.</li></ul></section></div></main>;
 }
 
 type BattleMenu = 'root' | 'moves' | 'party' | 'bag' | 'targets';
@@ -454,7 +454,7 @@ export default function App() {
   const [friendPreview,setFriendPreview] = useState<TeamPreviewState|null>(null);
   const [cpuPreview,setCpuPreview] = useState<{format:Format;own:TeamSet[];opponent:TeamSet[];endsAt:number}|null>(null);
   const [format, setFormat] = useState<Format>('singles');
-  const [restrictedLimit,setRestrictedLimit]=useState<RestrictedLimit>(0);
+  const [restrictedLimit,setRestrictedLimit]=useState<RestrictedLimit>(4);
   const [message, setMessage] = useState('');
   const [animating, setAnimating] = useState(false);
   const [playbackEvent, setPlaybackEvent] = useState<BattleEvent | null>(null);
@@ -480,7 +480,7 @@ export default function App() {
   function startBattle(nextFormat: Format) {
     cancelPlayback(); battleAudio.unlock();
     const issues = [...validateTeam(team, nextFormat),...validateRestrictedTeam(team,restrictedLimit,nextFormat)];
-    if (issues.length) { setMessage(issues[0]); if(!(restrictedLimit===4&&nextFormat==='singles'))setScreen('team'); return; }
+    if (issues.length) { setMessage(issues[0]); setScreen('team'); return; }
     try {
       const opponents=[...restrictedCpuSpecies.slice(0,restrictedLimit),...cpuSpecies.slice(restrictedLimit)];
       const cpuTeam = opponents.map(id => ({...createSet(id),itemId:id==='tyranitar'?'tyranitarite':id==='lucario'?'fightiniumz':'none',teraType:id==='tyranitar'?'flying':species[id].types[0]}));
@@ -580,7 +580,7 @@ export default function App() {
         const next = { role: message.role, code: message.code, name: friendIdentity.current.name } as const;
         friendRoomRef.current = next; setFriendRoom(next); setFriendConnecting(false); setFriendStatus('친구를 기다리고 있습니다…');
         socket.send(JSON.stringify({ type: 'ready', name: friendIdentity.current.name, team: friendLocalTeam.current,format }));
-        if(message.role==='host'&&!(restrictedLimit===4&&format==='singles'))socket.send(JSON.stringify({type:'select-format',format,allowRestricted:restrictedLimit>0,restrictedLimit}));
+        if(message.role==='host')socket.send(JSON.stringify({type:'select-format',format,allowRestricted:restrictedLimit>0,restrictedLimit}));
       } else if(message.type==='room-resumed') {
         cancelPlayback();connectionDeadline.current=0;friendRevision.current=message.revision;setFormat(message.state?.format??message.format??'singles');setRestrictedLimit(message.restrictedLimit??(message.allowRestricted?1:0));
         const next={role:message.role,code:message.code,name:message.profile?.name??friendIdentity.current.name,peer:message.peer};friendRoomRef.current=next;setFriendRoom(next);
@@ -632,8 +632,7 @@ export default function App() {
   }
   function chooseFriendFormat(nextFormat:Format){
     setFormat(nextFormat);
-    const nextLimit:RestrictedLimit=nextFormat==='singles'&&restrictedLimit===4?3:restrictedLimit;
-    if(nextLimit!==restrictedLimit)setRestrictedLimit(nextLimit);
+    const nextLimit:RestrictedLimit=restrictedLimit;
     const room=friendRoomRef.current;
     if(room?.role==='host')sendFriend({type:'select-format',format:nextFormat,allowRestricted:nextLimit>0,restrictedLimit:nextLimit});
   }
@@ -677,7 +676,7 @@ export default function App() {
     : { player: friendRoom?.name ?? '나', opponent: friendRoom?.peer?.name ?? '친구' };
   return <div className={`app-shell ${reducedMotion ? 'reduced-motion' : ''} ${screen === 'battle' ? 'app-shell-battle' : ''} ${screen === 'intro' ? 'app-shell-intro' : ''}`}>{screen !== 'battle'&&screen!=='intro'&&screen!=='preview' && <Header screen={screen} onNavigate={setScreen} />}{message && <div className="global-message" role="alert">{message}<button onClick={() => setMessage('')} aria-label="알림 닫기"><X size={16} /></button></div>}
     {screen !== 'battle'&&screen!=='intro'&&screen!=='preview' && spriteDiagnostics.phase==='ready' && frontCount < Object.keys(regulationSpecies).length && <div className="artwork-notice"><span><strong>이미지 라이브러리 미완성</strong> · 정면 {frontCount}/{Object.keys(regulationSpecies).length}종. 누락된 이미지는 종 이름과 대체 그림으로 표시합니다.</span><button onClick={() => setScreen('settings')}>이미지 가져오기</button></div>}
-    {screen === 'home' && <Home team={team} restrictedLimit={restrictedLimit} onRestricted={chooseRestricted} onStart={startBattle} onNavigate={setScreen} onFriend={() => {if(restrictedLimit===4)setFormat('doubles');setScreen('friendly');}} />}
+    {screen === 'home' && <Home team={team} restrictedLimit={restrictedLimit} onRestricted={chooseRestricted} onStart={startBattle} onNavigate={setScreen} onFriend={() => setScreen('friendly')} />}
     {screen === 'team' && <TeamBuilder team={team} setTeam={setTeam} onStart={startBattle} />}
     {screen === 'friendly' && <FriendlyLobby room={friendRoom} status={friendStatus} connecting={friendConnecting} team={team} format={format} restrictedLimit={restrictedLimit} onRestricted={chooseRestricted} onFormat={chooseFriendFormat} onCreate={name => beginFriendConnection('create', name)} onJoin={(name, code) => beginFriendConnection('join', name, code)} onStart={()=>startFriendBattle(format)} onLeave={closeFriendRoom} onHome={() => setScreen('home')} />}
     {screen === 'preview' && friendPreview && <TeamPreviewModal format={friendPreview.format} own={friendPreview.own} opponent={friendPreview.opponent} endsAt={friendPreview.endsAt} submitted={friendPreview.submitted} opponentSubmitted={friendPreview.opponentSubmitted} opponentName={friendRoom?.peer?.name??'상대'} onSubmit={selection=>sendFriend({type:'submit_team_selection',...selection})} onExit={closeFriendRoom}/>}

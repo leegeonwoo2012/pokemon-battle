@@ -85,7 +85,7 @@ test('host rule is broadcast and server refuses restricted legends when disabled
   }finally{for(const socket of sockets)socket.close();await relay.close();}
 });
 
-test('server accepts four restricted legends only in doubles',async()=>{
+test('server accepts four restricted legends in singles and doubles',async()=>{
   const relay=startFriendServer(0,'127.0.0.1');await new Promise(resolve=>relay.http.once('listening',resolve));
   const sockets=[];
   try{
@@ -98,10 +98,10 @@ test('server accepts four restricted legends only in doubles',async()=>{
     await Promise.all([host.wait('peer-ready'),guest.wait('peer-ready')]);
     await Promise.all([host.wait('format-selected'),guest.wait('format-selected')]);
     host.send({type:'select-format',format:'singles',allowRestricted:true,restrictedLimit:4});
-    assert.match((await host.wait('error')).message,/더블/);
-    host.send({type:'start_team_preview',format:'doubles',allowRestricted:true,restrictedLimit:3});
+    await Promise.all([host.wait('format-selected'),guest.wait('format-selected')]);
+    host.send({type:'start_team_preview',format:'singles',allowRestricted:true,restrictedLimit:3});
     assert.match((await host.wait('error')).message,/3마리/);
-    host.send({type:'start_team_preview',format:'doubles',allowRestricted:true,restrictedLimit:4});
+    host.send({type:'start_team_preview',format:'singles',allowRestricted:true,restrictedLimit:4});
     const [a,b]=await Promise.all([host.wait('team-preview-started'),guest.wait('team-preview-started')]);
     assert.equal(a.restrictedLimit,4);assert.equal(b.restrictedLimit,4);
   }finally{for(const socket of sockets)socket.close();await relay.close();}

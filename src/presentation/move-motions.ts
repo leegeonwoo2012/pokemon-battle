@@ -102,6 +102,22 @@ const exact: Record<string, MoveMotion> = {
   spacialrend:{family:'psychic',cue:'공간을 찢는 차원 균열로 급소를 베어냄'},roaroftime:{family:'dragon',cue:'시간 고리를 압축한 뒤 굵은 용의 광선을 발사'},
   originpulse:{family:'water',cue:'근원의 파동을 물결 고리로 연속 방출'},precipiceblades:{family:'earth',cue:'상대 발밑에서 거대한 대지의 칼날을 솟구침'},
   seedflare:{family:'leaf',cue:'생명의 씨앗을 모아 초록빛 섬광으로 폭발'},fleurcannon:{family:'fairy',cue:'꽃의 포신을 열어 분홍빛 광선을 발사'},prismaticlaser:{family:'beam',cue:'프리즘 광륜을 모아 무지갯빛 레이저 발사'},
+  psychoboost:{family:'psychic',cue:'강렬한 사이코 광선을 발사한 뒤 자신의 특수공격을 낮춤'},
+  heartswap:{family:'psychic',cue:'두 포켓몬의 능력 변화를 연결해 서로 바꿈'},
+  judgment:{family:'beam',cue:'지닌 플레이트의 빛깔로 심판의 광선을 내리침'},
+  vcreate:{family:'flame',cue:'V자 불꽃을 그리며 돌진한 뒤 자신의 방어와 스피드를 낮춤'},
+  searingshot:{family:'flame',cue:'뜨거운 화염탄을 전장 중앙에서 폭발시킴'},
+  secretsword:{family:'slash',cue:'푸른 성검으로 상대의 물리 방어를 베어냄'},
+  relicsong:{family:'sound',cue:'고대의 노래로 음파를 퍼뜨리고 메로엣타의 폼을 바꿈'},
+  technoblast:{family:'beam',cue:'장착한 카세트의 에너지를 모아 광선을 발사'},
+  diamondstorm:{family:'earth',cue:'반짝이는 다이아몬드 파편을 폭풍처럼 흩뿌림'},
+  hyperspacehole:{family:'psychic',cue:'공간에 구멍을 열어 상대의 방어를 뚫음'},
+  hyperspacefury:{family:'shadow',cue:'차원문을 여러 개 열어 연속 강타'},
+  steameruption:{family:'water',cue:'과열된 증기를 분출해 상대에게 화상을 노림'},
+  plasmafists:{family:'lightning',cue:'전장을 대전시킨 뒤 플라스마 주먹으로 강타'},
+  doubleironbash:{family:'strike',cue:'거대한 강철 팔로 두 번 연속 내려침'},
+  junglehealing:{family:'heal',cue:'정글의 초록빛을 아군에게 퍼뜨려 체력과 상태를 회복'},
+  malignantchain:{family:'poison',cue:'맹독이 흐르는 사슬로 상대를 옭아맴'},
 };
 
 const typeFallback: Record<string, MoveMotionFamily> = { fire: 'flame', water: 'water', electric: 'lightning', grass: 'leaf', ice: 'ice', fighting: 'strike', poison: 'poison', ground: 'earth', flying: 'wind', psychic: 'psychic', bug: 'leaf', rock: 'earth', ghost: 'shadow', dragon: 'dragon', dark: 'shadow', steel: 'beam', fairy: 'fairy', normal: 'aura' };

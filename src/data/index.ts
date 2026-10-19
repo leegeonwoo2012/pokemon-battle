@@ -3,6 +3,7 @@ import { legendaryRoster, legendaryAbilities, restrictedNationalDex } from './le
 import { legacyRoster } from './legacy-roster.generated';
 import { signatureRoster } from './signature-roster.generated';
 import { expansionRoster } from './expansion-roster.generated';
+import { mythicalRoster, mythicalAbilities } from './mythical-roster.generated';
 import { svItemCatalog } from './sv-items.generated';
 import { svBattleItemOverrides } from './sv-items';
 import { gimmickItems } from './gimmicks';
@@ -369,14 +370,14 @@ export const natures: Record<string, Nature> = Object.fromEntries(([
   nature('careful', '신중', 'spd', 'spa'), nature('quirky', '변덕'),
 ] as Nature[]).map(entry => [entry.id, entry]));
 
-export const restrictedDexNumbers=new Set(restrictedNationalDex);
-export const regulationSpecies:Record<string,Species>=Object.fromEntries([...roster,...legendaryRoster,...signatureRoster,...expansionRoster].map(entry=>[entry.id,entry]));
+export const restrictedDexNumbers=new Set([...restrictedNationalDex,...mythicalRoster.map(mon=>mon.nationalDex),...signatureRoster.filter(mon=>mon.id==='marshadow').map(mon=>mon.nationalDex),809]);
+export const regulationSpecies:Record<string,Species>=Object.fromEntries([...roster,...legendaryRoster,...signatureRoster,...expansionRoster,...mythicalRoster].map(entry=>[entry.id,entry]));
 const historical:Record<string,Species>=Object.fromEntries(legacyRoster.map(entry=>[entry.id,entry]));
-export const species: Record<string, Species> = {...historical,...Object.fromEntries([...roster,...legendaryRoster,...signatureRoster,...expansionRoster].map(entry=>{
+export const species: Record<string, Species> = {...historical,...Object.fromEntries([...roster,...legendaryRoster,...signatureRoster,...expansionRoster,...mythicalRoster].map(entry=>{
   const prior=historical[entry.id];
   return [entry.id,prior?{...entry,abilities:[...new Set([...entry.abilities,...prior.abilities])],learnset:[...new Set([...entry.learnset,...prior.learnset])]}:entry];
 }))};
-Object.assign(abilities, importedAbilities, legendaryAbilities);
+Object.assign(abilities, importedAbilities, legendaryAbilities, mythicalAbilities);
 abilities.intrepidsword=ability('intrepidsword','불요의검','등장할 때 공격이 1단계 상승합니다.',[{trigger:'onEnter',kind:'stat',target:'self',stat:'atk',stages:1}]);
 abilities.dauntlessshield=ability('dauntlessshield','불굴의방패','등장할 때 방어가 1단계 상승합니다.',[{trigger:'onEnter',kind:'stat',target:'self',stat:'def',stages:1}]);
 abilities.chillingneigh=ability('chillingneigh','백의울음','상대를 쓰러뜨리면 공격이 1단계 상승합니다.',[{trigger:'onKO',kind:'stat',stat:'atk',stages:1}]);
@@ -627,17 +628,19 @@ items.spelltag=item('spelltag','저주의부적','고스트 타입 기술의 위
 
 const silvallyMemoryNames:Record<string,string>={bugmemory:'벌레메모리',darkmemory:'악메모리',dragonmemory:'드래곤메모리',electricmemory:'전기메모리',fairymemory:'페어리메모리',fightingmemory:'격투메모리',firememory:'불꽃메모리',flyingmemory:'비행메모리',ghostmemory:'고스트메모리',grassmemory:'풀메모리',groundmemory:'땅메모리',icememory:'얼음메모리',poisonmemory:'독메모리',psychicmemory:'에스퍼메모리',rockmemory:'바위메모리',steelmemory:'강철메모리',watermemory:'물메모리'};
 for(const [id,name] of Object.entries(silvallyMemoryNames))items[id]=item(id,name,'실바디의 타입을 해당 메모리 타입으로 바꾸며, 다른 포켓몬이 빼앗거나 지울 수 없습니다.',[]);
+for(const [id,name] of Object.entries({burndrive:'블레이즈카세트',chilldrive:'프리즈카세트',dousedrive:'아쿠아카세트',shockdrive:'번개카세트'}))
+  items[id]=item(id,name,'게노세크트의 테크노버스터 타입을 바꿉니다.',[]);
 const existingItemIds=new Set(Object.keys(items).map(id=>id.toLowerCase()));
 for(const [id,entry] of Object.entries(svItemCatalog))if(!existingItemIds.has(id.toLowerCase()))items[id]=entry;
 Object.assign(items,svBattleItemOverrides);
 
 export const starterTeam: TeamSet[] = [
-  { speciesId: 'rotomwash', moves: ['hydropump', 'voltswitch', 'willowisp', 'protect'], abilityId: 'levitate', itemId: 'leftovers', natureId: 'modest', evs: { spa: 252, spe: 252, hp: 4 } },
-  { speciesId: 'grimmsnarl', moves: ['spiritbreak', 'reflect', 'lightscreen', 'taunt'], abilityId: 'prankster', itemId: 'lightclay', natureId: 'adamant', evs: { hp: 252, atk: 252, spd: 4 } },
-  { speciesId: 'garchomp', moves: ['outrage', 'earthquake', 'rockslide', 'protect'], abilityId: 'roughSkin', itemId: 'muscleBand', natureId: 'jolly', evs: { atk: 252, spe: 252, hp: 4 } },
-  { speciesId: 'charizard', moves: ['flamethrower', 'airslash', 'roost', 'protect'], abilityId: 'blaze', itemId: 'charizarditey', natureId: 'timid', evs: { spa: 252, spe: 252, hp: 4 } },
-  { speciesId: 'gholdengo', moves: ['makeitrain', 'shadowball', 'steelbeam', 'recover'], abilityId: 'goodasgold', itemId: 'wiseGlasses', natureId: 'modest', evs: { spa: 252, spe: 252, hp: 4 } },
-  { speciesId: 'basculegion', moves: ['lastrespects', 'wavecrash', 'aquajet', 'protect'], abilityId: 'adaptability', itemId: 'mysticWater', natureId: 'adamant', evs: { atk: 252, spe: 252, hp: 4 } },
+  { speciesId: 'miraidon', moves: ['electrodrift', 'dracometeor', 'overheat', 'voltswitch'], abilityId: 'hadronengine', itemId: 'choiceSpecs', natureId: 'timid', teraType: 'electric', evs: { spa: 252, spe: 252, spd: 4 } },
+  { speciesId: 'calyrexshadow', moves: ['astralbarrage', 'psyshock', 'nastyplot', 'protect'], abilityId: 'asonespectrier', itemId: 'focusSash', natureId: 'timid', teraType: 'ghost', evs: { spa: 252, spe: 252, hp: 4 } },
+  { speciesId: 'zacian', moves: ['ironhead', 'playrough', 'closecombat', 'swordsdance'], abilityId: 'intrepidsword', itemId: 'rustedsword', natureId: 'jolly', teraType: 'flying', evs: { atk: 252, spe: 252, spd: 4 } },
+  { speciesId: 'eternatus', moves: ['dynamaxcannon', 'flamethrower', 'toxic', 'recover'], abilityId: 'pressure', itemId: 'blacksludge', natureId: 'calm', teraType: 'poison', evs: { hp: 252, spd: 252, spe: 4 } },
+  { speciesId: 'gholdengo', moves: ['makeitrain', 'shadowball', 'nastyplot', 'recover'], abilityId: 'goodasgold', itemId: 'leftovers', natureId: 'modest', teraType: 'steel', evs: { spa: 252, spe: 252, hp: 4 } },
+  { speciesId: 'lucario', moves: ['aurasphere', 'flashcannon', 'darkpulse', 'nastyplot'], abilityId: 'innerFocus', itemId: 'lucarionitez', natureId: 'timid', teraType: 'fighting', evs: { spa: 252, spe: 252, hp: 4 } },
 ];
 
 /** Always give callers a private copy: the team editor mutates nested arrays. */

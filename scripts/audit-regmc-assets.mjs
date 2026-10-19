@@ -4,7 +4,7 @@ import ts from 'typescript';
 import vm from 'node:vm';
 
 function loadRoster(file,key){const module={exports:{}};vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,module);return module.exports[key];}
-const roster=[...loadRoster('src/data/roster.generated.ts','roster'),...loadRoster('src/data/legendary-roster.generated.ts','legendaryRoster'),...loadRoster('src/data/signature-roster.generated.ts','signatureRoster'),...loadRoster('src/data/expansion-roster.generated.ts','expansionRoster')];
+const roster=[...loadRoster('src/data/roster.generated.ts','roster'),...loadRoster('src/data/legendary-roster.generated.ts','legendaryRoster'),...loadRoster('src/data/signature-roster.generated.ts','signatureRoster'),...loadRoster('src/data/expansion-roster.generated.ts','expansionRoster'),...loadRoster('src/data/mythical-roster.generated.ts','mythicalRoster')];
 const attributed=JSON.parse(fs.readFileSync('public/sprites/attribution.json','utf8'));
 const manifest=JSON.parse(fs.readFileSync('public/sprites/manifest.json','utf8'));
 const catalog=new Map(fs.readFileSync('work/regmc/pokemon.csv','utf8').trim().split(/\r?\n/).slice(1).map(line=>{

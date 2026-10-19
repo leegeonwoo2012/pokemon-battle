@@ -41,7 +41,7 @@ export type MoveEffect =
   | { kind: 'volatile'; condition: VolatileCondition; chance?: number }
   | { kind: 'stat'; stat: BoostStat; stages: number; chance?: number; target?: 'target' | 'self' }
   | { kind: 'heal'; fraction: number; target?: 'target' | 'self'; weatherAdjusted?: 'sun' | 'sand'; pulseBoost?: boolean }
-  | { kind: 'helpingHand' | 'dragonCheer' | 'acupressure' | 'teamCure' }
+  | { kind: 'helpingHand' | 'dragonCheer' | 'acupressure' | 'teamCure' | 'cureStatus' }
   | { kind: 'weather'; weather: Weather; turns?: number }
   | { kind: 'field'; field: Field; turns?: number }
   | { kind: 'drain'; fraction: number }
@@ -312,6 +312,8 @@ export interface BattleLog {
 }
 
 export interface BattleState {
+  /** Plasma Fists changes damaging Normal moves to Electric for the remainder of this turn. */
+  plasmaFistsTurn?:number;
   /** Interactive clients may request a replacement choice instead of automatic entry. */
   manualReplacementSides?: Side[];
   format: Format;

@@ -2120,5 +2120,26 @@
       "contentType": "image/png"
     },
     "format": "png"
+  },
+  "meloettapirouette": {
+    "id": 10018,
+    "slug": "meloetta-pirouette",
+    "format": "png",
+    "front": {
+      "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/10018.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 800,
+      "contentType": "image/png",
+      "sha256": "dbb873c5f4d32027db3749c8e7b77d79d7571a14734250cade279e7ab2a15caf"
+    },
+    "back": {
+      "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/back/10018.png",
+      "width": 96,
+      "height": 96,
+      "bytes": 709,
+      "contentType": "image/png",
+      "sha256": "4fbe5888c5afef99e26f39089c384278c03879cd2f45923434998d3376e670fb"
+    }
   }
 }

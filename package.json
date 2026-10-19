@@ -32,7 +32,7 @@
     "assets:pilot": "node scripts/audit-sprites.mjs --pilot",
     "test:sprite-errors": "node scripts/browser-sprite-errors.mjs",
     "test:sprite-scenes": "node scripts/browser-sprite-scenes.mjs",
-    "data:refresh": "node scripts/generate-roster.cjs && node scripts/generate-legendary-roster.cjs && node scripts/generate-expansion-roster.cjs && node scripts/generate-champion-moves.cjs && node scripts/generate-legacy-roster.cjs && node scripts/generate-gimmicks.cjs && node scripts/generate-sv-items.cjs",
+    "data:refresh": "node scripts/generate-roster.cjs && node scripts/generate-legendary-roster.cjs && node scripts/generate-expansion-roster.cjs && node scripts/generate-champion-moves.cjs && node scripts/generate-mythical-roster.cjs && node scripts/generate-legacy-roster.cjs && node scripts/generate-gimmicks.cjs && node scripts/generate-sv-items.cjs",
     "assets:regmc": "node scripts/acquire-regmc-sprites.mjs",
     "assets:regmc:audit": "node scripts/audit-regmc-assets.mjs",
     "test:assets": "node scripts/browser-assets.mjs",
