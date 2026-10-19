@@ -291,7 +291,8 @@ describe('Z and Max moves',()=>{
     const guard=runTurn(state,[attack('flamethrower','dynamax')],[attack('protect','dynamax')]);expect(guard.sides.cpu.team[0].hp).toBe(state.sides.cpu.team[0].hp*2);
   });
   it('Max move changes weather and boosts both allies, targets only one foe',()=>{
-    let state=battle([set('charizard',{moves:['flamethrower','airslash','roost','protect']}),set('raichu')],'doubles');
+    let state=createBattle({format:'doubles',playerTeam:[set('charizard',{moves:['flamethrower','airslash','roost','protect']}),set('raichu')],
+      cpuTeam:[set('blissey'),set('snorlax',{moves:['protect','bodyslam','rest','crunch']}),set('ursaluna')],seed:5});
     state=runTurn(state,[attack('airslash','dynamax'),protect(1)],[attack('recover'),protect(1)]);
     expect(state.sides.player.team[0].stages.spe).toBe(1);expect(state.sides.player.team[1].stages.spe).toBe(1);expect(state.sides.cpu.team[1].hp).toBe(state.sides.cpu.team[1].maxHp);
     state=runTurn(state,[attack('flamethrower'),protect(1)],[protect(),protect(1)]);expect(state.weather?.id).toBe('sun');

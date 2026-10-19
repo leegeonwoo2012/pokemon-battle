@@ -62,7 +62,7 @@ describe('expanded roster effects',()=>{
     expect(boosted.sides.player.team[0].itemConsumed).toBe(true);
     expect(boosted.sides.player.team[0].stages.atk).toBe(2);
     expect(boosted.sides.player.team[0].stages.spa).toBe(2);
-    const vested=createBattle({format:'singles',playerTeam:[set('snorlax',{itemId:'assaultvest'})],cpuTeam:[hitter],seed:6}).sides.player.team[0];
+    const vested=createBattle({format:'singles',playerTeam:[set('snorlax',{itemId:'assaultvest',moves:['protect','bodyslam','rest','crunch']})],cpuTeam:[hitter],seed:6}).sides.player.team[0];
     expect(getModifiedStat(vested,'spd')).toBe(Math.floor(vested.stats.spd*1.5));
     expect(moveUnavailableReason(vested,'protect')).toContain('돌격조끼');
   });

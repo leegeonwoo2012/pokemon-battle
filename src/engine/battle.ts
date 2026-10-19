@@ -105,7 +105,9 @@ export function createBattle(options: BattleOptions): BattleState {
 function fallbackAction(state: BattleState, side: Side, slot: number): BattleAction {
   const pokemon = getPokemonAt(state, { side, slot });
   const available = pokemon ? usableMoves(pokemon) : [];
-  const move = available.find(candidate => !candidate.focus) ?? available[0];
+  const move = available.find(candidate => !candidate.focus && !candidate.selfDestruct)
+    ?? available.find(candidate => !candidate.focus)
+    ?? available[0];
   return { kind: 'move', slot, moveId: move?.id ?? 'struggle' };
 }
 
@@ -546,7 +548,12 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
       addLog(state,`${move.name}이(가) 실패했다!`,'move',{kind:'blocked',actorUid:user.uid,targetUid:target?.uid});return;
     }
   }
-  addLog(state, `${displayName(user)}: ${move.name} 사용!`, 'move', { kind:'move',moveId:move.id,category:move.category,type:move.type,targetUid: targetUids[0], targetUids });
+  const allTargetsImmune = move.category !== 'status' && move.id !== 'struggle' && refs.length > 0 && refs.every(ref => {
+    const target=getPokemonAt(state,ref);
+    return target && (battleTypeMultiplier(state,move,target,user)===0 || isTypeImmune(target,move,state));
+  });
+  addLog(state, `${displayName(user)}: ${move.name} 사용!`, allTargetsImmune?'status':'move',
+    allTargetsImmune?{kind:'message',actorUid:user.uid,moveId:move.id,targetUid:targetUids[0]}:{kind:'move',moveId:move.id,category:move.category,type:move.type,targetUid:targetUids[0],targetUids});
   if(move.id==='plasmafists')state.plasmaFistsTurn=state.turn;
   if(move.id==='followme'||move.id==='ragepowder'){
     user.redirectTurn=state.turn;user.redirectPowder=move.id==='ragepowder';

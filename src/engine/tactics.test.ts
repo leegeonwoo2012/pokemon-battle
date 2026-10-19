@@ -24,7 +24,9 @@ describe('tactical effects and turn integration',()=>{
     expect(events.some(event=>event.snapshot.sides.cpu.hazards?.stealthrock===1)).toBe(true);
   });
   it('Rock hazards use real type multipliers and base HP on switch',()=>{
-    const state=battle();state.sides.player.hazards={stealthrock:1,spikes:3};
+    const state=createBattle({format:'singles',playerTeam:[set('raichu'),set('charizard'),set('blastoise')],
+      cpuTeam:[set('snorlax',{moves:['protect','bodyslam','rest','crunch']}),set('gyarados'),set('venusaur')],seed:5});
+    state.sides.player.hazards={stealthrock:1,spikes:3};
     const next=runTurn(state,[{kind:'switch',slot:0,to:1}],[attack('protect')]);
     const mon=next.sides.player.team[1];expect(mon.maxHp-mon.hp).toBe(Math.floor(mon.maxHp/2)); // Charizard flies over Spikes.
     expect(state.sides.player.team[1].hp).toBe(state.sides.player.team[1].maxHp);

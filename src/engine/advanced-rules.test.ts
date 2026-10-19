@@ -12,7 +12,7 @@ const use=(moveId:string)=>[{kind:'move' as const,slot:0,moveId}];
 describe('advanced battle rules',()=>{
   it('boosts Expanding Force and spreads it to both foes only for a grounded user in Psychic Terrain',()=>{
     const attacker=set('alakazam',{moves:['expandingforce','psychic','recover','protect']});
-    const make=()=>createBattle({format:'doubles',playerTeam:[attacker,set('snorlax')],cpuTeam:[
+    const make=()=>createBattle({format:'doubles',playerTeam:[attacker,set('snorlax',{moves:['protect','bodyslam','rest','crunch']})],cpuTeam:[
       set('blastoise',{moves:['raindance','protect','icebeam','surf']}),
       set('venusaur',{moves:['swordsdance','protect','gigadrain','sludgebomb']}),
     ],seed:31});

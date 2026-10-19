@@ -20,6 +20,15 @@ describe('battle engine', () => {
     expect(initial.sides.player.team[0].pp.thunderbolt).toBe(15);
   });
 
+  it('does not choose a self-KO move when replacing an invalid command', () => {
+    const snorlax=set('snorlax',['selfdestruct','bodyslam','rest','crunch'],'thickFat');
+    const state=createBattle({format:'singles',playerTeam:[snorlax],cpuTeam:[blastoise()],seed:5});
+    const next=runTurn(state,[{kind:'move',slot:0,moveId:'protect'}],[{kind:'move',slot:0,moveId:'protect'}]);
+    expect(next.sides.player.team[0].fainted).toBe(false);
+    expect(next.log.some(entry=>entry.text.includes('누르기 사용!'))).toBe(true);
+    expect(next.log.some(entry=>entry.text.includes('자폭 사용!'))).toBe(false);
+  });
+
   it('applies dual type matchups and immunities', () => {
     expect(getTypeMultiplier('electric', ['water', 'flying'])).toBe(4);
     expect(getTypeMultiplier('ground', ['flying'])).toBe(0);
