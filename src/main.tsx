@@ -13,6 +13,7 @@ import './styles-team-preview.css';
 import './styles-hit-effects.css';
 import './styles-battle-feedback.css';
 import './styles-signatures.css';
+import './styles-arena-modern.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode><App /></React.StrictMode>,

@@ -4,6 +4,10 @@
 
 The 11 Mega and 5 Gigantamax form sprite pairs in `forms/` were downloaded from the form-specific Pokémon entries in [PokéAPI](https://pokeapi.co/docs/v2#pokemon). `forms/manifest.json` records every form's PokéAPI ID, source URL, PNG dimensions, and byte count. The PNGs are Pokémon artwork and remain subject to Pokémon rights. This is an unofficial noncommercial fan project; these images are not covered by the CC BY-NC license of the community sprites below. Run `npm run assets:forms` to recheck the exact front and back assets.
 
+## Detailed base-form battle sprites
+
+The front and back sprites for #6 Charizard, #248 Tyranitar, #257 Blaziken and #448 Lucario were replaced with the 96×96 Generation V Black/White sprites from [PokeAPI/sprites](https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon/versions/generation-v/black-white). Original PMDCollab sprite credits for other Pokémon remain below. These Pokémon images are copyright The Pokémon Company; see `licenses/PokeAPI-sprites-LICENCE.txt`.
+
 ## Community sprites
 
 Source: https://github.com/PMDCollab/SpriteCollab/tree/47e5b9920bc5b2b491c53b18076300dc6813f103
@@ -13,9 +17,7 @@ License: [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) — non
 Changes: first Idle frame extracted from directions South (front) and North (back), without repainting or resizing. Official CHUNSOFT assets and different forms were excluded.
 
 - #133 이브이 (Eevee): [Emmuffin](https://twitter.com/Ernmuffin). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0133/0002/Idle-Anim.png).
-- #6 리자몽 (Charizard): [Michael12](https://www.deviantart.com/michael12dz), baronessfaron. [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0006/0005/Idle-Anim.png).
 - #38 나인테일 (Ninetales): baronessfaron. [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0038/0004/Idle-Anim.png).
-- #257 번치코 (Blaziken): [Deeshura](https://bsky.app/profile/deeshura.bsky.social). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0257/0002/Idle-Anim.png).
 - #500 염무왕 (Emboar): [NeroIntruder](https://twitter.com/NeroIntruder), Emboarger. [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0500/Idle-Anim.png).
 - #555 불비달마 (Darmanitan): [Soulja](https://twitter.com/OlSoulja), [Michael12](https://www.deviantart.com/michael12dz). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0555/Idle-Anim.png).
 - #609 샹델라 (Chandelure): baronessfaron. [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0609/Idle-Anim.png).
@@ -30,7 +32,6 @@ Changes: first Idle frame extracted from directions South (front) and North (bac
 - #124 루주라 (Jynx): [Gust](https://twitter.com/Estelaris__). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0124/0001/Idle-Anim.png).
 - #144 프리져 (Articuno): [SpectrumStars](https://x.com/numbertism). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0144/0003/Idle-Anim.png).
 - #365 씨카이저 (Walrein): [Emmuffin](https://twitter.com/Ernmuffin). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0365/0002/Idle-Anim.png).
-- #448 루카리오 (Lucario): [Emmuffin](https://twitter.com/Ernmuffin). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0448/0003/Idle-Anim.png).
 - #534 노보청 (Conkeldurr): Inv3rse, [Soulja](https://twitter.com/OlSoulja). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0534/Idle-Anim.png).
 - #620 비조도 (Mienshao): baronessfaron. [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0620/Idle-Anim.png).
 - #31 니드퀸 (Nidoqueen): [Emmuffin](https://twitter.com/Ernmuffin). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0031/0001/Idle-Anim.png).
@@ -48,7 +49,6 @@ Changes: first Idle frame extracted from directions South (front) and North (bac
 - #518 몽얌나 (Musharna): baronessfaron. [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0518/Idle-Anim.png).
 - #542 모아머 (Leavanny): baronessfaron, [G〜](https://bsky.app/profile/justtr4sh.pmd.social). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0542/Idle-Anim.png).
 - #637 불카모스 (Volcarona): [pi3.14](https://twitter.com/Pi_y_ranitas), [powercristal](https://www.deviantart.com/powercristal), [Soulja](https://twitter.com/OlSoulja), [Emmuffin](https://twitter.com/Ernmuffin). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0637/Idle-Anim.png).
-- #248 마기라스 (Tyranitar): [Soulja](https://twitter.com/OlSoulja). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0248/0003/Idle-Anim.png).
 - #526 기가이어스 (Gigalith): [Soulja](https://twitter.com/OlSoulja). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0526/Idle-Anim.png).
 - #563 데스니칸 (Cofagrigus): [Pink_no_tori](https://twitter.com/pink_avian_poke), baronessfaron. [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0563/Idle-Anim.png).
 - #612 액스라이즈 (Haxorus): [Pink_no_tori](https://twitter.com/pink_avian_poke), baronessfaron, [Deeshura](https://bsky.app/profile/deeshura.bsky.social). [Source](https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0612/Idle-Anim.png).

@@ -305,8 +305,8 @@ button:focus-visible,select:focus-visible { outline:3px solid #9ac5fa; outline-o
   .message-move-detail { font-size:10px; }
 }
 
-/* Sunny mountain valley inspired by the reference battle backdrop. */
-.battle-scene { background-color:#75c4e6;background-image:linear-gradient(180deg,#14395826 0%,transparent 38%,#183b1d1c 100%),url("./assets/backgrounds/mountain-valley-battle.png");background-position:center,center 53%;background-size:cover;background-repeat:no-repeat; }
+/* The final arena plate and interface theme are applied in styles-arena-modern.css. */
+.battle-scene { background-color:#081327; }
 .battle-scene .stadium-roof,.battle-scene .stadium-stands,.battle-scene .stadium-ribbon,.battle-scene .stadium-floor,.battle-scene .stadium-spotlight { display:none; }
 .battlefield-platform { background:radial-gradient(ellipse,#123d2180 0%,#2c6b392e 42%,transparent 74%);box-shadow:none; }
 .battlefield-platform span { border-color:#dbffb35c;box-shadow:0 0 10px #315a2d22; }

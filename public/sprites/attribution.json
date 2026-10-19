@@ -43,40 +43,36 @@
       "nationalDex": 6,
       "name": "리자몽",
       "englishName": "Charizard",
-      "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0006/0005/Idle-Anim.png",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon/versions/generation-v/black-white",
       "trackerPath": "0006/0005",
       "sourceVariant": "Alternate",
-      "license": "CC BY-NC 4.0",
+      "license": "PokeAPI repository CC0 1.0; image copyright The Pokémon Company. See licenses/PokeAPI-sprites-LICENCE.txt.",
       "authors": [
         {
-          "name": "Michael12",
-          "contact": "https://www.deviantart.com/michael12dz",
-          "id": "<@!653416391201783856>"
-        },
-        {
-          "name": "baronessfaron",
-          "contact": "",
-          "id": "<@!544245909639397378>"
+          "name": "The Pokémon Company"
         }
       ],
-      "extraction": "Idle animation, first frame; direction row 0 (front/South), row 4 (back/North). No resizing or repainting.",
+      "extraction": "Unmodified Generation V Black/White 96x96 PNG, base form.",
       "sourceSha256": "852cd12837417a1c4918c03c62b3ba6a7fa7e4f3dd3655314c0e8bdc6cb143d1",
       "images": {
         "front": {
           "path": "front/6.png",
-          "sha256": "852a06d6c256d1867e6ad2109bba78d5042553a488f1242ef5fcd3edb37fc05c",
-          "width": 56,
-          "height": 72,
-          "opaque": 705
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/6.png",
+          "sha256": "53358b7e8be91014bd18285862bd56c0549b5d23af175deb59f0e6f6339c878f",
+          "width": 96,
+          "height": 96,
+          "opaque": 3588
         },
         "back": {
           "path": "back/6.png",
-          "sha256": "92c55ffe0278ed29a6d2d50e26e61db0e8cdd06c57a6a691c5c81b0cadedfc03",
-          "width": 56,
-          "height": 72,
-          "opaque": 636
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/back/6.png",
+          "sha256": "4379d6d2702e49ef34c39c2ee9f962d60cebdd8c1d30c16dadf927a97d2523d9",
+          "width": 96,
+          "height": 96,
+          "opaque": 3206
         }
-      }
+      },
+      "sourceProvider": "PokeAPI/sprites"
     },
     {
       "speciesId": "blastoise",
@@ -5603,35 +5599,36 @@
       "nationalDex": 248,
       "name": "마기라스",
       "englishName": "Tyranitar",
-      "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0248/0003/Idle-Anim.png",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon/versions/generation-v/black-white",
       "trackerPath": "0248/0003",
       "sourceVariant": "Alternate",
-      "license": "CC BY-NC 4.0",
+      "license": "PokeAPI repository CC0 1.0; image copyright The Pokémon Company. See licenses/PokeAPI-sprites-LICENCE.txt.",
       "authors": [
         {
-          "name": "Soulja",
-          "contact": "https://twitter.com/OlSoulja",
-          "id": "<@!229131140903075840>"
+          "name": "The Pokémon Company"
         }
       ],
-      "extraction": "Idle animation, first frame; direction row 0 (front/South), row 4 (back/North). No resizing or repainting.",
+      "extraction": "Unmodified Generation V Black/White 96x96 PNG, base form.",
       "sourceSha256": "635224aa502513d9462b345d29f83f6e4481191b5cea0f5eb64fcf1579a0af0f",
       "images": {
         "front": {
           "path": "front/248.png",
-          "sha256": "d69bf60c25e28ffeeb0135c67f9ff412d3d84cd9e80b59f608cb000e7756e113",
-          "width": 40,
-          "height": 56,
-          "opaque": 479
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/248.png",
+          "sha256": "92f4a1aaf82fb405720db5c0826acbc626a450a171a2c5ef533b3c23a09981ea",
+          "width": 96,
+          "height": 96,
+          "opaque": 2660
         },
         "back": {
           "path": "back/248.png",
-          "sha256": "fa0f32ebd228633bd6bc8a79b54e9245cf392cafc0d873fe5b006de84d71eb47",
-          "width": 40,
-          "height": 56,
-          "opaque": 534
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/back/248.png",
+          "sha256": "6285978d63caad861ca1f4bc9d953cf7624ddec8c6aba75dcb5055c71af6c71b",
+          "width": 96,
+          "height": 96,
+          "opaque": 2454
         }
-      }
+      },
+      "sourceProvider": "PokeAPI/sprites"
     },
     {
       "speciesId": "lugia",
@@ -5775,35 +5772,36 @@
       "nationalDex": 257,
       "name": "번치코",
       "englishName": "Blaziken",
-      "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0257/0002/Idle-Anim.png",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon/versions/generation-v/black-white",
       "trackerPath": "0257/0002",
       "sourceVariant": "Alternate",
-      "license": "CC BY-NC 4.0",
+      "license": "PokeAPI repository CC0 1.0; image copyright The Pokémon Company. See licenses/PokeAPI-sprites-LICENCE.txt.",
       "authors": [
         {
-          "name": "Deeshura",
-          "contact": "https://bsky.app/profile/deeshura.bsky.social",
-          "id": "<@!157796074457661440>"
+          "name": "The Pokémon Company"
         }
       ],
-      "extraction": "Idle animation, first frame; direction row 0 (front/South), row 4 (back/North). No resizing or repainting.",
+      "extraction": "Unmodified Generation V Black/White 96x96 PNG, base form.",
       "sourceSha256": "70c5b4881bc00de2624205aa7e5ecd49e0d713e2ea3d718cfcffae35d86b4b80",
       "images": {
         "front": {
           "path": "front/257.png",
-          "sha256": "a3712a2b9f7c3ad12457fb236d5234c37f85f55dc9339c9f2b00c437c4f30a1c",
-          "width": 32,
-          "height": 56,
-          "opaque": 497
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/257.png",
+          "sha256": "3b310181ab42b7f7cb13ca6d168d4e82d8f25bf455dc69e3d0414f2138105c6e",
+          "width": 96,
+          "height": 96,
+          "opaque": 2133
         },
         "back": {
           "path": "back/257.png",
-          "sha256": "15eb404b67730d01bdc34114939916b1f18c20e751333ee3c1eb36d367df6819",
-          "width": 32,
-          "height": 56,
-          "opaque": 455
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/back/257.png",
+          "sha256": "cb13a53bd8e9a1eb5fed90d2e5c04124c69f4bc18b1a726bfd72c482ec0d75c5",
+          "width": 96,
+          "height": 96,
+          "opaque": 2255
         }
-      }
+      },
+      "sourceProvider": "PokeAPI/sprites"
     },
     {
       "speciesId": "swampert",
@@ -8646,35 +8644,36 @@
       "nationalDex": 448,
       "name": "루카리오",
       "englishName": "Lucario",
-      "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/47e5b9920bc5b2b491c53b18076300dc6813f103/sprite/0448/0003/Idle-Anim.png",
+      "source": "https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon/versions/generation-v/black-white",
       "trackerPath": "0448/0003",
       "sourceVariant": "Alternate",
-      "license": "CC BY-NC 4.0",
+      "license": "PokeAPI repository CC0 1.0; image copyright The Pokémon Company. See licenses/PokeAPI-sprites-LICENCE.txt.",
       "authors": [
         {
-          "name": "Emmuffin",
-          "contact": "https://twitter.com/Ernmuffin",
-          "id": "<@!356635814668664832>"
+          "name": "The Pokémon Company"
         }
       ],
-      "extraction": "Idle animation, first frame; direction row 0 (front/South), row 4 (back/North). No resizing or repainting.",
+      "extraction": "Unmodified Generation V Black/White 96x96 PNG, base form.",
       "sourceSha256": "00058dbe3a2bcaf4f632e671ba184492884e6133190c1b29c3cac812526dfd16",
       "images": {
         "front": {
           "path": "front/448.png",
-          "sha256": "990d45f299b089a3cbd8197596e8c1c1177cefed2c714b74fcfe856aee08aa1a",
-          "width": 32,
-          "height": 56,
-          "opaque": 383
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/448.png",
+          "sha256": "fff5dbfe77213ab49bde7b7062aee3d851a2ecb5ec727596d32d5bff04d6ddf2",
+          "width": 96,
+          "height": 96,
+          "opaque": 1228
         },
         "back": {
           "path": "back/448.png",
-          "sha256": "3441bc25e5da5a9c0500217a424fd0069661fee738fc3a82ee683ff53c301e55",
-          "width": 32,
-          "height": 56,
-          "opaque": 338
+          "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/back/448.png",
+          "sha256": "0cd99d2369444bce0a380282ef310547fe786ab4cf42c3b38f84f80e6826efb4",
+          "width": 96,
+          "height": 96,
+          "opaque": 1206
         }
-      }
+      },
+      "sourceProvider": "PokeAPI/sprites"
     },
     {
       "speciesId": "hippowdon",
