@@ -33,15 +33,13 @@ import { exclusiveZMoves, gmaxForms, gimmickNames, megaForms, zMoves } from './d
 import { compatibleZTypes } from './engine/gimmicks';
 import type { Gimmick } from './engine/types';
 import type { BattleAction, BattleEvent, BattleState, Format, Move, Stat, TeamSet, TargetRef } from './engine/types';
-import { alphabetizeMoves, calculateStats, createDefaultTeam, createSet, loadTeam, reorderTeam, saveTeam, validateRestrictedTeam, validateTeam, type RestrictedLimit } from './team';
+import { alphabetizeMoves, calculateStats, chooseCpuLineup, createCpuTeamPool, createDefaultTeam, createSet, loadTeam, reorderTeam, saveTeam, validateRestrictedTeam, validateTeam, type RestrictedLimit } from './team';
 
 type Screen = 'home' | 'team' | 'dex' | 'settings' | 'friendly' | 'preview' | 'intro' | 'battle';
 const statKeys: Stat[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
 const statNames: Record<Stat, string> = { hp: 'HP', atk: '공격', def: '방어', spa: '특공', spd: '특방', spe: '스피드' };
 const weatherNames: Record<string, string> = { sun: '쾌청', rain: '비', sand: '모래바람', snow: '눈' };
 const fieldNames: Record<string, string> = { electric: '일렉트릭필드', grassy: '그래스필드', misty: '미스트필드', psychic: '사이코필드' };
-const cpuSpecies = ['tyranitar', 'gyarados', 'lucario', 'arcanine', 'milotic', 'gardevoir'];
-const restrictedCpuSpecies = ['kyogre', 'dialga', 'palkia', 'giratina'];
 const rosterSize = Object.keys(regulationSpecies).length;
 const spriteCount = rosterSize * 2;
 const representativeCount = (type: string) => Object.values(regulationSpecies).filter(mon => mon.representativeType === type).length;
@@ -482,8 +480,7 @@ export default function App() {
     const issues = [...validateTeam(team, nextFormat),...validateRestrictedTeam(team,restrictedLimit,nextFormat)];
     if (issues.length) { setMessage(issues[0]); setScreen('team'); return; }
     try {
-      const opponents=[...restrictedCpuSpecies.slice(0,restrictedLimit),...cpuSpecies.slice(restrictedLimit)];
-      const cpuTeam = opponents.map(id => ({...createSet(id),itemId:id==='tyranitar'?'tyranitarite':id==='lucario'?'fightiniumz':'none',teraType:id==='tyranitar'?'flying':species[id].types[0]}));
+      const cpuTeam = createCpuTeamPool(restrictedLimit,nextFormat);
       setCpuPreview({format:nextFormat,own:structuredClone(team),opponent:cpuTeam,endsAt:Date.now()+90_000});
       setFriendPreview(null);
       setFriendOnline(false);
@@ -495,8 +492,10 @@ export default function App() {
     const required=Math.min(cpuPreview.format==='doubles'?4:3,cpuPreview.own.length);
     if(selection.indices.length!==required||new Set(selection.indices).size!==required||selection.indices.some(index=>!Number.isInteger(index)||index<0||index>=cpuPreview.own.length))return;
     try{
-      const initial=createBattle({format:cpuPreview.format,playerTeam:selection.indices.map(index=>cpuPreview.own[index]),
-        cpuTeam:cpuPreview.opponent.slice(0,required),manualReplacementSides:['player']});
+      const playerTeam=selection.indices.map(index=>cpuPreview.own[index]);
+      const cpuTeam=chooseCpuLineup(cpuPreview.opponent,playerTeam,required,cpuPreview.format);
+      const initial=createBattle({format:cpuPreview.format,playerTeam,
+        cpuTeam,manualReplacementSides:['player']});
       battleRef.current=initial;setBattle(initial);setCpuPreview(null);setScreen('intro');
     }catch(error){setMessage(error instanceof Error?error.message:'배틀을 시작하지 못했습니다.');}
   }

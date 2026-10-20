@@ -2,6 +2,7 @@ import { abilities, getStarterTeam, items, moves, natures, regulationSpecies, re
 import type { Format, Stat, Stats, TeamSet } from '../engine/types';
 import { gimmickSetErrors } from '../engine/gimmicks';
 import { exclusiveZMoves } from '../data/gimmicks';
+export { chooseCpuLineup, createCpuTeamPool } from './cpu';
 
 export const TEAM_STORAGE_KEY = 'battle-circuit-team-v1';
 export const BATTLE_LEVEL = 50;

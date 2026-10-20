@@ -47,6 +47,8 @@ add('shellbell','피해를 준 뒤 입힌 피해의 1/8만큼 HP를 회복합니
 add('throatspray','소리 기술을 사용한 뒤 특수공격이 1단계 오르고 소모됩니다.');
 add('mentalherb','도발·앵콜을 한 번 제거하고 소모됩니다.');
 add('whiteherb','하락한 능력치를 한 번 복원하고 소모됩니다.');
+// White Herb is handled directly by applyStatChange rather than a passive effect.
+items.whiteherb.supported=true;
 add('zoomlens','상대보다 늦게 행동하면 명중률이 1.2배가 됩니다.');
 add('normalgem','첫 노말 타입 공격의 위력이 1.3배가 되고 소모됩니다.',[{trigger:'onAttack',kind:'damageMultiplier',type:'normal',multiplier:1.3}]);
 add('bigroot','흡수 기술의 회복량이 1.3배가 됩니다.');

@@ -1,5 +1,5 @@
-import { moves } from '../data';
-import { estimateDamage, moveAccuracy, weatherBallMove } from './calculations';
+import { abilities, moves } from '../data';
+import { estimateDamage, getTypeMultiplier, isGrounded, moveAccuracy, weatherBallMove } from './calculations';
 import { getPokemonAt } from './effects';
 import { usableMoves } from './choices';
 import { activateGimmick, gimmickReason, previewMove } from './gimmicks';
@@ -14,7 +14,8 @@ function targetScore(state: BattleState, user: Combatant, target: Combatant, mov
     if(ally)return -damage*2;
     const accuracy = moveAccuracy(state, user, target, move) / 100;
     const knockout = damage >= target.hp ? 18 : 0;
-    return damage * accuracy + knockout;
+    const predictionRisk=move.id==='suckerpunch'&&target.lastMove&&moves[target.lastMove]?.category==='status'?-24:0;
+    return damage * accuracy + knockout + predictionRisk;
   }
   let score = 3;
   for (const effect of move.effects ?? []) {
@@ -48,32 +49,61 @@ function targetScore(state: BattleState, user: Combatant, target: Combatant, mov
   return score;
 }
 
-function benchChoice(state: BattleState, side: Side, slot: number, foe: Combatant, reserved: ReadonlySet<number>): number | null {
+function damagingPressure(state: BattleState, attacker: Combatant, defender: Combatant): number {
+  return usableMoves(attacker).reduce((best, move) => {
+    if (move.category === 'status' || !(move.power || move.ohko || move.fixedDamage || move.fixedHpFraction !== undefined)) return best;
+    return Math.max(best, estimateDamage(state, attacker, defender, move) * moveAccuracy(state, attacker, defender, move) / 100);
+  }, 0);
+}
+
+function totalPressure(values: number[]): number {
+  const ordered = [...values].sort((a, b) => b - a);
+  return (ordered[0] ?? 0) + (ordered[1] ?? 0) * 0.65 + ordered.slice(2).reduce((sum, value) => sum + value * 0.15, 0);
+}
+
+function entryHazardCost(state: BattleState, side: Side, candidate: Combatant): number {
+  const hazards = state.sides[side].hazards;
+  if (!hazards || candidate.set.abilityId === 'magicguard') return 0;
+  const hp = candidate.original?.maxHp ?? candidate.maxHp;
+  let damage = 0;
+  if (hazards.stealthrock) damage += Math.max(1, Math.floor(hp / 8 * getTypeMultiplier('rock', candidate.types)));
+  if (hazards.steelsurge) damage += Math.max(1, Math.floor(hp / 8 * getTypeMultiplier('steel', candidate.types)));
+  if (isGrounded(candidate, state)) {
+    if (hazards.spikes) damage += Math.max(1, Math.floor(hp / [8, 6, 4][hazards.spikes - 1]));
+    if (hazards.toxicspikes && !candidate.types.includes('poison') && !candidate.types.includes('steel')) damage += hp * 0.12;
+  }
+  if (damage >= candidate.hp) return Number.POSITIVE_INFINITY;
+  const stickyWebPenalty = hazards.stickyweb && isGrounded(candidate, state) ? candidate.stats.spe * 0.04 : 0;
+  return damage * 1.25 + stickyWebPenalty;
+}
+
+function matchupPressure(state: BattleState, candidate: Combatant, foes: Combatant[]) {
+  const offense = totalPressure(foes.map(foe => damagingPressure(state, candidate, foe)));
+  const incoming = totalPressure(foes.map(foe => damagingPressure(state, foe, candidate)));
+  const entryPenalty = entryHazardCost(state, 'cpu', candidate);
+  const intimidation = abilities[candidate.set.abilityId]?.effects.some(effect => effect.trigger === 'onEnter'
+    && effect.kind === 'stat' && effect.target === 'foes' && effect.stat === 'atk' && effect.stages < 0)
+    ? foes.filter(foe => usableMoves(foe).some(move => move.category === 'physical')).length * 8 : 0;
+  return { offense, incoming, score: offense - incoming * 0.68 + candidate.hp / candidate.maxHp * 22 - entryPenalty + intimidation };
+}
+
+function benchChoice(state: BattleState, side: Side, slot: number, foes: Combatant[], reserved: ReadonlySet<number>): number | null {
   const current = getPokemonAt(state, { side, slot });
-  if (!current) return null;
+  if (!current || !foes.length) return null;
   const own = state.sides[side];
   const candidates = own.team.flatMap((pokemon, index) => {
     if (pokemon.fainted || own.active.includes(index) || reserved.has(index)) return [];
-    const offense = usableMoves(pokemon).reduce((best, move) => {
-      return Math.max(best,estimateDamage(state,pokemon,foe,move));
-    }, 0);
-    const threat = foe.set.moves.reduce((best, id) => {
-      const move = moves[id];
-      return move&&(move.power||move.ohko||move.fixedDamage||move.fixedHpFraction!==undefined) ? Math.max(best, estimateDamage(state,foe,pokemon,move)) : best;
-    }, 0);
-    return [{ index, score: offense - threat * 0.6 + pokemon.hp / pokemon.maxHp * 20 }];
+    const pressure = matchupPressure(state, pokemon, foes);
+    return Number.isFinite(pressure.score) ? [{ index, ...pressure }] : [];
   }).sort((a, b) => b.score - a.score);
   if (!candidates.length || state.turn < 2 || state.turn - (state.switchTurns?.[side]?.[slot] ?? -100) < 3) return null;
-  const currentThreat = foe.set.moves.reduce((best, id) => {
-    const move = moves[id];
-      return move&&(move.power||move.ohko||move.fixedDamage||move.fixedHpFraction!==undefined) ? Math.max(best, estimateDamage(state,foe,current,move)) : best;
-  }, 0);
-  if (current.hp / current.maxHp < 0.27 && candidates[0].score > -30) return candidates[0].index;
-  const currentOffense = usableMoves(current).reduce((best, move) => {
-    return Math.max(best, estimateDamage(state,current,foe,move));
-  }, 0);
-  const currentScore = currentOffense - currentThreat * 0.6 + current.hp / current.maxHp * 20;
-  if (currentThreat > current.hp*.75 && candidates[0].score > currentScore + 35 && current.hp / current.maxHp > 0.6) return candidates[0].index;
+  const currentPressure = matchupPressure(state, current, foes);
+  const best = candidates[0];
+  const hpRatio = current.hp / current.maxHp;
+  if (hpRatio < 0.28 && best.offense > 0 && best.score > currentPressure.score - 18) return best.index;
+  if (currentPressure.incoming >= current.hp * 0.72 && best.score > currentPressure.score + 14 && hpRatio > 0.3) return best.index;
+  if (best.offense > currentPressure.offense * 1.35 && best.incoming < currentPressure.incoming * 0.78
+    && best.score > currentPressure.score + 30 && hpRatio > 0.42) return best.index;
   return null;
 }
 
@@ -88,9 +118,9 @@ export function chooseCpuActions(state: BattleState): BattleAction[] {
   const actions=state.sides.cpu.active.flatMap<BattleAction>((_, slot) => {
     const user = getPokemonAt(state, { side, slot });
     if (!user || user.fainted) return [];
-    const firstFoe = foeRefs.map(ref => getPokemonAt(state, ref)).find((p): p is Combatant => !!p);
-    if (firstFoe) {
-      const switchTo = benchChoice(state, side, slot, firstFoe, reservedSwitches);
+    const foes = foeRefs.map(ref => getPokemonAt(state, ref)).filter((p): p is Combatant => !!p);
+    if (foes.length) {
+      const switchTo = benchChoice(state, side, slot, foes, reservedSwitches);
       if (switchTo !== null) {
         reservedSwitches.add(switchTo);
         return [{ kind: 'switch' as const, slot, to: switchTo }];
