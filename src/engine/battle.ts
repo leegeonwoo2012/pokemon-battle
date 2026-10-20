@@ -578,12 +578,14 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
   }
   const spread = (move.target === 'allEnemies' || move.target === 'allOthers') && refs.length > 1;
   let totalDamage = 0;
+  let partingShotConnected = false;
   let maxConnected=false;
   const emergencyExits:{side:Side;slot:number;to:number}[]=[];
   const selfEffectsApplied = new Set<MoveEffect>();
   for (const ref of refs) {
     const target = getPokemonAt(state, ref);
     if (!target || target.fainted || user.fainted) continue;
+    const partingShotBefore = move.id==='partingshot' ? { atk: target.stages.atk, spa: target.stages.spa } : undefined;
     withEventContext(state, { targetUid: target.uid }, () => {
       if(target!==user&&state.sides[side].team.includes(target)&&target.set.abilityId==='telepathy'&&move.category!=='status'){
         addLog(state,`${displayName(target)}의 텔레파시가 아군의 공격을 피하게 했다!`,'move',{kind:'blocked',targetUid:target.uid,sourceId:'telepathy',sourceKind:'ability'});return;
@@ -814,6 +816,9 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
         if (target.fainted && needsLivingTarget) continue;
         applyMoveEffect(state, effect, user, target, dealt, move.name);
       }
+      if(partingShotBefore && !target.protected
+        && (target.stages.atk!==partingShotBefore.atk||target.stages.spa!==partingShotBefore.spa))
+        partingShotConnected=true;
       if(target!==user&&!hitSubstitute){
         if(move.id==='knockoff'&&canRemoveHeldItem(target)&&(move.ignoreAbility||target.set.abilityId!=='stickyhold')){
           const removed=target.set.itemId;target.set.itemId='none';target.itemConsumed=false;target.consumedItemTurn=undefined;target.cudChewReadyTurn=undefined;target.cudChewItemId=undefined;
@@ -865,18 +870,26 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
     if(!user.rampage){user.rampage={moveId:baseMove.id,remaining:randomInt(state,move.rampage[0],move.rampage[1])-1,target:action.target};addLog(state,`${displayName(user)}은(는) ${move.name}을(를) 연속 사용한다!`,'status',{kind:'message',actorUid:user.uid});}
     else if(--user.rampage.remaining<=0){user.rampage=undefined;addLog(state,`${displayName(user)}의 ${move.name} 연속 사용이 끝났다!`,'status',{kind:'message',actorUid:user.uid});applyVolatile(state,user,'confusion');}
   }
-  if(move.pivot&&totalDamage&&!user.fainted){
+  if(move.id==='batonpass'&&!user.fainted){
+    const own=state.sides[side];
+    const bench=own.team.findIndex((pokemon,index)=>!pokemon.fainted&&!own.active.includes(index));
+    if(bench>=0){
+      addLog(state,`${displayName(user)}의 배턴터치! 능력 변화와 대타출동을 이어받는다.`,'status',{kind:'message',actorUid:user.uid});
+      executeSwitch(state,side,{kind:'switch',slot:action.slot,to:bench},true);
+    } else addLog(state,'교체할 포켓몬이 없어 배턴터치가 실패했다!','status',{kind:'blocked',actorUid:user.uid});
+  } else if(move.pivot&&(totalDamage>0||partingShotConnected)&&!user.fainted){
     const own=state.sides[side],bench=own.team.findIndex((pokemon,index)=>!pokemon.fainted&&!own.active.includes(index));
     if(bench>=0)executeSwitch(state,side,{kind:'switch',slot:action.slot,to:bench});
   }
 }
 
-function executeSwitch(state: BattleState, side: Side, action: Extract<BattleAction, { kind: 'switch' }>): void {
+function executeSwitch(state: BattleState, side: Side, action: Extract<BattleAction, { kind: 'switch' }>, batonPass=false): void {
   const sideState = state.sides[side];
   const oldIndex = sideState.active[action.slot];
   const oldPokemon = sideState.team[oldIndex];
   const replacement = sideState.team[action.to];
   if (!replacement || replacement.fainted || sideState.active.includes(action.to)) return;
+  const batonState=batonPass?{stages:{...oldPokemon.stages},substituteHp:oldPokemon.substituteHp,aquaRing:oldPokemon.aquaRing}:undefined;
   if(oldPokemon.set.abilityId==='stancechange'&&oldPokemon.set.speciesId==='aegislash')setAegislashStance(state,oldPokemon,'shield');
   if(oldPokemon.set.abilityId==='zerotohero'&&oldPokemon.set.speciesId==='palafin'&&!oldPokemon.palafinHero){
     oldPokemon.palafinHero=true;
@@ -913,6 +926,11 @@ function executeSwitch(state: BattleState, side: Side, action: Extract<BattleAct
   if(oldPokemon.abilityBeforeChange){oldPokemon.set.abilityId=oldPokemon.abilityBeforeChange;oldPokemon.abilityBeforeChange=undefined;}
   if(oldPokemon.toxicCounter)oldPokemon.toxicCounter=1;
   sideState.active[action.slot] = action.to;
+  if(batonState){
+    replacement.stages=batonState.stages;
+    replacement.substituteHp=batonState.substituteHp;
+    replacement.aquaRing=batonState.aquaRing;
+  }
   replacement.enteredTurn=state.turn;
   addLog(state, `${side === 'player' ? '플레이어' : 'CPU'}: ${displayName(replacement)} 출전!`, 'switch', { kind: 'switch-in', actorUid: replacement.uid, side, slot: action.slot });
   applyHazards(state,side,replacement);

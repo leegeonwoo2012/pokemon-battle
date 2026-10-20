@@ -19,7 +19,10 @@ export function usableMoves(pokemon: Combatant,zMove=false): Move[] {
   return pokemon.set.moves.flatMap(id => {
     const move = moves[id];
     const maxed=pokemon.transformation?.kind==='dynamax';
-    const lastResortReady=id!=='lastresort'||pokemon.set.moves.length>=2&&pokemon.set.moves.every(known=>known==='lastresort'||pokemon.usedMoveIds.includes(known));
+    // Extreme Evoboost is the Z-powered form of Last Resort. The ordinary
+    // move keeps Last Resort's all-other-moves requirement, but its Z move can
+    // be selected immediately (as in the games).
+    const lastResortReady=id!=='lastresort'||zMove||pokemon.set.moves.length>=2&&pokemon.set.moves.every(known=>known==='lastresort'||pokemon.usedMoveIds.includes(known));
     return move && id !== 'struggle' && lastResortReady && (!move.requiresForm||pokemon.transformation?.formId===move.requiresForm) && (pokemon.pp[id] ?? 0) > 0 && (!lock || lock === id)
       && (maxed || zMove || id !== 'gigatonhammer' || pokemon.lastMove !== id)
       && (maxed || zMove || move.category !== 'status' || !passiveEffects(pokemon).some(effect=>effect.trigger==='onMoveChoice'&&effect.kind==='blockStatus'))
@@ -38,7 +41,7 @@ export function moveUnavailableReason(pokemon: Combatant, moveId: string,zMove=f
   if (pokemon.fainted) return '기절한 포켓몬은 행동할 수 없습니다.';
   if (moveId === 'struggle') return usableMoves(pokemon).length ? '사용 가능한 기술이 남아 있습니다.' : undefined;
   if (!pokemon.set.moves.includes(moveId) || !moves[moveId]) return '배우지 않은 기술입니다.';
-  if(moveId==='lastresort'&&(pokemon.set.moves.length<2||pokemon.set.moves.some(known=>known!=='lastresort'&&!pokemon.usedMoveIds.includes(known))))return `${moves[moveId].name}은(는) 다른 기술을 모두 한 번 이상 사용한 뒤 사용할 수 있습니다.`;
+  if(moveId==='lastresort'&&!zMove&&(pokemon.set.moves.length<2||pokemon.set.moves.some(known=>known!=='lastresort'&&!pokemon.usedMoveIds.includes(known))))return `${moves[moveId].name}은(는) 다른 기술을 모두 한 번 이상 사용한 뒤 사용할 수 있습니다.`;
   if(moves[moveId].requiresForm&&pokemon.transformation?.formId!==moves[moveId].requiresForm)return `${moves[moveId].name}은(는) ${moves[moveId].requiresForm} 폼에서만 사용할 수 있습니다.`;
   const forced=pokemon.charging?.moveId??pokemon.rampage?.moveId;
   if(forced&&forced!==moveId)return `${moves[forced]?.name??forced}을(를) 계속 사용해야 합니다.`;

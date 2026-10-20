@@ -7123,6 +7123,20 @@ export const championMoves: Record<string,Move> = {
     "pp": 20,
     "priority": 0,
     "target": "enemy",
+    "effects": [
+      {
+        "kind": "stat",
+        "stat": "atk",
+        "stages": -1,
+        "target": "target"
+      },
+      {
+        "kind": "stat",
+        "stat": "spa",
+        "stages": -1,
+        "target": "target"
+      }
+    ],
     "contact": false,
     "sound": true,
     "powder": false,

@@ -78,6 +78,12 @@ for(const id of wanted){const original=base[id];if(!original)throw Error(`M-C le
   if(id==='frustration')entry.dynamicPower='lowFriendship';
   if(id==='lastrespects')entry.dynamicPower='faintedAllies';
   if(['voltswitch','uturn','flipturn','partingshot'].includes(id))entry.pivot=true;
+  // Parting Shot is a status pivot: lower the target's Attack and Special
+  // Attack, then switch the user out when at least one drop connects.
+  if(id==='partingshot')entry.effects=[
+    {kind:'stat',stat:'atk',stages:-1,target:'target'},
+    {kind:'stat',stat:'spa',stages:-1,target:'target'},
+  ];
   if(id==='steelbeam')entry.selfCostFraction=.5;
   if(m.selfdestruct)entry.selfDestruct=true;
   if(['outrage','thrash','petaldance'].includes(id))entry.rampage=[2,5];

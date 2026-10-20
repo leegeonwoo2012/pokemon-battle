@@ -29,6 +29,49 @@ describe('battle engine', () => {
     expect(next.log.some(entry=>entry.text.includes('자폭 사용!'))).toBe(false);
   });
 
+  it('applies Parting Shot drops before pivoting, but does not pivot through Protect', () => {
+    const user=set('persianalola',['partingshot','protect','foulplay','uturn'],'furcoat');
+    const bench=set('raichu',['thunderbolt','quickattack','thunderwave','protect'],'static');
+    const foe=set('snorlax',['protect','bodyslam','rest','crunch'],'thickFat');
+    const state=createBattle({format:'singles',playerTeam:[user,bench],cpuTeam:[foe],seed:12});
+    const pivoted=runTurn(state,[{kind:'move',slot:0,moveId:'partingshot'}],[{kind:'move',slot:0,moveId:'bodyslam'}]);
+    expect(pivoted.sides.cpu.team[0].stages).toMatchObject({atk:-1,spa:-1});
+    expect(pivoted.sides.player.active[0]).toBe(1);
+    expect(pivoted.log.some(entry=>entry.text.includes('막말내뱉기 사용!'))).toBe(true);
+
+    const blocked=createBattle({format:'singles',playerTeam:[user,bench],cpuTeam:[foe],seed:12});
+    const protectedHit=runTurn(blocked,[{kind:'move',slot:0,moveId:'partingshot'}],[{kind:'move',slot:0,moveId:'protect'}]);
+    expect(protectedHit.sides.player.active[0]).toBe(0);
+    expect(protectedHit.sides.cpu.team[0].stages).toMatchObject({atk:0,spa:0});
+  });
+
+  it('passes rank changes and Substitute through Baton Pass', () => {
+    const user=set('eevee',['batonpass','calmmind','substitute','protect'],'runaway');
+    const bench=set('raichu',['thunderbolt','quickattack','thunderwave','protect'],'static');
+    const foe=set('snorlax',['protect','bodyslam','rest','crunch'],'thickFat');
+    const state=createBattle({format:'singles',playerTeam:[user,bench],cpuTeam:[foe],seed:14});
+    const prepared=runTurn(state,[{kind:'move',slot:0,moveId:'calmmind'}],[{kind:'move',slot:0,moveId:'protect'}]);
+    const withSub=runTurn(prepared,[{kind:'move',slot:0,moveId:'substitute'}],[{kind:'move',slot:0,moveId:'protect'}]);
+    const passed=runTurn(withSub,[{kind:'move',slot:0,moveId:'batonpass'}],[{kind:'move',slot:0,moveId:'protect'}]);
+    expect(passed.sides.player.active[0]).toBe(1);
+    expect(passed.sides.player.team[1].stages).toMatchObject({spa:1,spd:1});
+    expect(passed.sides.player.team[1].substituteHp).toBeGreaterThan(0);
+  });
+
+  it('applies Intimidate to every opposing active Pokémon on a doubles entry', () => {
+    const state=createBattle({format:'doubles',playerTeam:[
+      set('gyarados',['waterfall','crunch','protect','return'],'intimidate'),
+      set('arcanine',['flamethrower','crunch','protect','willowisp'],'intimidate'),
+      set('raichu',['thunderbolt','quickattack','thunderwave','protect'],'static'),
+    ],cpuTeam:[
+      set('snorlax',['protect','bodyslam','rest','crunch'],'thickFat'),
+      set('blastoise',['protect','surf','icebeam','raindance'],'torrent'),
+    ],seed:15});
+    expect(state.sides.cpu.team[0].stages.atk).toBe(-2);
+    expect(state.sides.cpu.team[1].stages.atk).toBe(-2);
+    expect(state.log.filter(entry=>entry.text.includes('위협')).length).toBeGreaterThanOrEqual(2);
+  });
+
   it('applies dual type matchups and immunities', () => {
     expect(getTypeMultiplier('electric', ['water', 'flying'])).toBe(4);
     expect(getTypeMultiplier('ground', ['flying'])).toBe(0);

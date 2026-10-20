@@ -151,7 +151,13 @@ describe('Z and Max moves',()=>{
     const state=battle([set('eevee',{itemId:'eeviumz',moves:moveset})]);
     const p=state.sides.player.team[0];
     expect(usableMoves(p).map(move=>move.id)).not.toContain('lastresort');
+    expect(usableMoves(p,true).map(move=>move.id)).toContain('lastresort');
     expect(moveUnavailableReason(p,'lastresort')).toContain('다른 기술을 모두');
+    expect(moveUnavailableReason(p,'lastresort',true)).toBeUndefined();
+    const immediate=runTurn(state,[attack('lastresort','z')],[protect()]);
+    expect(immediate.sides.player.gimmick).toMatchObject({used:true,kind:'z'});
+    expect(immediate.log.some(entry=>entry.text.includes('나인이볼부스트 사용!'))).toBe(true);
+    expect(immediate.sides.player.team[0].stages).toMatchObject({atk:2,def:2,spa:2,spd:2,spe:2});
     for(const moveId of moveset.slice(1)){
       const next=runTurn(state,[attack(moveId)],[protect()]);
       state.rngState=next.rngState;state.turn=next.turn;state.sides=next.sides;state.weather=next.weather;state.field=next.field;state.log=next.log;state.winner=next.winner;
