@@ -1055,6 +1055,14 @@ function advanceTurn(state: BattleState, playerActions: BattleAction[], cpuActio
     player: normalizeActions(state, 'player', playerActions),
     cpu: normalizeActions(state, 'cpu', cpuActions ?? chooseCpuActions(state)),
   };
+  // Mega Evolution resolves before the move queue, as in the main games.
+  // Its new stats and ability affect this turn, while the selected move keeps
+  // its ordinary priority and is ordered normally after every Mega reveal.
+  for (const side of ['player', 'cpu'] as const) for (const action of selected[side]) {
+    if(action.kind!=='move'||action.gimmick!=='mega')continue;
+    activateGimmick(state,side,action.slot,'mega',action.moveId,action.teraType);
+    action.gimmick=undefined;
+  }
   for (const side of ['player', 'cpu'] as const) for (const action of selected[side]) {
     if (action.kind !== 'move' || !moves[action.moveId]?.focus) continue;
     const actor = getPokemonAt(state, { side, slot: action.slot });
@@ -1086,9 +1094,7 @@ function advanceTurn(state: BattleState, playerActions: BattleAction[], cpuActio
     actor.actedTurn = state.turn;
     if (queued.action.kind === 'switch') executeSwitch(state, queued.side, queued.action);
     else {
-      // A transformation is part of this Pokémon's chosen action. Present and
-      // resolve it here so its announcement follows switch/move priority order,
-      // and a Pokémon knocked out earlier in the turn cannot transform first.
+      // Non-Mega transformations remain attached to the selected action.
       if(queued.action.gimmick&&!activateGimmick(state,queued.side,queued.action.slot,queued.action.gimmick,queued.action.moveId,queued.action.teraType)) queued.action.gimmick=undefined;
       const move = weatherBallMove(state,actor,previewMove(actor,moves[queued.action.moveId] ?? STRUGGLE,queued.action.gimmick));
       withEventContext(state, { actorUid: actor.uid, moveId: move.id, category: move.category, powered:move.powered, type: move.type, side: queued.side, slot: queued.action.slot },
