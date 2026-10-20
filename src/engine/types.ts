@@ -118,6 +118,8 @@ export interface Move {
   punch?:boolean;
   /** A first-turn preparation, except in the specified weather. */
   charge?: 'always' | 'sun' | 'rain';
+  /** Can only be used on the Pokémon's first action turn after entering battle. */
+  requiresFreshEntry?: boolean;
   /** The user loses focus if it takes damage before this move resolves. */
   focus?: boolean;
   semiInvulnerable?: 'underground' | 'underwater' | 'airborne' | 'vanished';
@@ -238,6 +240,8 @@ export interface Combatant {
   redirectTurn?:number;
   redirectPowder?:boolean;
   enteredTurn?:number;
+  /** Turn on which first-turn-only moves can be used after entering battle. */
+  firstTurnMoveTurn?:number;
   quickDrawTurn?:number;
   quickDrawCheckedTurn?:number;
   electromorphosisCharged?:boolean;

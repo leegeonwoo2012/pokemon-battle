@@ -54,7 +54,7 @@ export function gimmickReason(state:BattleState,side:Side,pokemon:Combatant,kind
   if(kind==='z') {
     const compatible=(id:string)=>{
       const m=moves[id];
-      if(!m||!isMoveUsable(pokemon,id,true))return false;
+      if(!m||!isMoveUsable(pokemon,id,true,state.turn))return false;
       if(exclusiveZMoves.some(z=>z.speciesId===pokemon.set.speciesId&&z.baseMove===id&&z.crystal===pokemon.set.itemId))return true;
       if(zMoves[m.type]?.crystal!==pokemon.set.itemId)return false;
       if(m.category!=='status') return true;

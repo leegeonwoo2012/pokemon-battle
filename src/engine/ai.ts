@@ -50,7 +50,7 @@ function targetScore(state: BattleState, user: Combatant, target: Combatant, mov
 }
 
 function damagingPressure(state: BattleState, attacker: Combatant, defender: Combatant): number {
-  return usableMoves(attacker).reduce((best, move) => {
+  return usableMoves(attacker,false,state.turn).reduce((best, move) => {
     if (move.category === 'status' || !(move.power || move.ohko || move.fixedDamage || move.fixedHpFraction !== undefined)) return best;
     return Math.max(best, estimateDamage(state, attacker, defender, move) * moveAccuracy(state, attacker, defender, move) / 100);
   }, 0);
@@ -83,7 +83,7 @@ function matchupPressure(state: BattleState, candidate: Combatant, foes: Combata
   const entryPenalty = entryHazardCost(state, 'cpu', candidate);
   const intimidation = abilities[candidate.set.abilityId]?.effects.some(effect => effect.trigger === 'onEnter'
     && effect.kind === 'stat' && effect.target === 'foes' && effect.stat === 'atk' && effect.stages < 0)
-    ? foes.filter(foe => usableMoves(foe).some(move => move.category === 'physical')).length * 8 : 0;
+    ? foes.filter(foe => usableMoves(foe,false,state.turn).some(move => move.category === 'physical')).length * 8 : 0;
   return { offense, incoming, score: offense - incoming * 0.68 + candidate.hp / candidate.maxHp * 22 - entryPenalty + intimidation };
 }
 
@@ -126,7 +126,7 @@ export function chooseCpuActions(state: BattleState): BattleAction[] {
         return [{ kind: 'switch' as const, slot, to: switchTo }];
       }
     }
-    const candidates = usableMoves(user).map(move=>weatherBallMove(state,user,previewMove(user,move)));
+    const candidates = usableMoves(user,false,state.turn).map(move=>weatherBallMove(state,user,previewMove(user,move)));
     if (!candidates.length) return [{ kind: 'move' as const, slot, moveId: 'struggle' }];
     let best: { move: Move; target?: TargetRef; score: number } | null = null;
     for (const move of candidates) {
@@ -170,7 +170,7 @@ export function chooseCpuActions(state: BattleState): BattleAction[] {
   for(const [index,action] of actions.entries()) {
     if(action.kind!=='move') continue;
     const user=getPokemonAt(state,{side:'cpu',slot:action.slot})!;
-    for(const kind of ['mega','tera','z','dynamax'] as const) for(const base of usableMoves(user)) {
+    for(const kind of ['mega','tera','z','dynamax'] as const) for(const base of usableMoves(user,false,state.turn)) {
       if(gimmickReason(state,'cpu',user,kind,base.id)) continue;
       const simulated=structuredClone(state);
       activateGimmick(simulated,'cpu',action.slot,kind,base.id);
@@ -180,7 +180,7 @@ export function chooseCpuActions(state: BattleState): BattleAction[] {
         const foe=getPokemonAt(state,targetRef)!;
         const before=targetScore(state,user,foe,moves[action.moveId]??base);
         const after=targetScore(simulated,transformed,foe,enhanced);
-        const threat=(p:Combatant)=>Math.max(0,...usableMoves(foe).map(m=>estimateDamage(simulated,foe,p,m)));
+        const threat=(p:Combatant)=>Math.max(0,...usableMoves(foe,false,state.turn).map(m=>estimateDamage(simulated,foe,p,m)));
         const defenseGain=threat(user)-threat(transformed);
         const remaining=state.sides.cpu.team.filter(p=>!p.fainted).length;
         const hpRatio=user.hp/user.maxHp;

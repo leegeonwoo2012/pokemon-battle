@@ -229,6 +229,8 @@ export const moves: Record<string, Move> = Object.fromEntries(([
   {...move('dragondarts','드래곤애로','dragon','physical',50,100,10),multihit:2},
 ] as Move[]).map(entry => [entry.id, entry]));
 for(const [id,entry] of Object.entries(championMoves))if(!moves[id])moves[id]=entry;
+// Fake Out and First Impression only work on the entrant's first action turn.
+for (const id of ['fakeout','firstimpression']) moves[id].requiresFreshEntry = true;
 // Spectral Thief is marked Past by the pinned modern format, but remains Marshadow's
 // exclusive move. Keep its canonical Gen 7 move data for the explicit signature roster.
 moves.spectralthief={...move('spectralthief','섀도스틸','ghost','physical',90,100,10,'enemy',undefined,0,true),bypassSubstitute:true,stealsBoosts:true};

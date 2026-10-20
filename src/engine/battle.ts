@@ -17,7 +17,7 @@ import {
 import { startRecording, stopRecording, withEventContext } from './events';
 import { chance, random, randomInt } from './rng';
 import { chooseCpuActions } from './ai';
-import { isMoveUsable, usableMoves } from './choices';
+import { firstTurnMoveReady, isMoveUsable, usableMoves } from './choices';
 import { applyVolatile, processConfusion, processFlinch } from './conditions';
 import { fieldLabel, statLabel, weatherLabel } from './labels';
 import { activateGimmick, applyExclusiveZEffect, applyMaxEffect, applyZStatus, endDynamax, finishGimmickTurn, gimmickReason, gimmickSetErrors, megaFormFor, previewMove, restoreBattleForms } from './gimmicks';
@@ -104,7 +104,7 @@ export function createBattle(options: BattleOptions): BattleState {
 
 function fallbackAction(state: BattleState, side: Side, slot: number): BattleAction {
   const pokemon = getPokemonAt(state, { side, slot });
-  const available = pokemon ? usableMoves(pokemon) : [];
+  const available = pokemon ? usableMoves(pokemon,false,state.turn) : [];
   const move = available.find(candidate => !candidate.focus && !candidate.selfDestruct)
     ?? available.find(candidate => !candidate.focus)
     ?? available[0];
@@ -133,7 +133,7 @@ function normalizeActions(state: BattleState, side: Side, submitted: BattleActio
       const megaActivation=action.gimmick==='mega'&&!gimmickReason(state,side,actor,'mega',action.moveId);
       const megaForm=megaActivation?megaFormFor(actor):undefined;
       const projected=megaForm?{...permitted,transformation:{kind:'mega' as const,formId:megaForm.id}}:permitted;
-      if(isMoveUsable(projected,action.moveId,action.gimmick==='z'&&!gimmickReason(state,side,actor,'z',action.moveId))) return [{...action}];
+      if(isMoveUsable(projected,action.moveId,action.gimmick==='z'&&!gimmickReason(state,side,actor,'z',action.moveId),state.turn)) return [{...action}];
     }
     return [fallbackAction(state, side, slot)];
   });
@@ -419,9 +419,13 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
   const user = getPokemonAt(state, { side, slot: action.slot });
   if (!user || user.fainted) return;
   if(user.rechargeTurns){user.rechargeTurns--;addLog(state,`${displayName(user)}은(는) 반동으로 움직일 수 없다!`,'status',{kind:'blocked',targetUid:user.uid});return;}
-  const forcedId=user.charging?.moveId??user.rampage?.moveId??(action.gimmick!=='z'&&user.transformation?.kind!=='dynamax'&&user.encore&&isMoveUsable(user,user.encore.moveId)?user.encore.moveId:action.moveId);
+  const forcedId=user.charging?.moveId??user.rampage?.moveId??(action.gimmick!=='z'&&user.transformation?.kind!=='dynamax'&&user.encore&&isMoveUsable(user,user.encore.moveId,false,state.turn)?user.encore.moveId:action.moveId);
   const baseMove = forcedId === 'struggle' ? STRUGGLE : moves[forcedId];
   if (!baseMove) return;
+  if(!firstTurnMoveReady(user,baseMove,state.turn)){
+    addLog(state,`${displayName(user)}의 ${baseMove.name}은(는) 배틀에 나온 뒤 첫 행동 턴에만 사용할 수 있다!`,'move',{kind:'blocked',actorUid:user.uid,moveId:baseMove.id});
+    return;
+  }
   const continuingCharge=user.charging?.moveId===baseMove.id;
   const continuingRampage=user.rampage?.moveId===baseMove.id;
   const stopRampage=()=>{if(continuingRampage&&!user.fainted){user.rampage=undefined;addLog(state,`${displayName(user)}의 ${baseMove.name} 연속 사용이 끊겼다!`,'status',{kind:'message',targetUid:user.uid});}};
@@ -518,10 +522,6 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
     if(eligible.length)refs=[...eligible].sort((a,b)=>a.slot===action.target?.slot?-1:b.slot===action.target?.slot?1:a.slot-b.slot);
   }
   const targetUids = refs.map(ref => getPokemonAt(state, ref)!.uid);
-  if(move.id==='fakeout'&&user.enteredTurn!==state.turn&&!(user.enteredTurn===undefined&&state.turn===1)){
-    addLog(state,`${displayName(user)}의 ${move.name}은(는) 처음 나온 턴에만 사용할 수 있다!`,'move',{kind:'blocked',actorUid:user.uid,moveId:move.id,targetUid:targetUids[0]});
-    return;
-  }
   if(move.id==='suckerpunch'){
     const eligible=refs.some(ref=>{
       const target=getPokemonAt(state,ref);
@@ -950,6 +950,7 @@ function executeSwitch(state: BattleState, side: Side, action: Extract<BattleAct
     replacement.aquaRing=batonState.aquaRing;
   }
   replacement.enteredTurn=state.turn;
+  replacement.firstTurnMoveTurn=state.turn+1;
   addLog(state, `${side === 'player' ? '플레이어' : 'CPU'}: ${displayName(replacement)} 출전!`, 'switch', { kind: 'switch-in', actorUid: replacement.uid, side, slot: action.slot });
   applyHazards(state,side,replacement);
   if(!replacement.fainted)applyEntryEffects(state, side, replacement);
@@ -998,6 +999,7 @@ function replaceFainted(state: BattleState): void {
       sideState.active[slot] = next;
       const pokemon = sideState.team[next];
       pokemon.enteredTurn=state.turn;
+      pokemon.firstTurnMoveTurn=state.turn+1;
       addLog(state, `${side === 'player' ? '플레이어' : 'CPU'}: ${displayName(pokemon)} 출전!`, 'switch', { kind: 'switch-in', actorUid: pokemon.uid, side, slot });
       applyHazards(state,side,pokemon);
       if(!pokemon.fainted)applyEntryEffects(state, side, pokemon);
@@ -1039,6 +1041,7 @@ function resolveReplacements(state: BattleState, playerActions: BattleAction[], 
     state.sides[side].active[slot] = to;
     const mon = state.sides[side].team[to];
     mon.enteredTurn=state.turn;
+    mon.firstTurnMoveTurn=state.turn;
     addLog(state, `${side === 'player' ? '플레이어' : 'CPU'}: ${displayName(mon)} 출전!`, 'switch', { kind: 'switch-in', actorUid: mon.uid, side, slot });
     applyHazards(state,side,mon);
     if(!mon.fainted)applyEntryEffects(state, side, mon);
