@@ -17,6 +17,7 @@ export function readableFrameDuration(event: BattleEvent): number {
     case 'switch-out': return 1050;
     case 'switch-in': return 1500;
     case 'faint': case 'result': return 1400;
+    case 'ability': return event.sourceId === 'intimidate' ? 1250 : 820;
     case 'effectiveness': case 'critical': case 'miss': return 1050;
     case 'turn-end': return 380;
     default: return 820;

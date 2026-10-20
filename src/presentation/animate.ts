@@ -6,6 +6,7 @@ import { animationPause, battleTiming } from './timing';
 import { playElementalImpact, playMissEffect } from './elemental-effects';
 import { moves } from '../data';
 import { signatureVisuals } from './signature-catalog';
+import { hasDedicatedAbilityMotion } from './ability-motions';
 
 const colors: Record<string, string> = { fire:'#ff8550',water:'#77d5ff',electric:'#fff473',grass:'#93ee86',ice:'#c0f7ff',fighting:'#ffc18d',poison:'#d3a1ff',ground:'#e4c994',flying:'#d9f2ff',psychic:'#ffa4d4',bug:'#c6ec89',rock:'#ddcb9c',ghost:'#b99cff',dragon:'#b4b8ff',dark:'#8d99b9',steel:'#d4eaff',fairy:'#ffc6ed',normal:'#fff9d6' };
 
@@ -20,6 +21,7 @@ export function resetBattleVisuals(root:HTMLElement|null):void {
   delete root.dataset.moveId;delete root.dataset.motionPhase;
   delete root.dataset.criticalImpact;
   delete root.dataset.gimmick;
+  delete root.dataset.abilityMotion;
 }
 
 async function tween(element: Element | null, frames: Keyframe[], duration: number, signal: AbortSignal, fill: FillMode = 'none'): Promise<void> {
@@ -569,6 +571,49 @@ async function abilityFormReveal(root:HTMLElement,event:BattleEvent,user:Element
   ]);}finally{wash.remove();rings.forEach(ring=>ring.remove());delete root.dataset.abilityForm;}
 }
 
+/** Intimidate gets a readable presence cue instead of the generic passive aura.
+ * The ability is announced before its stat drop, so the red pressure wave makes
+ * the source obvious and the opposing active sprites visibly recoil together.
+ */
+async function intimidateReveal(root:HTMLElement,user:Element|null,signal:AbortSignal){
+  if(!user)return;
+  const sourceActor=user.closest<HTMLElement>('.scene-actor');
+  const opposingSide=sourceActor?.classList.contains('actor-player')?'actor-cpu':'actor-player';
+  const victims=Array.from(root.querySelectorAll<HTMLElement>(`.scene-actor.${opposingSide} .sprite-art`));
+  const origin=point(user,root);
+  const waves=Array.from({length:3},(_,index)=>{
+    const wave=moveParticle(root,'intimidate-wave','#ff594f',origin);
+    wave.style.setProperty('--intimidate-index',String(index));
+    return wave;
+  });
+  const glare=moveParticle(root,'intimidate-glare','#ffbaa0',origin);
+  const flash=moveParticle(root,'intimidate-flash','#ff594f',{x:root.clientWidth/2,y:root.clientHeight/2});
+  root.dataset.abilityMotion='intimidate';
+  try{
+    await Promise.all([
+      tween(flash,[{transform:'translate(-50%,-50%) scale(.7)',opacity:0},{transform:'translate(-50%,-50%) scale(1.25)',opacity:.52,offset:.26},{transform:'translate(-50%,-50%) scale(1.05)',opacity:0}],760,signal),
+      tween(glare,[{transform:'translate(-50%,-50%) scale(.18) rotate(-8deg)',opacity:0},{transform:'translate(-50%,-50%) scale(1.08) rotate(0deg)',opacity:1,offset:.3},{transform:'translate(-50%,-50%) scale(1.55) rotate(8deg)',opacity:0}],820,signal),
+      tween(user,[{transform:'translate(0,0) scale(1)',filter:'brightness(1) saturate(1)'},{transform:'translateY(-7px) scale(1.06)',filter:'brightness(1.65) saturate(1.8) drop-shadow(0 0 14px #ff4d4d)',offset:.32},{transform:'translateY(2px) scale(.98)',filter:'brightness(1.15) saturate(1.35)',offset:.6},{transform:'translate(0,0) scale(1)',filter:'brightness(1) saturate(1)'}],900,signal),
+      tween(camera(root),[{transform:'translate(0,0) scale(1)'},{transform:'translate(-5px,2px) scale(1.018)',offset:.32},{transform:'translate(5px,-2px) scale(1.012)',offset:.55},{transform:'translate(0,0) scale(1)'}],900,signal),
+      ...waves.map((wave,index)=>tween(wave,[
+        {transform:'translate(-50%,-50%) scale(.12)',opacity:0},
+        {transform:'translate(-50%,-50%) scale(.62)',opacity:.92,offset:.22+index*.06},
+        {transform:'translate(-50%,-50%) scale(1.42)',opacity:.54,offset:.62+index*.05},
+        {transform:'translate(-50%,-50%) scale(2.1)',opacity:0},
+      ],760+index*80,signal)),
+      ...victims.map((victim,index)=>tween(victim,[
+        {transform:'translate(0,0) scale(1)',filter:'brightness(1)'},
+        {transform:`translate(${index%2?-9:9}px,4px) scale(.96)`,filter:'brightness(.72) sepia(.65) saturate(1.35)',offset:.35},
+        {transform:`translate(${index%2?5:-5}px,-2px) scale(1.02)`,filter:'brightness(1.25)',offset:.62},
+        {transform:'translate(0,0) scale(1)',filter:'brightness(1)'},
+      ],760,signal)),
+    ]);
+  }finally{
+    flash.remove();glare.remove();waves.forEach(wave=>wave.remove());
+    delete root.dataset.abilityMotion;
+  }
+}
+
 async function recallPokemon(root:HTMLElement,user:Element|null,signal:AbortSignal) {
   if(!user)return;
   root.dataset.motionPhase='recall';
@@ -682,7 +727,11 @@ export async function animateBattleEvent(root: HTMLElement | null, event: Battle
       break;
     }
     case 'status': await effect(root,target??user,event.status?`condition-${event.status}`:event.condition==='confusion'?'condition-confusion':'aura',color,signal);break;
-    case 'ability': case 'item': await effect(root,target ?? user,'aura',color,signal); break;
+    case 'ability':
+      if(hasDedicatedAbilityMotion(event.sourceId)) await intimidateReveal(root,user,signal);
+      else await effect(root,target ?? user,'aura',color,signal);
+      break;
+    case 'item': await effect(root,target ?? user,'aura',color,signal); break;
     default: await tween(message,[{opacity:.45},{opacity:1,offset:.25},{opacity:1}],event.kind==='turn-end'?150:420,signal);
   }
 }

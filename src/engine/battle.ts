@@ -415,7 +415,7 @@ function triggerBlunderPolicy(state:BattleState,user:Combatant):void{
   applyStatChange(state,user,'spe',2,user,'blunderpolicy');
 }
 
-function executeMove(state: BattleState, side: Side, action: Extract<BattleAction, { kind: 'move' }>): void {
+function executeMove(state: BattleState, side: Side, action: Extract<BattleAction, { kind: 'move' }>, selectedActions: ReadonlyMap<string,BattleAction>): void {
   const user = getPokemonAt(state, { side, slot: action.slot });
   if (!user || user.fainted) return;
   if(user.rechargeTurns){user.rechargeTurns--;addLog(state,`${displayName(user)}은(는) 반동으로 움직일 수 없다!`,'status',{kind:'blocked',targetUid:user.uid});return;}
@@ -518,6 +518,24 @@ function executeMove(state: BattleState, side: Side, action: Extract<BattleActio
     if(eligible.length)refs=[...eligible].sort((a,b)=>a.slot===action.target?.slot?-1:b.slot===action.target?.slot?1:a.slot-b.slot);
   }
   const targetUids = refs.map(ref => getPokemonAt(state, ref)!.uid);
+  if(move.id==='fakeout'&&user.enteredTurn!==state.turn&&!(user.enteredTurn===undefined&&state.turn===1)){
+    addLog(state,`${displayName(user)}의 ${move.name}은(는) 처음 나온 턴에만 사용할 수 있다!`,'move',{kind:'blocked',actorUid:user.uid,moveId:move.id,targetUid:targetUids[0]});
+    return;
+  }
+  if(move.id==='suckerpunch'){
+    const eligible=refs.some(ref=>{
+      const target=getPokemonAt(state,ref);
+      if(!target||target.fainted||target.actedTurn===state.turn)return false;
+      const selected=selectedActions.get(target.uid);
+      if(selected?.kind!=='move')return false;
+      const targetMove=moves[selected.moveId];
+      return !!targetMove&&previewMove(target,targetMove,selected.gimmick==='z'?selected.gimmick:undefined).category!=='status';
+    });
+    if(!eligible){
+      addLog(state,`${displayName(user)}의 ${move.name}은(는) 상대가 공격하려 할 때만 성공한다!`,'move',{kind:'blocked',actorUid:user.uid,moveId:move.id,targetUid:targetUids[0]});
+      return;
+    }
+  }
   if(baseMove.id!=='struggle')for(const ref of refs)if(ref.side!==side){
     const target=getPokemonAt(state,ref);
     if(!target)continue;
@@ -1045,10 +1063,12 @@ function advanceTurn(state: BattleState, playerActions: BattleAction[], cpuActio
     addLog(state, `${displayName(actor)}은(는) 힘껏펀치의 기를 모으고 있다!`, 'status', { kind: 'focus-prepare', actorUid: actor.uid });
   }
   const queue: QueuedAction[] = [];
+  const selectedActions=new Map<string,BattleAction>();
   for (const side of ['player', 'cpu'] as const) {
     for (const action of selected[side]) {
       const actor = getPokemonAt(state, { side, slot: action.slot });
       if (!actor) continue;
+      selectedActions.set(actor.uid,action);
       queue.push({
         side, action, actorUid: actor.uid,
         priority: action.kind === 'switch' ? 6 : (moves[action.moveId]?effectivePriority(state,actor,previewMove(actor,moves[action.moveId],action.gimmick)):0),
@@ -1072,7 +1092,7 @@ function advanceTurn(state: BattleState, playerActions: BattleAction[], cpuActio
       if(queued.action.gimmick&&!activateGimmick(state,queued.side,queued.action.slot,queued.action.gimmick,queued.action.moveId,queued.action.teraType)) queued.action.gimmick=undefined;
       const move = weatherBallMove(state,actor,previewMove(actor,moves[queued.action.moveId] ?? STRUGGLE,queued.action.gimmick));
       withEventContext(state, { actorUid: actor.uid, moveId: move.id, category: move.category, powered:move.powered, type: move.type, side: queued.side, slot: queued.action.slot },
-        () => executeMove(state, queued.side, queued.action as Extract<BattleAction, { kind: 'move' }>));
+        () => executeMove(state, queued.side, queued.action as Extract<BattleAction, { kind: 'move' }>,selectedActions));
     }
     for(const side of ['player','cpu'] as const) for(const p of state.sides[side].team) if(p.fainted) endDynamax(state,p);
     if (checkWinner(state)) return state;
