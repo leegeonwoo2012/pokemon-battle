@@ -104,7 +104,7 @@ const exact: Record<string, MoveMotion> = {
   seedflare:{family:'leaf',cue:'생명의 씨앗을 모아 초록빛 섬광으로 폭발'},fleurcannon:{family:'fairy',cue:'꽃의 포신을 열어 분홍빛 광선을 발사'},prismaticlaser:{family:'beam',cue:'프리즘 광륜을 모아 무지갯빛 레이저 발사'},
   psychoboost:{family:'psychic',cue:'강렬한 사이코 광선을 발사한 뒤 자신의 특수공격을 낮춤'},
   heartswap:{family:'psychic',cue:'두 포켓몬의 능력 변화를 연결해 서로 바꿈'},
-  judgment:{family:'beam',cue:'지닌 플레이트의 빛깔로 심판의 광선을 내리침'},
+  judgment:{family:'beam',cue:'하늘에 거대한 빛의 뭉치를 만들어 상대에게 낙하시킴'},
   vcreate:{family:'flame',cue:'V자 불꽃을 그리며 돌진한 뒤 자신의 방어와 스피드를 낮춤'},
   searingshot:{family:'flame',cue:'뜨거운 화염탄을 전장 중앙에서 폭발시킴'},
   secretsword:{family:'slash',cue:'푸른 성검으로 상대의 물리 방어를 베어냄'},

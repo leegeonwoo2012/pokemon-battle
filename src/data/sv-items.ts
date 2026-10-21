@@ -58,6 +58,10 @@ add('utilityumbrella','지닌 포켓몬에게 날씨의 공격·방어 보정이
 add('floatstone','지닌 포켓몬의 실효 체중이 절반이 됩니다.');
 add('rustedsword','자시안의 왕관폼을 부르는 녹슨검. 아이언헤드가 거수참으로 바뀝니다.');
 add('rustedshield','자마젠타의 왕관폼을 부르는 녹슨방패. 아이언헤드가 거수탄으로 바뀝니다.');
+add('airbellows','제피레온 전용 도구. 비행 타입 기술의 위력이 1.2배가 됩니다.',[
+  {trigger:'onAttack',kind:'damageMultiplier',type:'flying',multiplier:1.2,speciesIds:['zephyreon']},
+]);
+items.airbellows.name='공기풀무';
 
 const hitBerries:[string,string,number][]=[['absorbbulb','water',1],['cellbattery','electric',1],['luminousmoss','water',1],['snowball','ice',1]];
 for(const [id,type,stages] of hitBerries)add(id,`${type} 타입 공격을 받으면 능력치가 상승하고 소모됩니다.`,[{trigger:'onAfterHit',kind:'stat',stat:id==='luminousmoss'?'spd':id==='snowball'||id==='cellbattery'?'atk':'spa',stages,type,consume:true}]);

@@ -31,6 +31,13 @@ describe('curated battle data', () => {
     expect(Object.keys(natures)).toHaveLength(25);
     expect(typeChart.electric.ground).toBe(0);
   });
+
+  it('gives the Pokémon Z Eevee evolutions more than four selectable moves', () => {
+    expect(species.zephyreon.learnset.length).toBeGreaterThan(4);
+    expect(species.zephyreon.learnset).toEqual(expect.arrayContaining(['defog', 'wish', 'helpinghand', 'thunderbolt']));
+    expect(species.royaleon.learnset.length).toBeGreaterThan(4);
+    expect(species.royaleon.learnset).toEqual(expect.arrayContaining(['boomburst', 'darkpulse', 'sludgebomb', 'powergem']));
+  });
 });
 
 describe('team configuration', () => {

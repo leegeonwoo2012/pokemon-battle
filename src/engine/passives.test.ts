@@ -27,6 +27,16 @@ describe('modular abilities and held items', () => {
     expect(damagePassiveMultiplier(createBattle({format:'singles',playerTeam:[royaleon],cpuTeam:[set('raichu','static')]}).sides.player.team[0],moves.tackle,'onAttack')).toBe(1.5);
   });
 
+  it('limits Air Bellows to Zephyreon and boosts only Flying attacks',()=>{
+    const zephyreon=set('zephyreon','compoundeyes',[],'airbellows');
+    const holder=createBattle({format:'singles',playerTeam:[zephyreon],cpuTeam:[set('raichu','static')]}).sides.player.team[0];
+    expect(damagePassiveMultiplier(holder,moves.hurricane,'onAttack')).toBe(1.2);
+    expect(damagePassiveMultiplier(holder,moves.thunderbolt,'onAttack')).toBe(1);
+    const raichu=set('raichu','static',[],'airbellows');
+    const other=createBattle({format:'singles',playerTeam:[raichu],cpuTeam:[set('blastoise','torrent')]}).sides.player.team[0];
+    expect(damagePassiveMultiplier(other,moves.thunderbolt,'onAttack')).toBe(1);
+  });
+
   it.each([
     ['jolteon', 'voltAbsorb', 'raichu', 'static', 'thunderbolt'],
     ['vaporeon', 'waterabsorb', 'blastoise', 'torrent', 'waterpulse'],

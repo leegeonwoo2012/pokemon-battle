@@ -12,7 +12,10 @@ export const pokemonZRoster: Species[] = [
     types: ['flying'],
     baseStats: { hp: 65, atk: 65, def: 60, spa: 110, spd: 95, spe: 130 },
     abilities: ['lightningrod', 'compoundeyes'],
-    learnset: ['hurricane', 'tailwind', 'featherdance', 'uturn'],
+    // Pokémon Z sample teams also show Defog, Wish, Helping Hand and
+    // Thunderbolt; Cefireon's earlier Opalo sets include Shadow Ball and
+    // Signal Beam. Keep those selectable alongside its signature support kit.
+    learnset: ['hurricane', 'tailwind', 'featherdance', 'uturn', 'defog', 'wish', 'helpinghand', 'thunderbolt', 'shadowball', 'signalbeam'],
     color: '#c8d5ef',
   },
   {
@@ -25,7 +28,9 @@ export const pokemonZRoster: Species[] = [
     types: ['normal'],
     baseStats: { hp: 110, atk: 60, def: 95, spa: 130, spd: 65, spe: 65 },
     abilities: ['royalty', 'furcoat'],
-    learnset: ['judgment', 'cottonguard', 'moonlight', 'batonpass'],
+    // Expand the starter stub with moves documented on Pokémon Z trainer
+    // teams and player sets, while retaining the original entries.
+    learnset: ['judgment', 'cottonguard', 'moonlight', 'batonpass', 'boomburst', 'darkpulse', 'sludgebomb', 'powergem', 'focusblast', 'shadowball', 'helpinghand'],
     color: '#d7cbbd',
   },
 ];

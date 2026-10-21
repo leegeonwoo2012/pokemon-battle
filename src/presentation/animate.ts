@@ -408,6 +408,29 @@ async function animateMove(root: HTMLElement, event: BattleEvent, user: Element 
   const victims = targets.filter((target): target is Element => !!target);
   const color = colors[move.type] ?? colors.normal;
   const hitPoints = victims.map(target => point(target, root));
+  if(move.id==='judgment'&&hitPoints.length){
+    const nodes:HTMLElement[]=[];
+    const spawn=(family:string,at:{x:number;y:number},hue='#fff1a3')=>{const node=moveParticle(root,family,hue,at);nodes.push(node);return node;};
+    const hit=hitPoints[0],sky={x:hit.x,y:Math.max(52,Math.min(hit.y-300,root.clientHeight*.14))};
+    const orb=spawn('judgment-orb',sky),trail=spawn('judgment-trail',sky),seal=spawn('judgment-seal',sky),impact=spawn('judgment-impact',hit);
+    const rays=Array.from({length:12},(_,index)=>{const ray=spawn('judgment-ray',sky,index%2?'#fff':'#ffe477');ray.style.setProperty('--ray-angle',`${index*30}deg`);return ray;});
+    root.dataset.signatureMove='judgment';
+    try{
+      await Promise.all([
+        tween(seal,[{transform:'translate(-50%,-50%) scale(.1) rotate(0deg)',opacity:0},{transform:'translate(-50%,-50%) scale(1.2) rotate(90deg)',opacity:1,offset:.36},{transform:'translate(-50%,-50%) scale(1.65) rotate(180deg)',opacity:.85},{transform:`translate(-50%,-50%) translateY(${hit.y-sky.y}px) scale(.2) rotate(300deg)`,opacity:0}],1500,signal),
+        tween(orb,[{transform:'translate(-50%,-50%) scale(.15)',opacity:0},{transform:'translate(-50%,-50%) scale(1.15)',opacity:1,offset:.28},{transform:`translate(-50%,-50%) translateY(${hit.y-sky.y}px) scale(1.8)`,opacity:1,offset:.83},{transform:`translate(-50%,-50%) translateY(${hit.y-sky.y+28}px) scale(2.35)`,opacity:0}],1500,signal),
+        tween(trail,[{transform:'translate(-50%,-50%) scale(.4,0)',opacity:0},{transform:'translate(-50%,-50%) scale(.8,.5)',opacity:.72,offset:.35},{transform:`translate(-50%,-50%) translateY(${(hit.y-sky.y)*.5}px) scale(1,${Math.max(1,(hit.y-sky.y)/110)})`,opacity:.9,offset:.84},{transform:`translate(-50%,-50%) translateY(${hit.y-sky.y}px) scale(1.4,${Math.max(1,(hit.y-sky.y)/90)})`,opacity:0}],1500,signal),
+        ...rays.map((ray,index)=>tween(ray,[{transform:`translate(-50%,-50%) rotate(${index*30}deg) scaleX(.08)`,opacity:0},{transform:`translate(-50%,-50%) rotate(${index*30}deg) scaleX(1)`,opacity:.92,offset:.25},{transform:`translate(-50%,-50%) translateY(${hit.y-sky.y}px) rotate(${index*30}deg) scaleX(.25)`,opacity:0}],1460,signal)),
+        tween(camera(root),[{transform:'scale(1)'},{transform:'scale(1.025)',offset:.25},{transform:'scale(1.01)',offset:.72},{transform:'scale(1)'}],1500,signal),
+        (async()=>{await scaledPause(root,1100,signal);if(signal.aborted)return;await Promise.all([
+          tween(impact,[{transform:'translate(-50%,-50%) scale(.12)',opacity:0},{transform:'translate(-50%,-50%) scale(1.05)',opacity:1,offset:.22},{transform:'translate(-50%,-50%) scale(2.7)',opacity:0}],650,signal),
+          tween(camera(root),[{transform:'translate(0,0)'},{transform:'translate(-13px,5px)',offset:.18},{transform:'translate(12px,-4px)',offset:.4},{transform:'translate(-6px,2px)',offset:.68},{transform:'translate(0,0)'}],500,signal),
+          tween(victims[0],[{filter:'brightness(1)'},{filter:'brightness(3) saturate(.2)',offset:.18},{filter:'brightness(1)',opacity:1}],520,signal),
+        ]);})(),
+      ]);
+    }finally{nodes.forEach(node=>node.remove());delete root.dataset.signatureMove;}
+    return;
+  }
   if(await signatureZMove(root,event,user,victims,signal))return;
   if (await signatureMove(root, event, user, victims, signal)) return;
   if(await featuredMove(root,event,user,victims,signal))return;
