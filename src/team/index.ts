@@ -95,6 +95,7 @@ export function validateTeam(team: TeamSet[], format: Format = 'singles'): strin
   }
 
   const usedSpecies = new Set<string>();
+  const usedItems = new Set<string>();
   for (let i = 0; i < team.length; i++) {
     const set = team[i];
     const label = `${i + 1}번 슬롯`;
@@ -136,6 +137,10 @@ export function validateTeam(team: TeamSet[], format: Format = 'singles'): strin
     }
     if (!items[set.itemId]) errors.push(`${label}: 등록되지 않은 지닌 도구입니다.`);
     else if(items[set.itemId].supported===false) errors.push(`${label}: 이 도구의 배틀 효과는 아직 지원하지 않습니다.`);
+    else if(set.itemId!=='none') {
+      if(usedItems.has(set.itemId)) errors.push(`${label}: 같은 지닌 도구는 팀에서 중복할 수 없습니다.`);
+      usedItems.add(set.itemId);
+    }
     if (!natures[set.natureId]) errors.push(`${label}: 등록되지 않은 성격입니다.`);
     let totalEvs = 0;
     for (const stat of statKeys) {

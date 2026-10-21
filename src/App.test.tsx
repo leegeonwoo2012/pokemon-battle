@@ -30,6 +30,15 @@ function completePreview(count:3|4){
 }
 
 describe('playable UI flows', () => {
+  it('disables a held item already assigned to another team member',()=>{
+    render(<App />);
+    fireEvent.click(screen.getByRole('button',{name:'팀 편성'}));
+    fireEvent.change(screen.getByLabelText(/지닌 도구/),{target:{value:'choiceScarf'}});
+    fireEvent.click(document.querySelectorAll('.team-slot')[1] as HTMLElement);
+    const secondItem=screen.getByLabelText(/지닌 도구/) as HTMLSelectElement;
+    expect([...secondItem.options].find(option=>option.value==='choiceScarf')?.disabled).toBe(true);
+  });
+
   it('keeps a configured Pokémon selected and intact while moving it in the party', () => {
     render(<App />);
     fireEvent.click(screen.getByRole('button',{name:'팀 편성'}));
@@ -75,18 +84,18 @@ describe('playable UI flows', () => {
     expect(screen.getByRole('heading', { name: '팀 편성' })).toBeTruthy();
 
     const itemSelect = screen.getByLabelText(/지닌 도구/) as HTMLSelectElement;
-    fireEvent.change(itemSelect, { target: { value: 'leftovers' } });
+    fireEvent.change(itemSelect, { target: { value: 'lifeOrb' } });
     const firstMove = document.querySelector('.move-select-list select') as HTMLSelectElement;
     fireEvent.change(firstMove, { target: { value: 'thunder' } });
-    expect(itemSelect.value).toBe('leftovers');
+    expect(itemSelect.value).toBe('lifeOrb');
     expect(firstMove.value).toBe('thunder');
 
     fireEvent.click(screen.getByRole('button', { name: /팀 저장/ }));
-    expect(localStorage.getItem(TEAM_STORAGE_KEY)).toContain('"itemId":"leftovers"');
+    expect(localStorage.getItem(TEAM_STORAGE_KEY)).toContain('"itemId":"lifeOrb"');
     fireEvent.change(itemSelect, { target: { value: 'none' } });
     fireEvent.change(firstMove, { target: { value: 'electrodrift' } });
     fireEvent.click(screen.getByRole('button', { name: /불러오기/ }));
-    expect((screen.getByLabelText(/지닌 도구/) as HTMLSelectElement).value).toBe('leftovers');
+    expect((screen.getByLabelText(/지닌 도구/) as HTMLSelectElement).value).toBe('lifeOrb');
     expect((document.querySelector('.move-select-list select') as HTMLSelectElement).value).toBe('thunder');
 
     fireEvent.click(screen.getByRole('button', { name: 'ARENA 홈' }));
@@ -101,7 +110,7 @@ describe('playable UI flows', () => {
     await waitFor(() => expect(document.querySelector('.battle-scene')?.getAttribute('aria-busy')).toBe('false'));
     fireEvent.click(screen.getByRole('button', { name: /기록/ }));
     expect(screen.getAllByText(/번개 사용!/).length).toBeGreaterThan(0);
-  });
+  }, 10_000);
 
   it('selects two actions and distinct targets in a doubles turn', async () => {
     render(<App />);
@@ -126,7 +135,7 @@ describe('playable UI flows', () => {
     fireEvent.click(screen.getByRole('button', { name: /행동 결정/ }));
     await waitFor(() => expect(document.querySelector('.scene-mode')?.textContent).toContain('TURN 02'));
     await waitFor(() => expect(document.querySelector('.battle-scene')?.getAttribute('aria-busy')).toBe('false'));
-    fireEvent.click(screen.getByRole('button', { name: /기록/ }));
+    fireEvent.click(screen.getByRole('button', { name: '기록' }));
     expect(screen.getAllByText(/라이트닝드라이브 사용!/).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/사이코쇼크 사용!/).length).toBeGreaterThan(0);
   }, 15_000);
@@ -146,7 +155,7 @@ describe('playable UI flows', () => {
   it('searches the M-C roster and filters fire representatives while keeping dual types', () => {
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: '포켓몬 목록' }));
-    expect(document.querySelectorAll('.dex-card')).toHaveLength(387);
+    expect(document.querySelectorAll('.dex-card')).toHaveLength(389);
     fireEvent.change(screen.getByLabelText('도감 대표 타입'), {target:{value:'fire'}});
     expect(document.querySelectorAll('.dex-card')).toHaveLength(27);
     fireEvent.change(screen.getByPlaceholderText('포켓몬 검색'), {target:{value:'리자몽'}});

@@ -22962,10 +22962,63 @@
           "opaque": 723
         }
       }
+    },
+    {
+      "speciesId": "zephyreon",
+      "nationalDex": 11001,
+      "name": "제피레온",
+      "englishName": "Cefireon",
+      "sourceProvider": "Pokémon Z fan-game guide",
+      "source": "https://pokemonzfangame.com/new-regional-forms-evolutions/",
+      "license": "Not stated on the source page; see public/sprites/CREDITS.md.",
+      "authors": [
+        {
+          "name": "Pokémon Z fan-game sprite artist not identified by source page"
+        }
+      ],
+      "extraction": "Cropped the normal form from the guide composite, removed the connected white background, and placed the crop on a 256×256 transparent canvas with nearest-neighbor scaling. No back sprite is included.",
+      "images": {
+        "front": {
+          "path": "front/12001.png",
+          "source": "https://pokemonzfangame.com/wp-content/uploads/2026/02/Cefireon-Royaleon-1024x268.png",
+          "sha256": "a9b791d9af8f9b54ba68cca63953077ade1f927d41610c25add862a9686dc3a7",
+          "sourceSha256": "8e0c97ee018d47dbf1b54d474f470fc2d0ea6fbf38cde7bf0a80226de925ff96",
+          "width": 256,
+          "height": 256,
+          "opaque": 17526
+        }
+      }
+    },
+    {
+      "speciesId": "royaleon",
+      "nationalDex": 11002,
+      "name": "로얄레온",
+      "englishName": "Royaleon",
+      "sourceProvider": "Pokémon Z fan-game guide",
+      "source": "https://pokemonzfangame.com/new-regional-forms-evolutions/",
+      "license": "Not stated on the source page; see public/sprites/CREDITS.md.",
+      "authors": [
+        {
+          "name": "Pokémon Z fan-game sprite artist not identified by source page"
+        }
+      ],
+      "extraction": "Cropped the normal form from the guide composite, removed the connected white background, and placed the crop on a 256×256 transparent canvas with nearest-neighbor scaling. No back sprite is included.",
+      "images": {
+        "front": {
+          "path": "front/12002.png",
+          "source": "https://pokemonzfangame.com/wp-content/uploads/2026/02/Cefireon-Royaleon-1024x268.png",
+          "sha256": "927c340ab22e09b71e5af69f4e5b8291fe4ffbdae18febf2f825a9e6419dde6e",
+          "sourceSha256": "8e0c97ee018d47dbf1b54d474f470fc2d0ea6fbf38cde7bf0a80226de925ff96",
+          "width": 256,
+          "height": 256,
+          "opaque": 16496
+        }
+      }
     }
   ],
   "sources": {
     "communityCommit": "47e5b9920bc5b2b491c53b18076300dc6813f103",
-    "pokeapiCommit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86"
+    "pokeapiCommit": "35fdbe9bdec8f519f882c3edc3c0185f08af4d86",
+    "pokemonZGuide": "https://pokemonzfangame.com/new-regional-forms-evolutions/"
   }
 }

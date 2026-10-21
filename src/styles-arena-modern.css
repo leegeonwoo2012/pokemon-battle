@@ -1,8 +1,8 @@
-/* A complete arena plate provides the stands, lights and perspective floor. */
+/* Use the provided stadium image as the battle background without a tint overlay. */
 .battle-scene {
   background-color:#081327;
-  background-image:linear-gradient(180deg,#07132818 0%,transparent 35%,#03081732 100%),url('./assets/backgrounds/neon-stadium-battle.png');
-  background-position:center,center;
+  background-image:url('./assets/backgrounds/user-stadium-battle.png');
+  background-position:center;
   background-size:cover;
   background-repeat:no-repeat;
 }
@@ -10,7 +10,7 @@
 .battle-scene .stadium-floor,.battle-scene .stadium-spotlight {display:none;}
 .battlefield-platform,.battle-scene[data-weather] .battlefield-platform {
   border:0;box-shadow:none;
-  background:radial-gradient(ellipse at 50% 48%,#030a1bb0 0%,#061d39a0 32%,#2094d02d 55%,transparent 76%);
+  background:transparent;
 }
 .battlefield-platform span {display:none;}
 .actor-shadow {
@@ -109,7 +109,7 @@
   .battle-action-box:has(.move-actions) {width:var(--deck-width);}
 }
 @media(max-width:680px) {
-  .battle-scene {background-position:center,center;background-size:cover;}
+  .battle-scene {background-position:center;background-size:cover;}
   .battle-action-box:has(.move-actions) {width:auto;}
   .move-actions {grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(55px,auto);gap:5px;}
   .move-actions>button.move-choice {min-height:55px;padding:5px 6px 5px 10px;border-left-width:4px;border-radius:10px 4px;}

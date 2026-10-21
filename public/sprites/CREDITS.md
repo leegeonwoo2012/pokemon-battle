@@ -8,6 +8,14 @@ The 11 Mega and 5 Gigantamax form sprite pairs in `forms/` were downloaded from 
 
 The front and back sprites for #6 Charizard, #248 Tyranitar, #257 Blaziken and #448 Lucario were replaced with the 96×96 Generation V Black/White sprites from [PokeAPI/sprites](https://github.com/PokeAPI/sprites/tree/master/sprites/pokemon/versions/generation-v/black-white). Original PMDCollab sprite credits for other Pokémon remain below. These Pokémon images are copyright The Pokémon Company; see `licenses/PokeAPI-sprites-LICENCE.txt`.
 
+## Pokémon Z fan evolutions
+
+The normal-form artwork for 제피레온 (Cefireon) and 로얄레온 (Royaleon) is cropped from the Pokémon Z fan-game guide's combined sprite image: [New Regional Forms & Evolutions](https://pokemonzfangame.com/new-regional-forms-evolutions/) and [source image](https://pokemonzfangame.com/wp-content/uploads/2026/02/Cefireon-Royaleon-1024x268.png). The guide does not state an individual sprite license or identify the sprite artist. The white background was removed and each crop was placed on a transparent 256×256 canvas; the front art is used as the same-species fallback when a back sprite is unavailable.
+
+## Battle background photograph
+
+“Beautiful surroundings of Planina Zajamniki, Pokljuka plateau near Lake Bohinj, Julian Alps in Triglav National Park” by [Jernej Furman](https://www.flickr.com/photos/91261194@N06/52340724264), from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Beautiful_surroundings_of_Planina_Zajamniki,_Pokljuka_plateau_near_Lake_Bohinj,_Julian_Alps_in_Triglav_National_Park_(52340724264).jpg), licensed [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/). Cropped to a 16:9 frame, resized to 1920×1080 and encoded as WebP for the arena background.
+
 ## Community sprites
 
 Source: https://github.com/PMDCollab/SpriteCollab/tree/47e5b9920bc5b2b491c53b18076300dc6813f103

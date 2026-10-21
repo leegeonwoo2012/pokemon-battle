@@ -70,6 +70,14 @@ describe('team configuration', () => {
     expect(validateTeam(team, 'doubles').some(error => error.includes('2~6'))).toBe(true);
   });
 
+  it('allows only one copy of a held item across the team while allowing multiple unheld Pokémon',()=>{
+    const team=[createSet('raichu'),createSet('eevee')];
+    team[0].itemId='choiceScarf';team[1].itemId='choiceScarf';
+    expect(validateTeam(team).some(error=>error.includes('같은 지닌 도구'))).toBe(true);
+    team[1].itemId='none';
+    expect(validateTeam(team)).toEqual([]);
+  });
+
   it('stores friendship and rejects values outside the battle range',()=>{
     const set=createSet('eevee');
     expect(set.friendship).toBe(255);
@@ -113,7 +121,7 @@ describe('team configuration', () => {
     const sorted=alphabetizeMoves(team[0].moves);
     expect(sorted.map(id=>moves[id].name)).toEqual([...sorted.map(id=>moves[id].name)].sort((a,b)=>a.localeCompare(b,'ko-KR')));
     expect(team[0].moves).toEqual(['electrodrift','dracometeor','overheat','voltswitch']);
-    team[2].itemId='leftovers';
+    team[2].itemId='lifeOrb';
     team[2].moves=['ironhead','playrough','closecombat','swordsdance'];
     team[2].evs={atk:252,spe:252,hp:4};
     const shifted=reorderTeam(team,2,1);

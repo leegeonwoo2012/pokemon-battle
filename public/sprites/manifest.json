@@ -774,6 +774,8 @@
     "front/893": "/sprites/front/893.png",
     "back/893": "/sprites/back/893.png",
     "front/1025": "/sprites/front/1025.png",
-    "back/1025": "/sprites/back/1025.png"
+    "back/1025": "/sprites/back/1025.png",
+    "front/12001": "/sprites/front/12001.png",
+    "front/12002": "/sprites/front/12002.png"
   }
 }

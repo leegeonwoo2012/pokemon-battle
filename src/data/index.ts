@@ -4,6 +4,7 @@ import { legacyRoster } from './legacy-roster.generated';
 import { signatureRoster } from './signature-roster.generated';
 import { expansionRoster } from './expansion-roster.generated';
 import { mythicalRoster, mythicalAbilities } from './mythical-roster.generated';
+import { pokemonZRoster } from './pokemon-z-roster';
 import { svItemCatalog } from './sv-items.generated';
 import { svBattleItemOverrides } from './sv-items';
 import { gimmickItems } from './gimmicks';
@@ -373,9 +374,9 @@ export const natures: Record<string, Nature> = Object.fromEntries(([
 ] as Nature[]).map(entry => [entry.id, entry]));
 
 export const restrictedDexNumbers=new Set([...restrictedNationalDex,...mythicalRoster.map(mon=>mon.nationalDex),...signatureRoster.filter(mon=>mon.id==='marshadow').map(mon=>mon.nationalDex),809]);
-export const regulationSpecies:Record<string,Species>=Object.fromEntries([...roster,...legendaryRoster,...signatureRoster,...expansionRoster,...mythicalRoster].map(entry=>[entry.id,entry]));
+export const regulationSpecies:Record<string,Species>=Object.fromEntries([...roster,...legendaryRoster,...signatureRoster,...expansionRoster,...mythicalRoster,...pokemonZRoster].map(entry=>[entry.id,entry]));
 const historical:Record<string,Species>=Object.fromEntries(legacyRoster.map(entry=>[entry.id,entry]));
-export const species: Record<string, Species> = {...historical,...Object.fromEntries([...roster,...legendaryRoster,...signatureRoster,...expansionRoster,...mythicalRoster].map(entry=>{
+export const species: Record<string, Species> = {...historical,...Object.fromEntries([...roster,...legendaryRoster,...signatureRoster,...expansionRoster,...mythicalRoster,...pokemonZRoster].map(entry=>{
   const prior=historical[entry.id];
   return [entry.id,prior?{...entry,abilities:[...new Set([...entry.abilities,...prior.abilities])],learnset:[...new Set([...entry.learnset,...prior.learnset])]}:entry];
 }))};
@@ -427,6 +428,7 @@ abilities.purifyingsalt=ability('purifyingsalt','정화의소금','상태 이상
 abilities.supremeoverlord=ability('supremeoverlord','총대장','등장할 때 이미 쓰러진 아군 수에 따라 공격 기술 위력이 최대 1.5배로 증가합니다.',[{trigger:'onAttack',kind:'fallenAllyBoost'}]);
 abilities.hypercutter=ability('hypercutter','괴력집게','다른 포켓몬에 의한 공격 하락을 막습니다.',[{trigger:'onStatDrop',kind:'statImmunity',stat:'atk'}]);
 abilities.furcoat=ability('furcoat','퍼코트','방어 능력치가 2배가 됩니다.',[{trigger:'onStat',kind:'statMultiplier',stat:'def',multiplier:2}]);
+abilities.royalty=ability('royalty','Royalty','모든 타입의 공격 기술 위력이 1.5배가 됩니다.',[{trigger:'onAttack',kind:'damageMultiplier',multiplier:1.5}]);
 abilities.solidrock=ability('solidrock','하드록','효과가 굉장한 기술로 받는 피해가 0.75배가 됩니다.',[{trigger:'onSuperEffectiveDamage',kind:'damageMultiplier',multiplier:.75}]);
 abilities.eartheater=ability('eartheater','흙먹기','땅 타입 기술을 무효화하고 최대 HP의 1/4을 회복합니다.',[{trigger:'onDamage',kind:'typeImmunity',type:'ground',healFraction:1/4}]);
 abilities.heatproof=ability('heatproof','내열','불꽃 타입 공격으로 받는 피해를 절반으로 줄입니다. 화상 피해 감소는 미지원입니다.',[{trigger:'onDamage',kind:'damageMultiplier',type:'fire',multiplier:.5}]);

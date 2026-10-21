@@ -172,7 +172,8 @@ describe('battle engine', () => {
   });
 
   it('uses deterministic randomness and allows CPU to switch', () => {
-    const options = { format: 'singles' as const, playerTeam: [blastoise()], cpuTeam: [pikachu(), charizard()], seed: 91 };
+    const grassAttacker=set('rillaboom',['woodhammer','grassyglide','uturn','protect'],'grassysurge');
+    const options = { format: 'singles' as const, playerTeam: [grassAttacker], cpuTeam: [pikachu(), charizard()], seed: 91 };
     const state = createBattle(options);
     const one = runTurn(state, [{ kind: 'move', slot: 0, moveId: 'waterpulse' }]);
     const two = runTurn(state, [{ kind: 'move', slot: 0, moveId: 'waterpulse' }]);

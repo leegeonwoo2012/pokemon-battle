@@ -21,6 +21,12 @@ function singles(player: TeamSet, cpu: TeamSet, seed = 4) {
 }
 
 describe('modular abilities and held items', () => {
+  it('boosts every attack type by 50 percent with Royaleon Royalty',()=>{
+    const royaleon=set('royaleon','royalty');
+    expect(damagePassiveMultiplier(createBattle({format:'singles',playerTeam:[royaleon],cpuTeam:[set('raichu','static')]}).sides.player.team[0],moves.judgment,'onAttack')).toBe(1.5);
+    expect(damagePassiveMultiplier(createBattle({format:'singles',playerTeam:[royaleon],cpuTeam:[set('raichu','static')]}).sides.player.team[0],moves.tackle,'onAttack')).toBe(1.5);
+  });
+
   it.each([
     ['jolteon', 'voltAbsorb', 'raichu', 'static', 'thunderbolt'],
     ['vaporeon', 'waterabsorb', 'blastoise', 'torrent', 'waterpulse'],

@@ -25,6 +25,22 @@ describe('source-verified roster',()=>{
     expect(species.eevee).toBeDefined();
     for(const id of ['vaporeon','jolteon','flareon','espeon','umbreon','leafeon','glaceon','sylveon'])expect(species[id],id).toBeDefined();
   });
+  it('includes Pokémon Z Eevee evolutions with source-reported stats, abilities and sprites',()=>{
+    expect(species.zephyreon).toMatchObject({
+      name:'제피레온',englishName:'Cefireon',types:['flying'],
+      baseStats:{hp:65,atk:65,def:60,spa:110,spd:95,spe:130},
+      abilities:['lightningrod','compoundeyes'],spriteId:12001,
+    });
+    expect(species.royaleon).toMatchObject({
+      name:'로얄레온',types:['normal'],
+      baseStats:{hp:110,atk:60,def:95,spa:130,spd:65,spe:65},
+      abilities:['royalty','furcoat'],spriteId:12002,
+    });
+    for(const id of ['zephyreon','royaleon']){
+      expect(validateTeam([createSet(id)]),id).toEqual([]);
+      expect((spriteManifest.images as Record<string,string>)[`front/${species[id].spriteId}`]).toBe(`/sprites/front/${species[id].spriteId}.png`);
+    }
+  });
   it('makes every pinned mythical species selectable with a usable set and both battle sprites',()=>{
     expect(mythicalEvidence.allBaseSpecies).toHaveLength(23);
     expect(mythicalRoster).toHaveLength(21);
