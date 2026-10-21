@@ -113,7 +113,9 @@ export function previewMove(p:Combatant,base:Move,kind?:Gimmick,teraType?:string
   if(base.id==='struggle') return base;
   if(base.id==='ironhead'&&p.battleFormId==='zaciancrowned')return {...moves.behemothblade,pp:base.pp};
   if(base.id==='ironhead'&&p.battleFormId==='zamazentacrowned')return {...moves.behemothbash,pp:base.pp};
-  if(base.id==='judgment'&&p.set.speciesId==='arceus'){
+  // Judgment follows the held Plate for any user in this simulator, which
+  // lets Pokémon Z's Royaleon use its expanded Judgment learnset as intended.
+  if(base.id==='judgment'){
     const plateType=({dracoplate:'dragon',dreadplate:'dark',earthplate:'ground',fistplate:'fighting',flameplate:'fire',icicleplate:'ice',insectplate:'bug',ironplate:'steel',meadowplate:'grass',mindplate:'psychic',pixieplate:'fairy',skyplate:'flying',splashplate:'water',spookyplate:'ghost',stoneplate:'rock',toxicplate:'poison',zapplate:'electric'} as Record<string,string>)[p.set.itemId];
     if(plateType)base={...base,type:plateType};
   }

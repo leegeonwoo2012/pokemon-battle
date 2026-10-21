@@ -12,6 +12,8 @@ export function PokemonArtwork({speciesId,formId,displayName,facing='front',size
   const formUrl=formSpriteSource(formId,facing);
   const formReady=!!formUrl&&formUrl!==failedFormUrl;
   const mon=species[speciesId];const source=formReady?formUrl:sources[0];
+  const spriteId=mon?.spriteId??mon?.nationalDex;
+  const usingFront=!formReady&&facing==='back'&&source===library[`front/${spriteId}`]&&source!==library[`back/${spriteId}`];
   const [userBounds,setUserBounds]=useState<{source:string;bounds:SpriteBounds}>();
   const bounds=spriteBounds(source)??(userBounds&&userBounds.source===source?userBounds.bounds:undefined);
   const cropped=size==='large'&&!!bounds;
@@ -19,10 +21,8 @@ export function PokemonArtwork({speciesId,formId,displayName,facing='front',size
     '--sprite-aspect':bounds.w/bounds.h, aspectRatio:`${bounds.w} / ${bounds.h}`,
   } as CSSProperties:undefined;
   const imageStyle:CSSProperties|undefined=cropped?{width:`${bounds.width/bounds.w*100}%`,height:`${bounds.height/bounds.h*100}%`,left:`${-bounds.x/bounds.w*100}%`,top:`${-bounds.y/bounds.h*100}%`}:undefined;
-  const spriteId=mon?.spriteId??mon?.nationalDex;
-  const usingFront=!formReady&&facing==='back'&&source===library[`front/${spriteId}`]&&source!==library[`back/${spriteId}`];
-  return <div data-sprite-ready={!!source} data-form-sprite={formReady?'true':'false'} data-sprite-facing={source?(usingFront?'front':facing):checking?'loading':'fallback'} className={`sprite-art ${size==='large'?'sprite-art-large':''} ${fainted?'sprite-fainted':''} ${!source?'artwork-incomplete':''}`} role="img" aria-label={`${displayName??mon?.name??speciesId} ${facing==='back'?'후면':'정면'} ${source?(usingFront?'대체: 정면 스프라이트':'스프라이트'):checking?'이미지 확인 중':'이미지 미완성'}`}>
-    {source?<div className={cropped?'sprite-crop':'sprite-uncropped'} style={cropStyle}><img className="pokemon-sprite" src={source} style={imageStyle} alt="" onLoad={event=>{
+  return <div data-sprite-ready={!!source} data-form-sprite={formReady?'true':'false'} data-sprite-facing={source?(usingFront?'mirrored-front':facing):checking?'loading':'fallback'} className={`sprite-art ${size==='large'?'sprite-art-large':''} ${fainted?'sprite-fainted':''} ${!source?'artwork-incomplete':''}`} role="img" aria-label={`${displayName??mon?.name??speciesId} ${facing==='back'?'후면':'정면'} ${source?(usingFront?'대체: 정면 스프라이트 좌우 반전':'스프라이트'):checking?'이미지 확인 중':'이미지 미완성'}`}>
+    {source?<div className={cropped?'sprite-crop':'sprite-uncropped'} style={usingFront?{...cropStyle,transform:'scaleX(-1)'}:cropStyle}><img className="pokemon-sprite" src={source} style={imageStyle} alt="" onLoad={event=>{
       if(size!=='large'||!source.startsWith('blob:'))return;
       const image=event.currentTarget,canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;
       const context=canvas.getContext('2d');if(!context)return;context.drawImage(image,0,0);

@@ -33,9 +33,25 @@ describe('mythical signature moves',()=>{
   it('changes Judgment and Techno Blast to the held Plate or Drive type',()=>{
     const arceus=createBattle({format:'singles',playerTeam:[set('arceus','judgment','flameplate')],cpuTeam:[createSet('blissey')]}).sides.player.team[0];
     const genesect=createBattle({format:'singles',playerTeam:[set('genesect','technoblast','dousedrive')],cpuTeam:[createSet('blissey')]}).sides.player.team[0];
+    const royaleon=createBattle({format:'singles',playerTeam:[set('royaleon','judgment','pixieplate')],cpuTeam:[createSet('blissey')]}).sides.player.team[0];
     expect(validateTeam([arceus.set,genesect.set])).toEqual([]);
     expect(previewMove(arceus,moves.judgment).type).toBe('fire');
     expect(previewMove(genesect,moves.technoblast).type).toBe('water');
+    expect(previewMove(royaleon,moves.judgment).type).toBe('fairy');
+  });
+  it('uses Arceus’s Plate type for Judgment damage and matchup messages in a real turn',()=>{
+    const state=createBattle({format:'singles',seed:31,playerTeam:[set('arceus','judgment','flameplate')],cpuTeam:[createSet('venusaur')]});
+    const before=state.sides.cpu.team[0].hp;
+    const result=runTurnWithEvents(state,[attack('judgment')],[attack('sleeppowder')]);
+    expect(result.events.find(event=>event.kind==='move'&&event.actorUid==='player-0')).toMatchObject({moveId:'judgment',type:'fire'});
+    expect(result.events.find(event=>event.kind==='effectiveness'&&event.targetUid==='cpu-0')).toMatchObject({effectiveness:2});
+    expect(result.state.sides.cpu.team[0].hp).toBeLessThan(before);
+  });
+  it('uses a non-Arceus holder’s Plate type for Judgment damage too',()=>{
+    const state=createBattle({format:'singles',seed:37,playerTeam:[set('royaleon','judgment','flameplate')],cpuTeam:[createSet('venusaur')]});
+    const result=runTurnWithEvents(state,[attack('judgment')],[attack('sleeppowder')]);
+    expect(result.events.find(event=>event.kind==='move'&&event.actorUid==='player-0')).toMatchObject({moveId:'judgment',type:'fire'});
+    expect(result.events.find(event=>event.kind==='effectiveness'&&event.targetUid==='cpu-0')).toMatchObject({effectiveness:2});
   });
   it('swaps stat stages with Heart Swap',()=>{
     const state=createBattle({format:'singles',playerTeam:[set('manaphy','heartswap')],cpuTeam:[createSet('blissey')],seed:18});
